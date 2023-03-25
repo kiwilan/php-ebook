@@ -28,7 +28,7 @@ it('can parse epub entity', function () {
 
 it('can get epub cover', function () {
     $book = Kiwilan\Ebook\Ebook::make(EPUB)->book();
-    $path = 'tests/output/cover.jpg';
+    $path = 'tests/output/cover-EPUB.jpg';
     file_put_contents($path, $book->cover());
 
     expect($book->cover())->toBeString();

@@ -133,6 +133,9 @@ class Ebook
         $this->book->setDate($this->pdf->metadata()->creationDate());
         $this->book->setPageCount($this->pdf->metadata()->pages());
 
+        $coverContent = $this->pdf->contentPage(isBase64: false);
+        $this->book->setCover($coverContent);
+
         return $this;
     }
 

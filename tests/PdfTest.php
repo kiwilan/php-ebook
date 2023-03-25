@@ -16,3 +16,14 @@ it('can parse pdf', function () {
     expect($book->tags())->toBeArray();
     expect($book->pageCount())->toBe(4);
 });
+
+it('can extract pdf cover', function () {
+    $book = Kiwilan\Ebook\Ebook::make(PDF)->book();
+
+    $path = 'tests/output/cover-PDF.jpg';
+    file_put_contents($path, $book->cover());
+
+    expect($book->cover())->toBeString();
+    expect(file_exists($path))->toBeTrue();
+    expect($path)->toBeReadableFile();
+});
