@@ -26,4 +26,4 @@ it('can extract pdf cover', function () {
     expect($book->cover())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
-});
+})->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
