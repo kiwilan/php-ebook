@@ -1,6 +1,6 @@
 <?php
 
-namespace Bookshelves\Ebook;
+namespace Kiwilan\Ebook;
 
 class EbookClass
 {

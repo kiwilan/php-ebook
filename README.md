@@ -1,11 +1,11 @@
 # PHP eBook
 
+[![php][php-version-src]][php-version-href]
 [![version][version-src]][version-href]
-[![tests][tests-src]][tests-href]
 [![downloads][downloads-src]][downloads-href]
 [![license][license-src]][license-href]
-[![php][php-version-src]][php-version-href]
 
+[![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
 PHP package to read and extract from archives (`.zip`, `.rar`, `.tar`, `.7z`) or `.pdf` with `p7zip` binary, designed to works with eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`).

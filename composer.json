@@ -1,11 +1,11 @@
 {
-    "name": "bookshelves/php-ebook",
+    "name": "kiwilan/php-ebook",
     "description": "This is my package php-ebook",
     "keywords": [
-        "bookshelves",
+        "kiwilan",
         "php-ebook"
     ],
-    "homepage": "https://github.com/bookshelves/php-ebook",
+    "homepage": "https://github.com/kiwilan/php-ebook",
     "license": "MIT",
     "authors": [
         {
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Bookshelves\\Ebook\\": "src"
+            "Kiwilan\\Ebook\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Bookshelves\\Ebook\\Tests\\": "tests"
+            "Kiwilan\\Ebook\\Tests\\": "tests"
         }
     },
     "scripts": {
