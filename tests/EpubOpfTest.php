@@ -22,6 +22,7 @@ it('can failed if empty file', function () {
 it('can parse epub opf', function (string $path) {
     $opf = EpubOpf::make(file_get_contents($path));
 
+    expect($opf)->tobeInstanceOf(EpubOpf::class);
     expect($path)->toBeReadableFile();
     expect($opf->dcTitle())->toBeString();
     expect($opf->dcCreators())->toBeArray();

@@ -3,6 +3,8 @@
 namespace Kiwilan\Ebook;
 
 use Kiwilan\Archive\Archive;
+use Kiwilan\Archive\ArchivePdf;
+use Kiwilan\Ebook\Entity\EntityCreator;
 use Kiwilan\Ebook\Epub\EpubContainer;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
@@ -10,23 +12,36 @@ class Ebook
 {
     protected ?EpubOpf $opf = null;
 
-    protected ?EbookEntity $entity = null;
+    protected ?EbookEntity $book = null;
+
+    protected ?Archive $archive = null;
+
+    protected ?ArchivePdf $pdf = null;
 
     protected function __construct(
         protected string $path,
         protected string $extension,
-        protected Archive $archive,
     ) {
     }
 
     public static function make(string $path): self
     {
-        $archive = Archive::make($path);
-        $extension = $archive->extension();
-        $self = new self($path, $extension, $archive);
+        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $allow = ['epub', 'pdf', 'cbz', 'cbr', 'cb7'];
+        if ($extension && ! in_array($extension, $allow)) {
+            throw new \Exception("Unknown archive type: {$extension}");
+        }
+
+        $self = new self($path, $extension);
+        if ($extension === 'pdf') {
+            $self->pdf = ArchivePdf::make($path);
+        } else {
+            $self->archive = Archive::make($path);
+        }
 
         match ($self->extension) {
             'epub' => $self->epub(),
+            'pdf' => $self->pdf(),
             default => throw new \Exception("Unknown archive type: {$extension}"),
         };
 
@@ -38,12 +53,12 @@ class Ebook
         $container = EpubContainer::make($this->archiveToXml('container.xml'));
         $this->opf = EpubOpf::make($this->archiveToXml($container->opfPath()));
 
-        $this->entity = EbookEntity::make($this->path);
-        $this->entity->convertFromOpdf($this->opf);
+        $this->book = EbookEntity::make($this->path);
+        $this->book->convertFromOpdf($this->opf);
 
         $cover = $this->archive->find($this->opf->coverPath());
         $coverContent = $this->archive->contentFile($cover->path());
-        $this->entity->setCover($coverContent);
+        $this->book->setCover($coverContent);
 
         $count = 0;
         foreach ($this->opf->contentFiles() as $path) {
@@ -56,7 +71,41 @@ class Ebook
             $count += count($words);
         }
         $pageCount = (int) ceil($count / 250);
-        $this->entity->setPageCount($pageCount);
+        $this->book->setPageCount($pageCount);
+
+        return $this;
+    }
+
+    private function pdf(): self
+    {
+        $this->book = EbookEntity::make($this->path);
+        $this->book->setTitle($this->pdf->metadata()->title());
+
+        $author = $this->pdf->metadata()->author();
+        $authors = [];
+        if (str_contains($author, ',')) {
+            $authors = explode(',', $author);
+        } elseif (str_contains($author, '&')) {
+            $authors = explode(',', $author);
+        } elseif (str_contains($author, 'and')) {
+            $authors = explode(',', $author);
+        } else {
+            $authors[] = $author;
+        }
+
+        $creators = [];
+        foreach ($authors as $author) {
+            $creators[] = new EntityCreator(
+                name: trim($author),
+            );
+        }
+
+        $this->book->setAuthors($creators);
+        $this->book->setDescription($this->pdf->metadata()->subject());
+        $this->book->setPublisher($this->pdf->metadata()->creator());
+        $this->book->setTags($this->pdf->metadata()->keywords());
+        $this->book->setDate($this->pdf->metadata()->creationDate());
+        $this->book->setPageCount($this->pdf->metadata()->pages());
 
         return $this;
     }
@@ -79,8 +128,8 @@ class Ebook
         return $this->opf;
     }
 
-    public function entity(): ?EbookEntity
+    public function book(): ?EbookEntity
     {
-        return $this->entity;
+        return $this->book;
     }
 }
