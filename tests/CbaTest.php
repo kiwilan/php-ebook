@@ -33,3 +33,14 @@ it('can parse ComicInfo basic cba book', function (string $path) {
     expect($book->publisher())->toBe('Des livres en Communs (Framasoft)');
     expect($book->language())->toBe('fr');
 })->with(CBA_ITEMS);
+
+it('can extract cba cover', function (string $path) {
+    $book = Kiwilan\Ebook\Ebook::make($path)->book();
+
+    $path = 'tests/output/cover-cba.jpg';
+    file_put_contents($path, $book->cover());
+
+    expect($book->cover())->toBeString();
+    expect(file_exists($path))->toBeTrue();
+    expect($path)->toBeReadableFile();
+})->with(CBA_ITEMS);

@@ -3,6 +3,7 @@
 namespace Kiwilan\Ebook;
 
 use Kiwilan\Archive\Archive;
+use Kiwilan\Archive\ArchiveItem;
 use Kiwilan\Archive\ArchivePdf;
 use Kiwilan\Ebook\Cba\CbaXml;
 use Kiwilan\Ebook\Entity\BookCreator;
@@ -98,6 +99,20 @@ class Ebook
         $this->book()->setAuthors($authors);
         $this->book()->setPublisher($cba->publisher());
         $this->book()->setLanguage($cba->languageIso());
+
+        $files = $this->archive->findAll('jpg');
+        if (empty($files)) {
+            $files = $this->archive->findAll('jpeg');
+        }
+
+        if (empty($files)) {
+            return $this;
+        }
+
+        usort($files, fn (ArchiveItem $a, ArchiveItem $b) => strcmp($a->path(), $b->path()));
+        $cover = $files[0];
+        $coverContent = $this->archive->contentFile($cover->path());
+        $this->book->setCover($coverContent);
 
         return $this;
     }
