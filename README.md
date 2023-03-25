@@ -1,5 +1,7 @@
 # PHP eBook
 
+## NOT READY FOR NOW
+
 [![php][php-version-src]][php-version-href]
 [![version][version-src]][version-href]
 [![downloads][downloads-src]][downloads-href]

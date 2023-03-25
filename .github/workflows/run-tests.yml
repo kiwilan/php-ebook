@@ -1,6 +1,12 @@
 name: Tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   test:
@@ -8,13 +14,34 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         php: [8.1]
         stability: [prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
+      - name: Install for Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt -y install p7zip-full ghostscript imagemagick
+          sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
+        shell: bash
+
+      - name: Install for macOS
+        if: runner.os == 'macOS'
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew install p7zip rar ghostscript imagemagick
+        shell: bash
+
+      # - name: Install for Windows
+      #   if: runner.os == 'Windows'
+      #   run: |
+      #     iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+      #     scoop install 7zip ghostscript imagemagick
+      #   shell: powershell
+
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -23,7 +50,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
+          coverage: pcov
 
       - name: Setup problem matchers
         run: |
@@ -34,4 +61,16 @@ jobs:
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Execute tests
-        run: vendor/bin/pest
+        run: vendor/bin/pest --coverage
+
+      - name: on Linux run phpstan
+        if: runner.os == 'Linux'
+        run: vendor/bin/phpstan analyse
+        shell: bash
+
+      - name: on Linux send code coverage
+        if: runner.os == 'Linux'
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: false
