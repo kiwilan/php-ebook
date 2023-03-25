@@ -1,6 +1,6 @@
 {
     "name": "kiwilan/php-ebook",
-    "description": "This is my package php-ebook",
+    "description": "PHP package to read metadata and extract covers from eBooks (.epub, .cbz, .cbr, .cb7, .cbt, .pdf).",
     "keywords": [
         "kiwilan",
         "php-ebook"
