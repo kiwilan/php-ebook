@@ -21,7 +21,7 @@ This package was heavily inspired by [Gemorroj/Archive7z](https://github.com/Gem
 Alternatives:
 
 -   [Gemorroj/Archive7z](https://github.com/Gemorroj/Archive7z): handle many archives with [p7zip-project/p7zip](https://github.com/p7zip-project/p7zip) binary
--   [splitbrain/php-archive](https://github.com/splitbrain/php-archive): native PHP solution to handle `.zip` and `.tar` archives
+-   [splitbrain/php-ebook](https://github.com/splitbrain/php-ebook): native PHP solution to handle `.zip` and `.tar` archives
 
 ### Why not use native PHP functions?
 
@@ -71,7 +71,7 @@ It designed to works with any system with `p7zip` installed. But for `macOS`, `p
 You can install the package via composer:
 
 ```bash
-composer require kiwilan/php-archive
+composer require kiwilan/php-ebook
 ```
 
 ## Usage
@@ -130,15 +130,15 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[version-src]: https://img.shields.io/packagist/v/kiwilan/php-archive.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[version-src]: https://img.shields.io/packagist/v/kiwilan/php-ebook.svg?style=flat-square&colorA=18181B&colorB=777BB4
 [version-href]: https://packagist.org/packages/kiwilan/steward-laravel
 [php-version-src]: https://img.shields.io/static/v1?style=flat-square&label=PHP&message=v8.1&color=777BB4&logo=php&logoColor=ffffff&labelColor=18181b
 [php-version-href]: https://www.php.net/
-[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/php-archive.svg?style=flat-square&colorA=18181B&colorB=777BB4
-[downloads-href]: https://packagist.org/packages/kiwilan/php-archive
-[license-src]: https://img.shields.io/github/license/kiwilan/php-archive.svg?style=flat-square&colorA=18181B&colorB=777BB4
-[license-href]: https://github.com/kiwilan/php-archive/blob/main/README.md
-[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/php-archive/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
-[tests-href]: https://packagist.org/packages/kiwilan/php-archive
-[codecov-src]: https://codecov.io/gh/kiwilan/php-archive/branch/main/graph/badge.svg?token=P9XIK2KV9G
-[codecov-href]: https://codecov.io/gh/kiwilan/php-archive
+[downloads-src]: https://img.shields.io/packagist/dt/kiwilan/php-ebook.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[downloads-href]: https://packagist.org/packages/kiwilan/php-ebook
+[license-src]: https://img.shields.io/github/license/kiwilan/php-ebook.svg?style=flat-square&colorA=18181B&colorB=777BB4
+[license-href]: https://github.com/kiwilan/php-ebook/blob/main/README.md
+[tests-src]: https://img.shields.io/github/actions/workflow/status/kiwilan/php-ebook/run-tests.yml?branch=main&label=tests&style=flat-square&colorA=18181B
+[tests-href]: https://packagist.org/packages/kiwilan/php-ebook
+[codecov-src]: https://codecov.io/gh/kiwilan/php-ebook/branch/main/graph/badge.svg?token=P9XIK2KV9G
+[codecov-href]: https://codecov.io/gh/kiwilan/php-ebook
