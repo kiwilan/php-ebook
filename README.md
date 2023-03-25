@@ -8,7 +8,7 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-PHP package to read and extract from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`).
+PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`).
 
 > **Warning**
 >
@@ -40,7 +40,7 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`)
+With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`, `pdf`)
 
 ```php
 $ebook = Ebook::make('path/to/archive.epub');
@@ -69,6 +69,8 @@ Please review [our security policy](../../security/policy) on how to report secu
 -   [Kiwilan](https://github.com/kiwilan)
 -   [All Contributors](../../contributors)
 -   [spatie](https://github.com/spatie) for `spatie/package-skeleton-php`
+-   EPUB [The Clan of the Cave Bear](https://www.goodreads.com/book/show/40611463-the-clan-of-the-cave-bear) by Jean M. Auel
+-   [epub3-samples](https://github.com/IDPF/epub3-samples) by IDPF
 
 ## License
 
