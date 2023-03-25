@@ -1,0 +1,47 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "install",
+            "type": "shell",
+            "command": "composer i",
+            "problemMatcher": [],
+            "presentation": {
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        },
+        {
+            "label": "update",
+            "type": "shell",
+            "command": "composer update",
+            "problemMatcher": [],
+            "presentation": {
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        },
+        {
+            "label": "tests",
+            "type": "shell",
+            "command": "composer test",
+            "problemMatcher": [],
+            "presentation": {
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        },
+        {
+            "label": "merge-to-main",
+            "type": "shell",
+            "command": "git checkout main && git merge develop && git push && git checkout develop",
+            "problemMatcher": [],
+            "presentation": {
+                "revealProblems": "onProblem",
+                "close": true
+            }
+        }
+    ]
+}

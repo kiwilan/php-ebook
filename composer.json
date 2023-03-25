@@ -15,11 +15,12 @@
         }
     ],
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "kiwilan/php-archive": "^0.1.1"
     },
     "require-dev": {
+        "laravel/pint": "^1.7",
         "pestphp/pest": "^1.20",
-        "laravel/pint": "^1.2",
         "spatie/ray": "^1.28"
     },
     "autoload": {
