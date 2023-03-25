@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ComicInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>Grise Bouille, Tome I</Title>
+  <Series>Grise Bouille</Series>
+  <Number>1.0</Number>
+  <Writer>Simon « Gee » Giraudot</Writer>
+  <Publisher>Des livres en Communs (Framasoft)</Publisher>
+  <LanguageISO>fr</LanguageISO>
+</ComicInfo>

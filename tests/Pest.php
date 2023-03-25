@@ -7,6 +7,8 @@ define('CBR', __DIR__.'/media/cba.cbr');
 define('CBT', __DIR__.'/media/cba.cbt');
 define('CB7', __DIR__.'/media/cba.cb7');
 
+define('COMIC_INFO_BASIC', __DIR__.'/media/ComicInfoBasic.xml');
+
 define('EPUB_CONTAINER_EPUB2', __DIR__.'/media/container-epub2.xml');
 define('EPUB_CONTAINER_EPUB2_BAD', __DIR__.'/media/container-epub2-bad.xml');
 define('EPUB_CONTAINER_EPUB2_EMPTY', __DIR__.'/media/container-epub2-empty.xml');

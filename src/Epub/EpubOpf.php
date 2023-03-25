@@ -5,10 +5,10 @@ namespace Kiwilan\Ebook\Epub;
 use DateTime;
 use DateTimeZone;
 use Kiwilan\Ebook\EbookXmlReader;
-use Kiwilan\Ebook\Entity\EntityContributor;
-use Kiwilan\Ebook\Entity\EntityCreator;
-use Kiwilan\Ebook\Entity\EntityIdentifier;
-use Kiwilan\Ebook\Entity\EntityMeta;
+use Kiwilan\Ebook\Entity\BookContributor;
+use Kiwilan\Ebook\Entity\BookCreator;
+use Kiwilan\Ebook\Entity\BookIdentifier;
+use Kiwilan\Ebook\Entity\BookMeta;
 
 class EpubOpf
 {
@@ -24,17 +24,17 @@ class EpubOpf
 
     protected ?string $dcTitle = null;
 
-    /** @var EntityCreator[] */
+    /** @var BookCreator[] */
     protected array $dcCreators = [];
 
-    /** @var EntityContributor[] */
+    /** @var BookContributor[] */
     protected array $dcContributors = [];
 
     protected ?string $dcDescription = null;
 
     protected ?string $dcPublisher = null;
 
-    /** @var EntityIdentifier[] */
+    /** @var BookIdentifier[] */
     protected array $dcIdentifiers = [];
 
     protected ?DateTime $dcDate = null;
@@ -46,7 +46,7 @@ class EpubOpf
 
     protected array $dcRights = [];
 
-    /** @var EntityMeta[] */
+    /** @var BookMeta[] */
     protected array $meta = [];
 
     protected ?string $coverPath = null;
@@ -178,7 +178,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityCreator[]
+     * @return BookCreator[]
      */
     public function dcCreators(): array
     {
@@ -186,7 +186,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityContributor[]
+     * @return BookContributor[]
      */
     public function dcContributors(): array
     {
@@ -204,7 +204,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityIdentifier[]
+     * @return BookIdentifier[]
      */
     public function dcIdentifiers(): array
     {
@@ -230,7 +230,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityMeta[]
+     * @return BookMeta[]
      */
     public function meta(): array
     {
@@ -299,7 +299,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityCreator[]
+     * @return BookCreator[]
      */
     private function setDcCreators(): array
     {
@@ -313,7 +313,7 @@ class EpubOpf
 
         foreach ($data as $item) {
             $name = $item['@content'];
-            $items[$name] = new EntityCreator(
+            $items[$name] = new BookCreator(
                 name: $name,
                 role: $item['@attributes']['role'] ?? null,
             );
@@ -323,7 +323,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityContributor[]
+     * @return BookContributor[]
      */
     private function setDcContributors(): array
     {
@@ -339,7 +339,7 @@ class EpubOpf
             if (is_string($item)) {
                 $item = ['@content' => $item];
             }
-            $items[] = new EntityContributor(
+            $items[] = new BookContributor(
                 content: $item['@content'],
                 role: $item['@attributes']['role'] ?? null,
             );
@@ -370,7 +370,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityIdentifier[]
+     * @return BookIdentifier[]
      */
     private function setDcIdentifiers(): array
     {
@@ -385,7 +385,7 @@ class EpubOpf
         foreach ($data as $item) {
             $content = $item['@content'] ?? null;
             $type = $item['@attributes']['scheme'] ?? null;
-            $identifier = new EntityIdentifier(
+            $identifier = new BookIdentifier(
                 content: $content,
                 type: $type,
             );
@@ -397,7 +397,7 @@ class EpubOpf
     }
 
     /**
-     * @return EntityMeta[]
+     * @return BookMeta[]
      */
     private function setMeta(): array
     {
@@ -410,7 +410,7 @@ class EpubOpf
         $items = [];
 
         foreach ($data as $item) {
-            $items[] = new EntityMeta(
+            $items[] = new BookMeta(
                 name: $item['@attributes']['name'] ?? null,
                 content: $item['@attributes']['content'] ?? null,
             );

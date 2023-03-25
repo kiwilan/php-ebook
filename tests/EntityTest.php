@@ -1,23 +1,23 @@
 <?php
 
 use Kiwilan\Ebook\EbookEntity;
-use Kiwilan\Ebook\Entity\EntityContributor;
-use Kiwilan\Ebook\Entity\EntityCreator;
-use Kiwilan\Ebook\Entity\EntityIdentifier;
-use Kiwilan\Ebook\Entity\EntityMeta;
+use Kiwilan\Ebook\Entity\BookContributor;
+use Kiwilan\Ebook\Entity\BookCreator;
+use Kiwilan\Ebook\Entity\BookIdentifier;
+use Kiwilan\Ebook\Entity\BookMeta;
 
 it('can use EbookEntity', function () {
     $item = EbookEntity::make('path/to/book.epub');
     $item->setTitle('title');
     $item->setAuthors([
-        new EntityCreator('author', 'aut'),
+        new BookCreator('author', 'aut'),
     ]);
     $item->setDescription('description');
     $item->setContributor('contributor');
     $item->setRights('rights');
     $item->setPublisher('publisher');
     $item->setIdentifiers([
-        new EntityIdentifier('identifier', 'id'),
+        new BookIdentifier('identifier', 'id'),
     ]);
     $item->setDate(new DateTime('1980-01-13 21:00:00'));
     $item->setLanguage('fr');
@@ -58,8 +58,8 @@ it('can use EbookEntity', function () {
     expect($item->cover())->toBe('cover');
 });
 
-it('can use EntityContributor', function (string $content, string $role) {
-    $item = new EntityContributor($content, $role);
+it('can use BookContributor', function (string $content, string $role) {
+    $item = new BookContributor($content, $role);
 
     expect($item->content())->toBe($content);
     expect($item->role())->toBe($role);
@@ -79,8 +79,8 @@ it('can use EntityContributor', function (string $content, string $role) {
     ],
 ]);
 
-it('can use EntityCreator', function (string $name, string $role) {
-    $item = new EntityCreator($name, $role);
+it('can use BookCreator', function (string $name, string $role) {
+    $item = new BookCreator($name, $role);
 
     expect($item->name())->toBe($name);
     expect($item->role())->toBe($role);
@@ -100,8 +100,8 @@ it('can use EntityCreator', function (string $name, string $role) {
     ],
 ]);
 
-it('can use EntityIdentifier', function (string $content, string $type) {
-    $item = new EntityIdentifier($content, $type);
+it('can use BookIdentifier', function (string $content, string $type) {
+    $item = new BookIdentifier($content, $type);
 
     expect($item->content())->toBe($content);
     expect($item->type())->toBe($type);
@@ -136,8 +136,8 @@ it('can use EntityIdentifier', function (string $content, string $type) {
     ],
 ]);
 
-it('can use EntityMeta', function (string $name, string $content) {
-    $item = new EntityMeta($name, $content);
+it('can use BookMeta', function (string $name, string $content) {
+    $item = new BookMeta($name, $content);
 
     expect($item->name())->toBe($name);
     expect($item->content())->toBe($content);

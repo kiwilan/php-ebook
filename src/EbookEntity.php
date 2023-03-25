@@ -3,15 +3,15 @@
 namespace Kiwilan\Ebook;
 
 use DateTime;
-use Kiwilan\Ebook\Entity\EntityCreator;
-use Kiwilan\Ebook\Entity\EntityIdentifier;
+use Kiwilan\Ebook\Entity\BookCreator;
+use Kiwilan\Ebook\Entity\BookIdentifier;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
 class EbookEntity
 {
     protected ?string $title = null;
 
-    /** @var EntityCreator[] */
+    /** @var BookCreator[] */
     protected array $authors = [];
 
     protected ?string $description = null;
@@ -22,7 +22,7 @@ class EbookEntity
 
     protected ?string $publisher = null;
 
-    /** @var EntityIdentifier[] */
+    /** @var BookIdentifier[] */
     protected array $identifiers = [];
 
     protected ?string $identifierGoogle = null;
@@ -73,7 +73,7 @@ class EbookEntity
     }
 
     /**
-     * @return EntityCreator[]
+     * @return BookCreator[]
      */
     public function authors(): array
     {
@@ -101,7 +101,7 @@ class EbookEntity
     }
 
     /**
-     * @return EntityIdentifier[]
+     * @return BookIdentifier[]
      */
     public function identifiers(): array
     {
@@ -179,7 +179,7 @@ class EbookEntity
     }
 
     /**
-     * @param  EntityCreator[]  $authors
+     * @param  BookCreator[]  $authors
      */
     public function setAuthors(array $authors): self
     {
@@ -217,7 +217,7 @@ class EbookEntity
     }
 
     /**
-     * @param  EntityIdentifier[]  $identifiers
+     * @param  BookIdentifier[]  $identifiers
      */
     public function setIdentifiers(array $identifiers): self
     {

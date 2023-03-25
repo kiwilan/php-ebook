@@ -4,7 +4,8 @@ namespace Kiwilan\Ebook;
 
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\ArchivePdf;
-use Kiwilan\Ebook\Entity\EntityCreator;
+use Kiwilan\Ebook\Cba\CbaXml;
+use Kiwilan\Ebook\Entity\BookCreator;
 use Kiwilan\Ebook\Epub\EpubContainer;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
@@ -15,6 +16,8 @@ class Ebook
     protected ?EbookEntity $book = null;
 
     protected ?Archive $archive = null;
+
+    protected ?string $format = null; // epub, pdf, cba
 
     protected ?ArchivePdf $pdf = null;
 
@@ -27,22 +30,27 @@ class Ebook
     public static function make(string $path): self
     {
         $extension = pathinfo($path, PATHINFO_EXTENSION);
-        $allow = ['epub', 'pdf', 'cbz', 'cbr', 'cb7'];
-        if ($extension && ! in_array($extension, $allow)) {
+        if ($extension && ! in_array($extension, ['epub', 'pdf', 'cbz', 'cbr', 'cb7'])) {
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
         $self = new self($path, $extension);
         if ($extension === 'pdf') {
             $self->pdf = ArchivePdf::make($path);
+            $self->format = 'pdf';
         } else {
             $self->archive = Archive::make($path);
+            if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
+                $self->format = 'cba';
+            } else {
+                $self->format = 'epub';
+            }
         }
 
-        match ($self->extension) {
+        match ($self->format) {
             'epub' => $self->epub(),
+            'cba' => $self->cba(),
             'pdf' => $self->pdf(),
-            default => throw new \Exception("Unknown archive type: {$extension}"),
         };
 
         return $self;
@@ -76,6 +84,24 @@ class Ebook
         return $this;
     }
 
+    private function cba(): self
+    {
+        $this->book = EbookEntity::make($this->path);
+        $cba = CbaXml::make($this->archiveToXml('ComicInfo.xml'));
+
+        $authors = [];
+        $authors[] = new BookCreator($cba->writer());
+
+        $this->book()->setTitle($cba->title());
+        $this->book()->setSeries($cba->series());
+        $this->book()->setVolume($cba->number());
+        $this->book()->setAuthors($authors);
+        $this->book()->setPublisher($cba->publisher());
+        $this->book()->setLanguage($cba->languageIso());
+
+        return $this;
+    }
+
     private function pdf(): self
     {
         $this->book = EbookEntity::make($this->path);
@@ -95,7 +121,7 @@ class Ebook
 
         $creators = [];
         foreach ($authors as $author) {
-            $creators[] = new EntityCreator(
+            $creators[] = new BookCreator(
                 name: trim($author),
             );
         }
@@ -121,6 +147,16 @@ class Ebook
     public function path(): string
     {
         return $this->path;
+    }
+
+    public function extension(): string
+    {
+        return $this->extension;
+    }
+
+    public function format(): ?string
+    {
+        return $this->format;
     }
 
     public function opf(): ?EpubOpf

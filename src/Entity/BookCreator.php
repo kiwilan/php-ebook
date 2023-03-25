@@ -2,17 +2,17 @@
 
 namespace Kiwilan\Ebook\Entity;
 
-class EntityContributor
+class BookCreator
 {
     public function __construct(
-        protected ?string $content = null,
+        protected ?string $name = null,
         protected ?string $role = null,
     ) {
     }
 
-    public function content(): ?string
+    public function name(): ?string
     {
-        return $this->content;
+        return $this->name;
     }
 
     public function role(): ?string
@@ -23,13 +23,13 @@ class EntityContributor
     public function toArray(): array
     {
         return [
-            'content' => $this->content,
+            'name' => $this->name,
             'role' => $this->role,
         ];
     }
 
     public function __toString(): string
     {
-        return $this->content;
+        return $this->name;
     }
 }

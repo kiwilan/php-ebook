@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Ebook\Entity;
 
-class EntityIdentifier
+class BookIdentifier
 {
     public function __construct(
         protected ?string $content = null,
