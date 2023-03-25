@@ -23,6 +23,10 @@ class EpubContainer
         $self->opfPath = $self->parseOpfPath();
         $self->version = $self->parseVersion();
 
+        if (! $self->opfPath) {
+            throw new \Exception("Can't parse opf path");
+        }
+
         return $self;
     }
 
@@ -48,9 +52,7 @@ class EpubContainer
         }
 
         $rootAttr = $root['@attributes'];
-
         $fullPath = $rootAttr['full-path'] ?? null;
-        $mediaType = $rootAttr['media-type'] ?? null;
 
         return $fullPath;
     }
