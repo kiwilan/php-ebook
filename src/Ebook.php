@@ -5,8 +5,8 @@ namespace Kiwilan\Ebook;
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\ArchiveItem;
 use Kiwilan\Archive\ArchivePdf;
+use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Cba\CbaXml;
-use Kiwilan\Ebook\Entity\BookCreator;
 use Kiwilan\Ebook\Epub\EpubContainer;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
@@ -14,7 +14,7 @@ class Ebook
 {
     protected ?EpubOpf $opf = null;
 
-    protected ?EbookEntity $book = null;
+    protected ?BookEntity $book = null;
 
     protected ?Archive $archive = null;
 
@@ -62,7 +62,7 @@ class Ebook
         $container = EpubContainer::make($this->archiveToXml('container.xml'));
         $this->opf = EpubOpf::make($this->archiveToXml($container->opfPath()));
 
-        $this->book = EbookEntity::make($this->path);
+        $this->book = BookEntity::make($this->path);
         $this->book->convertFromOpdf($this->opf);
 
         $cover = $this->archive->find($this->opf->coverPath());
@@ -87,7 +87,7 @@ class Ebook
 
     private function cba(): self
     {
-        $this->book = EbookEntity::make($this->path);
+        $this->book = BookEntity::make($this->path);
         $cba = CbaXml::make($this->archiveToXml('ComicInfo.xml'));
 
         $authors = [];
@@ -119,7 +119,7 @@ class Ebook
 
     private function pdf(): self
     {
-        $this->book = EbookEntity::make($this->path);
+        $this->book = BookEntity::make($this->path);
         $this->book->setTitle($this->pdf->metadata()->title());
 
         $author = $this->pdf->metadata()->author();
@@ -182,7 +182,7 @@ class Ebook
         return $this->opf;
     }
 
-    public function book(): ?EbookEntity
+    public function book(): ?BookEntity
     {
         return $this->book;
     }

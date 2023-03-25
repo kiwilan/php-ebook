@@ -4,7 +4,7 @@ it('can parse pdf', function () {
     $book = Kiwilan\Ebook\Ebook::make(PDF)->book();
     $firstAuthor = $book->authors()[0];
 
-    expect($book)->toBeInstanceOf(Kiwilan\Ebook\EbookEntity::class);
+    expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
     expect($book->path())->toBe(PDF);
     expect($book->title())->toBe('Example PDF');
     expect($book->authors())->toBeArray();

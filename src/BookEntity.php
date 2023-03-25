@@ -3,11 +3,11 @@
 namespace Kiwilan\Ebook;
 
 use DateTime;
-use Kiwilan\Ebook\Entity\BookCreator;
-use Kiwilan\Ebook\Entity\BookIdentifier;
+use Kiwilan\Ebook\Book\BookCreator;
+use Kiwilan\Ebook\Book\BookIdentifier;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
-class EbookEntity
+class BookEntity
 {
     protected ?string $title = null;
 

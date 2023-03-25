@@ -4,11 +4,11 @@ namespace Kiwilan\Ebook\Epub;
 
 use DateTime;
 use DateTimeZone;
+use Kiwilan\Ebook\Book\BookContributor;
+use Kiwilan\Ebook\Book\BookCreator;
+use Kiwilan\Ebook\Book\BookIdentifier;
+use Kiwilan\Ebook\Book\BookMeta;
 use Kiwilan\Ebook\EbookXmlReader;
-use Kiwilan\Ebook\Entity\BookContributor;
-use Kiwilan\Ebook\Entity\BookCreator;
-use Kiwilan\Ebook\Entity\BookIdentifier;
-use Kiwilan\Ebook\Entity\BookMeta;
 
 class EpubOpf
 {

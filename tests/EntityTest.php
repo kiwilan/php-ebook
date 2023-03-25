@@ -1,13 +1,13 @@
 <?php
 
-use Kiwilan\Ebook\EbookEntity;
-use Kiwilan\Ebook\Entity\BookContributor;
-use Kiwilan\Ebook\Entity\BookCreator;
-use Kiwilan\Ebook\Entity\BookIdentifier;
-use Kiwilan\Ebook\Entity\BookMeta;
+use Kiwilan\Ebook\Book\BookContributor;
+use Kiwilan\Ebook\Book\BookCreator;
+use Kiwilan\Ebook\Book\BookIdentifier;
+use Kiwilan\Ebook\Book\BookMeta;
+use Kiwilan\Ebook\BookEntity;
 
 it('can use EbookEntity', function () {
-    $item = EbookEntity::make('path/to/book.epub');
+    $item = BookEntity::make('path/to/book.epub');
     $item->setTitle('title');
     $item->setAuthors([
         new BookCreator('author', 'aut'),
