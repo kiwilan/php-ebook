@@ -16,7 +16,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "kiwilan/php-archive": "^0.1.1"
+        "kiwilan/php-archive": "^1.0.02"
     },
     "require-dev": {
         "laravel/pint": "^1.7",

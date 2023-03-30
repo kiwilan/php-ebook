@@ -3,8 +3,7 @@
 namespace Kiwilan\Ebook;
 
 use Kiwilan\Archive\Archive;
-use Kiwilan\Archive\ArchiveItem;
-use Kiwilan\Archive\ArchivePdf;
+use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Cba\CbaXml;
 use Kiwilan\Ebook\Epub\EpubContainer;
@@ -16,15 +15,12 @@ class Ebook
 
     protected ?BookEntity $book = null;
 
-    protected ?Archive $archive = null;
-
     protected ?string $format = null; // epub, pdf, cba
-
-    protected ?ArchivePdf $pdf = null;
 
     protected function __construct(
         protected string $path,
         protected string $extension,
+        protected BaseArchive $archive,
     ) {
     }
 
@@ -35,17 +31,13 @@ class Ebook
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $extension);
-        if ($extension === 'pdf') {
-            $self->pdf = ArchivePdf::make($path);
+        $self = new self($path, $extension, Archive::read($path));
+        if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
+            $self->format = 'cba';
+        } elseif ($extension === 'pdf') {
             $self->format = 'pdf';
         } else {
-            $self->archive = Archive::make($path);
-            if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
-                $self->format = 'cba';
-            } else {
-                $self->format = 'epub';
-            }
+            $self->format = 'epub';
         }
 
         match ($self->format) {
@@ -66,13 +58,13 @@ class Ebook
         $this->book->convertFromOpdf($this->opf);
 
         $cover = $this->archive->find($this->opf->coverPath());
-        $coverContent = $this->archive->contentFile($cover->path());
+        $coverContent = $this->archive->content($cover);
         $this->book->setCover($coverContent);
 
         $count = 0;
         foreach ($this->opf->contentFiles() as $path) {
             $file = $this->archive->find($path);
-            $content = $this->archive->contentFile($file->path());
+            $content = $this->archive->content($file);
             $content = strip_tags($content);
             $content = preg_replace('/[\r\n|\n|\r)]+/', '', $content);
             $words = str_word_count($content, 1);
@@ -109,9 +101,8 @@ class Ebook
             return $this;
         }
 
-        usort($files, fn (ArchiveItem $a, ArchiveItem $b) => strcmp($a->path(), $b->path()));
         $cover = $files[0];
-        $coverContent = $this->archive->contentFile($cover->path());
+        $coverContent = $this->archive->content($cover);
         $this->book->setCover($coverContent);
 
         return $this;
@@ -120,9 +111,9 @@ class Ebook
     private function pdf(): self
     {
         $this->book = BookEntity::make($this->path);
-        $this->book->setTitle($this->pdf->metadata()->title());
+        $this->book->setTitle($this->archive->metadata()->title());
 
-        $author = $this->pdf->metadata()->author();
+        $author = $this->archive->metadata()->author();
         $authors = [];
         if (str_contains($author, ',')) {
             $authors = explode(',', $author);
@@ -142,13 +133,13 @@ class Ebook
         }
 
         $this->book->setAuthors($creators);
-        $this->book->setDescription($this->pdf->metadata()->subject());
-        $this->book->setPublisher($this->pdf->metadata()->creator());
-        $this->book->setTags($this->pdf->metadata()->keywords());
-        $this->book->setDate($this->pdf->metadata()->creationDate());
-        $this->book->setPageCount($this->pdf->metadata()->pages());
+        $this->book->setDescription($this->archive->metadata()->subject());
+        $this->book->setPublisher($this->archive->metadata()->creator());
+        $this->book->setTags($this->archive->metadata()->keywords());
+        $this->book->setDate($this->archive->metadata()->creationDate());
+        $this->book->setPageCount($this->archive->count());
 
-        $coverContent = $this->pdf->contentPage(isBase64: false);
+        $coverContent = $this->archive->content($this->archive->first());
         $this->book->setCover($coverContent);
 
         return $this;
@@ -157,7 +148,7 @@ class Ebook
     private function archiveToXml(string $path): ?string
     {
         $file = $this->archive->find($path);
-        $content = $this->archive->contentFile($file->path());
+        $content = $this->archive->content($file);
 
         return $content;
     }
