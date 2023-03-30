@@ -21,10 +21,11 @@ class Ebook
         protected string $path,
         protected string $extension,
         protected BaseArchive $archive,
+        protected bool $hasMetadata = false,
     ) {
     }
 
-    public static function make(string $path): self
+    public static function read(string $path): self
     {
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         if ($extension && ! in_array($extension, ['epub', 'pdf', 'cbz', 'cbr', 'cb7'])) {
@@ -73,14 +74,19 @@ class Ebook
         }
         $pageCount = (int) ceil($count / 250);
         $this->book->setPageCount($pageCount);
+        $this->hasMetadata = true;
 
         return $this;
     }
 
     private function cba(): self
     {
+        $xml = $this->archiveToXml('ComicInfo.xml');
+        if (! $xml) {
+            return $this;
+        }
+        $cba = CbaXml::read($xml);
         $this->book = BookEntity::make($this->path);
-        $cba = CbaXml::make($this->archiveToXml('ComicInfo.xml'));
 
         $authors = [];
         $authors[] = new BookCreator($cba->writer());
@@ -97,13 +103,13 @@ class Ebook
             $files = $this->archive->findAll('jpeg');
         }
 
-        if (empty($files)) {
-            return $this;
+        if (! empty($files)) {
+            $cover = $files[0];
+            $coverContent = $this->archive->content($cover);
+            $this->book->setCover($coverContent);
         }
 
-        $cover = $files[0];
-        $coverContent = $this->archive->content($cover);
-        $this->book->setCover($coverContent);
+        $this->hasMetadata = true;
 
         return $this;
     }
@@ -141,6 +147,7 @@ class Ebook
 
         $coverContent = $this->archive->content($this->archive->first());
         $this->book->setCover($coverContent);
+        $this->hasMetadata = true;
 
         return $this;
     }
@@ -148,6 +155,9 @@ class Ebook
     private function archiveToXml(string $path): ?string
     {
         $file = $this->archive->find($path);
+        if (! $file) {
+            return null;
+        }
         $content = $this->archive->content($file);
 
         return $content;
@@ -161,6 +171,16 @@ class Ebook
     public function extension(): string
     {
         return $this->extension;
+    }
+
+    // public function archive(): BaseArchive
+    // {
+    //     return $this->archive;
+    // }
+
+    public function hasMetadata(): bool
+    {
+        return $this->hasMetadata;
     }
 
     public function format(): ?string

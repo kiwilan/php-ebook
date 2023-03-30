@@ -45,7 +45,7 @@ composer require kiwilan/php-ebook
 With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`, `pdf`)
 
 ```php
-$ebook = Ebook::make('path/to/archive.epub');
+$ebook = Ebook::read('path/to/archive.epub');
 ```
 
 ## Testing

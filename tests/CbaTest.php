@@ -3,15 +3,21 @@
 use Kiwilan\Ebook\Cba\CbaXml;
 
 it('can parse cba', function (string $path) {
-    $ebook = Kiwilan\Ebook\Ebook::make($path);
+    $ebook = Kiwilan\Ebook\Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Kiwilan\Ebook\Ebook::class);
     expect($ebook->format())->toBe('cba');
     expect($ebook->path())->toBe($path);
 })->with(CBA_ITEMS);
 
+it('can parse no metadata', function () {
+    $ebook = Kiwilan\Ebook\Ebook::read(CBZ_NO_METADATA);
+
+    expect($ebook->hasMetadata())->toBeFalse();
+});
+
 it('can parse ComicInfo basic', function () {
-    $cba = CbaXml::make(file_get_contents(COMIC_INFO_BASIC));
+    $cba = CbaXml::read(file_get_contents(COMIC_INFO_BASIC));
 
     expect($cba->title())->toBe('Grise Bouille, Tome I');
     expect($cba->series())->toBe('Grise Bouille');
@@ -22,7 +28,7 @@ it('can parse ComicInfo basic', function () {
 });
 
 it('can parse ComicInfo basic cba book', function (string $path) {
-    $book = Kiwilan\Ebook\Ebook::make($path)->book();
+    $book = Kiwilan\Ebook\Ebook::read($path)->book();
 
     expect($book->title())->toBe('Grise Bouille, Tome I');
     expect($book->series())->toBe('Transmetropolitain');
@@ -35,7 +41,7 @@ it('can parse ComicInfo basic cba book', function (string $path) {
 })->with(CBA_ITEMS);
 
 it('can extract cba cover', function (string $path) {
-    $book = Kiwilan\Ebook\Ebook::make($path)->book();
+    $book = Kiwilan\Ebook\Ebook::read($path)->book();
 
     $path = 'tests/output/cover-cba.jpg';
     file_put_contents($path, $book->cover());

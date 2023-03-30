@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ComicBook
+  xmlns="http://schema.stavarengo.com/comic-book/1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  title="You Had One Job"
+  series="Fantastic Four"
+  number="22"
+  writer="Dan Slott"
+  penciller="Paco Medina, Sean Izaakse"
+  inker="Paco Medina, Sean Izaakse"
+  colorist="Jesus Aburtov, Marcio Menyz"
+  year="2020"
+  month="10"
+  day="1"
+  publisher="Marvel"
+  imprint="Vertigo"
+  language="en"
+  format="CBZ"
+  manga="false"
+  characters="Alicia Masters, Captain Marvel, Franklin Richards, Human Torch, Invisible Woman, Jo-Venn, Mr. Fantastic, N'kalla, Sky, Spider-Man, Thing, Valeria Richards, Wolverine"
+  teams="Cotati, Fantastic Four, Kree, New Fantastic Four, Skrulls"
+  locations="Earth, New York City, New York, United States of America, Skrull Empire, Skrull Homeworld, Skrull Space, Skrull Starship, Skrull World, Wakanda"
+  web="https://comicvine.gamespot.com/fantastic-four-22-you-had-one-job/4000-787351/"
+  notes="Tagged with the ninjas.walk.alone fork of ComicTagger 1.3.3 using info from Comic Vine on 2020-08-06 11:23:02. [CVDB787351] Scraped metadata from Comixology [CMXDB844632]"
+>
+  <Page number="1" image="page1.jpg">
+    <Caption>Texte de la bulle 1</Caption>
+    <Caption>Texte de la bulle 2</Caption>
+  </Page>
+  <Page number="2" image="page2.jpg">
+    <Caption>Texte de la bulle 1</Caption>
+    <Caption>Texte de la bulle 2</Caption>
+    <Caption>Texte de la bulle 3</Caption>
+  </Page>
+</ComicBook>

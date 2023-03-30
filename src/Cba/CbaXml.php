@@ -24,7 +24,7 @@ class CbaXml
     ) {
     }
 
-    public static function make(string $content): self
+    public static function read(string $content): self
     {
         $xml = EbookXmlReader::make($content);
         $self = new self();

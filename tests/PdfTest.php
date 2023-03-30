@@ -1,7 +1,7 @@
 <?php
 
 it('can parse pdf', function () {
-    $book = Kiwilan\Ebook\Ebook::make(PDF)->book();
+    $book = Kiwilan\Ebook\Ebook::read(PDF)->book();
     $firstAuthor = $book->authors()[0];
 
     expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
@@ -18,7 +18,7 @@ it('can parse pdf', function () {
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
 
 it('can extract pdf cover', function () {
-    $book = Kiwilan\Ebook\Ebook::make(PDF)->book();
+    $book = Kiwilan\Ebook\Ebook::read(PDF)->book();
 
     $path = 'tests/output/cover-PDF.jpg';
     file_put_contents($path, $book->cover());

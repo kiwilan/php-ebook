@@ -2,6 +2,7 @@
 
 define('PDF', __DIR__.'/media/example.pdf');
 
+define('CBZ_NO_METADATA', __DIR__.'/media/cba-no-metadata.cbz');
 define('CBZ', __DIR__.'/media/cba.cbz');
 define('CBR', __DIR__.'/media/cba.cbr');
 define('CBT', __DIR__.'/media/cba.cbt');
