@@ -1,4 +1,4 @@
-<CComicInfo
+<ComicInfo
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Title>You Had One Job</Title>
@@ -28,4 +28,4 @@
   <Notes>Tagged with the ninjas.walk.alone fork of ComicTagger 1.3.3 using info from Comic Vine on
     2020-08-06 11:23:02. [CVDB787351]
     Scraped metadata from Comixology [CMXDB844632]</Notes>
-</CComicInfo>
+</ComicInfo>

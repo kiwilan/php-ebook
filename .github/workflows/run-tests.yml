@@ -35,13 +35,6 @@ jobs:
           brew install p7zip rar ghostscript imagemagick
         shell: bash
 
-      # - name: Install for Windows
-      #   if: runner.os == 'Windows'
-      #   run: |
-      #     iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
-      #     scoop install 7zip ghostscript imagemagick
-      #   shell: powershell
-
       - name: Checkout code
         uses: actions/checkout@v3
 

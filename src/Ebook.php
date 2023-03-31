@@ -5,13 +5,14 @@ namespace Kiwilan\Ebook;
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Ebook\Book\BookCreator;
-use Kiwilan\Ebook\Cba\CbaXml;
+use Kiwilan\Ebook\Cba\Cba;
+use Kiwilan\Ebook\Cba\CbaCbam;
 use Kiwilan\Ebook\Epub\EpubContainer;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
 class Ebook
 {
-    protected ?EpubOpf $opf = null;
+    protected EpubOpf|CbaCbam|null $metadata = null;
 
     protected ?BookEntity $book = null;
 
@@ -52,18 +53,27 @@ class Ebook
 
     private function epub(): self
     {
-        $container = EpubContainer::make($this->archiveToXml('container.xml'));
-        $this->opf = EpubOpf::make($this->archiveToXml($container->opfPath()));
+        $xml = $this->archiveToXml('container.xml');
+        if (! $xml) {
+            return $this;
+        }
+        $container = EpubContainer::make($xml);
+
+        $opf = $this->archiveToXml($container->opfPath());
+        if (! $opf) {
+            return $this;
+        }
+        $this->metadata = EpubOpf::make($opf);
 
         $this->book = BookEntity::make($this->path);
-        $this->book->convertFromOpdf($this->opf);
+        $this->book->convertFromOpdf($this->metadata);
 
-        $cover = $this->archive->find($this->opf->coverPath());
+        $cover = $this->archive->find($this->metadata->coverPath());
         $coverContent = $this->archive->content($cover);
         $this->book->setCover($coverContent);
 
         $count = 0;
-        foreach ($this->opf->contentFiles() as $path) {
+        foreach ($this->metadata->contentFiles() as $path) {
             $file = $this->archive->find($path);
             $content = $this->archive->content($file);
             $content = strip_tags($content);
@@ -81,26 +91,37 @@ class Ebook
 
     private function cba(): self
     {
-        $xml = $this->archiveToXml('ComicInfo.xml');
+        $xml = $this->archiveToXml('xml');
         if (! $xml) {
             return $this;
         }
-        $cba = CbaXml::read($xml);
-        $this->book = BookEntity::make($this->path);
 
-        $authors = [];
-        $authors[] = new BookCreator($cba->writer());
+        $this->metadata = EbookXmlReader::make($xml);
 
-        $this->book()->setTitle($cba->title());
-        $this->book()->setSeries($cba->series());
-        $this->book()->setVolume($cba->number());
-        $this->book()->setAuthors($authors);
-        $this->book()->setPublisher($cba->publisher());
-        $this->book()->setLanguage($cba->languageIso());
+        $root = $this->metadata['@root'] ?? null;
+        $metadataType = match ($root) {
+            'ComicInfo' => 'cbam',
+            'ComicBook' => 'cbml',
+            default => null,
+        };
 
-        $files = $this->archive->findAll('jpg');
+        /** @var ?Cba */
+        $parser = match ($metadataType) {
+            'cbam' => CbaCbam::class,
+            // 'cbml' => CbaCbml::class,
+            default => null,
+        };
+
+        if (! $parser) {
+            throw new \Exception('Unknown metadata type');
+        }
+
+        $parser = $parser::create($this->metadata);
+        $this->book = $parser->toBook($this->path);
+
+        $files = $this->archive->filter('jpg');
         if (empty($files)) {
-            $files = $this->archive->findAll('jpeg');
+            $files = $this->archive->filter('jpeg');
         }
 
         if (! empty($files)) {
@@ -188,9 +209,9 @@ class Ebook
         return $this->format;
     }
 
-    public function opf(): ?EpubOpf
+    public function metadata(): EpubOpf|null
     {
-        return $this->opf;
+        return $this->metadata;
     }
 
     public function book(): ?BookEntity

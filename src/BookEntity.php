@@ -50,6 +50,9 @@ class BookEntity
 
     protected ?string $cover = null;
 
+    /** @var string[] */
+    protected array $extras = [];
+
     protected function __construct(
         protected string $path,
     ) {
