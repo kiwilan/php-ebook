@@ -1,0 +1,62 @@
+name: Tests on windows
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [windows-latest]
+        php: [8.1]
+        stability: [prefer-stable]
+
+    name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
+
+    steps:
+      - name: scoop
+        run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          scoop install 7zip imagemagick ghostscript unrar
+        shell: powershell
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, bz2, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: pcov
+
+      # - name: Install rar extension
+      #   run: |
+      #     php -i | find "Thread Safety"
+      #     php -i | grep "Architecture"
+      #     Invoke-WebRequest -Uri https://windows.php.net/downloads/pecl/releases/rar/4.2.0/php_rar-4.2.0-8.1-nts-vs16-x64.zip -OutFile php_rar.zip
+      #     7z x php_rar.zip -ophp_rar
+      #     cd php_rar
+      #     cp php_rar.dll C:\tools\php\ext\php_rar.dll
+      #     Add-Content C:\tools\php\php.ini "`nextension=rar`n"
+      #   shell: powershell
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
+
+      - name: Check extension imagick
+        run: php -m | grep imagick
+
+      # - name: Check extension rar
+      #   run: php -m | grep rar
+
+      - name: Execute tests
+        run: .\vendor\bin\pest.bat --colors=always

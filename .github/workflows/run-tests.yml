@@ -1,12 +1,6 @@
-name: Tests
+name: Tests on unix
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [push, pull_request]
 
 jobs:
   test:
@@ -14,8 +8,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-        php: [8.1]
+        os: [ubuntu-latest, macos-latest]
+        php: [8.1, 8.2]
         stability: [prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
@@ -25,6 +19,8 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt -y install p7zip-full ghostscript imagemagick
+          sudo apt-get install -y unrar
+          sudo apt-get install -y libunrar-dev
           sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
         shell: bash
 
@@ -53,12 +49,32 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
+      - name: Add rar extension
+        if: runner.os == 'Linux' || runner.os == 'macOS'
+        run: |
+          git clone https://github.com/cataphract/php-rar
+          cd php-rar
+          phpize
+          ./configure
+          sudo make
+          sudo make install
+          pecl_path=$(pecl config-get ext_dir)
+          phpini_path=$(php -i | grep /.+/php.ini -oE)
+          sudo cp ./modules/rar.so $pecl_path
+          sudo echo "extension=rar.so" > $phpini_path
+
+      - name: Check extension rar
+        run: php -m | grep rar
+
+      - name: Check extension imagick
+        run: php -m | grep imagick
+
       - name: Execute tests
         run: vendor/bin/pest --coverage
 
       - name: on Linux run phpstan
         if: runner.os == 'Linux'
-        run: vendor/bin/phpstan analyse
+        run: vendor/bin/phpstan analyse --memory-limit=2G
         shell: bash
 
       - name: on Linux send code coverage
