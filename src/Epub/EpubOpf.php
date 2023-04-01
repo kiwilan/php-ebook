@@ -8,7 +8,8 @@ use Kiwilan\Ebook\Book\BookContributor;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Book\BookIdentifier;
 use Kiwilan\Ebook\Book\BookMeta;
-use Kiwilan\Ebook\EbookXmlReader;
+use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\XmlReader;
 
 class EpubOpf
 {
@@ -60,7 +61,7 @@ class EpubOpf
 
     public static function make(string $content): self
     {
-        $xml = EbookXmlReader::make($content);
+        $xml = XmlReader::toArray($content);
         $self = new self();
 
         $self->epubVersion = $xml['@attributes']['version'] ?? null;
@@ -74,6 +75,65 @@ class EpubOpf
         $self->contentFiles = $self->findContent();
 
         return $self;
+    }
+
+    public function toBook(string $path): BookEntity
+    {
+        $book = BookEntity::make($path);
+
+        $book->setTitle($this->dcTitle);
+        $book->setAuthors(array_values($this->dcCreators));
+        $book->setDescription(strip_tags($this->dcDescription));
+        $book->setContributor(! empty($this->dcContributors) ? implode(', ', $this->dcContributors) : null);
+        $book->setRights(! empty($this->dcRights) ? implode(', ', $this->dcRights) : null);
+        $book->setPublisher($this->dcPublisher);
+        $book->setIdentifiers($this->dcIdentifiers);
+
+        if (! empty($this->dcIdentifiers)) {
+            foreach ($this->dcIdentifiers as $identifier) {
+                // if ($identifier->type() === 'google') {
+                //     $this->identifierGoogle = $identifier->content();
+                // }
+                // if ($identifier->type() === 'amazon') {
+                //     $this->identifierAmazon = $identifier->content();
+                // }
+                // if ($identifier->type() === 'isbn10') {
+                //     $this->identifierIsbn10 = $identifier->content();
+                // }
+                // if ($identifier->type() === 'isbn13') {
+                //     $this->identifierIsbn13 = $identifier->content();
+                // }
+            }
+        }
+
+        $book->setDate($this->dcDate);
+        $book->setLanguage($this->dcLanguage);
+
+        $tags = [];
+        if (! empty($this->dcSubject)) {
+            foreach ($this->dcSubject as $subject) {
+                if (strlen($subject) < 50) {
+                    $tags[] = $subject;
+                }
+            }
+        }
+        $book->setTags($tags);
+
+        if (! empty($this->meta)) {
+            foreach ($this->meta as $meta) {
+                if ($meta->name() === 'calibre:series') {
+                    $book->setSeries($meta->content());
+                }
+                if ($meta->name() === 'calibre:series_index') {
+                    $book->setVolume((int) $meta->content());
+                }
+                if ($meta->name() === 'calibre:rating') {
+                    $book->setRating((int) $meta->content());
+                }
+            }
+        }
+
+        return $book;
     }
 
     private function parseMetadata(): self
@@ -358,13 +418,18 @@ class EpubOpf
             return [];
         }
 
-        // $data = $this->multipleItems($data);
-        // TODO
+        if (is_string($data)) {
+            $data = [$data];
+        }
+        $data = $this->multipleItems($data);
         $items = [];
 
-        // foreach ($data as $item) {
-        //     $items[] = $item['@content'];
-        // }
+        foreach ($data as $item) {
+            if (is_string($item)) {
+                $item = ['@content' => $item];
+            }
+            $items[] = $item['@content'];
+        }
 
         return $items;
     }

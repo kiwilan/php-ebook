@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Ebook\Epub;
 
-use Kiwilan\Ebook\EbookXmlReader;
+use Kiwilan\Ebook\XmlReader;
 
 class EpubContainer
 {
@@ -17,7 +17,7 @@ class EpubContainer
 
     public static function make(string $content): self
     {
-        $xml = EbookXmlReader::make($content);
+        $xml = XmlReader::toArray($content);
 
         $self = new self($xml);
         $self->opfPath = $self->parseOpfPath();

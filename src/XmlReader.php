@@ -8,24 +8,19 @@ use Exception;
 /**
  * XML reader string to array.
  */
-class EbookXmlReader
+class XmlReader
 {
-    /** @var array<string, mixed> */
-    protected array $xmlArray = [];
-
     protected function __construct(
-        protected string $xmlString,
+        protected string $xml,
     ) {
     }
 
     /**
-     * Make a new instance of `XmlParser`.
-     *
      * @return array<string, mixed>
      */
-    public static function make(string $xmlString): array
+    public static function toArray(string $xml): array
     {
-        $self = new self($xmlString);
+        $self = new self($xml);
 
         try {
             return $self->parse();
@@ -47,10 +42,10 @@ class EbookXmlReader
     protected function parse()
     {
         $doc = new DOMDocument();
-        $doc->loadXML($this->xmlString);
+        $doc->loadXML($this->xml);
         $root = $doc->documentElement;
         $output = $this->domnodeToArray($root);
-        $output['@root'] = $root->tagName;
+        $output['@root'] = $root->tagName ?? null;
 
         return $output;
     }

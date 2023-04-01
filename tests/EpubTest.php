@@ -14,15 +14,16 @@ it('can parse epub entity', function () {
     expect($book->rights())->toBeNull();
     expect($book->publisher())->toBe('Presses de la cité');
     expect($book->identifiers())->toBeArray();
-    expect($book->identifierGoogle())->toBe('63CTHAAACAAJ');
-    expect($book->identifierIsbn13())->toBe('9782266122122');
+    expect($book->identifiers()['google']->content())->toBe('63CTHAAACAAJ');
+    expect($book->identifiers()['isbn13']->content())->toBe('9782266122122');
     expect($book->date())->toBeInstanceOf(DateTime::class);
     expect($book->date()->format('Y-m-d H:i:s'))->toBe('1980-01-13 21:00:00');
     expect($book->language())->toBe('fr');
     expect($book->tags())->toBeArray();
     expect($book->series())->toBe('Les Enfants de la Terre');
     expect($book->volume())->toBe(1);
-    expect($book->rating())->toBe(10);
+    expect($book->rating())->toBeFloat();
+    expect($book->rating())->toBe(10.0);
     expect($book->pageCount())->toBe(4);
 });
 

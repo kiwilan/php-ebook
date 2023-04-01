@@ -3,6 +3,8 @@
 namespace Kiwilan\Ebook\Cba;
 
 use DateTime;
+use Kiwilan\Ebook\Enums\AgeRatingEnum;
+use Kiwilan\Ebook\Enums\MangaEnum;
 
 class CbaEntity
 {
@@ -59,11 +61,11 @@ class CbaEntity
         protected ?string $language = null,
         protected ?string $format = null,
         protected bool $isBlackAndWhite = false,
-        protected CbamMangaEnum $manga = CbamMangaEnum::NO,
+        protected MangaEnum $manga = MangaEnum::NO,
         protected ?string $scanInformation = null,
         protected ?string $storyArc = null,
         protected ?string $seriesGroup = null,
-        protected CbamAgeRatingEnum $ageRating = CbamAgeRatingEnum::UNKNOWN,
+        protected AgeRatingEnum $ageRating = AgeRatingEnum::UNKNOWN,
         protected ?float $communityRating = null, // min: 0, max: 5, digits: 2
         protected ?string $mainCharacterOrTeam = null,
         protected ?string $review = null
@@ -174,51 +176,84 @@ class CbaEntity
         $this->locations = $locations;
     }
 
+    /**
+     * Title of the book
+     */
     public function title(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * Title of the series the book is part of
+     */
     public function series(): ?string
     {
         return $this->series;
     }
 
+    /**
+     * Number of the book in the series
+     */
     public function number(): ?int
     {
         return $this->number;
     }
 
+    /**
+     * Total number of books in the series
+     */
     public function count(): ?int
     {
         return $this->count;
     }
 
+    /**
+     * Volume containing the book. Volume is a notion that is specific to US Comics,
+     * where the same series can have multiple volumes. Volumes can be referenced by numer (1, 2, 3…)
+     * or by year (2018, 2020…).
+     */
     public function volume(): ?int
     {
         return $this->volume;
     }
 
+    /**
+     * A description or summary of the book.
+     */
     public function summary(): ?string
     {
         return $this->summary;
     }
 
+    /**
+     * A free text field, usually used to store information about the application
+     * that created the `ComicInfo.xml` file.
+     */
     public function notes(): ?string
     {
         return $this->notes;
     }
 
+    /**
+     * Usually contains the release date of the book.
+     */
     public function date(): ?DateTime
     {
         return $this->date;
     }
 
+    /**
+     * A URL pointing to a reference website for the book.
+     */
     public function web(): ?string
     {
         return $this->web;
     }
 
+    /**
+     * The number of pages in the book.
+     */
     public function pageCount(): ?int
     {
         return $this->pageCount;
@@ -239,7 +274,7 @@ class CbaEntity
         return $this->isBlackAndWhite;
     }
 
-    public function manga(): CbamMangaEnum
+    public function manga(): MangaEnum
     {
         return $this->manga;
     }
@@ -259,7 +294,7 @@ class CbaEntity
         return $this->seriesGroup;
     }
 
-    public function ageRating(): CbamAgeRatingEnum
+    public function ageRating(): AgeRatingEnum
     {
         return $this->ageRating;
     }

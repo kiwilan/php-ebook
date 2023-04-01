@@ -5,11 +5,14 @@ namespace Kiwilan\Ebook;
 use DateTime;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Book\BookIdentifier;
-use Kiwilan\Ebook\Epub\EpubOpf;
+use Kiwilan\Ebook\Enums\AgeRatingEnum;
+use Kiwilan\Ebook\Enums\MangaEnum;
 
 class BookEntity
 {
     protected ?string $title = null;
+
+    protected ?BookCreator $authorMain = null;
 
     /** @var BookCreator[] */
     protected array $authors = [];
@@ -25,14 +28,6 @@ class BookEntity
     /** @var BookIdentifier[] */
     protected array $identifiers = [];
 
-    protected ?string $identifierGoogle = null;
-
-    protected ?string $identifierAmazon = null;
-
-    protected ?string $identifierIsbn10 = null;
-
-    protected ?string $identifierIsbn13 = null;
-
     protected ?DateTime $date = null;
 
     protected ?string $language = null;
@@ -44,13 +39,27 @@ class BookEntity
 
     protected ?int $volume = null;
 
-    protected ?int $rating = null;
+    protected ?float $rating = null;
 
     protected ?int $pageCount = null;
 
+    protected ?string $editor = null;
+
+    protected ?string $review = null;
+
+    protected ?string $web = null;
+
+    protected ?MangaEnum $manga = null;
+
+    protected bool $isBlackAndWhite = false;
+
+    protected ?AgeRatingEnum $ageRating = null;
+
+    protected ?ComicMeta $comicMeta = null;
+
     protected ?string $cover = null;
 
-    /** @var string[] */
+    /** @var array<string, mixed> */
     protected array $extras = [];
 
     protected function __construct(
@@ -61,6 +70,10 @@ class BookEntity
     public static function make(string $path): self
     {
         $self = new self($path);
+
+        $self->manga = MangaEnum::NO;
+        $self->isBlackAndWhite = false;
+        $self->ageRating = AgeRatingEnum::UNKNOWN;
 
         return $self;
     }
@@ -73,6 +86,11 @@ class BookEntity
     public function title(): ?string
     {
         return $this->title;
+    }
+
+    public function authorMain(): ?BookCreator
+    {
+        return $this->authorMain;
     }
 
     /**
@@ -111,26 +129,6 @@ class BookEntity
         return $this->identifiers;
     }
 
-    public function identifierGoogle(): ?string
-    {
-        return $this->identifierGoogle;
-    }
-
-    public function identifierAmazon(): ?string
-    {
-        return $this->identifierAmazon;
-    }
-
-    public function identifierIsbn10(): ?string
-    {
-        return $this->identifierIsbn10;
-    }
-
-    public function identifierIsbn13(): ?string
-    {
-        return $this->identifierIsbn13;
-    }
-
     public function date(): ?DateTime
     {
         return $this->date;
@@ -159,7 +157,7 @@ class BookEntity
         return $this->volume;
     }
 
-    public function rating(): ?int
+    public function rating(): ?float
     {
         return $this->rating;
     }
@@ -167,6 +165,46 @@ class BookEntity
     public function pageCount(): ?int
     {
         return $this->pageCount;
+    }
+
+    public function editor(): ?string
+    {
+        return $this->editor;
+    }
+
+    public function review(): ?string
+    {
+        return $this->review;
+    }
+
+    public function web(): ?string
+    {
+        return $this->web;
+    }
+
+    public function manga(): ?MangaEnum
+    {
+        return $this->manga;
+    }
+
+    public function isBlackAndWhite(): bool
+    {
+        return $this->isBlackAndWhite;
+    }
+
+    public function ageRating(): ?AgeRatingEnum
+    {
+        return $this->ageRating;
+    }
+
+    public function comicMeta(): ?ComicMeta
+    {
+        return $this->comicMeta;
+    }
+
+    public function extras(): array
+    {
+        return $this->extras;
     }
 
     public function cover(): ?string
@@ -177,6 +215,13 @@ class BookEntity
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function setAuthorMain(?BookCreator $authorMain): self
+    {
+        $this->authorMain = $authorMain;
 
         return $this;
     }
@@ -229,34 +274,6 @@ class BookEntity
         return $this;
     }
 
-    public function setIdentifierGoogle(?string $identifierGoogle): self
-    {
-        $this->identifierGoogle = $identifierGoogle;
-
-        return $this;
-    }
-
-    public function setIdentifierAmazon(?string $identifierAmazon): self
-    {
-        $this->identifierAmazon = $identifierAmazon;
-
-        return $this;
-    }
-
-    public function setIdentifierIsbn10(?string $identifierIsbn10): self
-    {
-        $this->identifierIsbn10 = $identifierIsbn10;
-
-        return $this;
-    }
-
-    public function setIdentifierIsbn13(?string $identifierIsbn13): self
-    {
-        $this->identifierIsbn13 = $identifierIsbn13;
-
-        return $this;
-    }
-
     public function setDate(?DateTime $date): self
     {
         $this->date = $date;
@@ -295,9 +312,9 @@ class BookEntity
         return $this;
     }
 
-    public function setRating(?int $rating): self
+    public function setRating(int|float|null $rating): self
     {
-        $this->rating = $rating;
+        $this->rating = floatval($rating);
 
         return $this;
     }
@@ -309,64 +326,264 @@ class BookEntity
         return $this;
     }
 
+    public function setEditor(?string $editor): self
+    {
+        $this->editor = $editor;
+
+        return $this;
+    }
+
+    public function setReview(?string $review): self
+    {
+        $this->review = $review;
+
+        return $this;
+    }
+
+    public function setWeb(?string $web): self
+    {
+        $this->web = $web;
+
+        return $this;
+    }
+
+    public function setManga(?MangaEnum $manga): self
+    {
+        if ($manga === null) {
+            $this->manga = MangaEnum::NO;
+
+            return $this;
+        }
+
+        $this->manga = $manga;
+
+        return $this;
+    }
+
+    public function setIsBlackAndWhite(bool $isBlackAndWhite = true): self
+    {
+        $this->isBlackAndWhite = $isBlackAndWhite;
+
+        return $this;
+    }
+
+    public function setAgeRating(?AgeRatingEnum $ageRating): self
+    {
+        if ($ageRating === null) {
+            $this->ageRating = AgeRatingEnum::UNKNOWN;
+
+            return $this;
+        }
+
+        $this->ageRating = $ageRating;
+
+        return $this;
+    }
+
+    public function setComicMeta(?ComicMeta $comicMeta): self
+    {
+        $this->comicMeta = $comicMeta;
+
+        return $this;
+    }
+
+    public function setExtras(array $extras): self
+    {
+        $this->extras = $extras;
+
+        return $this;
+    }
+
     public function setCover(?string $cover): self
     {
         $this->cover = $cover;
 
         return $this;
     }
+}
 
-    public function convertFromOpdf(EpubOpf $opf): self
+class ComicMeta
+{
+    /** @var string[] */
+    protected ?array $characters = null;
+
+    /** @var string[] */
+    protected ?array $teams = null;
+
+    /** @var string[] */
+    protected ?array $locations = null;
+
+    public function __construct(
+        protected ?string $alternateSeries = null,
+        protected ?string $alternateNumber = null,
+        protected ?string $alternateCount = null,
+        protected ?int $count = null,
+        protected ?int $volume = null,
+        protected ?string $storyArc = null,
+        protected ?int $storyArcNumber = null,
+        protected ?string $seriesGroup = null,
+        protected ?string $imprint = null,
+    ) {
+    }
+
+    /**
+     * @return string[]
+     */
+    public function characters(): array
     {
-        $this->title = $opf->dcTitle();
-        $this->authors = array_values($opf->dcCreators());
-        $this->description = strip_tags($opf->dcDescription());
-        $this->contributor = ! empty($opf->dcContributors()) ? implode(', ', $opf->dcContributors()) : null;
-        $this->rights = ! empty($opf->dcRights()) ? implode(', ', $opf->dcRights()) : null;
-        $this->publisher = $opf->dcPublisher();
-        $this->identifiers = $opf->dcIdentifiers();
+        return $this->characters;
+    }
 
-        if (! empty($opf->dcIdentifiers())) {
-            foreach ($opf->dcIdentifiers() as $identifier) {
-                if ($identifier->type() === 'google') {
-                    $this->identifierGoogle = $identifier->content();
-                }
-                if ($identifier->type() === 'amazon') {
-                    $this->identifierAmazon = $identifier->content();
-                }
-                if ($identifier->type() === 'isbn10') {
-                    $this->identifierIsbn10 = $identifier->content();
-                }
-                if ($identifier->type() === 'isbn13') {
-                    $this->identifierIsbn13 = $identifier->content();
-                }
-            }
-        }
+    /**
+     * @return string[]
+     */
+    public function teams(): array
+    {
+        return $this->teams;
+    }
 
-        $this->date = $opf->dcDate();
-        $this->language = $opf->dcLanguage();
+    /**
+     * @return string[]
+     */
+    public function locations(): array
+    {
+        return $this->locations;
+    }
 
-        if (! empty($opf->dcSubject())) {
-            foreach ($opf->dcSubject() as $subject) {
-                if (strlen($subject) < 50) {
-                    $this->tags[] = $subject;
-                }
-            }
-        }
+    public function alternateSeries(): ?string
+    {
+        return $this->alternateSeries;
+    }
 
-        if (! empty($opf->meta())) {
-            foreach ($opf->meta() as $meta) {
-                if ($meta->name() === 'calibre:series') {
-                    $this->series = $meta->content();
-                }
-                if ($meta->name() === 'calibre:series_index') {
-                    $this->volume = (int) $meta->content();
-                }
-                if ($meta->name() === 'calibre:rating') {
-                    $this->rating = (int) $meta->content();
-                }
-            }
-        }
+    public function alternateNumber(): ?string
+    {
+        return $this->alternateNumber;
+    }
+
+    public function alternateCount(): ?string
+    {
+        return $this->alternateCount;
+    }
+
+    public function count(): ?int
+    {
+        return $this->count;
+    }
+
+    public function volume(): ?int
+    {
+        return $this->volume;
+    }
+
+    public function storyArc(): ?string
+    {
+        return $this->storyArc;
+    }
+
+    public function storyArcNumber(): ?int
+    {
+        return $this->storyArcNumber;
+    }
+
+    public function seriesGroup(): ?string
+    {
+        return $this->seriesGroup;
+    }
+
+    public function imprint(): ?string
+    {
+        return $this->imprint;
+    }
+
+    /**
+     * @param  string[]  $characters
+     */
+    public function setCharacters(array $characters): self
+    {
+        $this->characters = $characters;
+
+        return $this;
+    }
+
+    /**
+     * @param  string[]  $teams
+     */
+    public function setTeams(array $teams): self
+    {
+        $this->teams = $teams;
+
+        return $this;
+    }
+
+    /**
+     * @param  string[]  $locations
+     */
+    public function setLocations(array $locations): self
+    {
+        $this->locations = $locations;
+
+        return $this;
+    }
+
+    public function setAlternateSeries(?string $alternateSeries): self
+    {
+        $this->alternateSeries = $alternateSeries;
+
+        return $this;
+    }
+
+    public function setAlternateNumber(?string $alternateNumber): self
+    {
+        $this->alternateNumber = $alternateNumber;
+
+        return $this;
+    }
+
+    public function setAlternateCount(?string $alternateCount): self
+    {
+        $this->alternateCount = $alternateCount;
+
+        return $this;
+    }
+
+    public function setCount(?int $count): self
+    {
+        $this->count = $count;
+
+        return $this;
+    }
+
+    public function setVolume(?int $volume): self
+    {
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function setStoryArc(?string $storyArc): self
+    {
+        $this->storyArc = $storyArc;
+
+        return $this;
+    }
+
+    public function setStoryArcNumber(?int $storyArcNumber): self
+    {
+        $this->storyArcNumber = $storyArcNumber;
+
+        return $this;
+    }
+
+    public function setSeriesGroup(?string $seriesGroup): self
+    {
+        $this->seriesGroup = $seriesGroup;
+
+        return $this;
+    }
+
+    public function setImprint(?string $imprint): self
+    {
+        $this->imprint = $imprint;
 
         return $this;
     }

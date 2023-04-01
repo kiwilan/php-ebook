@@ -7,12 +7,13 @@ use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Cba\Cba;
 use Kiwilan\Ebook\Cba\CbaCbam;
+use Kiwilan\Ebook\Cba\CbaFormat;
 use Kiwilan\Ebook\Epub\EpubContainer;
 use Kiwilan\Ebook\Epub\EpubOpf;
 
 class Ebook
 {
-    protected EpubOpf|CbaCbam|null $metadata = null;
+    protected EpubOpf|CbaFormat|null $metadata = null;
 
     protected ?BookEntity $book = null;
 
@@ -63,10 +64,9 @@ class Ebook
         if (! $opf) {
             return $this;
         }
-        $this->metadata = EpubOpf::make($opf);
-
-        $this->book = BookEntity::make($this->path);
-        $this->book->convertFromOpdf($this->metadata);
+        $opf = EpubOpf::make($opf);
+        $this->metadata = $opf;
+        $this->book = $opf->toBook($this->path);
 
         $cover = $this->archive->find($this->metadata->coverPath());
         $coverContent = $this->archive->content($cover);
@@ -95,17 +95,16 @@ class Ebook
         if (! $xml) {
             return $this;
         }
+        $metadata = XmlReader::toArray($xml);
 
-        $this->metadata = EbookXmlReader::make($xml);
-
-        $root = $this->metadata['@root'] ?? null;
+        $root = $metadata['@root'] ?? null;
         $metadataType = match ($root) {
             'ComicInfo' => 'cbam',
             'ComicBook' => 'cbml',
             default => null,
         };
 
-        /** @var ?Cba */
+        /** @var ?CbaFormat */
         $parser = match ($metadataType) {
             'cbam' => CbaCbam::class,
             // 'cbml' => CbaCbml::class,
@@ -113,11 +112,11 @@ class Ebook
         };
 
         if (! $parser) {
-            throw new \Exception('Unknown metadata type');
+            throw new \Exception("Unknown metadata type: {$metadataType}");
         }
 
-        $parser = $parser::create($this->metadata);
-        $this->book = $parser->toBook($this->path);
+        $this->metadata = $parser::create($metadata);
+        $this->book = $this->metadata->toBook($this->path);
 
         $files = $this->archive->filter('jpg');
         if (empty($files)) {

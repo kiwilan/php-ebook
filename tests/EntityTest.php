@@ -24,10 +24,12 @@ it('can use EbookEntity', function () {
     $item->setTags([
         'tag',
     ]);
-    $item->setIdentifierAmazon('identifierAmazon');
-    $item->setIdentifierGoogle('identifierGoogle');
-    $item->setIdentifierIsbn10('identifierIsbn10');
-    $item->setIdentifierIsbn13('identifierIsbn13');
+    $item->setIdentifiers([
+        'amazon' => new BookIdentifier('identifierAmazon', 'amazon'),
+        'google' => new BookIdentifier('identifierGoogle', 'google'),
+        'isbn10' => new BookIdentifier('identifierIsbn10', 'isbn10'),
+        'isbn13' => new BookIdentifier('identifierIsbn13', 'isbn13'),
+    ]);
     $item->setSeries('series');
     $item->setVolume(1);
     $item->setRating(10);
@@ -47,13 +49,13 @@ it('can use EbookEntity', function () {
     expect($item->tags())->toBe([
         'tag',
     ]);
-    expect($item->identifierAmazon())->toBe('identifierAmazon');
-    expect($item->identifierGoogle())->toBe('identifierGoogle');
-    expect($item->identifierIsbn10())->toBe('identifierIsbn10');
-    expect($item->identifierIsbn13())->toBe('identifierIsbn13');
+    expect($item->identifiers()['amazon']->content())->toBe('identifierAmazon');
+    expect($item->identifiers()['google']->content())->toBe('identifierGoogle');
+    expect($item->identifiers()['isbn10']->content())->toBe('identifierIsbn10');
+    expect($item->identifiers()['isbn13']->content())->toBe('identifierIsbn13');
     expect($item->series())->toBe('series');
     expect($item->volume())->toBe(1);
-    expect($item->rating())->toBe(10);
+    expect($item->rating())->toBe(10.0);
     expect($item->pageCount())->toBe(4);
     expect($item->cover())->toBe('cover');
 });

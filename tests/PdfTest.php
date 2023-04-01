@@ -15,7 +15,7 @@ it('can parse pdf', function () {
     expect($book->date()->format('Y-m-d H:i:s'))->toBe('2023-03-21 07:44:27');
     expect($book->tags())->toBeArray();
     expect($book->pageCount())->toBe(4);
-})->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
+});
 
 it('can extract pdf cover', function () {
     $book = Kiwilan\Ebook\Ebook::read(PDF)->book();

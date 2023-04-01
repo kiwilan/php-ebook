@@ -1,6 +1,7 @@
 <?php
 
-use Kiwilan\Ebook\Cba\CbaXml;
+use Kiwilan\Ebook\Cba\CbaCbam;
+use Kiwilan\Ebook\XmlReader;
 
 it('can parse cba', function (string $path) {
     $ebook = Kiwilan\Ebook\Ebook::read($path);
@@ -17,14 +18,17 @@ it('can parse no metadata', function () {
 });
 
 it('can parse ComicInfo basic', function () {
-    $cba = CbaXml::read(file_get_contents(COMIC_INFO_BASIC));
+    $metadata = XmlReader::toArray(file_get_contents(COMIC_INFO_BASIC));
+    $cba = CbaCbam::create($metadata);
 
     expect($cba->title())->toBe('Grise Bouille, Tome I');
     expect($cba->series())->toBe('Grise Bouille');
     expect($cba->number())->toBe(1);
-    expect($cba->writer())->toBe('Simon « Gee » Giraudot');
+    expect($cba->writers())->toBeArray()
+        ->toHaveCount(1)
+        ->toContain('Simon « Gee » Giraudot');
     expect($cba->publisher())->toBe('Des livres en Communs (Framasoft)');
-    expect($cba->languageIso())->toBe('fr');
+    expect($cba->language())->toBe('fr');
 });
 
 it('can parse ComicInfo basic cba book', function (string $path) {
@@ -49,4 +53,4 @@ it('can extract cba cover', function (string $path) {
     expect($book->cover())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
-})->with(CBA_ITEMS);
+})->with([...CBA_ITEMS, CBZ_CBAM]);
