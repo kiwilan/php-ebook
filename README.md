@@ -1,7 +1,5 @@
 # PHP eBook
 
-## WIP PROJECT NOT READY FOR NOW
-
 [![php][php-version-src]][php-version-href]
 [![version][version-src]][version-href]
 [![downloads][downloads-src]][downloads-href]
@@ -12,25 +10,49 @@
 
 PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`).
 
+Supports Linux, macOS and Windows.
+
 > **Warning**
 >
-> Works with [p7zip](https://www.7-zip.org/) binary, you can check [this guide](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d) to install it on your system.
+> Works with [kiwilan/php-ebook](https://github.com/kiwilan/php-ebook), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [p7zip](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
 
 ## About
 
-TODO
+This package was built for [bookshelves-project/bookshelves-back](https://github.com/bookshelves-project/bookshelves-back), a web app to handle eBooks.
 
 ## Requirements
 
 -   PHP >= 8.1
--   `p7zip` binary, you can check [this guide](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d)
--   Optional:
-    -   `macOS` only: `rar` binary for `.rar` file extract method, you can check [this guide](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d#macos)
-    -   [`imagick` PECL extension](https://github.com/Imagick/imagick): for PDF `extract` method, you can check [this guide](https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9#imagemagick)
+-   Depends of CBA and features you want to use
+
+|  Type  | Native |                                                                                       Dependency                                                                                       |
+| :----: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `.cbz` |   ✅   |                                                                                          N/A                                                                                           |
+| `.cbt` |   ✅   |                                                                                          N/A                                                                                           |
+| `.cbr` |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        |
+| `.cb7` |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |
+| `.pdf` |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |
+|  ALL   |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |
+
+> **Note**
+>
+> Here you can read some installation guides for dependencies
+>
+> -   [`p7zip` guide](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d)
+> -   [`rar` PHP extension guide](https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9#winrar)
+> -   [`imagick` PHP extension guide](https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9#imagemagick)
+
+> **Warning**
+>
+> -   **On macOS**, for `.rar` extract, you have to [install `rar` binary](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d#macos) to extract files, `p7zip` not support `.rar` extraction.
+> -   **On Windows**, for `.pdf` extract, [`imagick` PHP extension](https://github.com/Imagick/imagick) have to work but **my tests failed on this feature**. So to extract PDF pages I advice to use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
+
+If you want more informations, you can read [kiwilan/php-archive](https://github.com/kiwilan/php-archive).
 
 ## Features
 
-TODO
+-   Read metadata from eBooks
+-   Extract covers from eBooks
 
 ## Installation
 
@@ -46,6 +68,8 @@ With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`, `pdf`)
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
+
+$ebook->title();
 ```
 
 ## Testing
@@ -71,8 +95,6 @@ Please review [our security policy](../../security/policy) on how to report secu
 -   [Kiwilan](https://github.com/kiwilan)
 -   [All Contributors](../../contributors)
 -   [spatie](https://github.com/spatie) for `spatie/package-skeleton-php`
--   EPUB [The Clan of the Cave Bear](https://www.goodreads.com/book/show/40611463-the-clan-of-the-cave-bear) by Jean M. Auel
--   [epub3-samples](https://github.com/IDPF/epub3-samples) by IDPF
 
 ## License
 
