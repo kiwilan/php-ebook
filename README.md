@@ -23,16 +23,16 @@ This package was built for [bookshelves-project/bookshelves-back](https://github
 ## Requirements
 
 -   PHP >= 8.1
--   Depends of CBA and features you want to use
+-   Depends of extension and features you want to use
 
-|  Type  | Native |                                                                                       Dependency                                                                                       |
-| :----: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| `.cbz` |   ✅   |                                                                                          N/A                                                                                           |
-| `.cbt` |   ✅   |                                                                                          N/A                                                                                           |
-| `.cbr` |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        |
-| `.cb7` |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |
-| `.pdf` |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |
-|  ALL   |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |
+|      Type       | Native |                                                                                       Dependency                                                                                       |
+| :-------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| `.epub`, `.cbz` |   ✅   |                                                                                          N/A                                                                                           |
+|     `.cbt`      |   ✅   |                                                                                          N/A                                                                                           |
+|     `.cbr`      |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        |
+|     `.cb7`      |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |
+|     `.pdf`      |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |
+|       ALL       |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |
 
 > **Note**
 >
