@@ -120,6 +120,52 @@ Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTI
 
 Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
+## Resources
+
+### Applications / OS
+
+-   [kovidgoyal/calibre](https://github.com/kovidgoyal/calibre): calibre ebook manager
+-   [koreader/koreader](https://github.com/koreader/koreader): an ebook reader application supporting many more formats, running on ereaders and Android devices.
+-   [greizgh/bookshelf](https://gitlab.com/greizgh/bookshelf): lightweight epub online catalog
+    -   [Bookshelf: publier ses ebooks simplement](https://linuxfr.org/users/grzgh/journaux/bookshelf-publier-ses-ebooks-simplement): usage of `greizgh/bookshelf` (french)
+-   [gotson/komga](https://github.com/gotson/komga): media server for comics/mangas/BDs with API and OPDS support
+-   [advplyr/audiobookshelf](https://github.com/advplyr/audiobookshelf): self-hosted audiobook and podcast server
+-   [bookshelves-project](https://github.com/bookshelves-project): web application to manage eBooks
+-   [Kareadita/Kavita](https://github.com/Kareadita/Kavita): fast, feature rich, cross platform reading server, built with a focus for manga
+-   [seblucas/cops](https://github.com/seblucas/cops): Calibre OPDS PHP Server, web-based light alternative to Calibre content server
+-   [janeczku/calibre-web](https://github.com/janeczku/calibre-web): Web app for browsing, reading and downloading eBooks stored in a Calibre database
+
+### Tools
+
+-   [framabook/systeme-publication-framabook](https://framagit.org/framabook/systeme-publication-framabook): with pandoc, provides the basics for deploying an accessibility compliant epub production system using only command line tools in a Bash shell terminal. (french)
+-   [pandoc.org](https://pandoc.org/epub.html): creating an ebook with pandoc
+-   [dino-/epub-tools](https://github.com/dino-/epub-tools): command line utilities for working with epub files
+-   [comictagger/comictagger](https://github.com/comictagger/comictagger): a multi-platform app for writing metadata to digital comics
+
+### Metadata
+
+-   [IDPF/epub3-samples](https://github.com/IDPF/epub3-samples): EPUB 3 Sample Documents
+-   [anansi-project](https://github.com/anansi-project): initiative to bring structure and cohesion to the world of metadata for Comic Books, Mangas, and other graphic novels.
+-   Comic Book Archive (CBA) metadata
+    -   Comic Book Archive Metadata (CBAM) / ComicRack Metadata (CRM)
+    -   Comic Book Markup Language (CBML)
+-   [comictagger/wiki/MetadataSchemes](https://github.com/comictagger/comictagger/wiki/MetadataSchemes): all the details [...] on various open metadata schemes for comic archives
+-   [comicvine](https://comicvine.gamespot.com): the largest comic book wiki in the universe
+
+### OPDS
+
+> The Open Publication Distribution System (OPDS) is an application of the Atom Syndication Format intended to enable content creators and distributors to distribute digital books via a simple catalog format. This format is designed to work interchangeably across multiple desktop and device software programs.
+> From [mobileread](https://wiki.mobileread.com/wiki/OPDS)
+
+-   [atramenta.net](https://www.atramenta.net/)
+-   [ebooksgratuits.com](https://www.ebooksgratuits.com/) (french)
+-   [gallica.bnf.fr](https://gallica.bnf.fr/accueil/en/content/accueil-en?mode=desktop)
+-   [wikisource.org](https://en.wikisource.org/wiki/Main_Page)
+-   [bibebook.com](http://www.bibebook.com/) (french)
+-   [standardebooks.org](https://standardebooks.org/)
+-   [gutenberg.org](https://gutenberg.org/)
+-   [feedbooks.com](https://www.feedbooks.com/)
+
 ## Credits
 
 -   [Kiwilan](https://github.com/kiwilan)
