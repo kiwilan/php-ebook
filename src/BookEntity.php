@@ -12,7 +12,7 @@ class BookEntity
 {
     protected ?string $title = null;
 
-    protected ?BookCreator $authorMain = null;
+    protected ?BookCreator $authorFirst = null;
 
     /** @var BookCreator[] */
     protected array $authors = [];
@@ -89,9 +89,9 @@ class BookEntity
         return $this->title;
     }
 
-    public function authorMain(): ?BookCreator
+    public function authorFirst(): ?BookCreator
     {
-        return $this->authorMain;
+        return $this->authorFirst;
     }
 
     /**
@@ -223,9 +223,9 @@ class BookEntity
         return $this;
     }
 
-    public function setAuthorMain(?BookCreator $authorMain): self
+    public function setAuthorFirst(?BookCreator $authorFirst): self
     {
-        $this->authorMain = $authorMain;
+        $this->authorFirst = $authorFirst;
 
         return $this;
     }

@@ -68,8 +68,31 @@ With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`, `pdf`)
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
+$book = $ebook->book(); // BookEntity
 
-$ebook->title();
+$book->title(); // string
+$book->authors(); // BookCreator[] (name: string, role: string)
+$book->authorFirst(); // First BookCreator (name: string, role: string)
+$book->description(); // string
+$book->contributor(); // string
+$book->rights(); // string
+$book->publisher(); // string
+$book->identifier(); // BookIdentifier[] (content: string, type: string)
+$book->date(); // DateTime
+$book->language(); // string
+$book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
+$book->series(); // string => `calibre:series` in EPUB, `series` in CBA
+$book->volume(); // int => `calibre:series_index` in EPUB, `number` in CBA
+$book->rating(); // float => `rating` in CBA
+$book->pageCount(); // int => computed from words in EPUB, `pageCount` in PDF, `pageCount` in CBA
+$book->editors(); // string[] => `editors` in CBA
+$book->review(); // string => `review` in CBA
+$book->web(); // string => `web` in CBA
+$book->manga(); // MangaEnum => `manga` in CBA | Addtional data about mangas
+$book->isBlackAndWhite(); // bool => `blackAndWhite` in CBA
+$book->ageRating(); // AgeRatingEnum => `ageRating` in CBA | Addtional data about age rating
+$book->comicMeta(); // ComicMeta => Addtional data for CBA
+$book->cover(); // string => cover as string
 ```
 
 ## Testing

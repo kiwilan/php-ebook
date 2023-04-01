@@ -75,7 +75,7 @@ it('can parse metadata', function (string $path) {
     expect($book->series())->toBe('Fantastic Four');
     expect($book->volume())->toBe(22);
     expect($book->authors())->toBeArray();
-    expect($book->authorMain()->name())->toBe('Dan Slott');
+    expect($book->authorFirst()->name())->toBe('Dan Slott');
     expect($book->authors())->toHaveCount(12);
     expect($book->authors()[0]->name())->toBe('Dan Slott');
     expect($book->publisher())->toBe('Marvel');

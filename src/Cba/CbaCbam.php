@@ -39,7 +39,7 @@ class CbaCbam extends CbaFormat
 
         $book->setTitle($this->title);
         if (array_key_exists(0, $writers)) {
-            $book->setAuthorMain($writers[0]);
+            $book->setAuthorFirst($writers[0]);
         }
 
         $book->setAuthors([
