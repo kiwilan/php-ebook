@@ -165,8 +165,10 @@ class Ebook
         $this->book->setDate($this->archive->metadata()->creationDate());
         $this->book->setPageCount($this->archive->count());
 
-        $coverContent = $this->archive->content($this->archive->first());
-        $this->book->setCover($coverContent);
+        if (extension_loaded('imagick')) {
+            $coverContent = $this->archive->content($this->archive->first());
+            $this->book->setCover($coverContent);
+        }
         $this->hasMetadata = true;
 
         return $this;
