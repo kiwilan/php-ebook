@@ -122,17 +122,28 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Resources
 
-### Applications / OS
+### OS
+
+-   [koreader/koreader](https://github.com/koreader/koreader): an ebook reader application supporting many more formats, running on ereaders and Android devices
+-   [baskerville/plato](https://github.com/baskerville/plato): document reader
+
+### Applications
+
+#### Desktop
 
 -   [kovidgoyal/calibre](https://github.com/kovidgoyal/calibre): calibre ebook manager
--   [koreader/koreader](https://github.com/koreader/koreader): an ebook reader application supporting many more formats, running on ereaders and Android devices.
--   [greizgh/bookshelf](https://gitlab.com/greizgh/bookshelf): lightweight epub online catalog
+-   [troyeguo/koodo-reader](https://github.com/troyeguo/koodo-reader): modern ebook manager and reader with sync and backup capacities for Windows, macOS, Linux and Web
+-   [thorium](https://thorium.edrlab.org/): EPUB reader for Windows, MacOS and Linux (support OPDS)
+-   [Kareadita/Kavita](https://github.com/Kareadita/Kavita): fast, feature rich, cross platform reading server, built with a focus for manga (support OPDS)
+
+#### Server
+
+-   [greizgh/bookshelf](https://gitlab.com/greizgh/bookshelf): lightweight epub online catalog (support OPDS)
     -   [Bookshelf: publier ses ebooks simplement](https://linuxfr.org/users/grzgh/journaux/bookshelf-publier-ses-ebooks-simplement): usage of `greizgh/bookshelf` (french)
--   [gotson/komga](https://github.com/gotson/komga): media server for comics/mangas/BDs with API and OPDS support
+-   [gotson/komga](https://github.com/gotson/komga): media server for comics/mangas/BDs with API (support OPDS)
 -   [advplyr/audiobookshelf](https://github.com/advplyr/audiobookshelf): self-hosted audiobook and podcast server
--   [bookshelves-project](https://github.com/bookshelves-project): web application to manage eBooks
--   [Kareadita/Kavita](https://github.com/Kareadita/Kavita): fast, feature rich, cross platform reading server, built with a focus for manga
--   [seblucas/cops](https://github.com/seblucas/cops): Calibre OPDS PHP Server, web-based light alternative to Calibre content server
+-   [bookshelves-project](https://github.com/bookshelves-project): web application to manage eBooks (support OPDS)
+-   [seblucas/cops](https://github.com/seblucas/cops): Calibre OPDS PHP Server, web-based light alternative to Calibre content server (support OPDS)
 -   [janeczku/calibre-web](https://github.com/janeczku/calibre-web): Web app for browsing, reading and downloading eBooks stored in a Calibre database
 
 ### Tools
@@ -151,6 +162,8 @@ Please review [our security policy](../../security/policy) on how to report secu
     -   Comic Book Markup Language (CBML)
 -   [comictagger/wiki/MetadataSchemes](https://github.com/comictagger/comictagger/wiki/MetadataSchemes): all the details [...] on various open metadata schemes for comic archives
 -   [comicvine](https://comicvine.gamespot.com): the largest comic book wiki in the universe
+-   [w3.org](https://www.w3.org/publishing/epub3/epub-spec.html): EPUB specs by W3C
+-   [opds.io](https://specs.opds.io/): OPDS specs
 
 ### OPDS
 
