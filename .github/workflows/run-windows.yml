@@ -52,8 +52,8 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Check extension imagick
-        run: php -m | grep imagick
+      # - name: Check extension imagick
+      #   run: php -m | grep imagick
 
       # - name: Check extension rar
       #   run: php -m | grep rar
