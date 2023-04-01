@@ -7,6 +7,7 @@ it('can parse epub entity', function () {
     expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
     expect($book->path())->toBe(EPUB);
     expect($book->title())->toBe("Le clan de l'ours des cavernes");
+    expect($book->authorMain()->name())->toBe('Jean M. Auel');
     expect($book->authors())->toBeArray();
     expect($firstAuthor->name())->toBe('Jean M. Auel');
     expect($book->description())->toBeString();

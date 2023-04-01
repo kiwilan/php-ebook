@@ -208,7 +208,7 @@ class Ebook
         return $this->format;
     }
 
-    public function metadata(): EpubOpf|null
+    public function metadata(): EpubOpf|CbaFormat|null
     {
         return $this->metadata;
     }

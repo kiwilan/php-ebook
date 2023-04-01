@@ -43,7 +43,8 @@ class BookEntity
 
     protected ?int $pageCount = null;
 
-    protected ?string $editor = null;
+    /** @var string[]|null */
+    protected ?array $editors = null;
 
     protected ?string $review = null;
 
@@ -167,9 +168,12 @@ class BookEntity
         return $this->pageCount;
     }
 
-    public function editor(): ?string
+    /**
+     * @return string[]|null
+     */
+    public function editors(): ?array
     {
-        return $this->editor;
+        return $this->editors;
     }
 
     public function review(): ?string
@@ -326,9 +330,12 @@ class BookEntity
         return $this;
     }
 
-    public function setEditor(?string $editor): self
+    /**
+     * @param  string[]  $editors
+     */
+    public function setEditors(?array $editors): self
     {
-        $this->editor = $editor;
+        $this->editors = $editors;
 
         return $this;
     }
@@ -415,7 +422,7 @@ class ComicMeta
 
     public function __construct(
         protected ?string $alternateSeries = null,
-        protected ?string $alternateNumber = null,
+        protected ?int $alternateNumber = null,
         protected ?string $alternateCount = null,
         protected ?int $count = null,
         protected ?int $volume = null,
@@ -455,7 +462,7 @@ class ComicMeta
         return $this->alternateSeries;
     }
 
-    public function alternateNumber(): ?string
+    public function alternateNumber(): ?int
     {
         return $this->alternateNumber;
     }
@@ -532,7 +539,7 @@ class ComicMeta
         return $this;
     }
 
-    public function setAlternateNumber(?string $alternateNumber): self
+    public function setAlternateNumber(?int $alternateNumber): self
     {
         $this->alternateNumber = $alternateNumber;
 

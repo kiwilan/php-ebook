@@ -82,7 +82,10 @@ class EpubOpf
         $book = BookEntity::make($path);
 
         $book->setTitle($this->dcTitle);
-        $book->setAuthors(array_values($this->dcCreators));
+
+        $authors = array_values($this->dcCreators);
+        $book->setAuthorMain($authors[0] ?? null);
+        $book->setAuthors($authors);
         $book->setDescription(strip_tags($this->dcDescription));
         $book->setContributor(! empty($this->dcContributors) ? implode(', ', $this->dcContributors) : null);
         $book->setRights(! empty($this->dcRights) ? implode(', ', $this->dcRights) : null);

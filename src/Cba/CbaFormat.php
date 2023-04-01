@@ -62,7 +62,8 @@ abstract class CbaFormat
 
     protected ?string $language = null;
 
-    protected ?string $editor = null;
+    /** @var string[] */
+    protected array $editors = [];
 
     protected ?string $publisher = null;
 
@@ -82,7 +83,7 @@ abstract class CbaFormat
 
     protected ?string $alternateSeries = null;
 
-    protected ?string $alternateNumber = null;
+    protected ?int $alternateNumber = null;
 
     protected ?string $alternateCount = null;
 
@@ -252,9 +253,12 @@ abstract class CbaFormat
         return $this->language;
     }
 
-    public function editor(): ?string
+    /**
+     * @return string[]
+     */
+    public function editors(): array
     {
-        return $this->editor;
+        return $this->editors;
     }
 
     public function publisher(): ?string
@@ -302,7 +306,7 @@ abstract class CbaFormat
         return $this->alternateSeries;
     }
 
-    public function alternateNumber(): ?string
+    public function alternateNumber(): ?int
     {
         return $this->alternateNumber;
     }

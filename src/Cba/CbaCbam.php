@@ -63,7 +63,7 @@ class CbaCbam extends CbaFormat
         $book->setVolume($this->number);
         $book->setRating($this->communityRating);
         $book->setPageCount($this->pageCount);
-        $book->setEditor($this->editor);
+        $book->setEditors($this->editors);
         $book->setReview($this->review);
         $book->setWeb($this->web);
         $book->setManga($this->manga);
@@ -134,7 +134,7 @@ class CbaCbam extends CbaFormat
         $this->count = $this->extractInt('Count');
         $this->volume = $this->extractInt('Volume');
         $this->alternateSeries = $this->extract('AlternateSeries');
-        $this->alternateNumber = $this->extract('AlternateNumber');
+        $this->alternateNumber = $this->extractInt('AlternateNumber');
         $this->alternateCount = $this->extract('AlternateCount');
         $this->summary = $this->extract('Summary');
         $this->notes = $this->extract('Notes');
@@ -158,7 +158,7 @@ class CbaCbam extends CbaFormat
         $this->letterers = $this->arrayable($this->extract('Letterer'));
         $this->coverArtists = $this->arrayable($this->extract('CoverArtist'));
         $this->translators = $this->arrayable($this->extract('Translator'));
-        $this->editor = $this->extract('Editor');
+        $this->editors = $this->arrayable($this->extract('Editor'));
         $this->publisher = $this->extract('Publisher');
         $this->imprint = $this->extract('Imprint');
         $this->genres = $this->arrayable($this->extract('Genre'));
