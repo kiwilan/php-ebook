@@ -53,6 +53,12 @@ If you want more informations, you can read [kiwilan/php-archive](https://github
 
 -   Read metadata from eBooks
 -   Extract covers from eBooks
+-   Support metadata
+    -   EPUB v2 and v3 from [IDPF](https://idpf.org/)
+    -   `calibre:series` for EPUB from [Calibre](https://calibre-ebook.com/)
+    -   `calibre:series_index` for EPUB from [Calibre](https://calibre-ebook.com/)
+    -   `ComicInfo.xml` (CBAM) format from ComicRack and maintained by [anansi-project](https://github.com/anansi-project/comicinfo)
+    -   PDF by [smalot/pdfparser](https://github.com/smalot/pdfparser)
 
 ## Installation
 
@@ -64,12 +70,13 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files (`epub`, `cbz`, `cbr`, `cb7`, `cbt`, `pdf`)
+With eBook files (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
 $book = $ebook->book(); // BookEntity
 
+$book->path(); // string
 $book->title(); // string
 $book->authors(); // BookCreator[] (name: string, role: string)
 $book->authorFirst(); // First BookCreator (name: string, role: string)
@@ -77,7 +84,7 @@ $book->description(); // string
 $book->contributor(); // string
 $book->rights(); // string
 $book->publisher(); // string
-$book->identifier(); // BookIdentifier[] (content: string, type: string)
+$book->identifiers(); // BookIdentifier[] (content: string, type: string)
 $book->date(); // DateTime
 $book->language(); // string
 $book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
