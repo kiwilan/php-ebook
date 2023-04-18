@@ -14,7 +14,7 @@ Supports Linux, macOS and Windows.
 
 > **Warning**
 >
-> Works with [kiwilan/php-ebook](https://github.com/kiwilan/php-ebook), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [p7zip](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
+> Works with [kiwilan/php-archive](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [p7zip](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
 
 ## About
 
