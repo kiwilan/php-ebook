@@ -105,6 +105,7 @@ $book->series(); // string => `calibre:series` in EPUB, `series` in CBA
 $book->volume(); // int => `calibre:series_index` in EPUB, `number` in CBA
 $book->rating(); // float => `rating` in CBA
 $book->pageCount(); // int => computed from words in EPUB, `pageCount` in PDF, `pageCount` in CBA
+$book->words(); // int => `words` count in EPUB
 $book->editors(); // string[] => `editors` in CBA
 $book->review(); // string => `review` in CBA
 $book->web(); // string => `web` in CBA

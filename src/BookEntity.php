@@ -43,6 +43,8 @@ class BookEntity
 
     protected ?int $pageCount = null;
 
+    protected ?int $words = null;
+
     /** @var string[]|null */
     protected ?array $editors = null;
 
@@ -77,22 +79,33 @@ class BookEntity
         return $self;
     }
 
+    /**
+     * Physical path to the book.
+     */
     public function path(): string
     {
         return $this->path;
     }
 
+    /**
+     * Title of the book.
+     */
     public function title(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * First author of the book (useful if you need to display only one author).
+     */
     public function authorFirst(): ?BookCreator
     {
         return $this->authorFirst;
     }
 
     /**
+     * All authors of the book.
+     *
      * @return BookCreator[]
      */
     public function authors(): array
@@ -100,27 +113,41 @@ class BookEntity
         return $this->authors;
     }
 
+    /**
+     * Description of the book.
+     */
     public function description(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * Contributor of the book, from Calibre (EPUB) or scan information (CBA).
+     */
     public function contributor(): ?string
     {
         return $this->contributor;
     }
 
+    /**
+     * Rights of the book, from Calibre (EPUB) or notes (CBA).
+     */
     public function rights(): ?string
     {
         return $this->rights;
     }
 
+    /**
+     * Publisher of the book.
+     */
     public function publisher(): ?string
     {
         return $this->publisher;
     }
 
     /**
+     * Identifiers of the book.
+     *
      * @return BookIdentifier[]
      */
     public function identifiers(): array
@@ -128,17 +155,25 @@ class BookEntity
         return $this->identifiers;
     }
 
+    /**
+     * Publish date of the book.
+     */
     public function date(): ?DateTime
     {
         return $this->date;
     }
 
+    /**
+     * Language of the book.
+     */
     public function language(): ?string
     {
         return $this->language;
     }
 
     /**
+     * Tags of the book.
+     *
      * @return string[]
      */
     public function tags(): array
@@ -146,27 +181,49 @@ class BookEntity
         return $this->tags;
     }
 
+    /**
+     * Series of the book.
+     */
     public function series(): ?string
     {
         return $this->series;
     }
 
+    /**
+     * Volume of the book.
+     */
     public function volume(): ?int
     {
         return $this->volume;
     }
 
+    /**
+     * Rating of the book.
+     */
     public function rating(): ?float
     {
         return $this->rating;
     }
 
+    /**
+     * Page count of the book.
+     */
     public function pageCount(): ?int
     {
         return $this->pageCount;
     }
 
     /**
+     * Words count of the book (only EPUB)
+     */
+    public function words(): ?int
+    {
+        return $this->words;
+    }
+
+    /**
+     * Editors of the book (only CBA).
+     *
      * @return string[]|null
      */
     public function editors(): ?array
@@ -174,36 +231,59 @@ class BookEntity
         return $this->editors;
     }
 
+    /**
+     * Review of the book (only CBA).
+     */
     public function review(): ?string
     {
         return $this->review;
     }
 
+    /**
+     * Web of the book (only CBA).
+     */
     public function web(): ?string
     {
         return $this->web;
     }
 
+    /**
+     * Manga status of the book (only CBA).
+     */
     public function manga(): ?MangaEnum
     {
         return $this->manga;
     }
 
+    /**
+     * Is the book black and white (only CBA).
+     */
     public function isBlackAndWhite(): bool
     {
         return $this->isBlackAndWhite;
     }
 
+    /**
+     * Age rating of the book (only CBA).
+     */
     public function ageRating(): ?AgeRatingEnum
     {
         return $this->ageRating;
     }
 
+    /**
+     * Comic metadata of the book (only CBA).
+     */
     public function comicMeta(): ?ComicMeta
     {
         return $this->comicMeta;
     }
 
+    /**
+     * Extras of the book (only CBA).
+     *
+     * @return array<string, mixed>
+     */
     public function extras(): array
     {
         return $this->extras;
@@ -319,6 +399,13 @@ class BookEntity
     public function setPageCount(?int $pageCount): self
     {
         $this->pageCount = $pageCount;
+
+        return $this;
+    }
+
+    public function setWords(?int $words): self
+    {
+        $this->words = $words;
 
         return $this;
     }

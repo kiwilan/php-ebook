@@ -26,6 +26,7 @@ it('can parse epub entity', function () {
     expect($book->rating())->toBeFloat();
     expect($book->rating())->toBe(10.0);
     expect($book->pageCount())->toBe(4);
+    expect($book->words())->toBe(902);
 });
 
 it('can get epub cover', function () {
