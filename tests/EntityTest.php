@@ -55,6 +55,10 @@ it('can use EbookEntity', function () {
     expect($item->volume())->toBe(1);
     expect($item->rating())->toBe(10.0);
     expect($item->pageCount())->toBe(4);
+
+    expect($item->toArray())->toBeArray();
+    expect($item->toJson())->toBeString();
+    expect($item->__toString())->toBeString();
 });
 
 it('can use BookContributor', function (string $content, string $role) {

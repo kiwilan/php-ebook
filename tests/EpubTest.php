@@ -49,3 +49,19 @@ it('can get epub cover', function () {
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 });
+
+it('can get title meta', function () {
+    $book = Kiwilan\Ebook\Ebook::read(EPUB)->book();
+    $meta = $book->titleMeta();
+
+    expect($meta->slug())->toBe('le-clan-de-lours-des-cavernes');
+    expect($meta->slugSort())->toBe('clan-de-lours-des-cavernes');
+    expect($meta->slugLang())->toBe('le-clan-de-lours-des-cavernes-epub-fr');
+    expect($meta->serieSlug())->toBe('les-enfants-de-la-terre');
+    expect($meta->serieSlugSort())->toBe('enfants-de-la-terre');
+    expect($meta->serieSlugLang())->toBe('les-enfants-de-la-terre-epub-fr');
+    expect($meta->slugSortWithSerie())->toBe('enfants-de-la-terre-01_clan-de-lours-des-cavernes');
+
+    expect($meta->toArray())->toBeArray();
+    expect($meta->__toString())->toBeString();
+});

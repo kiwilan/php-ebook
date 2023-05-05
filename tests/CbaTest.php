@@ -5,7 +5,7 @@
 
 use Kiwilan\Ebook\Cba\CbaCbam;
 use Kiwilan\Ebook\Cba\CbaFormat;
-use Kiwilan\Ebook\ComicMeta;
+use Kiwilan\Ebook\Entity\ComicMeta;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 use Kiwilan\Ebook\XmlReader;
@@ -176,3 +176,39 @@ it('can parse CbaFormat', function (string $path) {
     expect($metadata->toJson())->toBeString();
     expect($metadata->__toString())->toBeString();
 })->with([CBZ_CBAM]);
+
+it('can use ComicMeta', function () {
+    $meta = new ComicMeta();
+
+    $meta->setCharacters(['character 1', 'character 2']);
+    $meta->setTeams(['team 1', 'team 2']);
+    $meta->setLocations(['location 1', 'location 2']);
+    $meta->setAlternateSeries('alternate series');
+    $meta->setAlternateNumber(1);
+    $meta->setAlternateCount('alternate count');
+    $meta->setCount(1);
+    $meta->setVolume(1);
+    $meta->setStoryArc('story arc');
+    $meta->setStoryArcNumber(1);
+    $meta->setSeriesGroup('series group');
+    $meta->setImprint('imprint');
+
+    expect($meta->characters())->toBeArray();
+    expect($meta->characters())->toHaveCount(2);
+    expect($meta->characters()[0])->toBe('character 1');
+    expect($meta->teams())->toBeArray();
+    expect($meta->teams())->toHaveCount(2);
+    expect($meta->teams()[0])->toBe('team 1');
+    expect($meta->locations())->toBeArray();
+    expect($meta->locations())->toHaveCount(2);
+    expect($meta->locations()[0])->toBe('location 1');
+    expect($meta->alternateSeries())->toBe('alternate series');
+    expect($meta->alternateNumber())->toBe(1);
+    expect($meta->alternateCount())->toBe('alternate count');
+    expect($meta->count())->toBe(1);
+    expect($meta->volume())->toBe(1);
+    expect($meta->storyArc())->toBe('story arc');
+    expect($meta->storyArcNumber())->toBe(1);
+    expect($meta->seriesGroup())->toBe('series group');
+    expect($meta->imprint())->toBe('imprint');
+});

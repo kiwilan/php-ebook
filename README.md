@@ -91,6 +91,7 @@ $hasMetadata = $ebook->hasMetadata(); // bool
 $book = $ebook->book(); // BookEntity
 
 $book->title(); // string
+$book->titleMeta(); // TitleMeta, with `slug` and `sort` properties for `title` and `series`
 $book->authors(); // BookCreator[] (name: string, role: string)
 $book->authorFirst(); // First BookCreator (name: string, role: string)
 $book->description(); // string

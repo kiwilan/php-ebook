@@ -5,7 +5,7 @@ namespace Kiwilan\Ebook\Cba;
 use DateTime;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\BookEntity;
-use Kiwilan\Ebook\ComicMeta;
+use Kiwilan\Ebook\Entity\ComicMeta;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 
