@@ -116,6 +116,22 @@ $book->ageRating(); // AgeRatingEnum => `ageRating` in CBA | Addtional data abou
 $book->comicMeta(); // ComicMeta => Addtional data for CBA
 ```
 
+### TitleMeta
+
+```php
+$titleMeta = $book->titleMeta(); // TitleMeta
+
+$titleMeta->slug(); // string => slugify title
+$titleMeta->slugSort(); // string => slugify title without determiners
+$titleMeta->slugLang(); // string => slugify title with language
+
+$titleMeta->serieSlug(); // string => slugify series title
+$titleMeta->serieSort(); // string => slugify series title without determiners
+$titleMeta->serieLang(); // string => slugify series title with language
+
+$titleMeta->slugSortWithSerie(); // string => slugify title with series title and volume
+```
+
 ## Testing
 
 ```bash
