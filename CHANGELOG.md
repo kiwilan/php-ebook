@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.3.30 - 2023-05-05
+
+- make `slugSortWithSerie` always generated (if title)
+
 ## 0.3.20 - 2023-05-05
 
 - update `titleMeta` to `metaTitle`
