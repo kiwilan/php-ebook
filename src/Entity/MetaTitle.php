@@ -78,7 +78,7 @@ class MetaTitle
     /**
      * Get slug of book title, like `le-clan-de-lours-des-cavernes`.
      */
-    public function slug(): ?string
+    public function slug(): string
     {
         return $this->slug;
     }
@@ -86,7 +86,7 @@ class MetaTitle
     /**
      * Get slug of book title without determiners, like `clan-de-lours-des-cavernes`.
      */
-    public function slugSort(): ?string
+    public function slugSort(): string
     {
         return $this->slugSort;
     }
@@ -94,7 +94,7 @@ class MetaTitle
     /**
      * Get slug of book title with language, like `le-clan-de-lours-des-cavernes-epub-fr`.
      */
-    public function slugLang(): ?string
+    public function slugLang(): string
     {
         return $this->slugLang;
     }
@@ -125,8 +125,9 @@ class MetaTitle
 
     /**
      * Get slug of book title with serie title, like `enfants-de-la-terre-01_clan-de-lours-des-cavernes`.
+     * If series is null, book's title will be used like `clan-de-lours-des-cavernes`.
      */
-    public function slugSortWithSerie(): ?string
+    public function slugSortWithSerie(): string
     {
         return $this->slugSortWithSerie;
     }

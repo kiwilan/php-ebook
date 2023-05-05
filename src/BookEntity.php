@@ -92,6 +92,7 @@ class BookEntity
 
     /**
      * Title metadata of the book with slug, sort title, series slug, etc.
+     * Can be null if the title is null.
      */
     public function metaTitle(): ?MetaTitle
     {

@@ -77,7 +77,7 @@ $ebook = Ebook::read('path/to/archive.epub');
 
 $metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null => metadata OPF for EPUB, metadata CBA for CBA
 $format = $book->format(); // epub, pdf, cba
-$book = $ebook->book(); // BookEntity
+$book = $ebook->book(); // ?BookEntity
 $cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
 $path = $ebook->path(); // string
 $filename = $ebook->filename(); // string
@@ -91,43 +91,45 @@ $hasMetadata = $ebook->hasMetadata(); // bool
 $book = $ebook->book(); // BookEntity
 
 $book->title(); // string
-$book->metaTitle(); // MetaTitle, with `slug` and `sort` properties for `title` and `series`
+$book->metaTitle(); // ?MetaTitle, with `slug` and `sort` properties for `title` and `series`
 $book->authors(); // BookCreator[] (name: string, role: string)
-$book->authorFirst(); // First BookCreator (name: string, role: string)
-$book->description(); // string
-$book->contributor(); // string
-$book->rights(); // string
-$book->publisher(); // string
+$book->authorFirst(); // ?BookCreator => First BookCreator (name: string, role: string)
+$book->description(); // ?string
+$book->contributor(); // ?string
+$book->rights(); // ?string
+$book->publisher(); // ?string
 $book->identifiers(); // BookIdentifier[] (content: string, type: string)
-$book->date(); // DateTime
-$book->language(); // string
+$book->date(); // ?DateTime
+$book->language(); // ?string
 $book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
-$book->series(); // string => `calibre:series` in EPUB, `series` in CBA
-$book->volume(); // int => `calibre:series_index` in EPUB, `number` in CBA
-$book->rating(); // float => `rating` in CBA
-$book->pageCount(); // int => computed from words in EPUB, `pageCount` in PDF, `pageCount` in CBA
-$book->words(); // int => `words` count in EPUB
+$book->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
+$book->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
+$book->rating(); // ?float => `rating` in CBA
+$book->pageCount(); // ?int => computed from words in EPUB, `pageCount` in PDF, `pageCount` in CBA
+$book->words(); // ?int => `words` count in EPUB
 $book->editors(); // string[] => `editors` in CBA
-$book->review(); // string => `review` in CBA
-$book->web(); // string => `web` in CBA
-$book->manga(); // MangaEnum => `manga` in CBA | Addtional data about mangas
+$book->review(); // ?string => `review` in CBA
+$book->web(); // ?string => `web` in CBA
+$book->manga(); // ?MangaEnum => `manga` in CBA | Addtional data about mangas
 $book->isBlackAndWhite(); // bool => `blackAndWhite` in CBA
-$book->ageRating(); // AgeRatingEnum => `ageRating` in CBA | Addtional data about age rating
-$book->comicMeta(); // ComicMeta => Addtional data for CBA
+$book->ageRating(); // ?AgeRatingEnum => `ageRating` in CBA | Addtional data about age rating
+$book->comicMeta(); // ?ComicMeta => Addtional data for CBA
 ```
 
 ### MetaTitle
 
+Can be set if book's title is not null.
+
 ```php
-$metaTitle = $book->metaTitle(); // MetaTitle
+$metaTitle = $book->metaTitle(); // ?MetaTitle
 
 $metaTitle->slug(); // string => slugify title
 $metaTitle->slugSort(); // string => slugify title without determiners
 $metaTitle->slugLang(); // string => slugify title with language
 
-$metaTitle->serieSlug(); // string => slugify series title
-$metaTitle->serieSort(); // string => slugify series title without determiners
-$metaTitle->serieLang(); // string => slugify series title with language
+$metaTitle->serieSlug(); // ?string => slugify series title
+$metaTitle->serieSort(); // ?string => slugify series title without determiners
+$metaTitle->serieLang(); // ?string => slugify series title with language
 
 $metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume
 ```
