@@ -6,7 +6,7 @@ use DateTime;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Book\BookIdentifier;
 use Kiwilan\Ebook\Entity\ComicMeta;
-use Kiwilan\Ebook\Entity\TitleMeta;
+use Kiwilan\Ebook\Entity\MetaTitle;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 
@@ -14,7 +14,7 @@ class BookEntity
 {
     protected ?string $title = null;
 
-    protected ?TitleMeta $titleMeta = null;
+    protected ?MetaTitle $metaTitle = null;
 
     protected ?BookCreator $authorFirst = null;
 
@@ -93,9 +93,9 @@ class BookEntity
     /**
      * Title metadata of the book with slug, sort title, series slug, etc.
      */
-    public function titleMeta(): ?TitleMeta
+    public function metaTitle(): ?MetaTitle
     {
-        return $this->titleMeta;
+        return $this->metaTitle;
     }
 
     /**
@@ -299,9 +299,9 @@ class BookEntity
         return $this;
     }
 
-    public function setTitleMeta(Ebook $ebook): self
+    public function setMetaTitle(Ebook $ebook): self
     {
-        $this->titleMeta = TitleMeta::make($ebook);
+        $this->metaTitle = MetaTitle::make($ebook);
 
         return $this;
     }

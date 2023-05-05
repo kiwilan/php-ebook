@@ -5,7 +5,7 @@ namespace Kiwilan\Ebook\Entity;
 use Kiwilan\Ebook\Ebook;
 use Transliterator;
 
-class TitleMeta
+class MetaTitle
 {
     /** @var string[][] */
     protected array $determiners = [];
@@ -45,12 +45,12 @@ class TitleMeta
         $self = new self();
 
         $self->determiners = $determiners;
-        $self->setTitleMeta($ebook);
+        $self->setMetaTitle($ebook);
 
         return $self;
     }
 
-    private function setTitleMeta(Ebook $ebook): static
+    private function setMetaTitle(Ebook $ebook): static
     {
         $book = $ebook->book();
 

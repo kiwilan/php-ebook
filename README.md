@@ -91,7 +91,7 @@ $hasMetadata = $ebook->hasMetadata(); // bool
 $book = $ebook->book(); // BookEntity
 
 $book->title(); // string
-$book->titleMeta(); // TitleMeta, with `slug` and `sort` properties for `title` and `series`
+$book->metaTitle(); // MetaTitle, with `slug` and `sort` properties for `title` and `series`
 $book->authors(); // BookCreator[] (name: string, role: string)
 $book->authorFirst(); // First BookCreator (name: string, role: string)
 $book->description(); // string
@@ -116,20 +116,20 @@ $book->ageRating(); // AgeRatingEnum => `ageRating` in CBA | Addtional data abou
 $book->comicMeta(); // ComicMeta => Addtional data for CBA
 ```
 
-### TitleMeta
+### MetaTitle
 
 ```php
-$titleMeta = $book->titleMeta(); // TitleMeta
+$metaTitle = $book->metaTitle(); // MetaTitle
 
-$titleMeta->slug(); // string => slugify title
-$titleMeta->slugSort(); // string => slugify title without determiners
-$titleMeta->slugLang(); // string => slugify title with language
+$metaTitle->slug(); // string => slugify title
+$metaTitle->slugSort(); // string => slugify title without determiners
+$metaTitle->slugLang(); // string => slugify title with language
 
-$titleMeta->serieSlug(); // string => slugify series title
-$titleMeta->serieSort(); // string => slugify series title without determiners
-$titleMeta->serieLang(); // string => slugify series title with language
+$metaTitle->serieSlug(); // string => slugify series title
+$metaTitle->serieSort(); // string => slugify series title without determiners
+$metaTitle->serieLang(); // string => slugify series title with language
 
-$titleMeta->slugSortWithSerie(); // string => slugify title with series title and volume
+$metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume
 ```
 
 ## Testing

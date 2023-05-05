@@ -53,7 +53,7 @@ class Ebook
             'pdf' => $self->pdf(),
         };
 
-        $self->book?->setTitleMeta($self);
+        $self->book?->setMetaTitle($self);
 
         return $self;
     }

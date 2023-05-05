@@ -52,7 +52,7 @@ it('can get epub cover', function () {
 
 it('can get title meta', function () {
     $book = Kiwilan\Ebook\Ebook::read(EPUB)->book();
-    $meta = $book->titleMeta();
+    $meta = $book->metaTitle();
 
     expect($meta->slug())->toBe('le-clan-de-lours-des-cavernes');
     expect($meta->slugSort())->toBe('clan-de-lours-des-cavernes');
