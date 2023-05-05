@@ -2,6 +2,13 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.3.0 - 2023-05-05
+
+- add `filename` to `Ebook`
+- remove `path` from `BookEntity` (it's in `Ebook`)
+- `Book` `manga` is default `UNKNOWN`
+- add methods `toArray`, `toJson` and `__toString` to `Ebook`, `BookEntity`, `EpubOpf`, `CbaFormat`
+
 ## 0.2.10 - 2023-05-05
 
 - add `words` property
