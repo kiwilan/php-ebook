@@ -76,7 +76,7 @@ With eBook files (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
 $ebook = Ebook::read('path/to/archive.epub');
 
 $metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null
-$format = $book->fornat(); // epub, pdf, cba
+$format = $book->format(); // epub, pdf, cba
 $book = $ebook->book(); // BookEntity
 $cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
 $path = $ebook->path(); // string
