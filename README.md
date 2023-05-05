@@ -75,11 +75,12 @@ With eBook files (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
 
-$metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null
+$metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null => metadata OPF for EPUB, metadata CBA for CBA
 $format = $book->format(); // epub, pdf, cba
 $book = $ebook->book(); // BookEntity
 $cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
 $path = $ebook->path(); // string
+$filename = $ebook->filename(); // string
 $extension = $ebook->extension(); // string
 $hasMetadata = $ebook->hasMetadata(); // bool
 ```
@@ -89,7 +90,6 @@ $hasMetadata = $ebook->hasMetadata(); // bool
 ```php
 $book = $ebook->book(); // BookEntity
 
-$book->path(); // string
 $book->title(); // string
 $book->authors(); // BookCreator[] (name: string, role: string)
 $book->authorFirst(); // First BookCreator (name: string, role: string)

@@ -7,7 +7,7 @@ use Kiwilan\Ebook\Book\BookMeta;
 use Kiwilan\Ebook\BookEntity;
 
 it('can use EbookEntity', function () {
-    $item = BookEntity::make('path/to/book.epub');
+    $item = BookEntity::make();
     $item->setTitle('title');
     $item->setAuthors([
         new BookCreator('author', 'aut'),
@@ -35,7 +35,6 @@ it('can use EbookEntity', function () {
     $item->setRating(10);
     $item->setPageCount(4);
 
-    expect($item->path())->toBe('path/to/book.epub');
     expect($item->title())->toBe('title');
     expect($item->authors())->toBeArray();
     expect($item->description())->toBe('description');

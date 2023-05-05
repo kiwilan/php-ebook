@@ -171,4 +171,8 @@ it('can parse CbaFormat', function (string $path) {
 
     $date = new DateTime('2020-10-01');
     expect($metadata->date()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
+
+    expect($metadata->toArray())->toBeArray();
+    expect($metadata->toJson())->toBeString();
+    expect($metadata->__toString())->toBeString();
 })->with([CBZ_CBAM]);

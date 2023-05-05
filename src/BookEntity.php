@@ -64,27 +64,18 @@ class BookEntity
     protected array $extras = [];
 
     protected function __construct(
-        protected string $path,
     ) {
     }
 
-    public static function make(string $path): self
+    public static function make(): self
     {
-        $self = new self($path);
+        $self = new self();
 
-        $self->manga = MangaEnum::NO;
+        $self->manga = MangaEnum::UNKNOWN;
         $self->isBlackAndWhite = false;
         $self->ageRating = AgeRatingEnum::UNKNOWN;
 
         return $self;
-    }
-
-    /**
-     * Physical path to the book.
-     */
-    public function path(): string
-    {
-        return $this->path;
     }
 
     /**
@@ -479,6 +470,49 @@ class BookEntity
         $this->extras = $extras;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'authorFirst' => $this->authorFirst?->toArray(),
+            'authors' => array_map(fn (BookCreator $creator) => $creator->toArray(), $this->authors),
+            'description' => $this->description,
+            'contributor' => $this->contributor,
+            'rights' => $this->rights,
+            'publisher' => $this->publisher,
+            'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
+            'date' => $this->date?->format('Y-m-d H:i:s'),
+            'language' => $this->language,
+            'tags' => $this->tags,
+            'series' => $this->series,
+            'volume' => $this->volume,
+            'rating' => $this->rating,
+            'pageCount' => $this->pageCount,
+            'words' => $this->words,
+            'editors' => $this->editors,
+            'review' => $this->review,
+            'web' => $this->web,
+            'manga' => $this->manga,
+            'isBlackAndWhite' => $this->isBlackAndWhite,
+            'ageRating' => $this->ageRating,
+            'comicMeta' => $this->comicMeta,
+            'extras' => $this->extras,
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function __toString(): string
+    {
+        $authors = array_map(fn (BookCreator $author) => $author->name(), $this->authors);
+        $authors = implode(', ', $authors);
+
+        return "{$this->title} by {$authors}";
     }
 }
 

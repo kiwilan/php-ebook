@@ -5,6 +5,9 @@ it('can create an instance of Ebook', function (string $path) {
 
     expect($ebook)->toBeInstanceOf(Kiwilan\Ebook\Ebook::class);
     expect($ebook->path())->toBe($path);
+    expect($ebook->toArray())->toBeArray();
+    expect($ebook->toJson())->toBeString();
+    expect($ebook->__toString())->toBeString();
 })->with(BOOKS_ITEMS);
 
 it('can create PDF an instance of Ebook', function () {

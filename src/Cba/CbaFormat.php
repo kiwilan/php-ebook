@@ -112,7 +112,7 @@ abstract class CbaFormat
 
     abstract public static function create(array $metadata): self;
 
-    abstract public function toBook(string $path): BookEntity;
+    abstract public function toBook(): BookEntity;
 
     /**
      * @return string[]
@@ -359,5 +359,62 @@ abstract class CbaFormat
     public function format(): ?string
     {
         return $this->format;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->title,
+            'series' => $this->series,
+            'number' => $this->number,
+            'summary' => $this->summary,
+            'date' => $this->date,
+            'pageCount' => $this->pageCount,
+            'language' => $this->language,
+            'editors' => $this->editors,
+            'publisher' => $this->publisher,
+            'imprint' => $this->imprint,
+            'communityRating' => $this->communityRating,
+            'isBlackAndWhite' => $this->isBlackAndWhite,
+            'manga' => $this->manga,
+            'ageRating' => $this->ageRating,
+            'review' => $this->review,
+            'mainCharacterOrTeam' => $this->mainCharacterOrTeam,
+            'alternateSeries' => $this->alternateSeries,
+            'alternateNumber' => $this->alternateNumber,
+            'alternateCount' => $this->alternateCount,
+            'count' => $this->count,
+            'volume' => $this->volume,
+            'storyArc' => $this->storyArc,
+            'storyArcNumber' => $this->storyArcNumber,
+            'seriesGroup' => $this->seriesGroup,
+            'notes' => $this->notes,
+            'scanInformation' => $this->scanInformation,
+            'web' => $this->web,
+            'format' => $this->format,
+            'writers' => $this->writers,
+            'pencillers' => $this->pencillers,
+            'inkers' => $this->inkers,
+            'colorists' => $this->colorists,
+            'letterers' => $this->letterers,
+            'coverArtists' => $this->coverArtists,
+            'translators' => $this->translators,
+            'genres' => $this->genres,
+            'characters' => $this->characters,
+            'teams' => $this->teams,
+            'locations' => $this->locations,
+            'gtin' => $this->gtin,
+            'extras' => $this->extras,
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->title} ({$this->series} #{$this->number})";
     }
 }

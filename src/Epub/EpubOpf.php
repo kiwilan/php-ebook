@@ -77,9 +77,9 @@ class EpubOpf
         return $self;
     }
 
-    public function toBook(string $path): BookEntity
+    public function toBook(): BookEntity
     {
-        $book = BookEntity::make($path);
+        $book = BookEntity::make();
 
         $book->setTitle($this->dcTitle);
 
@@ -554,5 +554,38 @@ class EpubOpf
         }
 
         return $data;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'epubVersion' => $this->epubVersion,
+            'dcTitle' => $this->dcTitle,
+            'dcCreators' => $this->dcCreators,
+            'dcContributors' => $this->dcContributors,
+            'dcDescription' => $this->dcDescription,
+            'dcPublisher' => $this->dcPublisher,
+            'dcIdentifiers' => $this->dcIdentifiers,
+            'dcDate' => $this->dcDate,
+            'dcSubject' => $this->dcSubject,
+            'dcLanguage' => $this->dcLanguage,
+            'meta' => $this->meta,
+            'coverPath' => $this->coverPath,
+            'dcRights' => $this->dcRights,
+            'contentFiles' => $this->contentFiles,
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+    }
+
+    public function __toString(): string
+    {
+        $creators = array_map(fn (BookCreator $creator) => $creator->name(), $this->dcCreators);
+        $creators = implode(', ', $creators);
+
+        return "{$this->dcTitle} by {$creators}";
     }
 }

@@ -1,11 +1,17 @@
 <?php
 
+use Kiwilan\Ebook\Ebook;
+
 it('can parse epub entity', function () {
-    $book = Kiwilan\Ebook\Ebook::read(EPUB)->book();
+    $ebook = Ebook::read(EPUB);
+    $book = $ebook->book();
     $firstAuthor = $book->authors()[0];
+    $basename = pathinfo(EPUB, PATHINFO_BASENAME);
+
+    expect($ebook->path())->toBe(EPUB);
+    expect($ebook->filename())->toBe($basename);
 
     expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
-    expect($book->path())->toBe(EPUB);
     expect($book->title())->toBe("Le clan de l'ours des cavernes");
     expect($book->authorFirst()->name())->toBe('Jean M. Auel');
     expect($book->authors())->toBeArray();
@@ -27,6 +33,11 @@ it('can parse epub entity', function () {
     expect($book->rating())->toBe(10.0);
     expect($book->pageCount())->toBe(4);
     expect($book->words())->toBe(902);
+
+    $metadata = $ebook->metadata();
+    expect($metadata->toArray())->toBeArray();
+    expect($metadata->toJson())->toBeString();
+    expect($metadata->__toString())->toBeString();
 });
 
 it('can get epub cover', function () {

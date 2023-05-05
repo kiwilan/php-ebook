@@ -32,9 +32,9 @@ class CbaCbam extends CbaFormat
         return $self;
     }
 
-    public function toBook(string $path): BookEntity
+    public function toBook(): BookEntity
     {
-        $book = BookEntity::make($path);
+        $book = BookEntity::make();
         $writers = $this->arrayableToCreators($this->writers, 'writer');
 
         $book->setTitle($this->title);

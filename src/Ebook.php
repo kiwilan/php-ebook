@@ -23,6 +23,7 @@ class Ebook
 
     protected function __construct(
         protected string $path,
+        protected string $filename,
         protected string $extension,
         protected BaseArchive $archive,
         protected bool $hasMetadata = false,
@@ -31,12 +32,13 @@ class Ebook
 
     public static function read(string $path): self
     {
+        $filename = pathinfo($path, PATHINFO_BASENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
         if ($extension && ! in_array($extension, ['epub', 'pdf', 'cbz', 'cbr', 'cb7'])) {
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $extension, Archive::read($path));
+        $self = new self($path, $filename, $extension, Archive::read($path));
         if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
             $self->format = 'cba';
         } elseif ($extension === 'pdf') {
@@ -68,7 +70,7 @@ class Ebook
         }
         $opf = EpubOpf::make($opf);
         $this->metadata = $opf;
-        $this->book = $opf->toBook($this->path);
+        $this->book = $opf->toBook();
 
         $cover = $this->archive->find($this->metadata->coverPath());
         $coverContent = $this->archive->content($cover);
@@ -119,7 +121,7 @@ class Ebook
         }
 
         $this->metadata = $parser::create($metadata);
-        $this->book = $this->metadata->toBook($this->path);
+        $this->book = $this->metadata->toBook();
 
         $files = $this->archive->filter('jpg');
         if (empty($files)) {
@@ -139,7 +141,7 @@ class Ebook
 
     private function pdf(): self
     {
-        $this->book = BookEntity::make($this->path);
+        $this->book = BookEntity::make();
         $this->book->setTitle($this->archive->metadata()->title());
 
         $author = $this->archive->metadata()->author();
@@ -188,36 +190,65 @@ class Ebook
         return $content;
     }
 
+    /**
+     * Physical path to the ebook.
+     */
     public function path(): string
     {
         return $this->path;
     }
 
+    /**
+     * Filename of the ebook.
+     */
+    public function filename(): string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Extension of the ebook.
+     */
     public function extension(): string
     {
         return $this->extension;
     }
 
+    /**
+     * Archive reader.
+     */
     // public function archive(): BaseArchive
     // {
     //     return $this->archive;
     // }
 
+    /**
+     * Whether the ebook has metadata.
+     */
     public function hasMetadata(): bool
     {
         return $this->hasMetadata;
     }
 
+    /**
+     * Format of the ebook.
+     */
     public function format(): ?string
     {
         return $this->format;
     }
 
+    /**
+     * Metadata of the ebook.
+     */
     public function metadata(): EpubOpf|CbaFormat|null
     {
         return $this->metadata;
     }
 
+    /**
+     * Cover of the ebook (saved as base64, auto convert to string).
+     */
     public function cover(bool $convertBase64 = true): ?string
     {
         if (! $this->cover) {
@@ -231,6 +262,9 @@ class Ebook
         return $this->cover;
     }
 
+    /**
+     * Book entity of the ebook.
+     */
     public function book(): ?BookEntity
     {
         return $this->book;
@@ -247,5 +281,28 @@ class Ebook
         $this->cover = $cover;
 
         return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'path' => $this->path,
+            'filename' => $this->filename,
+            'extension' => $this->extension,
+            'format' => $this->format,
+            'metadata' => $this->metadata ? 'Exists (use `metadata()` to display it)' : null,
+            'book' => $this->book ? 'Exists (use `book()` to display it)' : null,
+            'cover' => $this->cover ? 'Exists (use `cover()` to display it)' : null,
+        ];
+    }
+
+    public function toJson(): string
+    {
+        return json_encode($this->toArray());
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->path} ({$this->format})";
     }
 }

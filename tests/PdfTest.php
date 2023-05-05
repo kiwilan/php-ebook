@@ -1,11 +1,15 @@
 <?php
 
+use Kiwilan\Ebook\Ebook;
+
 it('can parse pdf', function () {
-    $book = Kiwilan\Ebook\Ebook::read(PDF)->book();
+    $ebook = Ebook::read(PDF);
+    $book = $ebook->book();
     $firstAuthor = $book->authors()[0];
 
+    expect($ebook->path())->toBe(PDF);
+
     expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
-    expect($book->path())->toBe(PDF);
     expect($book->title())->toBe('Example PDF');
     expect($book->authors())->toBeArray();
     expect($firstAuthor->name())->toBe('Ewilan Rivière');
