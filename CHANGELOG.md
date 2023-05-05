@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.2.10 - 2023-05-05
+
+- add `words` property
+
 ## 0.2.0 - 2023-05-05
 
 - Move `BookEntity` `cover` to `Ebook`
