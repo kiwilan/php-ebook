@@ -62,6 +62,8 @@ class MetaTitle
         $this->slugSort = $this->generateSortTitle($book->title(), $book->language());
         $this->slugLang = $this->generateSlug($book->title(), $ebook->extension(), $book->language());
 
+        $this->slugSortWithSerie = $this->generateSortSerie($book->title(), $book->series(), $book->volume(), $book->language());
+
         if (! $book->series()) {
             return $this;
         }
@@ -69,8 +71,6 @@ class MetaTitle
         $this->serieSlug = $this->setSlug($book->series());
         $this->serieSlugSort = $this->generateSortTitle($book->series(), $book->language());
         $this->serieSlugLang = $this->generateSlug($book->series(), $ebook->extension(), $book->language());
-
-        $this->slugSortWithSerie = $this->generateSortSerie($book->title(), $book->series(), $book->volume(), $book->language());
 
         return $this;
     }

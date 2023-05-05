@@ -1,7 +1,7 @@
 {
     "name": "kiwilan/php-ebook",
     "description": "PHP package to read metadata and extract covers from eBooks (.epub, .cbz, .cbr, .cb7, .cbt, .pdf).",
-    "version": "0.3.20",
+    "version": "0.3.30",
     "keywords": [
         "php",
         "ebook",
