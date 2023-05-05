@@ -74,6 +74,19 @@ With eBook files (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
+
+$metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null
+$format = $book->fornat(); // epub, pdf, cba
+$book = $ebook->book(); // BookEntity
+$cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
+$path = $ebook->path(); // string
+$extension = $ebook->extension(); // string
+$hasMetadata = $ebook->hasMetadata(); // bool
+```
+
+### Book
+
+```php
 $book = $ebook->book(); // BookEntity
 
 $book->path(); // string
@@ -99,7 +112,6 @@ $book->manga(); // MangaEnum => `manga` in CBA | Addtional data about mangas
 $book->isBlackAndWhite(); // bool => `blackAndWhite` in CBA
 $book->ageRating(); // AgeRatingEnum => `ageRating` in CBA | Addtional data about age rating
 $book->comicMeta(); // ComicMeta => Addtional data for CBA
-$book->cover(); // string => cover as string
 ```
 
 ## Testing

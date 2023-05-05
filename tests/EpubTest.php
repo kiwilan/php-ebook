@@ -29,11 +29,11 @@ it('can parse epub entity', function () {
 });
 
 it('can get epub cover', function () {
-    $book = Kiwilan\Ebook\Ebook::read(EPUB)->book();
+    $ebook = Kiwilan\Ebook\Ebook::read(EPUB);
     $path = 'tests/output/cover-EPUB.jpg';
-    file_put_contents($path, $book->cover());
+    file_put_contents($path, $ebook->cover());
 
-    expect($book->cover())->toBeString();
+    expect($ebook->cover())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 });

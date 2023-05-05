@@ -19,6 +19,8 @@ class Ebook
 
     protected ?string $format = null; // epub, pdf, cba
 
+    protected ?string $cover = null;
+
     protected function __construct(
         protected string $path,
         protected string $extension,
@@ -70,7 +72,7 @@ class Ebook
 
         $cover = $this->archive->find($this->metadata->coverPath());
         $coverContent = $this->archive->content($cover);
-        $this->book->setCover($coverContent);
+        $this->setCover($coverContent);
 
         $count = 0;
         foreach ($this->metadata->contentFiles() as $path) {
@@ -126,7 +128,7 @@ class Ebook
         if (! empty($files)) {
             $cover = $files[0];
             $coverContent = $this->archive->content($cover);
-            $this->book->setCover($coverContent);
+            $this->setCover($coverContent);
         }
 
         $this->hasMetadata = true;
@@ -167,7 +169,7 @@ class Ebook
 
         if (extension_loaded('imagick')) {
             $coverContent = $this->archive->content($this->archive->first());
-            $this->book->setCover($coverContent);
+            $this->setCover($coverContent);
         }
         $this->hasMetadata = true;
 
@@ -215,8 +217,34 @@ class Ebook
         return $this->metadata;
     }
 
+    public function cover(bool $convertBase64 = true): ?string
+    {
+        if (! $this->cover) {
+            return null;
+        }
+
+        if ($convertBase64) {
+            return base64_decode($this->cover);
+        }
+
+        return $this->cover;
+    }
+
     public function book(): ?BookEntity
     {
         return $this->book;
+    }
+
+    public function setCover(?string $cover, bool $toBase64 = true): self
+    {
+        if ($toBase64) {
+            $cover = base64_encode($cover);
+        } else {
+            $cover = $cover;
+        }
+
+        $this->cover = $cover;
+
+        return $this;
     }
 }

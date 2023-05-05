@@ -18,12 +18,12 @@ it('can parse pdf', function () {
 });
 
 it('can extract pdf cover', function () {
-    $book = Kiwilan\Ebook\Ebook::read(PDF)->book();
+    $ebook = Kiwilan\Ebook\Ebook::read(PDF);
 
     $path = 'tests/output/cover-PDF.jpg';
-    file_put_contents($path, $book->cover());
+    file_put_contents($path, $ebook->cover());
 
-    expect($book->cover())->toBeString();
+    expect($ebook->cover())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');

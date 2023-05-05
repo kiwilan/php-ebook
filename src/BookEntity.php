@@ -58,8 +58,6 @@ class BookEntity
 
     protected ?ComicMeta $comicMeta = null;
 
-    protected ?string $cover = null;
-
     /** @var array<string, mixed> */
     protected array $extras = [];
 
@@ -209,11 +207,6 @@ class BookEntity
     public function extras(): array
     {
         return $this->extras;
-    }
-
-    public function cover(): ?string
-    {
-        return $this->cover;
     }
 
     public function setTitle(?string $title): self
@@ -397,13 +390,6 @@ class BookEntity
     public function setExtras(array $extras): self
     {
         $this->extras = $extras;
-
-        return $this;
-    }
-
-    public function setCover(?string $cover): self
-    {
-        $this->cover = $cover;
 
         return $this;
     }

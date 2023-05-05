@@ -34,7 +34,6 @@ it('can use EbookEntity', function () {
     $item->setVolume(1);
     $item->setRating(10);
     $item->setPageCount(4);
-    $item->setCover('cover');
 
     expect($item->path())->toBe('path/to/book.epub');
     expect($item->title())->toBe('title');
@@ -57,7 +56,6 @@ it('can use EbookEntity', function () {
     expect($item->volume())->toBe(1);
     expect($item->rating())->toBe(10.0);
     expect($item->pageCount())->toBe(4);
-    expect($item->cover())->toBe('cover');
 });
 
 it('can use BookContributor', function (string $content, string $role) {

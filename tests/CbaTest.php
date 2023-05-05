@@ -52,12 +52,12 @@ it('can parse ComicInfo basic cba book', function (string $path) {
 })->with(CBA_ITEMS);
 
 it('can extract cba cover', function (string $path) {
-    $book = Kiwilan\Ebook\Ebook::read($path)->book();
+    $ebook = Kiwilan\Ebook\Ebook::read($path);
 
     $path = 'tests/output/cover-cba.jpg';
-    file_put_contents($path, $book->cover());
+    file_put_contents($path, $ebook->cover());
 
-    expect($book->cover())->toBeString();
+    expect($ebook->cover())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 })->with([...CBA_ITEMS, CBZ_CBAM]);
