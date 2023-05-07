@@ -144,14 +144,6 @@ composer test
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
 
-## Contributing
-
-Please see [CONTRIBUTING](https://github.com/spatie/.github/blob/main/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
 ## Resources
 
 ### OS
@@ -166,12 +158,12 @@ Please review [our security policy](../../security/policy) on how to report secu
 -   [kovidgoyal/calibre](https://github.com/kovidgoyal/calibre): calibre ebook manager
 -   [troyeguo/koodo-reader](https://github.com/troyeguo/koodo-reader): modern ebook manager and reader with sync and backup capacities for Windows, macOS, Linux and Web
 -   [thorium](https://thorium.edrlab.org/): EPUB reader for Windows, MacOS and Linux (support OPDS)
--   [Kareadita/Kavita](https://github.com/Kareadita/Kavita): fast, feature rich, cross platform reading server, built with a focus for manga (support OPDS)
 
 #### Server
 
 -   [greizgh/bookshelf](https://gitlab.com/greizgh/bookshelf): lightweight epub online catalog (support OPDS)
     -   [Bookshelf: publier ses ebooks simplement](https://linuxfr.org/users/grzgh/journaux/bookshelf-publier-ses-ebooks-simplement): usage of `greizgh/bookshelf` (french)
+-   [Kareadita/Kavita](https://github.com/Kareadita/Kavita): fast, feature rich, cross platform reading server, built with a focus for manga (support OPDS)
 -   [gotson/komga](https://github.com/gotson/komga): media server for comics/mangas/BDs with API (support OPDS)
 -   [advplyr/audiobookshelf](https://github.com/advplyr/audiobookshelf): self-hosted audiobook and podcast server
 -   [bookshelves-project](https://github.com/bookshelves-project): web application to manage eBooks (support OPDS)
