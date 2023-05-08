@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.31.0 - 2023-05-08
+
+- `BookEntity` property `words` is now `wordsCount`
+
 ## 0.3.40 - 2023-05-08
 
 - `EpubOpf` is now `OpfMetadata`, `CbaFormat` is now `CbaMetadata`
