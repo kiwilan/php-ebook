@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.3.32 - 2023-05-08
+
+- MetaTitle `slugSortWithSerie` fix
+
 ## 0.3.31 - 2023-05-05
 
 - improve documentation
