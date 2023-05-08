@@ -186,6 +186,10 @@ class MetaTitle
      */
     private function generateSlug(string $title, ?string $type, ?string $language): string
     {
+        $title = $this->setSlug($title);
+        $type = $this->setSlug($type);
+        $language = $this->setSlug($language);
+
         return $this->setSlug($title.' '.$type.' '.$language);
     }
 
