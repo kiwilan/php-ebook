@@ -47,7 +47,7 @@ class BookEntity
 
     protected ?int $pageCount = null;
 
-    protected ?int $words = null;
+    protected ?int $wordsCount = null;
 
     /** @var string[]|null */
     protected ?array $editors = null;
@@ -220,9 +220,9 @@ class BookEntity
     /**
      * Words count of the book (only EPUB)
      */
-    public function words(): ?int
+    public function wordsCount(): ?int
     {
-        return $this->words;
+        return $this->wordsCount;
     }
 
     /**
@@ -414,9 +414,9 @@ class BookEntity
         return $this;
     }
 
-    public function setWords(?int $words): self
+    public function setWordsCount(?int $wordsCount): self
     {
-        $this->words = $words;
+        $this->wordsCount = $wordsCount;
 
         return $this;
     }
@@ -510,7 +510,7 @@ class BookEntity
             'volume' => $this->volume,
             'rating' => $this->rating,
             'pageCount' => $this->pageCount,
-            'words' => $this->words,
+            'wordsCount' => $this->wordsCount,
             'editors' => $this->editors,
             'review' => $this->review,
             'web' => $this->web,

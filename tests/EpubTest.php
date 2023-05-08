@@ -32,7 +32,7 @@ it('can parse epub entity', function () {
     expect($book->rating())->toBeFloat();
     expect($book->rating())->toBe(10.0);
     expect($book->pageCount())->toBe(4);
-    expect($book->words())->toBe(902);
+    expect($book->wordsCount())->toBe(902);
 
     $metadata = $ebook->metadata();
     expect($metadata->toArray())->toBeArray();

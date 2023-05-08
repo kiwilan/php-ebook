@@ -90,7 +90,7 @@ class Ebook
         }
         $pageCount = (int) ceil($count / 250);
         $this->book->setPageCount($pageCount);
-        $this->book->setWords($count);
+        $this->book->setWordsCount($count);
         $this->hasMetadata = true;
 
         return $this;
