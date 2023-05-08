@@ -7,13 +7,13 @@ use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Cba\Cba;
 use Kiwilan\Ebook\Cba\CbaCbam;
-use Kiwilan\Ebook\Cba\CbaFormat;
+use Kiwilan\Ebook\Cba\CbaMetadata;
 use Kiwilan\Ebook\Epub\EpubContainer;
-use Kiwilan\Ebook\Epub\EpubOpf;
+use Kiwilan\Ebook\Epub\OpfMetadata;
 
 class Ebook
 {
-    protected EpubOpf|CbaFormat|null $metadata = null;
+    protected OpfMetadata|CbaMetadata|null $metadata = null;
 
     protected ?BookEntity $book = null;
 
@@ -70,7 +70,7 @@ class Ebook
         if (! $opf) {
             return $this;
         }
-        $opf = EpubOpf::make($opf);
+        $opf = OpfMetadata::make($opf);
         $this->metadata = $opf;
         $this->book = $opf->toBook();
 
@@ -111,7 +111,7 @@ class Ebook
             default => null,
         };
 
-        /** @var ?CbaFormat */
+        /** @var ?CbaMetadata */
         $parser = match ($metadataType) {
             'cbam' => CbaCbam::class,
             // 'cbml' => CbaCbml::class,
@@ -243,7 +243,7 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): EpubOpf|CbaFormat|null
+    public function metadata(): OpfMetadata|CbaMetadata|null
     {
         return $this->metadata;
     }

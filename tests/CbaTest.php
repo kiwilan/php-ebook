@@ -4,7 +4,7 @@
 // CBML comic-book-markup language with ComicBook.xml
 
 use Kiwilan\Ebook\Cba\CbaCbam;
-use Kiwilan\Ebook\Cba\CbaFormat;
+use Kiwilan\Ebook\Cba\CbaMetadata;
 use Kiwilan\Ebook\Entity\ComicMeta;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
@@ -96,7 +96,7 @@ it('can parse metadata', function (string $path) {
     expect($book->date()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
     expect($book->pageCount())->toBe(24);
     expect($book->manga())->toBe(MangaEnum::NO);
-    expect($book->ageRating())->toBe(AgeRatingEnum::UNKNOWN);
+    expect($book->ageRating())->toBe(AgeRatingEnum::TEEN);
 
     expect($book->comicMeta()->imprint())->toBe('Vertigo');
     expect($book->comicMeta()->characters())->toBeArray();
@@ -112,11 +112,11 @@ it('can parse metadata', function (string $path) {
     expect($book->comicMeta()->storyArcNumber())->toBeNull();
 })->with([CBZ_CBAM]);
 
-it('can parse CbaFormat', function (string $path) {
+it('can parse CbaMetadata', function (string $path) {
     $ebook = Kiwilan\Ebook\Ebook::read($path);
     $metadata = $ebook->metadata();
 
-    expect($metadata)->toBeInstanceOf(CbaFormat::class);
+    expect($metadata)->toBeInstanceOf(CbaMetadata::class);
     expect($metadata->title())->toBe('You Had One Job');
     expect($metadata->series())->toBe('Fantastic Four');
     expect($metadata->number())->toBe(22);
@@ -143,7 +143,8 @@ it('can parse CbaFormat', function (string $path) {
 
     expect($metadata->alternateSeries())->toBe('Empyre');
     expect($metadata->seriesGroup())->toBe('Fantastic Four');
-    expect($metadata->ageRating())->toBeNull();
+    dump($metadata->ageRating());
+    expect($metadata->ageRating())->toBe(AgeRatingEnum::TEEN);
     expect($metadata->manga())->toBe(MangaEnum::NO);
     expect($metadata->pageCount())->toBe(24);
     expect($metadata->imprint())->toBe('Vertigo');

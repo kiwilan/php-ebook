@@ -70,12 +70,12 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
+With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
 
-$metadata = $ebook->metadata(); // EpubOpf|CbaFormat|null => metadata OPF for EPUB, metadata CBA for CBA
+$metadata = $ebook->metadata(); // OpfMetadata|CbaMetadata|null => metadata OPF for EPUB, metadata CBA for CBA
 $format = $book->format(); // epub, pdf, cba
 $book = $ebook->book(); // ?BookEntity
 $cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
@@ -85,13 +85,31 @@ $extension = $ebook->extension(); // string
 $hasMetadata = $ebook->hasMetadata(); // bool
 ```
 
+### Metadata
+
+```php
+$metadata = $ebook->metadata(); // OpfMetadata|CbaMetadata|null => metadata OPF for EPUB, metadata CBA for CBA
+
+// For OpfMetadata
+$metadata->metadata(); // `metadata` entry from `.opf` file
+$metadata->manifest(); // `manifest` entry from `.opf` file
+$metadata->spine(); // `spine` entry from `.opf` file
+$metadata->guide(); // `guide` entry from `.opf` file
+$metadata->dcX(); // `dcX` entries from `.opf` file
+
+// For CbaMetadata, see docs https://anansi-project.github.io/docs/comicinfo/documentation
+$metadata->writers(); // `writers` entry from `ComicInfo` format
+$metadata->pencillers(); // `pencillers` entry from `ComicInfo` format
+// more from `ComicInfo` format
+```
+
 ### Book
 
 ```php
 $book = $ebook->book(); // BookEntity
 
 $book->title(); // string
-$book->metaTitle(); // ?MetaTitle, with `slug` and `sort` properties for `title` and `series`
+$book->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $book->authors(); // BookCreator[] (name: string, role: string)
 $book->authorFirst(); // ?BookCreator => First BookCreator (name: string, role: string)
 $book->description(); // ?string
@@ -110,10 +128,10 @@ $book->words(); // ?int => `words` count in EPUB
 $book->editors(); // string[] => `editors` in CBA
 $book->review(); // ?string => `review` in CBA
 $book->web(); // ?string => `web` in CBA
-$book->manga(); // ?MangaEnum => `manga` in CBA | Addtional data about mangas
+$book->manga(); // ?MangaEnum => `manga` in CBA | Additional data about mangas
 $book->isBlackAndWhite(); // bool => `blackAndWhite` in CBA
-$book->ageRating(); // ?AgeRatingEnum => `ageRating` in CBA | Addtional data about age rating
-$book->comicMeta(); // ?ComicMeta => Addtional data for CBA
+$book->ageRating(); // ?AgeRatingEnum => `ageRating` in CBA | Additional data about age rating
+$book->comicMeta(); // ?ComicMeta => Additional data for CBA
 ```
 
 ### MetaTitle
@@ -123,15 +141,15 @@ Can be set if book's title is not null.
 ```php
 $metaTitle = $book->metaTitle(); // ?MetaTitle
 
-$metaTitle->slug(); // string => slugify title
-$metaTitle->slugSort(); // string => slugify title without determiners
-$metaTitle->slugLang(); // string => slugify title with language
+$metaTitle->slug(); // string => slugify title, like `the-clan-of-the-cave-bear`
+$metaTitle->slugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`
+$metaTitle->slugLang(); // string => slugify title with language and type, like `the-clan-of-the-cave-bear-epub-en`
 
-$metaTitle->serieSlug(); // ?string => slugify series title
-$metaTitle->serieSort(); // ?string => slugify series title without determiners
-$metaTitle->serieLang(); // ?string => slugify series title with language
+$metaTitle->serieSlug(); // ?string => slugify series title, like `earths-children`
+$metaTitle->serieSort(); // ?string => slugify series title without determiners, like `earths-children`
+$metaTitle->serieLang(); // ?string => slugify series title with language and type, like `earths-children-epub-en`
 
-$metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume
+$metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
 ```
 
 ## Testing

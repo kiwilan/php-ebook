@@ -76,7 +76,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title, like `le-clan-de-lours-des-cavernes`.
+     * Get slug of book title, like `the-clan-of-the-cave-bear`.
      */
     public function slug(): string
     {
@@ -84,7 +84,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title without determiners, like `clan-de-lours-des-cavernes`.
+     * Get slug of book title without determiners, like `clan-of-the-cave-bear`.
      */
     public function slugSort(): string
     {
@@ -92,7 +92,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title with language, like `le-clan-de-lours-des-cavernes-epub-fr`.
+     * Get slug of book title with language and with type, like `the-clan-of-the-cave-bear-epub-en`.
      */
     public function slugLang(): string
     {
@@ -100,7 +100,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title, like `les-enfants-de-la-terre`.
+     * Get slug of serie title, like `earths-children`.
      */
     public function serieSlug(): ?string
     {
@@ -108,7 +108,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title without determiners, like `enfants-de-la-terre`.
+     * Get slug of serie title without determiners, like `earths-children`.
      */
     public function serieSlugSort(): ?string
     {
@@ -116,7 +116,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title with language, like `les-enfants-de-la-terre-epub-fr`.
+     * Get slug of serie title with language and with type, like `earths-children-epub-en`.
      */
     public function serieSlugLang(): ?string
     {
@@ -124,8 +124,8 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title with serie title, like `enfants-de-la-terre-01_clan-de-lours-des-cavernes`.
-     * If series is null, book's title will be used like `clan-de-lours-des-cavernes`.
+     * Get slug of book title with serie title, like `earths-children-01_clan-of-the-cave-bear`.
+     * If series is null, book's title will be used like `clan-of-the-cave-bear`.
      */
     public function slugSortWithSerie(): string
     {
@@ -182,7 +182,7 @@ class MetaTitle
     }
 
     /**
-     * Generate `slug` with `title`,  `BookTypeEnum` and `language_slug`.
+     * Generate `slug` with `title`, `type` and `language`.
      */
     private function generateSlug(string $title, ?string $type, ?string $language): string
     {
@@ -224,6 +224,9 @@ class MetaTitle
         if (! $title) {
             return null;
         }
+
+        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
+        $title = $transliterator->transliterate($title);
 
         // Convert all dashes/underscores into separator
         $flip = $separator === '-' ? '_' : '-';

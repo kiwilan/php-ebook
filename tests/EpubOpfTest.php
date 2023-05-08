@@ -1,7 +1,8 @@
 <?php
 
 use Kiwilan\Ebook\Epub\EpubContainer;
-use Kiwilan\Ebook\Epub\EpubOpf;
+use Kiwilan\Ebook\Epub\OpfMetadata;
+use Kiwilan\Ebook\XmlReader;
 
 it('can parse epub container', function (string $path) {
     $container = EpubContainer::make(file_get_contents($path));
@@ -19,10 +20,14 @@ it('can failed if empty file', function () {
     expect(fn () => EpubContainer::make(file_get_contents(EPUB_CONTAINER_EPUB2_EMPTY)))->toThrow(Exception::class);
 });
 
-it('can parse epub opf', function (string $path) {
-    $opf = EpubOpf::make(file_get_contents($path));
+it('can failed with wrong XML', function () {
+    expect(fn () => XmlReader::toArray('<html><body><body></html>'))->toThrow(Exception::class);
+});
 
-    expect($opf)->tobeInstanceOf(EpubOpf::class);
+it('can parse epub opf', function (string $path) {
+    $opf = OpfMetadata::make(file_get_contents($path));
+
+    expect($opf)->tobeInstanceOf(OpfMetadata::class);
     expect($path)->toBeReadableFile();
     expect($opf->dcTitle())->toBeString();
     expect($opf->dcCreators())->toBeArray();
@@ -39,8 +44,12 @@ it('can parse epub opf', function (string $path) {
 })->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3]);
 
 it('can parse epub opf alt', function () {
-    $opf = EpubOpf::make(file_get_contents(EPUB_OPF_EPUB3_ALT));
+    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB3_ALT));
 
+    expect($opf->metadata())->toBeArray();
+    expect($opf->manifest())->toBeArray();
+    expect($opf->spine())->toBeArray();
+    expect($opf->guide())->toBeArray();
     expect($opf->dcTitle())->toBeString();
     expect($opf->dcCreators())->toBeArray();
     expect($opf->dcDescription())->toBeString();

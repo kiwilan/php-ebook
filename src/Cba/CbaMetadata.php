@@ -7,7 +7,7 @@ use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 
-abstract class CbaFormat
+abstract class CbaMetadata
 {
     /** @var string[] */
     protected array $writers = [];

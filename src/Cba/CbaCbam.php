@@ -12,7 +12,7 @@ use Kiwilan\Ebook\Enums\MangaEnum;
 /**
  * @docs https://anansi-project.github.io/docs/comicinfo/schemas/v2.0
  */
-class CbaCbam extends CbaFormat
+class CbaCbam extends CbaMetadata
 {
     protected string $metadataFilename = 'ComicInfo.xml';
 
@@ -180,7 +180,7 @@ class CbaCbam extends CbaFormat
         $this->seriesGroup = $this->extract('SeriesGroup');
 
         $ageRating = $this->extract('AgeRating');
-        $this->ageRating = $ageRating ? AgeRatingEnum::tryFrom($ageRating) : null;
+        $this->ageRating = $ageRating ? AgeRatingEnum::tryFrom($ageRating) : AgeRatingEnum::UNKNOWN;
 
         $communityRating = $this->extract('CommunityRating');
         $this->communityRating = $communityRating ? (float) $communityRating : null;

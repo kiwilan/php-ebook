@@ -11,7 +11,7 @@ use Kiwilan\Ebook\Book\BookMeta;
 use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Ebook\XmlReader;
 
-class EpubOpf
+class OpfMetadata
 {
     protected array $metadata = [];
 
@@ -228,6 +228,26 @@ class EpubOpf
         }
 
         return $files;
+    }
+
+    public function metadata(): array
+    {
+        return $this->metadata;
+    }
+
+    public function manifest(): array
+    {
+        return $this->manifest;
+    }
+
+    public function spine(): array
+    {
+        return $this->spine;
+    }
+
+    public function guide(): array
+    {
+        return $this->guide;
     }
 
     public function epubVersion(): ?int
