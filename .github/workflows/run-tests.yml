@@ -69,13 +69,13 @@ jobs:
       - name: Check extension imagick
         run: php -m | grep imagick
 
-      - name: Execute tests
-        run: vendor/bin/pest --coverage
-
       - name: on Linux run phpstan
         if: runner.os == 'Linux'
         run: vendor/bin/phpstan analyse --memory-limit=2G
         shell: bash
+
+      - name: Execute tests
+        run: vendor/bin/pest --coverage
 
       - name: on Linux send code coverage
         if: runner.os == 'Linux'
