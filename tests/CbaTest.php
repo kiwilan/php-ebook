@@ -143,7 +143,6 @@ it('can parse CbaMetadata', function (string $path) {
 
     expect($metadata->alternateSeries())->toBe('Empyre');
     expect($metadata->seriesGroup())->toBe('Fantastic Four');
-    dump($metadata->ageRating());
     expect($metadata->ageRating())->toBe(AgeRatingEnum::TEEN);
     expect($metadata->manga())->toBe(MangaEnum::NO);
     expect($metadata->pageCount())->toBe(24);

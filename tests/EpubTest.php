@@ -65,3 +65,9 @@ it('can get title meta', function () {
     expect($meta->toArray())->toBeArray();
     expect($meta->__toString())->toBeString();
 });
+
+it('can extract alt metadata', function () {
+    $ebook = Ebook::read(EPUB_NO_META);
+
+    expect($ebook->book()->title())->toBe('epub-no-meta');
+});

@@ -23,6 +23,8 @@ class OpfMetadata
 
     protected ?int $epubVersion = null;
 
+    protected ?string $filename = null;
+
     protected ?string $dcTitle = null;
 
     /** @var BookCreator[] */
@@ -59,7 +61,7 @@ class OpfMetadata
     ) {
     }
 
-    public static function make(string $content): self
+    public static function make(string $content, string $filename): self
     {
         $xml = XmlReader::toArray($content);
         $self = new self();
@@ -69,6 +71,7 @@ class OpfMetadata
         $self->manifest = $xml['manifest'] ?? [];
         $self->spine = $xml['spine'] ?? [];
         $self->guide = $xml['guide'] ?? [];
+        $self->filename = $filename;
 
         $self->parseMetadata();
         $self->coverPath = $self->findCover();
@@ -81,34 +84,20 @@ class OpfMetadata
     {
         $book = BookEntity::make();
 
-        $book->setTitle($this->dcTitle);
+        $altTitle = explode('.', $this->filename);
+        $altTitle = $altTitle[0] ?? 'untitled';
+        $book->setTitle($this->dcTitle ?? $altTitle);
 
         $authors = array_values($this->dcCreators);
         $book->setAuthorFirst($authors[0] ?? null);
         $book->setAuthors($authors);
-        $book->setDescription(strip_tags($this->dcDescription));
+        if ($this->dcDescription) {
+            $book->setDescription(strip_tags($this->dcDescription));
+        }
         $book->setContributor(! empty($this->dcContributors) ? implode(', ', $this->dcContributors) : null);
         $book->setRights(! empty($this->dcRights) ? implode(', ', $this->dcRights) : null);
         $book->setPublisher($this->dcPublisher);
         $book->setIdentifiers($this->dcIdentifiers);
-
-        if (! empty($this->dcIdentifiers)) {
-            foreach ($this->dcIdentifiers as $identifier) {
-                // if ($identifier->type() === 'google') {
-                //     $this->identifierGoogle = $identifier->content();
-                // }
-                // if ($identifier->type() === 'amazon') {
-                //     $this->identifierAmazon = $identifier->content();
-                // }
-                // if ($identifier->type() === 'isbn10') {
-                //     $this->identifierIsbn10 = $identifier->content();
-                // }
-                // if ($identifier->type() === 'isbn13') {
-                //     $this->identifierIsbn13 = $identifier->content();
-                // }
-            }
-        }
-
         $book->setDate($this->dcDate);
         $book->setLanguage($this->dcLanguage);
 

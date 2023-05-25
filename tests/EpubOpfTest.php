@@ -25,7 +25,7 @@ it('can failed with wrong XML', function () {
 });
 
 it('can parse epub opf', function (string $path) {
-    $opf = OpfMetadata::make(file_get_contents($path));
+    $opf = OpfMetadata::make(file_get_contents($path), $path);
 
     expect($opf)->tobeInstanceOf(OpfMetadata::class);
     expect($path)->toBeReadableFile();
@@ -44,7 +44,7 @@ it('can parse epub opf', function (string $path) {
 })->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3]);
 
 it('can parse epub opf alt', function () {
-    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB3_ALT));
+    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB3_ALT), EPUB_OPF_EPUB3_ALT);
 
     expect($opf->metadata())->toBeArray();
     expect($opf->manifest())->toBeArray();

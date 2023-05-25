@@ -24,6 +24,7 @@ define('EPUB_OPF_EPUB3', __DIR__.'/media/opf-epub3.opf');
 define('EPUB_OPF_EPUB3_ALT', __DIR__.'/media/opf-epub3-alt.opf');
 
 define('EPUB', __DIR__.'/media/epub.epub');
+define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
 define('BOOKS_ITEMS', [

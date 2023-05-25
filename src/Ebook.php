@@ -70,7 +70,7 @@ class Ebook
         if (! $opf) {
             return $this;
         }
-        $opf = OpfMetadata::make($opf);
+        $opf = OpfMetadata::make($opf, $this->filename);
         $this->metadata = $opf;
         $this->book = $opf->toBook();
 
