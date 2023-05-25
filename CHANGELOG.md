@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 0.33.0 - 2023-05-25
+
+- BookMeta `name` and `content` are now nullable
+
 ## 0.32.0 - 2023-05-25
 
 - Add no metadata case with `title` as filename for `epub`
