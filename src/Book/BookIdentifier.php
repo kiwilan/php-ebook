@@ -34,7 +34,7 @@ class BookIdentifier
         return strtolower($this->type);
     }
 
-    public function content(): string
+    public function content(): ?string
     {
         return $this->content;
     }
