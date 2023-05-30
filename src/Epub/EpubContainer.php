@@ -67,4 +67,12 @@ class EpubContainer
 
         return $attr['version'] ?? null;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'opfPath' => $this->opfPath,
+            'version' => $this->version,
+        ];
+    }
 }

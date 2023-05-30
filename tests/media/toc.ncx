@@ -1,0 +1,261 @@
+<?xml version='1.0' encoding='utf-8'?>
+<ncx xmlns="http://www.daisy.org/z3986/2005/ncx/" version="2005-1" xml:lang="eng">
+  <head>
+    <meta name="dtb:uid" content="e742a248-1c82-49c4-95f5-2a17e2bce68a" />
+    <meta name="dtb:depth" content="2" />
+    <meta name="dtb:generator" content="calibre (6.18.1)" />
+    <meta name="dtb:totalPageCount" content="0" />
+    <meta name="dtb:maxPageNumber" content="0" />
+  </head>
+  <docTitle>
+    <text>The Clan of the Cave Bear</text>
+  </docTitle>
+  <navMap>
+    <navPoint id="np1" playOrder="1" class="cover">
+      <navLabel>
+        <text>Cover</text>
+      </navLabel>
+      <content src="titlepage.xhtml" />
+    </navPoint>
+    <navPoint id="np2" playOrder="2" class="characters">
+      <navLabel>
+        <text>Characters</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_col2_r1.htm" />
+    </navPoint>
+    <navPoint id="np3" playOrder="3" class="titlepage">
+      <navLabel>
+        <text>Title Page</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_tp_r1.htm" />
+    </navPoint>
+    <navPoint id="np4" playOrder="4" class="copyright">
+      <navLabel>
+        <text>Copyright</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_cop_r1.htm" />
+    </navPoint>
+    <navPoint id="np5" playOrder="5" class="other">
+      <navLabel>
+        <text>Contents</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_toc_r1.htm" />
+    </navPoint>
+    <navPoint id="np6" playOrder="6" class="other">
+      <navLabel>
+        <text>Map</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_map_r1.htm" />
+    </navPoint>
+    <navPoint id="np7" playOrder="7" class="chapter">
+      <navLabel>
+        <text>Chapter 1</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c01_r1.htm" />
+    </navPoint>
+    <navPoint id="np8" playOrder="8" class="chapter">
+      <navLabel>
+        <text>Chapter 2</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c02_r1.htm" />
+    </navPoint>
+    <navPoint id="np9" playOrder="9" class="chapter">
+      <navLabel>
+        <text>Chapter 3</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c03_r1.htm" />
+    </navPoint>
+    <navPoint id="np10" playOrder="10" class="chapter">
+      <navLabel>
+        <text>Chapter 4</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c04_r1.htm" />
+    </navPoint>
+    <navPoint id="np11" playOrder="11" class="chapter">
+      <navLabel>
+        <text>Chapter 5</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c05_r1.htm" />
+    </navPoint>
+    <navPoint id="np12" playOrder="12" class="chapter">
+      <navLabel>
+        <text>Chapter 6</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c06_r1.htm" />
+    </navPoint>
+    <navPoint id="np13" playOrder="13" class="chapter">
+      <navLabel>
+        <text>Chapter 7</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c07_r1.htm" />
+    </navPoint>
+    <navPoint id="np14" playOrder="14" class="chapter">
+      <navLabel>
+        <text>Chapter 8</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c08_r1.htm" />
+    </navPoint>
+    <navPoint id="np15" playOrder="15" class="chapter">
+      <navLabel>
+        <text>Chapter 9</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c09_r1.htm" />
+    </navPoint>
+    <navPoint id="np16" playOrder="16" class="chapter">
+      <navLabel>
+        <text>Chapter 10</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c10_r1.htm" />
+    </navPoint>
+    <navPoint id="np17" playOrder="17" class="chapter">
+      <navLabel>
+        <text>Chapter 11</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c11_r1.htm" />
+    </navPoint>
+    <navPoint id="np18" playOrder="18" class="chapter">
+      <navLabel>
+        <text>Chapter 12</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c12_r1.htm" />
+    </navPoint>
+    <navPoint id="np19" playOrder="19" class="chapter">
+      <navLabel>
+        <text>Chapter 13</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c13_r1.htm" />
+    </navPoint>
+    <navPoint id="np20" playOrder="20" class="chapter">
+      <navLabel>
+        <text>Chapter 14</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c14_r1.htm" />
+    </navPoint>
+    <navPoint id="np21" playOrder="21" class="chapter">
+      <navLabel>
+        <text>Chapter 15</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c15_r1.htm" />
+    </navPoint>
+    <navPoint id="np22" playOrder="22" class="chapter">
+      <navLabel>
+        <text>Chapter 16</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c16_r1.htm" />
+    </navPoint>
+    <navPoint id="np23" playOrder="23" class="chapter">
+      <navLabel>
+        <text>Chapter 17</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c17_r1.htm" />
+    </navPoint>
+    <navPoint id="np24" playOrder="24" class="chapter">
+      <navLabel>
+        <text>Chapter 18</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c18_r1.htm" />
+    </navPoint>
+    <navPoint id="np25" playOrder="25" class="chapter">
+      <navLabel>
+        <text>Chapter 19</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c19_r1.htm" />
+    </navPoint>
+    <navPoint id="np26" playOrder="26" class="chapter">
+      <navLabel>
+        <text>Chapter 20</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c20_r1.htm" />
+    </navPoint>
+    <navPoint id="np27" playOrder="27" class="chapter">
+      <navLabel>
+        <text>Chapter 21</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c21_r1.htm" />
+    </navPoint>
+    <navPoint id="np28" playOrder="28" class="chapter">
+      <navLabel>
+        <text>Chapter 22</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c22_r1.htm" />
+    </navPoint>
+    <navPoint id="np29" playOrder="29" class="chapter">
+      <navLabel>
+        <text>Chapter 23</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c23_r1.htm" />
+    </navPoint>
+    <navPoint id="np30" playOrder="30" class="chapter">
+      <navLabel>
+        <text>Chapter 24</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c24_r1.htm" />
+    </navPoint>
+    <navPoint id="np31" playOrder="31" class="chapter">
+      <navLabel>
+        <text>Chapter 25</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c25_r1.htm" />
+    </navPoint>
+    <navPoint id="np32" playOrder="32" class="chapter">
+      <navLabel>
+        <text>Chapter 26</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c26_r1.htm" />
+    </navPoint>
+    <navPoint id="np33" playOrder="33" class="chapter">
+      <navLabel>
+        <text>Chapter 27</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c27_r1.htm" />
+    </navPoint>
+    <navPoint id="np34" playOrder="34" class="chapter">
+      <navLabel>
+        <text>Chapter 28</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_c28_r1.htm" />
+    </navPoint>
+    <navPoint id="np35" playOrder="35" class="other">
+      <navLabel>
+        <text>Dedication</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_ded_r1.htm" />
+    </navPoint>
+    <navPoint id="np36" playOrder="36" class="other">
+      <navLabel>
+        <text>Acknowledgments</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_ack_r1.htm" />
+    </navPoint>
+    <navPoint id="np37" playOrder="37" class="other">
+      <navLabel>
+        <text>Excerpt from The Land of Painted Caves</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_nbm1_r1_split_000.htm" />
+    </navPoint>
+    <navPoint id="np38" playOrder="38" class="other">
+      <navLabel>
+        <text>Earth’s Children Series Sampler</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_nbm2_r1.htm" />
+    </navPoint>
+    <navPoint id="np39" playOrder="39" class="other">
+      <navLabel>
+        <text>An Interview with Jean M. Auel</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_nbm8_r1.htm" />
+    </navPoint>
+    <navPoint id="np40" playOrder="40" class="other">
+      <navLabel>
+        <text>Other Books by This Author</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_ncol1_r1.htm" />
+    </navPoint>
+    <navPoint id="np41" playOrder="41" class="other">
+      <navLabel>
+        <text>About the Author</text>
+      </navLabel>
+      <content src="OEBPS/Auel_9780307767615_epub_ata_r1.htm" />
+    </navPoint>
+  </navMap>
+</ncx>

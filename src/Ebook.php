@@ -8,12 +8,11 @@ use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Cba\Cba;
 use Kiwilan\Ebook\Cba\CbaCbam;
 use Kiwilan\Ebook\Cba\CbaMetadata;
-use Kiwilan\Ebook\Epub\EpubContainer;
-use Kiwilan\Ebook\Epub\OpfMetadata;
+use Kiwilan\Ebook\Epub\EpubMetadata;
 
 class Ebook
 {
-    protected OpfMetadata|CbaMetadata|null $metadata = null;
+    protected EpubMetadata|CbaMetadata|null $metadata = null;
 
     protected ?BookEntity $book = null;
 
@@ -60,37 +59,19 @@ class Ebook
 
     private function epub(): self
     {
-        $xml = $this->archiveToXml('container.xml');
-        if (! $xml) {
-            return $this;
-        }
-        $container = EpubContainer::make($xml);
+        $this->metadata = EpubMetadata::make($this);
+        $this->book = $this->metadata->toBook();
 
-        $opf = $this->archiveToXml($container->opfPath());
-        if (! $opf) {
-            return $this;
-        }
-        $opf = OpfMetadata::make($opf, $this->filename);
-        $this->metadata = $opf;
-        $this->book = $opf->toBook();
-
+        /**
+         * Set cover.
+         */
         $cover = $this->archive->find($this->metadata->coverPath());
         $coverContent = $this->archive->content($cover);
         $this->setCover($coverContent);
 
-        $count = 0;
-        foreach ($this->metadata->contentFiles() as $path) {
-            $file = $this->archive->find($path);
-            $content = $this->archive->content($file);
-            $content = strip_tags($content);
-            $content = preg_replace('/[\r\n|\n|\r)]+/', '', $content);
-            $words = str_word_count($content, 1);
+        $this->book()->setPageCount($this->metadata->pageCount());
+        $this->book()->setWordsCount($this->metadata->wordsCount());
 
-            $count += count($words);
-        }
-        $pageCount = (int) ceil($count / 250);
-        $this->book->setPageCount($pageCount);
-        $this->book->setWordsCount($count);
         $this->hasMetadata = true;
 
         return $this;
@@ -181,7 +162,12 @@ class Ebook
         return $this;
     }
 
-    private function archiveToXml(string $path): ?string
+    public static function wordsByPage(): int
+    {
+        return 250;
+    }
+
+    public function archiveToXml(string $path): ?string
     {
         $file = $this->archive->find($path);
         if (! $file) {
@@ -219,10 +205,10 @@ class Ebook
     /**
      * Archive reader.
      */
-    // public function archive(): BaseArchive
-    // {
-    //     return $this->archive;
-    // }
+    public function archive(): BaseArchive
+    {
+        return $this->archive;
+    }
 
     /**
      * Whether the ebook has metadata.
@@ -243,7 +229,7 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): OpfMetadata|CbaMetadata|null
+    public function metadata(): EpubMetadata|CbaMetadata|null
     {
         return $this->metadata;
     }

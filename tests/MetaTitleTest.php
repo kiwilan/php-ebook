@@ -9,6 +9,7 @@ it('can be slugify', function () {
     $ebook->book()->setTitle('La pâle lumière des ténèbres');
     $ebook->book()->setVolume(1);
     $ebook->book()->setSeries('A comme Association');
+    $ebook->book()->setLanguage('fr');
     $meta = MetaTitle::make($ebook);
 
     expect($meta->slug())->toBe('la-pale-lumiere-des-tenebres');

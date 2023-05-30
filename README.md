@@ -152,6 +152,10 @@ $metaTitle->serieLang(); // ?string => slugify series title with language and ty
 $metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
 ```
 
+### EPUB
+
+TODO
+
 ## Testing
 
 ```bash

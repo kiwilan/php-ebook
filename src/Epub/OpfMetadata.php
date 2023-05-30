@@ -8,7 +8,6 @@ use Kiwilan\Ebook\Book\BookContributor;
 use Kiwilan\Ebook\Book\BookCreator;
 use Kiwilan\Ebook\Book\BookIdentifier;
 use Kiwilan\Ebook\Book\BookMeta;
-use Kiwilan\Ebook\BookEntity;
 use Kiwilan\Ebook\XmlReader;
 
 class OpfMetadata
@@ -78,54 +77,6 @@ class OpfMetadata
         $self->contentFiles = $self->findContent();
 
         return $self;
-    }
-
-    public function toBook(): BookEntity
-    {
-        $book = BookEntity::make();
-
-        $altTitle = explode('.', $this->filename);
-        $altTitle = $altTitle[0] ?? 'untitled';
-        $book->setTitle($this->dcTitle ?? $altTitle);
-
-        $authors = array_values($this->dcCreators);
-        $book->setAuthorFirst($authors[0] ?? null);
-        $book->setAuthors($authors);
-        if ($this->dcDescription) {
-            $book->setDescription(strip_tags($this->dcDescription));
-        }
-        $book->setContributor(! empty($this->dcContributors) ? implode(', ', $this->dcContributors) : null);
-        $book->setRights(! empty($this->dcRights) ? implode(', ', $this->dcRights) : null);
-        $book->setPublisher($this->dcPublisher);
-        $book->setIdentifiers($this->dcIdentifiers);
-        $book->setDate($this->dcDate);
-        $book->setLanguage($this->dcLanguage);
-
-        $tags = [];
-        if (! empty($this->dcSubject)) {
-            foreach ($this->dcSubject as $subject) {
-                if (strlen($subject) < 50) {
-                    $tags[] = $subject;
-                }
-            }
-        }
-        $book->setTags($tags);
-
-        if (! empty($this->meta)) {
-            foreach ($this->meta as $meta) {
-                if ($meta->name() === 'calibre:series') {
-                    $book->setSeries($meta->content());
-                }
-                if ($meta->name() === 'calibre:series_index') {
-                    $book->setVolume((int) $meta->content());
-                }
-                if ($meta->name() === 'calibre:rating') {
-                    $book->setRating((int) $meta->content());
-                }
-            }
-        }
-
-        return $book;
     }
 
     private function parseMetadata(): self
