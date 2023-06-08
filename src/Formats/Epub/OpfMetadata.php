@@ -1,15 +1,18 @@
 <?php
 
-namespace Kiwilan\Ebook\Epub;
+namespace Kiwilan\Ebook\Formats\Epub;
 
 use DateTime;
 use DateTimeZone;
-use Kiwilan\Ebook\Book\BookContributor;
-use Kiwilan\Ebook\Book\BookCreator;
-use Kiwilan\Ebook\Book\BookIdentifier;
-use Kiwilan\Ebook\Book\BookMeta;
+use Kiwilan\Ebook\Tools\BookAuthor;
+use Kiwilan\Ebook\Tools\BookContributor;
+use Kiwilan\Ebook\Tools\BookIdentifier;
+use Kiwilan\Ebook\Tools\BookMeta;
 use Kiwilan\Ebook\XmlReader;
 
+/**
+ * Transform `.opf` file to an object.
+ */
 class OpfMetadata
 {
     protected array $metadata = [];
@@ -26,7 +29,7 @@ class OpfMetadata
 
     protected ?string $dcTitle = null;
 
-    /** @var BookCreator[] */
+    /** @var BookAuthor[] */
     protected array $dcCreators = [];
 
     /** @var BookContributor[] */
@@ -55,10 +58,6 @@ class OpfMetadata
 
     /** @var string[] */
     protected array $contentFiles = [];
-
-    protected function __construct(
-    ) {
-    }
 
     public static function make(string $content, string $filename): self
     {
@@ -103,19 +102,19 @@ class OpfMetadata
 
     private function parseMetadataNode(string $key): ?string
     {
-        $data = $this->metadata[$key] ?? null;
+        $core = $this->metadata[$key] ?? null;
 
-        return $this->parseNode($data);
+        return $this->parseNode($core);
     }
 
-    private function parseNode(mixed $data): ?string
+    private function parseNode(mixed $core): ?string
     {
-        if (is_string($data)) {
-            return $data;
+        if (is_string($core)) {
+            return $core;
         }
 
-        if (is_array($data)) {
-            return $data['@content'] ?? null;
+        if (is_array($core)) {
+            return $core['@content'] ?? null;
         }
 
         return null;
@@ -127,14 +126,14 @@ class OpfMetadata
             return null;
         }
 
-        $data = $this->manifest['item'] ?? null;
+        $core = $this->manifest['item'] ?? null;
 
-        if (empty($data)) {
+        if (empty($core)) {
             return null;
         }
 
         $path = null;
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             $id = $item['@attributes']['id'] ?? null;
             if ($id && str_contains($id, 'cover')) {
                 $path = $item['@attributes']['href'] ?? null;
@@ -153,14 +152,14 @@ class OpfMetadata
             return [];
         }
 
-        $data = $this->manifest['item'] ?? null;
+        $core = $this->manifest['item'] ?? null;
 
-        if (empty($data)) {
+        if (empty($core)) {
             return [];
         }
 
         $files = [];
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             $mediaType = $item['@attributes']['media-type'] ?? null;
             if ($mediaType && str_contains($mediaType, 'html')) {
                 $files[] = $item['@attributes']['href'] ?? null;
@@ -201,7 +200,7 @@ class OpfMetadata
     }
 
     /**
-     * @return BookCreator[]
+     * @return BookAuthor[]
      */
     public function dcCreators(): array
     {
@@ -283,18 +282,18 @@ class OpfMetadata
 
     private function setDcSubjects(): array
     {
-        $data = $this->metadata['dc:subject'] ?? null;
+        $core = $this->metadata['dc:subject'] ?? null;
 
-        if (! $data) {
+        if (! $core) {
             return [];
         }
 
         $items = [];
 
-        if (is_string($data)) {
-            $items = [$data];
+        if (is_string($core)) {
+            $items = [$core];
         } else {
-            $items = $data;
+            $items = $core;
         }
 
         return $items;
@@ -302,14 +301,14 @@ class OpfMetadata
 
     private function setDcDate(): ?DateTime
     {
-        $data = $this->metadata['dc:date'] ?? null;
+        $core = $this->metadata['dc:date'] ?? null;
 
-        if (! $data) {
+        if (! $core) {
             return null;
         }
 
         try {
-            $date = new DateTime($data, new DateTimeZone('UTC'));
+            $date = new DateTime($core, new DateTimeZone('UTC'));
         } catch (\Throwable $th) {
             return null;
         }
@@ -322,21 +321,21 @@ class OpfMetadata
     }
 
     /**
-     * @return BookCreator[]
+     * @return BookAuthor[]
      */
     private function setDcCreators(): array
     {
-        $data = $this->metadata['dc:creator'] ?? null;
-        if (! $data) {
+        $core = $this->metadata['dc:creator'] ?? null;
+        if (! $core) {
             return [];
         }
 
-        $data = $this->multipleItems($data);
+        $core = $this->multipleItems($core);
         $items = [];
 
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             $name = $item['@content'];
-            $items[$name] = new BookCreator(
+            $items[$name] = new BookAuthor(
                 name: $name,
                 role: $item['@attributes']['role'] ?? null,
             );
@@ -350,15 +349,15 @@ class OpfMetadata
      */
     private function setDcContributors(): array
     {
-        $data = $this->metadata['dc:contributor'] ?? null;
-        if (! $data) {
+        $core = $this->metadata['dc:contributor'] ?? null;
+        if (! $core) {
             return [];
         }
 
-        $data = $this->multipleItems($data);
+        $core = $this->multipleItems($core);
         $items = [];
 
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             if (is_string($item)) {
                 $item = ['@content' => $item];
             }
@@ -376,18 +375,18 @@ class OpfMetadata
      */
     private function setDcRights(): array
     {
-        $data = $this->metadata['dc:rights'] ?? null;
-        if (! $data) {
+        $core = $this->metadata['dc:rights'] ?? null;
+        if (! $core) {
             return [];
         }
 
-        if (is_string($data)) {
-            $data = [$data];
+        if (is_string($core)) {
+            $core = [$core];
         }
-        $data = $this->multipleItems($data);
+        $core = $this->multipleItems($core);
         $items = [];
 
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             if (is_string($item)) {
                 $item = ['@content' => $item];
             }
@@ -402,15 +401,15 @@ class OpfMetadata
      */
     private function setDcIdentifiers(): array
     {
-        $data = $this->metadata['dc:identifier'] ?? null;
-        if (! $data) {
+        $core = $this->metadata['dc:identifier'] ?? null;
+        if (! $core) {
             return [];
         }
 
-        $data = $this->multipleItems($data);
+        $core = $this->multipleItems($core);
         $items = [];
 
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             $content = $item['@content'] ?? null;
             $type = $item['@attributes']['scheme'] ?? null;
             $identifier = new BookIdentifier(
@@ -429,15 +428,15 @@ class OpfMetadata
      */
     private function setMeta(): array
     {
-        $data = $this->metadata['meta'] ?? null;
-        if (! $data) {
+        $core = $this->metadata['meta'] ?? null;
+        if (! $core) {
             return [];
         }
 
-        $data = $this->multipleItems($data);
+        $core = $this->multipleItems($core);
         $items = [];
 
-        foreach ($data as $item) {
+        foreach ($core as $item) {
             $items[] = new BookMeta(
                 name: $item['@attributes']['name'] ?? null,
                 content: $item['@attributes']['content'] ?? null,
@@ -447,42 +446,9 @@ class OpfMetadata
         return $items;
     }
 
-    /**
-     * Good multiple creators: `Terry Pratchett & Stephen Baxter`.
-     *
-     * ```php
-     * [
-     *   [
-     *     "@content" => "Terry Pratchett"
-     *     "@attributes" => [
-     *       "role" => "aut"
-     *       "file-as" => "Pratchett, Terry & Baxter, Stephen"
-     *     ]
-     *   ],
-     *   [
-     *     "@content" => "Stephen Baxter"
-     *     "@attributes" => array:1 [
-     *       "role" => "aut"
-     *     ]
-     *   ]
-     * ]
-     * ```
-     *
-     * Bad multiple creators: `Jean M. Auel, Philippe Rouard`.
-     *
-     * ```php
-     * [
-     *   "@content" => "Jean M. Auel, Philippe Rouard"
-     *   "@attributes" => array:2 [
-     *     "role" => "aut"
-     *     "file-as" => "Jean M. Auel, Philippe Rouard"
-     *   ]
-     * ]
-     * ```
-     */
     private function multipleItems(array $items): array
     {
-        $data = $items;
+        $core = $items;
         // Check if subarrays exists
         $isMultiple = array_key_exists(0, $items);
 
@@ -510,10 +476,10 @@ class OpfMetadata
                 $temp[] = $items;
             }
 
-            $data = $temp;
+            $core = $temp;
         }
 
-        return $data;
+        return $core;
     }
 
     public function toArray(): array
@@ -543,7 +509,7 @@ class OpfMetadata
 
     public function __toString(): string
     {
-        $creators = array_map(fn (BookCreator $creator) => $creator->name(), $this->dcCreators);
+        $creators = array_map(fn (BookAuthor $creator) => $creator->name(), $this->dcCreators);
         $creators = implode(', ', $creators);
 
         return "{$this->dcTitle} by {$creators}";

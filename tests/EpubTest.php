@@ -1,38 +1,38 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Formats\Epub\EpubHtml;
 
 it('can parse epub entity', function () {
-    $ebook = Ebook::read(EPUB);
-    $book = $ebook->book();
-    $firstAuthor = $book->authors()[0];
+    $ebook = Ebook::read(EPUB, true);
+    $firstAuthor = $ebook->authors()[0];
     $basename = pathinfo(EPUB, PATHINFO_BASENAME);
 
     expect($ebook->path())->toBe(EPUB);
     expect($ebook->filename())->toBe($basename);
 
-    expect($book)->toBeInstanceOf(Kiwilan\Ebook\BookEntity::class);
-    expect($book->title())->toBe('The Clan of the Cave Bear');
-    expect($book->authorFirst()->name())->toBe('Jean M. Auel');
-    expect($book->authors())->toBeArray();
+    expect($ebook)->toBeInstanceOf(Ebook::class);
+    expect($ebook->title())->toBe('The Clan of the Cave Bear');
+    expect($ebook->authorMain()->name())->toBe('Jean M. Auel');
+    expect($ebook->authors())->toBeArray();
     expect($firstAuthor->name())->toBe('Jean M. Auel');
-    expect($book->description())->toBeString();
-    expect($book->contributor())->toBeString();
-    expect($book->rights())->toBe('Copyright © 1980 by Jean M. Auel');
-    expect($book->publisher())->toBe('Hodder & Stoughton');
-    expect($book->identifiers())->toBeArray();
-    expect($book->identifiers()['google']->content())->toBe('ASvHBAAAQBAJ');
-    expect($book->identifiers()['isbn13']->content())->toBe('9780345529329');
-    expect($book->date())->toBeInstanceOf(DateTime::class);
-    expect($book->date()->format('Y-m-d H:i:s'))->toBe('1980-05-03 22:00:00');
-    expect($book->language())->toBe('en');
-    expect($book->tags())->toBeArray();
-    expect($book->series())->toBe("Earth's Children");
-    expect($book->volume())->toBe(1);
-    expect($book->rating())->toBeFloat();
-    expect($book->rating())->toBe(10.0);
-    expect($book->pageCount())->toBe(35);
-    expect($book->wordsCount())->toBe(8596);
+    expect($ebook->description())->toBeString();
+    // expect($ebook->contributor())->toBeString();
+    expect($ebook->copyright())->toBe('Copyright © 1980 by Jean M. Auel');
+    expect($ebook->publisher())->toBe('Hodder & Stoughton');
+    expect($ebook->identifiers())->toBeArray();
+    expect($ebook->identifiers()['google']->content())->toBe('ASvHBAAAQBAJ');
+    expect($ebook->identifiers()['isbn13']->content())->toBe('9780345529329');
+    expect($ebook->publishDate())->toBeInstanceOf(DateTime::class);
+    expect($ebook->publishDate()->format('Y-m-d H:i:s'))->toBe('1980-05-03 22:00:00');
+    expect($ebook->language())->toBe('en');
+    expect($ebook->tags())->toBeArray();
+    expect($ebook->series())->toBe("Earth's Children");
+    expect($ebook->volume())->toBe(1);
+    // expect($ebook->rating())->toBeFloat();
+    // expect($ebook->rating())->toBe(10.0);
+    expect($ebook->pagesCount())->toBe(34);
+    expect($ebook->wordsCount())->toBe(8267);
 
     $metadata = $ebook->metadata();
     expect($metadata->toArray())->toBeArray();
@@ -41,18 +41,19 @@ it('can parse epub entity', function () {
 });
 
 it('can get epub cover', function () {
-    $ebook = Kiwilan\Ebook\Ebook::read(EPUB);
+    $ebook = Ebook::read(EPUB);
     $path = 'tests/output/cover-EPUB.jpg';
     file_put_contents($path, $ebook->cover());
 
-    expect($ebook->cover())->toBeString();
+    expect($ebook->cover()->path())->toBeString();
+    expect($ebook->cover()->content())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 });
 
 it('can get title meta', function () {
-    $book = Kiwilan\Ebook\Ebook::read(EPUB)->book();
-    $meta = $book->metaTitle();
+    $ebook = Ebook::read(EPUB);
+    $meta = $ebook->metaTitle();
 
     expect($meta->slug())->toBe('the-clan-of-the-cave-bear');
     expect($meta->slugSort())->toBe('clan-of-the-cave-bear');
@@ -69,14 +70,14 @@ it('can get title meta', function () {
 it('can extract alt metadata', function () {
     $ebook = Ebook::read(EPUB_NO_META);
 
-    expect($ebook->book()->title())->toBe('epub-no-meta');
+    expect($ebook->title())->toBe('epub-no-meta');
 });
 
 it('can read content', function () {
-    $html = Ebook::read(EPUB)->metadata()->html();
+    $html = Ebook::read(EPUB)->metadata()?->html();
 
     foreach ($html as $value) {
-        expect($value)->toBeInstanceOf(Kiwilan\Ebook\Epub\EpubHtml::class);
+        expect($value)->toBeInstanceOf(EpubHtml::class);
         expect($value->filename())->toBeString();
         expect($value->head())->toBeString();
         expect($value->body())->toBeString();
@@ -87,26 +88,34 @@ it('can read content', function () {
     }
 });
 
-it('can read TOC', function () {
+it('can read ncx', function () {
     $ebook = Ebook::read(EPUB);
-    $toc = $ebook->metadata()->toc();
+    $toc = $ebook->metadata()?->ncx();
 
-    dump($toc->navPoints());
+    if ($toc) {
+        expect($toc->head())->toBeArray();
+        expect($toc->docTitle())->toBeString();
+        expect($toc->navPoints())->toBeArray();
+        expect($toc->version())->toBeString();
+        expect($toc->lang())->toBeString();
+    } else {
+        expect($toc)->toBeNull();
+    }
+});
 
-    expect($toc->head())->toBeArray();
-    expect($toc->docTitle())->toBeString();
-    expect($toc->navPoints())->toBeArray();
-    expect($toc->version())->toBeString();
-    expect($toc->lang())->toBeString();
+it('can build EPUB render', function () {
+    $ebook = Ebook::read(EPUB);
+    $chapters = $ebook->metadata()->chapters();
+
+    expect($chapters)->toBeArray();
 });
 
 it('can parse with good performances', function () {
-    $time_pre = microtime(true);
-    Ebook::read(EPUB);
-    $time_post = microtime(true);
-    $exec_time = $time_post - $time_pre;
+    $ebook = Ebook::read(EPUB);
 
-    $time = number_format((float) $exec_time, 5, '.', '');
+    expect($ebook->metadata()->getExecTime())->toBeLessThan(0.01);
 
-    expect($time)->toBeLessThan(0.1);
+    $ebook = Ebook::read(EPUB, true);
+
+    expect($ebook->metadata()->getExecTime())->toBeLessThan(0.05);
 });

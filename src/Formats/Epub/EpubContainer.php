@@ -1,9 +1,12 @@
 <?php
 
-namespace Kiwilan\Ebook\Epub;
+namespace Kiwilan\Ebook\Formats\Epub;
 
 use Kiwilan\Ebook\XmlReader;
 
+/**
+ * Transform `container.xml` file to an object.
+ */
 class EpubContainer
 {
     protected ?string $opfPath = null;

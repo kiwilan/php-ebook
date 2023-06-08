@@ -1,7 +1,10 @@
 <?php
 
-namespace Kiwilan\Ebook\Epub;
+namespace Kiwilan\Ebook\Formats\Epub;
 
+/**
+ * Read `.html` file from `.epub` archive to extract content.
+ */
 class EpubHtml
 {
     protected string $filename;
@@ -10,9 +13,13 @@ class EpubHtml
 
     protected ?string $body = null;
 
-    public static function make(string $html, string $filename): self
+    public static function make(?string $html, ?string $filename): self
     {
         $self = new self();
+
+        if (! $html || ! $filename) {
+            return $self;
+        }
 
         $self->filename = $filename;
         $self->head = $self->getTag($html, 'head');

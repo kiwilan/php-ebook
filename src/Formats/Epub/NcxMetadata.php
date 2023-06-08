@@ -1,9 +1,12 @@
 <?php
 
-namespace Kiwilan\Ebook\Epub;
+namespace Kiwilan\Ebook\Formats\Epub;
 
 use Kiwilan\Ebook\XmlReader;
 
+/**
+ * Transform `.ncx` file to an object.
+ */
 class NcxMetadata
 {
     /** @var NcxMetadataHead[]|null */
