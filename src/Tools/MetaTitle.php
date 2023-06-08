@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Entity;
+namespace Kiwilan\Ebook\Tools;
 
 use Kiwilan\Ebook\Ebook;
 use Transliterator;
@@ -52,25 +52,28 @@ class MetaTitle
 
     private function setMetaTitle(Ebook $ebook): static
     {
-        $book = $ebook->book();
+        $title = $ebook->title();
+        $language = $ebook->language();
+        $series = $ebook->series();
+        $volume = $ebook->volume();
 
-        if (! $book->title()) {
+        if (! $title) {
             return $this;
         }
 
-        $this->slug = $this->setSlug($book->title());
-        $this->slugSort = $this->generateSortTitle($book->title(), $book->language());
-        $this->slugLang = $this->generateSlug($book->title(), $ebook->extension(), $book->language());
+        $this->slug = $this->setSlug($title);
+        $this->slugSort = $this->generateSortTitle($title, $language);
+        $this->slugLang = $this->generateSlug($title, $ebook->extension(), $language);
 
-        $this->slugSortWithSerie = $this->generateSortSerie($book->title(), $book->series(), $book->volume(), $book->language());
+        $this->slugSortWithSerie = $this->generateSortSerie($title, $series, $volume, $language);
 
-        if (! $book->series()) {
+        if (! $series) {
             return $this;
         }
 
-        $this->serieSlug = $this->setSlug($book->series());
-        $this->serieSlugSort = $this->generateSortTitle($book->series(), $book->language());
-        $this->serieSlugLang = $this->generateSlug($book->series(), $ebook->extension(), $book->language());
+        $this->serieSlug = $this->setSlug($series);
+        $this->serieSlugSort = $this->generateSortTitle($series, $language);
+        $this->serieSlugLang = $this->generateSlug($series, $ebook->extension(), $language);
 
         return $this;
     }

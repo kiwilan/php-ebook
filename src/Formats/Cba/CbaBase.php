@@ -1,13 +1,13 @@
 <?php
 
-namespace Kiwilan\Ebook\Cba;
+namespace Kiwilan\Ebook\Formats\Cba;
 
 use DateTime;
-use Kiwilan\Ebook\BookEntity;
+use Kiwilan\Ebook\EbookCore;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 
-abstract class CbaMetadata
+abstract class CbaBase
 {
     /** @var string[] */
     protected array $writers = [];
@@ -105,14 +105,9 @@ abstract class CbaMetadata
 
     protected ?string $format = null;
 
-    protected function __construct(
+    abstract public static function make(array $metadata): self;
 
-    ) {
-    }
-
-    abstract public static function create(array $metadata): self;
-
-    abstract public function toBook(): BookEntity;
+    abstract public function toCore(): EbookCore;
 
     /**
      * @return string[]

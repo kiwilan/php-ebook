@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Entity;
+namespace Kiwilan\Ebook\Tools;
 
 class ComicMeta
 {

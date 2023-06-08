@@ -1,18 +1,18 @@
 <?php
 
-namespace Kiwilan\Ebook\Cba;
+namespace Kiwilan\Ebook\Formats\Cba;
 
 use DateTime;
-use Kiwilan\Ebook\Book\BookCreator;
-use Kiwilan\Ebook\BookEntity;
-use Kiwilan\Ebook\Entity\ComicMeta;
+use Kiwilan\Ebook\EbookCore;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
+use Kiwilan\Ebook\Tools\BookAuthor;
+use Kiwilan\Ebook\Tools\ComicMeta;
 
 /**
  * @docs https://anansi-project.github.io/docs/comicinfo/schemas/v2.0
  */
-class CbaCbam extends CbaMetadata
+class CbaCbam extends CbaBase
 {
     protected string $metadataFilename = 'ComicInfo.xml';
 
@@ -24,7 +24,7 @@ class CbaCbam extends CbaMetadata
     /**
      * @param  array<string, mixed>  $metadata
      */
-    public static function create(array $metadata): self
+    public static function make(array $metadata): self
     {
         $self = new self($metadata);
         $self->parse();
@@ -32,17 +32,17 @@ class CbaCbam extends CbaMetadata
         return $self;
     }
 
-    public function toBook(): BookEntity
+    public function toCore(): EbookCore
     {
-        $book = BookEntity::make();
+        $core = EbookCore::make();
         $writers = $this->arrayableToCreators($this->writers, 'writer');
 
-        $book->setTitle($this->title);
+        $core->setTitle($this->title);
         if (array_key_exists(0, $writers)) {
-            $book->setAuthorFirst($writers[0]);
+            $core->setAuthorMain($writers[0]);
         }
 
-        $book->setAuthors([
+        $core->setAuthors([
             ...$writers,
             ...$this->arrayableToCreators($this->pencillers, 'penciller'),
             ...$this->arrayableToCreators($this->inkers, 'inker'),
@@ -51,24 +51,24 @@ class CbaCbam extends CbaMetadata
             ...$this->arrayableToCreators($this->coverArtists, 'cover artist'),
             ...$this->arrayableToCreators($this->translators, 'translator'),
         ]);
-        $book->setDescription($this->summary);
-        $book->setContributor($this->scanInformation);
-        $book->setRights($this->notes);
-        $book->setPublisher($this->publisher);
-        //$book->setIdentifiers();
-        $book->setDate($this->date);
-        $book->setLanguage($this->language);
-        $book->setTags($this->genres);
-        $book->setSeries($this->series);
-        $book->setVolume($this->number);
-        $book->setRating($this->communityRating);
-        $book->setPageCount($this->pageCount);
-        $book->setEditors($this->editors);
-        $book->setReview($this->review);
-        $book->setWeb($this->web);
-        $book->setManga($this->manga);
-        $book->setIsBlackAndWhite($this->isBlackAndWhite);
-        $book->setAgeRating($this->ageRating);
+        $core->setDescription($this->summary);
+        // $core->setContributor($this->scanInformation);
+        // $core->setRights($this->notes);
+        $core->setPublisher($this->publisher);
+        //$core->setIdentifiers();
+        $core->setPublishDate($this->date);
+        $core->setLanguage($this->language);
+        $core->setTags($this->genres);
+        $core->setSeries($this->series);
+        $core->setVolume($this->number);
+        // $core->setRating($this->communityRating);
+        // $core->setPageCount($this->pageCount);
+        // $core->setEditors($this->editors);
+        // $core->setReview($this->review);
+        // $core->setWeb($this->web);
+        // $core->setManga($this->manga);
+        // $core->setIsBlackAndWhite($this->isBlackAndWhite);
+        // $core->setAgeRating($this->ageRating);
 
         $comicMeta = new ComicMeta(
             alternateSeries: $this->alternateSeries,
@@ -85,15 +85,15 @@ class CbaCbam extends CbaMetadata
         $comicMeta->setTeams($this->teams);
         $comicMeta->setLocations($this->locations);
 
-        $book->setComicMeta($comicMeta);
+        // $core->setComicMeta($comicMeta);
 
-        $book->setExtras([
-            ...$this->extras,
-            'mainCharacterOrTeam' => $this->mainCharacterOrTeam,
-            'format' => $this->format,
-        ]);
+        // $core->setExtras([
+        //     ...$this->extras,
+        //     'mainCharacterOrTeam' => $this->mainCharacterOrTeam,
+        //     'format' => $this->format,
+        // ]);
 
-        return $book;
+        return $core;
     }
 
     /**
@@ -112,15 +112,15 @@ class CbaCbam extends CbaMetadata
         return array_map(fn ($v) => trim($v), $value);
     }
 
-    private function arrayableToCreators(array $data, ?string $role = null): array
+    private function arrayableToCreators(array $core, ?string $role = null): array
     {
-        if (empty($data)) {
+        if (empty($core)) {
             return [];
         }
 
         $creators = [];
-        foreach ($data as $item) {
-            $creators[] = new BookCreator($item, $role);
+        foreach ($core as $item) {
+            $creators[] = new BookAuthor($item, $role);
         }
 
         return $creators;

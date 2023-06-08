@@ -2,57 +2,109 @@
 
 namespace Kiwilan\Ebook;
 
+use DateTime;
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\Readers\BaseArchive;
-use Kiwilan\Ebook\Book\BookCreator;
-use Kiwilan\Ebook\Cba\Cba;
-use Kiwilan\Ebook\Cba\CbaCbam;
-use Kiwilan\Ebook\Cba\CbaMetadata;
-use Kiwilan\Ebook\Epub\EpubMetadata;
+use Kiwilan\Ebook\Enums\EbookFormatEnum;
+use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
+use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
+use Kiwilan\Ebook\Formats\Pdf\PdfMetadata;
+use Kiwilan\Ebook\Tools\BookAuthor;
+use Kiwilan\Ebook\Tools\BookIdentifier;
+use Kiwilan\Ebook\Tools\MetaTitle;
 
 class Ebook
 {
-    protected EpubMetadata|CbaMetadata|null $metadata = null;
+    protected ?string $title = null;
 
-    protected ?BookEntity $book = null;
+    protected ?MetaTitle $metaTitle = null;
 
-    protected ?string $format = null; // epub, pdf, cba
+    protected ?BookAuthor $authorMain = null;
 
-    protected ?string $cover = null;
+    /** @var BookAuthor[] */
+    protected array $authors = [];
+
+    protected ?string $description = null;
+
+    protected ?string $publisher = null;
+
+    /** @var BookIdentifier[] */
+    protected array $identifiers = [];
+
+    protected ?DateTime $publishDate = null;
+
+    protected ?string $language = null;
+
+    /** @var string[] */
+    protected array $tags = [];
+
+    protected ?string $series = null;
+
+    protected ?int $volume = null;
+
+    protected ?string $copyright = null;
+
+    protected EbookMetadata|null $metadata = null;
+
+    protected ?EbookFormatEnum $format = null;
+
+    protected ?EbookCover $cover = null;
+
+    protected ?int $wordsCount = null;
+
+    protected ?int $pagesCount = null;
 
     protected function __construct(
         protected string $path,
         protected string $filename,
         protected string $extension,
         protected BaseArchive $archive,
-        protected bool $hasMetadata = false,
+        protected bool $withCount = false,
     ) {
     }
 
-    public static function read(string $path): self
+    /**
+     * Read an ebook file.
+     */
+    public static function read(string $path, bool $withCount = false): ?self
     {
+        $timeStart = microtime(true);
         $filename = pathinfo($path, PATHINFO_BASENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
+
         if ($extension && ! in_array($extension, ['epub', 'pdf', 'cbz', 'cbr', 'cb7'])) {
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $filename, $extension, Archive::read($path));
+        $self = new self($path, $filename, $extension, Archive::read($path), $withCount);
+
         if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
-            $self->format = 'cba';
+            $self->format = EbookFormatEnum::CBA;
         } elseif ($extension === 'pdf') {
-            $self->format = 'pdf';
+            $self->format = EbookFormatEnum::PDF;
+        } elseif ($extension === 'epub') {
+            $self->format = EbookFormatEnum::EPUB;
         } else {
-            $self->format = 'epub';
+            // throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        match ($self->format) {
-            'epub' => $self->epub(),
-            'cba' => $self->cba(),
-            'pdf' => $self->pdf(),
+        $format = match ($self->format) {
+            EbookFormatEnum::EPUB => $self->epub(),
+            EbookFormatEnum::CBA => $self->cba(),
+            EbookFormatEnum::PDF => $self->pdf(),
+            default => null,
         };
 
-        $self->book?->setMetaTitle($self);
+        if ($format === null) {
+            return null;
+        }
+
+        $self->metaTitle = MetaTitle::make($self);
+        $self->metadata->setStartTime($timeStart);
+        $self->metadata->setEndTime(microtime(true));
+
+        ray($self);
 
         return $self;
     }
@@ -60,104 +112,66 @@ class Ebook
     private function epub(): self
     {
         $this->metadata = EpubMetadata::make($this);
-        $this->book = $this->metadata->toBook();
-
-        /**
-         * Set cover.
-         */
-        $cover = $this->archive->find($this->metadata->coverPath());
-        $coverContent = $this->archive->content($cover);
-        $this->setCover($coverContent);
-
-        $this->book()->setPageCount($this->metadata->pageCount());
-        $this->book()->setWordsCount($this->metadata->wordsCount());
-
-        $this->hasMetadata = true;
+        $this->convertEbook();
+        $this->cover = $this->metadata->toCover();
+        if ($this->withCount) {
+            $this->convertCounts();
+        }
 
         return $this;
     }
 
     private function cba(): self
     {
-        $xml = $this->archiveToXml('xml');
-        if (! $xml) {
-            return $this;
+        $this->metadata = CbaMetadata::make($this);
+        $this->convertEbook();
+        $this->cover = $this->metadata->toCover();
+        if ($this->withCount) {
+            $this->convertCounts();
         }
-        $metadata = XmlReader::toArray($xml);
-
-        $root = $metadata['@root'] ?? null;
-        $metadataType = match ($root) {
-            'ComicInfo' => 'cbam',
-            'ComicBook' => 'cbml',
-            default => null,
-        };
-
-        /** @var ?CbaMetadata */
-        $parser = match ($metadataType) {
-            'cbam' => CbaCbam::class,
-            // 'cbml' => CbaCbml::class,
-            default => null,
-        };
-
-        if (! $parser) {
-            throw new \Exception("Unknown metadata type: {$metadataType}");
-        }
-
-        $this->metadata = $parser::create($metadata);
-        $this->book = $this->metadata->toBook();
-
-        $files = $this->archive->filter('jpg');
-        if (empty($files)) {
-            $files = $this->archive->filter('jpeg');
-        }
-
-        if (! empty($files)) {
-            $cover = $files[0];
-            $coverContent = $this->archive->content($cover);
-            $this->setCover($coverContent);
-        }
-
-        $this->hasMetadata = true;
 
         return $this;
     }
 
     private function pdf(): self
     {
-        $this->book = BookEntity::make();
-        $this->book->setTitle($this->archive->metadata()->title());
-
-        $author = $this->archive->metadata()->author();
-        $authors = [];
-        if (str_contains($author, ',')) {
-            $authors = explode(',', $author);
-        } elseif (str_contains($author, '&')) {
-            $authors = explode(',', $author);
-        } elseif (str_contains($author, 'and')) {
-            $authors = explode(',', $author);
-        } else {
-            $authors[] = $author;
+        $this->metadata = PdfMetadata::make($this);
+        $this->convertEbook();
+        $this->cover = $this->metadata->toCover();
+        if ($this->withCount) {
+            $this->convertCounts();
         }
 
-        $creators = [];
-        foreach ($authors as $author) {
-            $creators[] = new BookCreator(
-                name: trim($author),
-            );
-        }
+        return $this;
+    }
 
-        $this->book->setAuthors($creators);
-        $this->book->setDescription($this->archive->metadata()->subject());
-        $this->book->setPublisher($this->archive->metadata()->creator());
-        $this->book->setTags($this->archive->metadata()->keywords());
-        $this->book->setDate($this->archive->metadata()->creationDate());
-        $this->book->setPageCount($this->archive->count());
+    private function convertEbook(): self
+    {
+        $ebook = $this->metadata->toEbook();
 
-        if (extension_loaded('imagick')) {
-            $coverContent = $this->archive->content($this->archive->first());
-            $this->setCover($coverContent);
-        }
-        $this->hasMetadata = true;
+        $this->title = $ebook->title();
+        $this->metaTitle = $ebook->metaTitle();
+        $this->authorMain = $ebook->authorMain();
+        $this->authors = $ebook->authors();
+        $this->description = $ebook->description();
+        $this->publisher = $ebook->publisher();
+        $this->identifiers = $ebook->identifiers();
+        $this->publishDate = $ebook->publishDate();
+        $this->language = $ebook->language();
+        $this->tags = $ebook->tags();
+        $this->series = $ebook->series();
+        $this->volume = $ebook->volume();
+        $this->copyright = $ebook->copyright();
+
+        return $this;
+    }
+
+    private function convertCounts(): self
+    {
+        $counts = $this->metadata->toCounts();
+
+        $this->wordsCount = $counts->wordsCount();
+        $this->pagesCount = $counts->pagesCount();
 
         return $this;
     }
@@ -167,15 +181,124 @@ class Ebook
         return 250;
     }
 
-    public function archiveToXml(string $path): ?string
+    public function toXml(string $path): ?string
     {
-        $file = $this->archive->find($path);
-        if (! $file) {
-            return null;
-        }
-        $content = $this->archive->content($file);
+        $ebook = $this->archive->find($path);
+        $content = $this->archive->content($ebook);
 
         return $content;
+    }
+
+    /**
+     * Title of the book.
+     */
+    public function title(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Title metadata of the book with slug, sort title, series slug, etc.
+     * Can be null if the title is null.
+     */
+    public function metaTitle(): ?MetaTitle
+    {
+        return $this->metaTitle;
+    }
+
+    /**
+     * First author of the book (useful if you need to display only one author).
+     */
+    public function authorMain(): ?BookAuthor
+    {
+        return $this->authorMain;
+    }
+
+    /**
+     * All authors of the book.
+     *
+     * @return BookAuthor[]
+     */
+    public function authors(): array
+    {
+
+        return $this->authors;
+    }
+
+    /**
+     * Description of the book.
+     */
+    public function description(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Publisher of the book.
+     */
+    public function publisher(): ?string
+    {
+        return $this->publisher;
+    }
+
+    /**
+     * Identifiers of the book.
+     *
+     * @return BookIdentifier[]
+     */
+    public function identifiers(): array
+    {
+        return $this->identifiers;
+    }
+
+    /**
+     * Publish date of the book.
+     */
+    public function publishDate(): ?DateTime
+    {
+        return $this->publishDate;
+    }
+
+    /**
+     * Language of the book.
+     */
+    public function language(): ?string
+    {
+        return $this->language;
+    }
+
+    /**
+     * Tags of the book.
+     *
+     * @return string[]
+     */
+    public function tags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Series of the book.
+     */
+    public function series(): ?string
+    {
+        return $this->series;
+    }
+
+    /**
+     * Volume of the book.
+     */
+    public function volume(): ?int
+    {
+        return $this->volume;
+    }
+
+    /**
+     * Copyright of the book.
+     */
+    public function copyright(): ?string
+    {
+        return $this->copyright;
     }
 
     /**
@@ -215,13 +338,13 @@ class Ebook
      */
     public function hasMetadata(): bool
     {
-        return $this->hasMetadata;
+        return $this->metadata !== null;
     }
 
     /**
      * Format of the ebook.
      */
-    public function format(): ?string
+    public function format(): ?EbookFormatEnum
     {
         return $this->format;
     }
@@ -229,44 +352,162 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): EpubMetadata|CbaMetadata|null
+    public function metadata(): EbookMetadata|EpubMetadata|CbaMetadata|PdfMetadata|null
     {
         return $this->metadata;
     }
 
     /**
-     * Cover of the ebook (saved as base64, auto convert to string).
+     * Cover of the ebook.
      */
-    public function cover(bool $convertBase64 = true): ?string
+    public function cover(): ?EbookCover
     {
-        if (! $this->cover) {
-            return null;
-        }
-
-        if ($convertBase64) {
-            return base64_decode($this->cover);
-        }
-
         return $this->cover;
     }
 
     /**
-     * Book entity of the ebook.
+     * Word count of the ebook.
      */
-    public function book(): ?BookEntity
+    public function wordsCount(): ?int
     {
-        return $this->book;
+        return $this->wordsCount;
     }
 
-    public function setCover(?string $cover, bool $toBase64 = true): self
+    /**
+     * Page count of the ebook.
+     */
+    public function pagesCount(): ?int
     {
-        if ($toBase64) {
-            $cover = base64_encode($cover);
-        } else {
-            $cover = $cover;
+        return $this->pagesCount;
+    }
+
+    /**
+     * Whether the ebook has a cover.
+     */
+    public function hasCover(): bool
+    {
+        return $this->cover !== null;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    public function setMetaTitle(Ebook $ebook): self
+    {
+        $this->metaTitle = MetaTitle::make($ebook);
+
+        return $this;
+    }
+
+    public function setAuthorMain(?BookAuthor $authorMain): self
+    {
+        $this->authorMain = $authorMain;
+
+        return $this;
+    }
+
+    /**
+     * @param  BookAuthor[]  $authors
+     */
+    public function setAuthors(array $authors): self
+    {
+
+        $this->authors = $authors;
+
+        if (! $this->authorMain && count($this->authors) > 0) {
+            $this->authorMain = reset($this->authors);
         }
 
-        $this->cover = $cover;
+        return $this;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function setPublisher(?string $publisher): self
+    {
+        $this->publisher = $publisher;
+
+        return $this;
+    }
+
+    /**
+     * @param  BookIdentifier[]  $identifiers
+     */
+    public function setIdentifiers(array $identifiers): self
+    {
+        $this->identifiers = $identifiers;
+
+        return $this;
+    }
+
+    public function setPublishDate(?DateTime $publishDate): self
+    {
+        $this->publishDate = $publishDate;
+
+        return $this;
+    }
+
+    public function setLanguage(?string $language): self
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * @param  string[]  $tags
+     */
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    public function setSeries(?string $series): self
+    {
+        $this->series = $series;
+
+        return $this;
+    }
+
+    public function setVolume(int|string|null $volume): self
+    {
+        if (is_string($volume)) {
+            $volume = intval($volume);
+        }
+
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function setCopyright(?string $copyright): self
+    {
+        $this->copyright = $copyright;
+
+        return $this;
+    }
+
+    public function setWordsCount(?int $wordsCount): self
+    {
+        $this->wordsCount = $wordsCount;
+
+        return $this;
+    }
+
+    public function setPagesCount(?int $pagesCount): self
+    {
+        $this->pagesCount = $pagesCount;
 
         return $this;
     }
@@ -274,13 +515,25 @@ class Ebook
     public function toArray(): array
     {
         return [
+            'title' => $this->title,
+            'authorMain' => $this->authorMain?->name(),
+            'authors' => array_map(fn (BookAuthor $author) => $author->name(), $this->authors),
+            'description' => $this->description,
+            'publisher' => $this->publisher,
+            'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
+            'date' => $this->publishDate?->format('Y-m-d H:i:s'),
+            'language' => $this->language,
+            'tags' => $this->tags,
+            'series' => $this->series,
+            'volume' => $this->volume,
+            'wordsCount' => $this->wordsCount,
+            'pagesCount' => $this->pagesCount,
             'path' => $this->path,
             'filename' => $this->filename,
             'extension' => $this->extension,
             'format' => $this->format,
-            'metadata' => $this->metadata ? 'Exists (use `metadata()` to display it)' : null,
-            'book' => $this->book ? 'Exists (use `book()` to display it)' : null,
-            'cover' => $this->cover ? 'Exists (use `cover()` to display it)' : null,
+            'metadata' => $this->metadata?->toArray(),
+            'cover' => $this->cover?->toArray(),
         ];
     }
 
@@ -291,6 +544,6 @@ class Ebook
 
     public function __toString(): string
     {
-        return "{$this->path} ({$this->format})";
+        return "{$this->path} ({$this->format?->value})";
     }
 }
