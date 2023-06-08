@@ -27,6 +27,13 @@ define('EPUB', __DIR__.'/media/test-epub.epub');
 define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
+
+define('EBOOKS_ITEMS', [
+    'EPUB' => EPUB,
+    'CBZ' => CBZ,
+    'PDF' => PDF,
+]);
+
 define('BOOKS_ITEMS', [
     'EPUB' => EPUB,
     'EPUB_MULTIPLE_CREATORS' => EPUB_MULTIPLE_CREATORS,
@@ -65,13 +72,13 @@ function isImage(?string $extension): bool
     ], true);
 }
 
-function isBase64(?string $data): bool
+function isBase64(?string $core): bool
 {
-    if (! $data) {
+    if (! $core) {
         return false;
     }
 
-    if (base64_encode(base64_decode($data, true)) === $data) {
+    if (base64_encode(base64_decode($core, true)) === $core) {
         return true;
     }
 
@@ -111,11 +118,11 @@ function listFiles(string $dir): array
     $files = array_diff(scandir($dir), ['.', '..', '.gitignore']);
 
     $items = [];
-    foreach ($files as $file) {
-        if (! is_dir("$dir/$file") && ! is_link("$dir/$file")) {
-            $items[] = $file;
+    foreach ($files as $ebook) {
+        if (! is_dir("$dir/$ebook") && ! is_link("$dir/$ebook")) {
+            $items[] = $ebook;
         } else {
-            $items = array_merge($items, listFiles("$dir/$file"));
+            $items = array_merge($items, listFiles("$dir/$ebook"));
         }
     }
 
@@ -127,11 +134,11 @@ function recurseRmdir(string $dir)
     $exclude = ['.gitignore'];
     $it = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
     $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
-    foreach ($it as $file) {
-        if ($file->isDir()) {
-            rmdir($file->getPathname());
-        } elseif (! in_array($file->getFilename(), $exclude)) {
-            unlink($file->getPathname());
+    foreach ($it as $ebook) {
+        if ($ebook->isDir()) {
+            rmdir($ebook->getPathname());
+        } elseif (! in_array($ebook->getFilename(), $exclude)) {
+            unlink($ebook->getPathname());
         }
     }
     // rmdir($dir);
