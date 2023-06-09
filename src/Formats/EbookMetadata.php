@@ -4,17 +4,14 @@ namespace Kiwilan\Ebook\Formats;
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
+use Kiwilan\Ebook\Formats\Cba\CbamMetadata;
+use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
 
 abstract class EbookMetadata
 {
-    protected ?float $timeStart = null;
+    protected ?EpubMetadata $epub = null;
 
-    protected ?float $timeEnd = null;
-
-    /**
-     * @var array<string, mixed>
-     */
-    protected array $extras = [];
+    protected ?CbamMetadata $cbam = null;
 
     protected function __construct(
         protected Ebook $ebook,
@@ -29,50 +26,14 @@ abstract class EbookMetadata
 
     abstract public function toCounts(): Ebook;
 
-    public function timeStart(): ?float
+    public function epub(): ?EpubMetadata
     {
-        return $this->timeStart;
+        return $this->epub;
     }
 
-    public function timeEnd(): ?float
+    public function cbam(): ?CbamMetadata
     {
-        return $this->timeEnd;
-    }
-
-    public function getExecTime(): float
-    {
-        $execTime = $this->timeEnd - $this->timeStart;
-
-        return number_format((float) $execTime, 5, '.', '');
-    }
-
-    public function extras(): array
-    {
-        return $this->extras;
-    }
-
-    public function setStartTime(float $time): self
-    {
-        $this->timeStart = $time;
-
-        return $this;
-    }
-
-    public function setEndTime(float $time): self
-    {
-        $this->timeEnd = $time;
-
-        return $this;
-    }
-
-    /**
-     * @param  array<string, mixed>  $extras
-     */
-    public function setExtras(array $extras): self
-    {
-        $this->extras = $extras;
-
-        return $this;
+        return $this->cbam;
     }
 
     abstract public function toArray(): array;

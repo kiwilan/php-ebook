@@ -45,7 +45,7 @@ class Ebook
 
     protected ?string $copyright = null;
 
-    protected EbookMetadata|null $metadata = null;
+    protected ?EbookMetadata $metadata = null;
 
     protected ?EbookFormatEnum $format = null;
 
@@ -55,21 +55,28 @@ class Ebook
 
     protected ?int $pagesCount = null;
 
+    protected bool $countsParsed = false;
+
+    protected ?float $execTime = null;
+
+    /** @var array<string, mixed> */
+    protected array $extras = [];
+
     protected function __construct(
         protected string $path,
         protected string $filename,
         protected string $extension,
         protected BaseArchive $archive,
-        protected bool $withCount = false,
+        protected bool $hasMetadata = false,
     ) {
     }
 
     /**
      * Read an ebook file.
      */
-    public static function read(string $path, bool $withCount = false): ?self
+    public static function read(string $path): ?self
     {
-        $timeStart = microtime(true);
+        $start = microtime(true);
         $filename = pathinfo($path, PATHINFO_BASENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
@@ -77,7 +84,7 @@ class Ebook
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $filename, $extension, Archive::read($path), $withCount);
+        $self = new self($path, $filename, $extension, Archive::read($path));
 
         if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
             $self->format = EbookFormatEnum::CBA;
@@ -101,10 +108,9 @@ class Ebook
         }
 
         $self->metaTitle = MetaTitle::make($self);
-        $self->metadata->setStartTime($timeStart);
-        $self->metadata->setEndTime(microtime(true));
 
-        ray($self);
+        $time = microtime(true) - $start;
+        $self->execTime = number_format((float) $time, 5, '.', '');
 
         return $self;
     }
@@ -114,9 +120,6 @@ class Ebook
         $this->metadata = EpubMetadata::make($this);
         $this->convertEbook();
         $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
 
         return $this;
     }
@@ -126,9 +129,6 @@ class Ebook
         $this->metadata = CbaMetadata::make($this);
         $this->convertEbook();
         $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
 
         return $this;
     }
@@ -138,9 +138,6 @@ class Ebook
         $this->metadata = PdfMetadata::make($this);
         $this->convertEbook();
         $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
 
         return $this;
     }
@@ -168,6 +165,7 @@ class Ebook
 
     private function convertCounts(): self
     {
+        $this->countsParsed = true;
         $counts = $this->metadata->toCounts();
 
         $this->wordsCount = $counts->wordsCount();
@@ -338,7 +336,7 @@ class Ebook
      */
     public function hasMetadata(): bool
     {
-        return $this->metadata !== null;
+        return $this->hasMetadata;
     }
 
     /**
@@ -352,7 +350,7 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): EbookMetadata|EpubMetadata|CbaMetadata|PdfMetadata|null
+    public function metadata(): ?EbookMetadata
     {
         return $this->metadata;
     }
@@ -370,6 +368,10 @@ class Ebook
      */
     public function wordsCount(): ?int
     {
+        if (! $this->countsParsed) {
+            $this->convertCounts();
+        }
+
         return $this->wordsCount;
     }
 
@@ -378,7 +380,29 @@ class Ebook
      */
     public function pagesCount(): ?int
     {
+        if (! $this->countsParsed) {
+            $this->convertCounts();
+        }
+
         return $this->pagesCount;
+    }
+
+    /**
+     * Execution time for parsing the ebook.
+     */
+    public function execTime(): ?float
+    {
+        return $this->execTime;
+    }
+
+    /**
+     * Extras of the ebook.
+     *
+     * @return array<string, mixed>
+     */
+    public function extras(): array
+    {
+        return $this->extras;
     }
 
     /**
@@ -508,6 +532,23 @@ class Ebook
     public function setPagesCount(?int $pagesCount): self
     {
         $this->pagesCount = $pagesCount;
+
+        return $this;
+    }
+
+    public function setHasMetadata(bool $hasMetadata): self
+    {
+        $this->hasMetadata = $hasMetadata;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, mixed>  $extras
+     */
+    public function setExtras(array $extras): self
+    {
+        $this->extras = $extras;
 
         return $this;
     }
