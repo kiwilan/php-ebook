@@ -19,7 +19,7 @@ class EpubMetadata extends EbookMetadata
     /** @var string[] */
     protected array $files = [];
 
-    protected ?int $pageCount = null;
+    protected ?int $pagesCount = null;
 
     protected ?int $wordsCount = null;
 
@@ -57,9 +57,12 @@ class EpubMetadata extends EbookMetadata
             return $this;
         }
 
+        $this->ebook->setHasMetadata(true);
         $this->opf = OpfMetadata::make($xml, $this->ebook->filename());
         $this->coverPath = $this->opf->coverPath();
         $this->files = $this->opf->contentFiles();
+
+        $this->epub = $this;
 
         return $this;
     }
@@ -76,7 +79,6 @@ class EpubMetadata extends EbookMetadata
         if ($this->opf->dcDescription()) {
             $this->ebook->setDescription(strip_tags($this->opf->dcDescription()));
         }
-        // $this->ebook->setContributor(! empty($this->opf->dcContributors()) ? implode(', ', $this->opf->dcContributors()) : null);
         $this->ebook->setCopyright(! empty($this->opf->dcRights()) ? implode(', ', $this->opf->dcRights()) : null);
         $this->ebook->setPublisher($this->opf->dcPublisher());
         $this->ebook->setIdentifiers($this->opf->dcIdentifiers());
@@ -93,6 +95,7 @@ class EpubMetadata extends EbookMetadata
         }
         $this->ebook->setTags($tags);
 
+        $rating = null;
         if (! empty($this->opf->meta())) {
             foreach ($this->opf->meta() as $meta) {
                 if ($meta->name() === 'calibre:series') {
@@ -101,11 +104,17 @@ class EpubMetadata extends EbookMetadata
                 if ($meta->name() === 'calibre:series_index') {
                     $this->ebook->setVolume((int) $meta->content());
                 }
-                // if ($meta->name() === 'calibre:rating') {
-                //     $this->ebook->setRating((int) $meta->content());
-                // }
+                if ($meta->name() === 'calibre:rating') {
+                    $rating = (float) $meta->content();
+                }
             }
         }
+
+        $contributor = ! empty($this->opf->dcContributors()) ? implode(', ', $this->opf->dcContributors()) : null;
+        $this->ebook->setExtras([
+            'contributor' => $contributor,
+            'rating' => $rating,
+        ]);
 
         return $this->ebook;
     }
@@ -124,12 +133,12 @@ class EpubMetadata extends EbookMetadata
 
     public function toCounts(): Ebook
     {
-        if (! $this->wordsCount || ! $this->pageCount) {
+        if (! $this->wordsCount || ! $this->pagesCount) {
             $this->setCounts();
         }
 
         $this->ebook->setWordsCount($this->wordsCount);
-        $this->ebook->setPagesCount($this->pageCount);
+        $this->ebook->setPagesCount($this->pagesCount);
 
         return $this->ebook;
     }
@@ -150,14 +159,14 @@ class EpubMetadata extends EbookMetadata
             $wordsCount += count($words);
         }
 
-        $pageCount = (int) ceil($wordsCount / Ebook::wordsByPage());
+        $pagesCount = (int) ceil($wordsCount / Ebook::wordsByPage());
 
         $this->wordsCount = $wordsCount;
-        $this->pageCount = $pageCount;
+        $this->pagesCount = $pagesCount;
 
         return [
             'words' => $wordsCount,
-            'pages' => $pageCount,
+            'pages' => $pagesCount,
         ];
     }
 
@@ -182,7 +191,7 @@ class EpubMetadata extends EbookMetadata
         }
 
         if (empty($this->ncx)) {
-            $this->parseNcx();
+            $this->ncx = $this->parseNcx();
         }
 
         $chapters = EpubChapter::toArray($this->ncx, $this->html);
@@ -233,7 +242,7 @@ class EpubMetadata extends EbookMetadata
     public function ncx(): ?NcxMetadata
     {
         if (is_null($this->ncx)) {
-            $this->parseNcx();
+            $this->ncx = $this->parseNcx();
         }
 
         return $this->ncx;
@@ -244,13 +253,13 @@ class EpubMetadata extends EbookMetadata
         return $this->coverPath;
     }
 
-    public function pageCount(): ?int
+    public function pagesCount(): ?int
     {
-        if (is_null($this->pageCount)) {
+        if (is_null($this->pagesCount)) {
             $this->setCounts();
         }
 
-        return $this->pageCount;
+        return $this->pagesCount;
     }
 
     public function wordsCount(): ?int
