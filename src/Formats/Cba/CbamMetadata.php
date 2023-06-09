@@ -3,11 +3,13 @@
 namespace Kiwilan\Ebook\Formats\Cba;
 
 use DateTime;
-use Kiwilan\Ebook\EbookCore;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 
-abstract class CbaBase
+/**
+ * @docs https://anansi-project.github.io/docs/comicinfo/schemas/v2.0
+ */
+class CbamMetadata extends CbaTemplate
 {
     /** @var string[] */
     protected array $writers = [];
@@ -105,9 +107,134 @@ abstract class CbaBase
 
     protected ?string $format = null;
 
-    abstract public static function make(array $metadata): self;
+    protected string $metadataFilename = 'ComicInfo.xml';
 
-    abstract public function toCore(): EbookCore;
+    protected function __construct(
+        protected array $metadata,
+    ) {
+    }
+
+    /**
+     * @param  array<string, mixed>  $metadata
+     */
+    public static function make(array $metadata): self
+    {
+        $self = new self($metadata);
+        $self->parse();
+
+        return $self;
+    }
+
+    private function parse(): void
+    {
+        $this->title = $this->extract('Title');
+        $this->series = $this->extract('Series');
+        $this->number = $this->extractInt('Number');
+        $this->count = $this->extractInt('Count');
+        $this->volume = $this->extractInt('Volume');
+        $this->alternateSeries = $this->extract('AlternateSeries');
+        $this->alternateNumber = $this->extractInt('AlternateNumber');
+        $this->alternateCount = $this->extract('AlternateCount');
+        $this->summary = $this->extract('Summary');
+        $this->notes = $this->extract('Notes');
+        $this->extras['year'] = $this->extractInt('Year');
+        $this->extras['month'] = $this->extractInt('Month');
+        $this->extras['day'] = $this->extractInt('Day');
+
+        $year = $this->extras['year'] ?? null;
+        $month = $this->extras['month'] ?? '01';
+        $day = $this->extras['day'] ?? '01';
+
+        if ($year) {
+            $date = "{$year}-{$month}-{$day}";
+            $this->date = new DateTime($date);
+        }
+
+        $this->writers = $this->arrayable($this->extract('Writer'));
+        $this->pencillers = $this->arrayable($this->extract('Penciller'));
+        $this->inkers = $this->arrayable($this->extract('Inker'));
+        $this->colorists = $this->arrayable($this->extract('Colorist'));
+        $this->letterers = $this->arrayable($this->extract('Letterer'));
+        $this->coverArtists = $this->arrayable($this->extract('CoverArtist'));
+        $this->translators = $this->arrayable($this->extract('Translator'));
+        $this->editors = $this->arrayable($this->extract('Editor'));
+        $this->publisher = $this->extract('Publisher');
+        $this->imprint = $this->extract('Imprint');
+        $this->genres = $this->arrayable($this->extract('Genre'));
+        $this->web = $this->extract('Web');
+        $this->pageCount = $this->extractInt('PageCount');
+        $this->language = $this->extract('LanguageISO');
+        $this->format = $this->extract('Format');
+        $this->isBlackAndWhite = $this->extract('BlackAndWhite') === 'Yes';
+
+        $manga = $this->extract('Manga');
+        $this->manga = $manga ? MangaEnum::tryFrom($manga) : null;
+
+        $this->characters = $this->arrayable($this->extract('Characters'));
+        $this->teams = $this->arrayable($this->extract('Teams'));
+        $this->locations = $this->arrayable($this->extract('Locations'));
+        $this->scanInformation = $this->extract('ScanInformation');
+        $this->storyArc = $this->extract('StoryArc');
+        $this->storyArcNumber = $this->extractInt('StoryArcNumber');
+        $this->seriesGroup = $this->extract('SeriesGroup');
+
+        $ageRating = $this->extract('AgeRating');
+        $this->ageRating = $ageRating ? AgeRatingEnum::tryFrom($ageRating) : AgeRatingEnum::UNKNOWN;
+
+        $communityRating = $this->extract('CommunityRating');
+        $this->communityRating = $communityRating ? (float) $communityRating : null;
+
+        $this->mainCharacterOrTeam = $this->extract('MainCharacterOrTeam');
+        $this->review = $this->extract('Review');
+
+        $pages = $this->metadata['Pages'] ?? null;
+
+        if ($pages && array_key_exists('Page', $pages)) {
+            $pages = $pages['Page'];
+
+            $items = [];
+            foreach ($pages as $page) {
+                if (array_key_exists('@attributes', $page)) {
+                    $items[] = $page['@attributes'];
+                }
+            }
+
+            $this->extras['pages'] = $items;
+        }
+    }
+
+    private function extract(string $key): ?string
+    {
+        $string = $this->metadata[$key] ?? null;
+
+        if (! $string) {
+            return null;
+        }
+
+        return $this->normalizeString($string);
+    }
+
+    private function extractInt(string $key): ?int
+    {
+        if ($this->extract($key)) {
+            return (int) $this->extract($key);
+        }
+
+        return null;
+    }
+
+    private function normalizeString(string $string): ?string
+    {
+        if (empty($string)) {
+            return null;
+        }
+
+        $string = preg_replace('/\s+/', ' ', $string);
+        $string = preg_replace("/\r|\n/", '', $string);
+        $string = trim($string);
+
+        return $string;
+    }
 
     /**
      * @return string[]
