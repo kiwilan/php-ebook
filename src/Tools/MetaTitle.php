@@ -174,7 +174,7 @@ class MetaTitle
         $serie = null;
 
         if ($serieTitle) {
-            // @phpstan-ignore-next-line
+            $volume = (string) $volume;
             $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
             $serie = $serieTitle.' '.$volume;
             $serie = $this->setSlug($this->generateSortTitle($serie, $language)).'_';

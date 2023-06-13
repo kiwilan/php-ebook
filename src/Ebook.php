@@ -5,7 +5,9 @@ namespace Kiwilan\Ebook;
 use DateTime;
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\Readers\BaseArchive;
+use Kiwilan\Audio\Audio;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
+use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
 use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
 use Kiwilan\Ebook\Formats\EbookMetadata;
 use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
@@ -45,8 +47,6 @@ class Ebook
 
     protected ?string $copyright = null;
 
-    protected EbookMetadata|null $metadata = null;
-
     protected ?EbookFormatEnum $format = null;
 
     protected ?EbookCover $cover = null;
@@ -55,44 +55,79 @@ class Ebook
 
     protected ?int $pagesCount = null;
 
+    protected bool $countsParsed = false;
+
+    protected ?float $execTime = null;
+
+    /** @var array<string, mixed> */
+    protected array $extras = [];
+
     protected function __construct(
         protected string $path,
         protected string $filename,
         protected string $extension,
-        protected BaseArchive $archive,
-        protected bool $withCount = false,
+        protected BaseArchive|null $archive = null,
+        protected Audio|null $audio = null,
+        protected bool $isArchive = false,
+        protected bool $isAudio = false,
+        protected ?EbookMetadata $metadata = null,
+        protected bool $hasMetadata = false,
     ) {
     }
 
     /**
      * Read an ebook file.
      */
-    public static function read(string $path, bool $withCount = false): ?self
+    public static function read(string $path): ?self
     {
-        $timeStart = microtime(true);
+        $start = microtime(true);
         $filename = pathinfo($path, PATHINFO_BASENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
-        if ($extension && ! in_array($extension, ['epub', 'pdf', 'cbz', 'cbr', 'cb7'])) {
+        $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
+        $archiveExtensions = ['epub', 'pdf', ...$cbaExtensions];
+        $audiobookExtensions = ['mp3', 'm4a', 'm4b', 'flac', 'ogg'];
+        $allowExtensions = [...$archiveExtensions, ...$audiobookExtensions];
+
+        if ($extension && ! in_array($extension, $allowExtensions)) {
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $filename, $extension, Archive::read($path), $withCount);
+        $self = new self($path, $filename, $extension);
 
-        if (in_array($extension, ['cbz', 'cbr', 'cb7', 'cbt'])) {
+        if (in_array($extension, $cbaExtensions)) {
             $self->format = EbookFormatEnum::CBA;
         } elseif ($extension === 'pdf') {
             $self->format = EbookFormatEnum::PDF;
         } elseif ($extension === 'epub') {
             $self->format = EbookFormatEnum::EPUB;
+        } elseif (in_array($extension, $audiobookExtensions)) {
+            $self->format = EbookFormatEnum::AUDIOBOOK;
         } else {
             // throw new \Exception("Unknown archive type: {$extension}");
+        }
+
+        if (in_array($extension, $archiveExtensions)) {
+            $self->isArchive = true;
+        }
+
+        if (in_array($extension, $audiobookExtensions)) {
+            $self->isAudio = true;
+        }
+
+        if ($self->isArchive) {
+            $self->archive = Archive::read($path);
+        }
+
+        if ($self->isAudio) {
+            $self->audio = Audio::get($path);
         }
 
         $format = match ($self->format) {
             EbookFormatEnum::EPUB => $self->epub(),
             EbookFormatEnum::CBA => $self->cba(),
             EbookFormatEnum::PDF => $self->pdf(),
+            EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
             default => null,
         };
 
@@ -101,53 +136,52 @@ class Ebook
         }
 
         $self->metaTitle = MetaTitle::make($self);
-        $self->metadata->setStartTime($timeStart);
-        $self->metadata->setEndTime(microtime(true));
 
-        ray($self);
+        $time = microtime(true) - $start;
+        $self->execTime = (float) number_format((float) $time, 5, '.', '');
 
         return $self;
     }
 
     private function epub(): self
     {
-        $this->metadata = EpubMetadata::make($this);
+        $this->metadata = EbookMetadata::make(EpubMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
+        $this->cover = $this->metadata->module()->toCover();
 
         return $this;
     }
 
     private function cba(): self
     {
-        $this->metadata = CbaMetadata::make($this);
+        $this->metadata = EbookMetadata::make(CbaMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
+        $this->cover = $this->metadata->module()->toCover();
 
         return $this;
     }
 
     private function pdf(): self
     {
-        $this->metadata = PdfMetadata::make($this);
+        $this->metadata = EbookMetadata::make(PdfMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->toCover();
-        if ($this->withCount) {
-            $this->convertCounts();
-        }
+        $this->cover = $this->metadata->module()->toCover();
+
+        return $this;
+    }
+
+    private function audiobook(): self
+    {
+        $this->metadata = EbookMetadata::make(AudiobookMetadata::make($this));
+        $this->convertEbook();
+        $this->cover = $this->metadata->module()->toCover();
 
         return $this;
     }
 
     private function convertEbook(): self
     {
-        $ebook = $this->metadata->toEbook();
+        $ebook = $this->metadata->module()->toEbook();
 
         $this->title = $ebook->title();
         $this->metaTitle = $ebook->metaTitle();
@@ -168,7 +202,8 @@ class Ebook
 
     private function convertCounts(): self
     {
-        $counts = $this->metadata->toCounts();
+        $this->countsParsed = true;
+        $counts = $this->metadata->module()->toCounts();
 
         $this->wordsCount = $counts->wordsCount();
         $this->pagesCount = $counts->pagesCount();
@@ -328,9 +363,33 @@ class Ebook
     /**
      * Archive reader.
      */
-    public function archive(): BaseArchive
+    public function archive(): BaseArchive|null
     {
         return $this->archive;
+    }
+
+    /**
+     * Audio reader.
+     */
+    public function audio(): Audio|null
+    {
+        return $this->audio;
+    }
+
+    /**
+     * Whether the ebook is an audio.
+     */
+    public function isAudio(): bool
+    {
+        return $this->isAudio;
+    }
+
+    /**
+     * Whether the ebook is an archive.
+     */
+    public function isArchive(): bool
+    {
+        return $this->isArchive;
     }
 
     /**
@@ -338,7 +397,7 @@ class Ebook
      */
     public function hasMetadata(): bool
     {
-        return $this->metadata !== null;
+        return $this->hasMetadata;
     }
 
     /**
@@ -352,7 +411,7 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): EbookMetadata|EpubMetadata|CbaMetadata|PdfMetadata|null
+    public function metadata(): ?EbookMetadata
     {
         return $this->metadata;
     }
@@ -370,6 +429,14 @@ class Ebook
      */
     public function wordsCount(): ?int
     {
+        if ($this->wordsCount) {
+            return $this->wordsCount;
+        }
+
+        if (! $this->countsParsed) {
+            $this->convertCounts();
+        }
+
         return $this->wordsCount;
     }
 
@@ -378,7 +445,33 @@ class Ebook
      */
     public function pagesCount(): ?int
     {
+        if ($this->pagesCount) {
+            return $this->pagesCount;
+        }
+
+        if (! $this->countsParsed) {
+            $this->convertCounts();
+        }
+
         return $this->pagesCount;
+    }
+
+    /**
+     * Execution time for parsing the ebook.
+     */
+    public function execTime(): ?float
+    {
+        return $this->execTime;
+    }
+
+    /**
+     * Extras of the ebook.
+     *
+     * @return array<string, mixed>
+     */
+    public function extras(): array
+    {
+        return $this->extras;
     }
 
     /**
@@ -508,6 +601,23 @@ class Ebook
     public function setPagesCount(?int $pagesCount): self
     {
         $this->pagesCount = $pagesCount;
+
+        return $this;
+    }
+
+    public function setHasMetadata(bool $hasMetadata): self
+    {
+        $this->hasMetadata = $hasMetadata;
+
+        return $this;
+    }
+
+    /**
+     * @param  array<string, mixed>  $extras
+     */
+    public function setExtras(array $extras): self
+    {
+        $this->extras = $extras;
 
         return $this;
     }

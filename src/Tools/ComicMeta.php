@@ -2,6 +2,9 @@
 
 namespace Kiwilan\Ebook\Tools;
 
+use Kiwilan\Ebook\Enums\AgeRatingEnum;
+use Kiwilan\Ebook\Enums\MangaEnum;
+
 class ComicMeta
 {
     /** @var string[] */
@@ -13,6 +16,9 @@ class ComicMeta
     /** @var string[] */
     protected ?array $locations = null;
 
+    /** @var string[] */
+    protected ?array $editors = null;
+
     public function __construct(
         protected ?string $alternateSeries = null,
         protected ?int $alternateNumber = null,
@@ -23,6 +29,16 @@ class ComicMeta
         protected ?int $storyArcNumber = null,
         protected ?string $seriesGroup = null,
         protected ?string $imprint = null,
+        protected ?string $scanInformation = null,
+        protected ?string $notes = null,
+        protected ?float $communityRating = null,
+        protected ?bool $isBlackAndWhite = null,
+        protected ?AgeRatingEnum $ageRating = null,
+        protected ?string $review = null,
+        protected ?string $web = null,
+        protected ?MangaEnum $manga = null,
+        protected ?string $mainCharacterOrTeam = null,
+        protected ?string $format = null,
     ) {
     }
 
@@ -95,6 +111,64 @@ class ComicMeta
         return $this->imprint;
     }
 
+    public function scanInformation(): ?string
+    {
+        return $this->scanInformation;
+    }
+
+    public function notes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function communityRating(): ?float
+    {
+        return $this->communityRating;
+    }
+
+    public function isBlackAndWhite(): ?bool
+    {
+        return $this->isBlackAndWhite;
+    }
+
+    public function ageRating(): ?AgeRatingEnum
+    {
+        return $this->ageRating;
+    }
+
+    public function review(): ?string
+    {
+        return $this->review;
+    }
+
+    public function web(): ?string
+    {
+        return $this->web;
+    }
+
+    public function manga(): ?MangaEnum
+    {
+        return $this->manga;
+    }
+
+    public function mainCharacterOrTeam(): ?string
+    {
+        return $this->mainCharacterOrTeam;
+    }
+
+    public function format(): ?string
+    {
+        return $this->format;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function editors(): array
+    {
+        return $this->editors;
+    }
+
     /**
      * @param  string[]  $characters
      */
@@ -125,65 +199,12 @@ class ComicMeta
         return $this;
     }
 
-    public function setAlternateSeries(?string $alternateSeries): self
+    /**
+     * @param  string[]  $editors
+     */
+    public function setEditors(array $editors): self
     {
-        $this->alternateSeries = $alternateSeries;
-
-        return $this;
-    }
-
-    public function setAlternateNumber(?int $alternateNumber): self
-    {
-        $this->alternateNumber = $alternateNumber;
-
-        return $this;
-    }
-
-    public function setAlternateCount(?string $alternateCount): self
-    {
-        $this->alternateCount = $alternateCount;
-
-        return $this;
-    }
-
-    public function setCount(?int $count): self
-    {
-        $this->count = $count;
-
-        return $this;
-    }
-
-    public function setVolume(?int $volume): self
-    {
-        $this->volume = $volume;
-
-        return $this;
-    }
-
-    public function setStoryArc(?string $storyArc): self
-    {
-        $this->storyArc = $storyArc;
-
-        return $this;
-    }
-
-    public function setStoryArcNumber(?int $storyArcNumber): self
-    {
-        $this->storyArcNumber = $storyArcNumber;
-
-        return $this;
-    }
-
-    public function setSeriesGroup(?string $seriesGroup): self
-    {
-        $this->seriesGroup = $seriesGroup;
-
-        return $this;
-    }
-
-    public function setImprint(?string $imprint): self
-    {
-        $this->imprint = $imprint;
+        $this->editors = $editors;
 
         return $this;
     }

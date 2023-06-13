@@ -38,7 +38,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          extensions: imagick, zip, fileinfo, intl
           coverage: pcov
 
       - name: Setup problem matchers
@@ -75,11 +75,4 @@ jobs:
         shell: bash
 
       - name: Execute tests
-        run: vendor/bin/pest --coverage
-
-      - name: on Linux send code coverage
-        if: runner.os == 'Linux'
-        uses: codecov/codecov-action@v3
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: false
+        run: vendor/bin/pest

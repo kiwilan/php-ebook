@@ -10,8 +10,12 @@ class EbookCover
     ) {
     }
 
-    public static function make(string $path, string $content): self
+    public static function make(?string $path, ?string $content): ?self
     {
+        if (! $content) {
+            return null;
+        }
+
         $content = base64_encode($content);
 
         return new self($path, $content);
@@ -24,6 +28,10 @@ class EbookCover
 
     public function content(bool $toBase64 = false): ?string
     {
+        if (! $this->content) {
+            return null;
+        }
+
         if ($toBase64) {
             return $this->content;
         }

@@ -1,15 +1,20 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Formats\Epub\EpubChapter;
+use Kiwilan\Ebook\Formats\Epub\EpubContainer;
 use Kiwilan\Ebook\Formats\Epub\EpubHtml;
+use Kiwilan\Ebook\Formats\Epub\NcxMetadata;
+use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
 
 it('can parse epub entity', function () {
-    $ebook = Ebook::read(EPUB, true);
+    $ebook = Ebook::read(EPUB);
     $firstAuthor = $ebook->authors()[0];
     $basename = pathinfo(EPUB, PATHINFO_BASENAME);
 
     expect($ebook->path())->toBe(EPUB);
     expect($ebook->filename())->toBe($basename);
+    expect($ebook->hasMetadata())->toBeTrue();
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
     expect($ebook->title())->toBe('The Clan of the Cave Bear');
@@ -17,7 +22,6 @@ it('can parse epub entity', function () {
     expect($ebook->authors())->toBeArray();
     expect($firstAuthor->name())->toBe('Jean M. Auel');
     expect($ebook->description())->toBeString();
-    // expect($ebook->contributor())->toBeString();
     expect($ebook->copyright())->toBe('Copyright © 1980 by Jean M. Auel');
     expect($ebook->publisher())->toBe('Hodder & Stoughton');
     expect($ebook->identifiers())->toBeArray();
@@ -29,15 +33,17 @@ it('can parse epub entity', function () {
     expect($ebook->tags())->toBeArray();
     expect($ebook->series())->toBe("Earth's Children");
     expect($ebook->volume())->toBe(1);
-    // expect($ebook->rating())->toBeFloat();
-    // expect($ebook->rating())->toBe(10.0);
     expect($ebook->pagesCount())->toBe(34);
     expect($ebook->wordsCount())->toBe(8267);
+
+    expect($ebook->extras())->toBeArray();
+    expect($ebook->extras()['contributor'])->toBeString();
+    expect($ebook->extras()['rating'])->toBeFloat();
+    expect($ebook->extras()['rating'])->toBe(10.0);
 
     $metadata = $ebook->metadata();
     expect($metadata->toArray())->toBeArray();
     expect($metadata->toJson())->toBeString();
-    expect($metadata->__toString())->toBeString();
 });
 
 it('can get epub cover', function () {
@@ -73,8 +79,33 @@ it('can extract alt metadata', function () {
     expect($ebook->title())->toBe('epub-no-meta');
 });
 
+it('can read epub metadata', function () {
+    $epub = Ebook::read(EPUB)->metadata()?->epub();
+
+    $container = $epub->container();
+    $opf = $epub->opf();
+    $ncx = $epub->ncx();
+    $chapters = $epub->chapters();
+    $files = $epub->files();
+    $html = $epub->html();
+    $wordsCount = $epub->wordsCount();
+    $pagesCount = $epub->pagesCount();
+
+    expect($container)->toBeInstanceOf(EpubContainer::class);
+    expect($opf)->toBeInstanceOf(OpfMetadata::class);
+    expect($ncx)->toBeInstanceOf(NcxMetadata::class);
+    expect($chapters)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubChapter::class));
+    expect($files)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeString());
+    expect($html)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
+    expect($wordsCount)->toBeInt();
+    expect($pagesCount)->toBeInt();
+});
+
 it('can read content', function () {
-    $html = Ebook::read(EPUB)->metadata()?->html();
+    $html = Ebook::read(EPUB)->metadata()?->epub()?->html();
 
     foreach ($html as $value) {
         expect($value)->toBeInstanceOf(EpubHtml::class);
@@ -90,7 +121,7 @@ it('can read content', function () {
 
 it('can read ncx', function () {
     $ebook = Ebook::read(EPUB);
-    $toc = $ebook->metadata()?->ncx();
+    $toc = $ebook->metadata()?->epub()?->ncx();
 
     if ($toc) {
         expect($toc->head())->toBeArray();
@@ -105,7 +136,7 @@ it('can read ncx', function () {
 
 it('can build EPUB render', function () {
     $ebook = Ebook::read(EPUB);
-    $chapters = $ebook->metadata()->chapters();
+    $chapters = $ebook->metadata()->epub()->chapters();
 
     expect($chapters)->toBeArray();
 });
@@ -113,9 +144,5 @@ it('can build EPUB render', function () {
 it('can parse with good performances', function () {
     $ebook = Ebook::read(EPUB);
 
-    expect($ebook->metadata()->getExecTime())->toBeLessThan(0.01);
-
-    $ebook = Ebook::read(EPUB, true);
-
-    expect($ebook->metadata()->getExecTime())->toBeLessThan(0.05);
+    expect($ebook->execTime())->toBeLessThan(0.06);
 });
