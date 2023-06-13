@@ -28,6 +28,10 @@ class EbookCover
 
     public function content(bool $toBase64 = false): ?string
     {
+        if (! $this->content) {
+            return null;
+        }
+
         if ($toBase64) {
             return $this->content;
         }
