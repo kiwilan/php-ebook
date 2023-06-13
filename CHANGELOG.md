@@ -2,6 +2,19 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.0.0 - 2023-06-13
+
+**BREAKING CHANGES**
+
+- `book` property has been removed, all book metadata are now on root of `Ebook::class`
+- `metadata` property is now `EbookMetadata::class` with `module` property and `epub`, `cba`, `pdf`, `audiobook` properties to parse metadata
+- count for pages or words is now available if `wordsCount` or `pagesCount` is called
+
+**Features**
+
+- improve performances
+- add audiobooks
+
 ## 0.34.0 - 2023-05-25
 
 - BookIdentifier `content` is now nullable
