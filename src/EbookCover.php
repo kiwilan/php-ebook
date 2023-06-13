@@ -10,10 +10,10 @@ class EbookCover
     ) {
     }
 
-    public static function make(?string $path, ?string $content): self
+    public static function make(?string $path, ?string $content): ?self
     {
-        if (! $path || ! $content) {
-            return new self();
+        if (! $content) {
+            return null;
         }
 
         $content = base64_encode($content);

@@ -44,7 +44,6 @@ it('can parse epub entity', function () {
     $metadata = $ebook->metadata();
     expect($metadata->toArray())->toBeArray();
     expect($metadata->toJson())->toBeString();
-    expect($metadata->__toString())->toBeString();
 });
 
 it('can get epub cover', function () {

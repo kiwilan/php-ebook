@@ -1,6 +1,11 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
+use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
+use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
+use Kiwilan\Ebook\Formats\Pdf\PdfMetadata;
 
 it('can create an instance of Ebook', function (string $path) {
     $ebook = Ebook::read($path);
@@ -30,3 +35,23 @@ it('can parse ebooks', function (string $path) {
 
     expect($ebook->title())->toBeString();
 })->with(EBOOKS_ITEMS);
+
+it('can parse metadata', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    $metadata = $ebook->metadata();
+    expect($metadata)->toBeInstanceOf(EbookMetadata::class);
+
+    if ($metadata->hasEpub()) {
+        expect($metadata->epub())->toBeInstanceOf(EpubMetadata::class);
+    }
+    if ($metadata->hasCba()) {
+        expect($metadata->cba())->toBeInstanceOf(CbaMetadata::class);
+    }
+    if ($metadata->hasPdf()) {
+        expect($metadata->pdf())->toBeInstanceOf(PdfMetadata::class);
+    }
+    if ($metadata->hasAudiobook()) {
+        expect($metadata->audiobook())->toBeInstanceOf(AudiobookMetadata::class);
+    }
+})->with([EPUB, CBZ, PDF, AUDIOBOOK]);

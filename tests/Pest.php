@@ -28,6 +28,12 @@ define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
 
+define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
+define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
+define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
+define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
+define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');
+
 define('EBOOKS_ITEMS', [
     'EPUB' => EPUB,
     'CBZ' => CBZ,
@@ -45,6 +51,14 @@ define('CBA_ITEMS', [
     'CBR' => CBR,
     // 'CBT' => CBT,
     'CB7' => CB7,
+]);
+
+define('AUDIOBOOK_ITEMS', [
+    'AUDIOBOOK' => AUDIOBOOK,
+    'AUDIOBOOK_M4B' => AUDIOBOOK_M4B,
+    'AUDIOBOOK_PART_1' => AUDIOBOOK_PART_1,
+    'AUDIOBOOK_PART_2' => AUDIOBOOK_PART_2,
+    'AUDIOBOOK_CHAPTERS' => AUDIOBOOK_CHAPTERS,
 ]);
 
 function outputPath(): string

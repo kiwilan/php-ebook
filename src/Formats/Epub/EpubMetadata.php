@@ -4,9 +4,9 @@ namespace Kiwilan\Ebook\Formats\Epub;
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
-use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\EbookModule;
 
-class EpubMetadata extends EbookMetadata
+class EpubMetadata extends EbookModule
 {
     protected ?EpubContainer $container = null;
 
@@ -61,8 +61,6 @@ class EpubMetadata extends EbookMetadata
         $this->opf = OpfMetadata::make($xml, $this->ebook->filename());
         $this->coverPath = $this->opf->coverPath();
         $this->files = $this->opf->contentFiles();
-
-        $this->epub = $this;
 
         return $this;
     }

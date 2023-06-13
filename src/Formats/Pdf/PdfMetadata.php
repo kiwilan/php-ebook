@@ -5,12 +5,12 @@ namespace Kiwilan\Ebook\Formats\Pdf;
 use Kiwilan\Archive\Models\PdfMeta;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
-use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 
-class PdfMetadata extends EbookMetadata
+class PdfMetadata extends EbookModule
 {
-    protected ?PdfMeta $pdf = null;
+    protected ?PdfMeta $meta = null;
 
     protected function __construct(
     ) {
@@ -20,16 +20,16 @@ class PdfMetadata extends EbookMetadata
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
-        $self->pdf = $ebook->archive()->pdf();
+        $self->meta = $ebook->archive()->pdf();
 
         return $self;
     }
 
     public function toEbook(): Ebook
     {
-        $this->ebook->setTitle($this->pdf->title());
+        $this->ebook->setTitle($this->meta->title());
 
-        $author = $this->pdf->author();
+        $author = $this->meta->author();
         $authors = [];
         if (str_contains($author, ',')) {
             $authors = explode(',', $author);
@@ -49,10 +49,12 @@ class PdfMetadata extends EbookMetadata
         }
 
         $this->ebook->setAuthors($creators);
-        $this->ebook->setDescription($this->pdf->subject());
-        $this->ebook->setPublisher($this->pdf->creator());
-        $this->ebook->setTags($this->pdf->keywords());
-        $this->ebook->setPublishDate($this->pdf->creationDate());
+        $this->ebook->setDescription($this->meta->subject());
+        $this->ebook->setPublisher($this->meta->creator());
+        $this->ebook->setTags($this->meta->keywords());
+        $this->ebook->setPublishDate($this->meta->creationDate());
+
+        $this->ebook->setHasMetadata(true);
 
         return $this->ebook;
     }
@@ -80,7 +82,7 @@ class PdfMetadata extends EbookMetadata
     public function toArray(): array
     {
         return [
-            'metadata' => $this->pdf?->toArray(),
+            'metadata' => $this->meta?->toArray(),
         ];
     }
 

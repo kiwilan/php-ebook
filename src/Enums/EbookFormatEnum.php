@@ -29,4 +29,6 @@ enum EbookFormatEnum: string
     case CHM = 'chm';
 
     case DJVU = 'djvu';
+
+    case AUDIOBOOK = 'audiobook';
 }

@@ -113,9 +113,13 @@ it('can parse ComicMeta', function (string $path) {
     expect($comicMeta->storyArcNumber())->toBeNull();
 })->with([CBZ_CBAM]);
 
-it('can parse CbaMetadata', function (string $path) {
+it('can parse CbamMetadata', function (string $path) {
     $ebook = Ebook::read($path);
-    $cbam = $ebook->metadata()->cbam();
+    $cbam = $ebook->metadata()->cba()?->cbam();
+
+    if (! $cbam) {
+        throw new Exception('CBAM is null');
+    }
 
     expect($cbam)->toBeInstanceOf(CbamMetadata::class);
     expect($cbam->title())->toBe('You Had One Job');

@@ -4,12 +4,12 @@ namespace Kiwilan\Ebook\Formats\Cba;
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
-use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\ComicMeta;
 use Kiwilan\Ebook\XmlReader;
 
-class CbaMetadata extends EbookMetadata
+class CbaMetadata extends EbookModule
 {
     protected ?CbamMetadata $cbam = null;
 
@@ -55,6 +55,11 @@ class CbaMetadata extends EbookMetadata
         }
 
         return $self;
+    }
+
+    public function cbam(): ?CbamMetadata
+    {
+        return $this->cbam;
     }
 
     public function toEbook(): Ebook
@@ -177,7 +182,7 @@ class CbaMetadata extends EbookMetadata
             'comicMeta' => $comicMeta,
         ]);
 
-        $this->ebook->metadata()->cbam = $this->cbam;
+        $this->ebook->setHasMetadata(true);
 
         return $this->ebook;
     }
