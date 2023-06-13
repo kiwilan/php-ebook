@@ -29,3 +29,10 @@ jobs:
           branch: main
           commit_message: Update CHANGELOG
           file_pattern: CHANGELOG.md
+
+      - name: Merge on develop
+        run: |
+          git checkout origin/develop
+          git merge origin/main
+          git push
+        shell: bash

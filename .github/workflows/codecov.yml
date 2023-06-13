@@ -1,0 +1,68 @@
+name: Codecov
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Install for Linux
+        run: |
+          sudo apt -y install p7zip-full ghostscript imagemagick
+          sudo apt-get install -y unrar
+          sudo apt-get install -y libunrar-dev
+          sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: imagick, zip, fileinfo
+          coverage: pcov
+
+      - name: Add rar extension
+        run: |
+          git clone https://github.com/cataphract/php-rar
+          cd php-rar
+          phpize
+          ./configure
+          sudo make
+          sudo make install
+          pecl_path=$(pecl config-get ext_dir)
+          phpini_path=$(php -i | grep /.+/php.ini -oE)
+          sudo cp ./modules/rar.so $pecl_path
+          sudo echo "extension=rar.so" > $phpini_path
+
+      - name: Check extension rar
+        run: php -m | grep rar
+
+      - name: Check extension imagick
+        run: php -m | grep imagick
+
+      - name: Setup problem matchers
+        run: |
+          echo "::add-matcher::${{ runner.tool_cache }}/php.json"
+          echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: vendor/bin/pest --coverage
+
+      - name: Send code coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: false
