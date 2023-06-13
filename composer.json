@@ -34,7 +34,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "kiwilan/php-archive": "^1.4.01",
+        "kiwilan/php-archive": "^1.4.02",
         "kiwilan/php-audio": "^2.0.0"
     },
     "require-dev": {

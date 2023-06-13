@@ -24,7 +24,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.1
-          extensions: imagick, zip, fileinfo, intl
+          extensions: zip, fileinfo, intl
           coverage: pcov
 
       # - name: Install rar extension

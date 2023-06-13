@@ -18,12 +18,17 @@ Supports Linux, macOS and Windows.
 
 ## About
 
-This package was built for [bookshelves-project/bookshelves-back](https://github.com/bookshelves-project/bookshelves-back), a web app to handle eBooks.
+This package was built for [bookshelves-project/bookshelves](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.
 
 ## Requirements
 
--   PHP >= 8.1
--   Depends of extension and features you want to use
+-   **PHP version** >= _8.1_
+-   **PHP extensions**:
+    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native) for `Transliterator`
+    -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
+    -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
+    -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
+    -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
 
 |      Type       | Native |                                                                                       Dependency                                                                                       |
 | :-------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
