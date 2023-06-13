@@ -110,7 +110,7 @@ class Ebook
         $self->metaTitle = MetaTitle::make($self);
 
         $time = microtime(true) - $start;
-        $self->execTime = number_format((float) $time, 5, '.', '');
+        $self->execTime = (float) number_format((float) $time, 5, '.', '');
 
         return $self;
     }
@@ -368,6 +368,10 @@ class Ebook
      */
     public function wordsCount(): ?int
     {
+        if ($this->wordsCount) {
+            return $this->wordsCount;
+        }
+
         if (! $this->countsParsed) {
             $this->convertCounts();
         }
@@ -380,6 +384,10 @@ class Ebook
      */
     public function pagesCount(): ?int
     {
+        if ($this->pagesCount) {
+            return $this->pagesCount;
+        }
+
         if (! $this->countsParsed) {
             $this->convertCounts();
         }
