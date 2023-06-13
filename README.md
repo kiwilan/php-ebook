@@ -8,7 +8,7 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`).
+PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
 Supports Linux, macOS and Windows.
 
@@ -30,14 +30,15 @@ This package was built for [bookshelves-project/bookshelves](https://github.com/
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
 
-|      Type       | Native |                                                                                       Dependency                                                                                       |
-| :-------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| `.epub`, `.cbz` |   ✅   |                                                                                          N/A                                                                                           |
-|     `.cbt`      |   ✅   |                                                                                          N/A                                                                                           |
-|     `.cbr`      |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        |
-|     `.cb7`      |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |
-|     `.pdf`      |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |
-|       ALL       |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |
+|                Type                | Native |                                                                                       Dependency                                                                                       |         Uses         |
+| :--------------------------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------: |
+|          `.epub`, `.cbz`           |   ✅   |                                                                                          N/A                                                                                           |         PHP          |
+|               `.cbt`               |   ✅   |                                                                                          N/A                                                                                           |         PHP          |
+|               `.cbr`               |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        | PHP `rar` or `p7zip` |
+|               `.cb7`               |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |       `p7zip`        |
+|               `.pdf`               |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |  `smalot/pdfparser`  |
+| `mp3`, `m4a`, `m4b`, `flac`, `ogg` |   ✅   |                                                                                          N/A                                                                                           | `kiwilan/php-audio`  |
+|                ALL                 |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |                      |
 
 > **Note**
 >
@@ -56,14 +57,15 @@ If you want more informations, you can read [kiwilan/php-archive](https://github
 
 ## Features
 
--   Read metadata from eBooks
--   Extract covers from eBooks
+-   Read metadata from eBooks and audiobooks
+-   Extract covers from eBooks and audiobooks
 -   Support metadata
     -   EPUB v2 and v3 from [IDPF](https://idpf.org/)
     -   `calibre:series` for EPUB from [Calibre](https://calibre-ebook.com/)
     -   `calibre:series_index` for EPUB from [Calibre](https://calibre-ebook.com/)
     -   `ComicInfo.xml` (CBAM) format from ComicRack and maintained by [anansi-project](https://github.com/anansi-project/comicinfo)
     -   PDF by [smalot/pdfparser](https://github.com/smalot/pdfparser)
+    -   ID3, Vorbis and flac tags with [kiwilan/php-audio](https://github.com/kiwilan/php-audio)
 
 ## Installation
 
@@ -75,68 +77,56 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`)
+With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
 ```php
 $ebook = Ebook::read('path/to/archive.epub');
 
-$metadata = $ebook->metadata(); // OpfMetadata|CbaMetadata|null => metadata OPF for EPUB, metadata CBA for CBA
-$format = $book->format(); // epub, pdf, cba
-$book = $ebook->book(); // ?BookEntity
-$cover = $ebook->cover(bool $convertBase64 = true); // string => cover as string ($toString convert base64)
-$path = $ebook->path(); // string
-$filename = $ebook->filename(); // string
-$extension = $ebook->extension(); // string
-$hasMetadata = $ebook->hasMetadata(); // bool
+// File data
+$book->path(); // string
+$book->filename(); // string
+$book->extension(); // string
+
+// Book data
+$book->title(); // string
+$book->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
+$book->authors(); // BookAuthor[] (name: string, role: string)
+$book->authorMain(); // ?BookAuthor => First BookAuthor (name: string, role: string)
+$book->description(); // ?string
+$book->copyright(); // ?string
+$book->publisher(); // ?string
+$book->identifiers(); // BookIdentifier[] (content: string, type: string)
+$book->publishDate(); // ?DateTime
+$book->language(); // ?string
+$book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
+$book->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
+$book->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
+$book->pagesCount(); // ?int => computed from words (250 words by page) in EPUB, `pageCount` in PDF, `pageCount` in CBA
+$book->wordsCount(); // ?int => words count in EPUB
+
+// Additional data
+$book->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
+$book->cover(); // ?EbookCover => cover of book
+$book->extras(); // array => additional data for book
+
+// Check validity
+$book->isArchive(); // bool
+$book->isAudio(); // bool
+$book->hasMetadata(); // bool
+$book->hasCover(); // bool
 ```
 
 ### Metadata
 
 ```php
-$metadata = $ebook->metadata(); // OpfMetadata|CbaMetadata|null => metadata OPF for EPUB, metadata CBA for CBA
+$ebook = Ebook::read('path/to/archive.epub');
 
-// For OpfMetadata
-$metadata->metadata(); // `metadata` entry from `.opf` file
-$metadata->manifest(); // `manifest` entry from `.opf` file
-$metadata->spine(); // `spine` entry from `.opf` file
-$metadata->guide(); // `guide` entry from `.opf` file
-$metadata->dcX(); // `dcX` entries from `.opf` file
+$metadata = $ebook->metadata(); // with `module` as `EbookModule::class`, can be `EpubMetadata::class`, `PdfMetadata::class`, `CbaMetadata::class` or `AudiobookMetadata::class`
 
-// For CbaMetadata, see docs https://anansi-project.github.io/docs/comicinfo/documentation
-$metadata->writers(); // `writers` entry from `ComicInfo` format
-$metadata->pencillers(); // `pencillers` entry from `ComicInfo` format
-// more from `ComicInfo` format
-```
-
-### Book
-
-```php
-$book = $ebook->book(); // BookEntity
-
-$book->title(); // string
-$book->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
-$book->authors(); // BookAuthor[] (name: string, role: string)
-$book->authorFirst(); // ?BookAuthor => First BookAuthor (name: string, role: string)
-$book->description(); // ?string
-$book->contributor(); // ?string
-$book->rights(); // ?string
-$book->publisher(); // ?string
-$book->identifiers(); // BookIdentifier[] (content: string, type: string)
-$book->date(); // ?DateTime
-$book->language(); // ?string
-$book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
-$book->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
-$book->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
-$book->rating(); // ?float => `rating` in CBA
-$book->pageCount(); // ?int => computed from words (250 words by page) in EPUB, `pageCount` in PDF, `pageCount` in CBA
-$book->wordsCount(); // ?int => words count in EPUB
-$book->editors(); // string[] => `editors` in CBA
-$book->review(); // ?string => `review` in CBA
-$book->web(); // ?string => `web` in CBA
-$book->manga(); // ?MangaEnum => `manga` in CBA | Additional data about mangas
-$book->isBlackAndWhite(); // bool => `blackAndWhite` in CBA
-$book->ageRating(); // ?AgeRatingEnum => `ageRating` in CBA | Additional data about age rating
-$book->comicMeta(); // ?ComicMeta => Additional data for CBA
+$metadata->epub(); // `EpubMetadata::class`
+$metadata->pdf(); // `PdfMetadata::class`
+$metadata->cba(); // `CbaMetadata::class`
+$metadata->audiobook(); // `AudiobookMetadata::class`
 ```
 
 ### MetaTitle
@@ -266,6 +256,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 -   [Kiwilan](https://github.com/kiwilan)
 -   [spatie](https://github.com/spatie) for `spatie/package-skeleton-php`
+-   [kiwilan/php-audio](https://github.com/kiwilan/php-audio)
 
 ## License
 
