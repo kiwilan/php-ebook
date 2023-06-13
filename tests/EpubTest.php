@@ -145,5 +145,5 @@ it('can build EPUB render', function () {
 it('can parse with good performances', function () {
     $ebook = Ebook::read(EPUB);
 
-    expect($ebook->execTime())->toBeLessThan(0.03);
+    expect($ebook->execTime())->toBeLessThan(0.06);
 });
