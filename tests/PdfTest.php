@@ -20,13 +20,13 @@ it('can parse pdf', function () {
     expect($ebook->pagesCount())->toBe(4);
 });
 
-// it('can extract pdf cover', function () {
-//     $ebook = Kiwilan\Ebook\Ebook::read(PDF);
+it('can extract pdf cover', function () {
+    $ebook = Ebook::read(PDF);
 
-//     $path = 'tests/output/cover-PDF.jpg';
-//     file_put_contents($path, $ebook->cover());
+    $path = 'tests/output/cover-PDF.jpg';
+    file_put_contents($path, $ebook->cover()->content());
 
-//     expect($ebook->cover())->toBeString();
-//     expect(file_exists($path))->toBeTrue();
-//     expect($path)->toBeReadableFile();
-// })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
+    expect($ebook->cover()->content())->toBeString();
+    expect(file_exists($path))->toBeTrue();
+    expect($path)->toBeReadableFile();
+})->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
