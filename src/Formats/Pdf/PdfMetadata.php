@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Ebook\Formats\Pdf;
 
-use Kiwilan\Archive\Models\ArchiveMetadata;
+use Kiwilan\Archive\Models\PdfMeta;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookMetadata;
@@ -10,7 +10,7 @@ use Kiwilan\Ebook\Tools\BookAuthor;
 
 class PdfMetadata extends EbookMetadata
 {
-    protected ?ArchiveMetadata $pdf = null;
+    protected ?PdfMeta $pdf = null;
 
     protected function __construct(
     ) {
@@ -20,7 +20,7 @@ class PdfMetadata extends EbookMetadata
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
-        $self->pdf = $ebook->archive()->metadata();
+        $self->pdf = $ebook->archive()->pdf();
 
         return $self;
     }
@@ -59,7 +59,7 @@ class PdfMetadata extends EbookMetadata
 
     public function toCover(): ?EbookCover
     {
-        if (extension_loaded('imagick')) {
+        if (! extension_loaded('imagick')) {
             return null;
         }
 
@@ -80,7 +80,7 @@ class PdfMetadata extends EbookMetadata
     public function toArray(): array
     {
         return [
-            'metadata' => $this->metadata?->toArray(),
+            'metadata' => $this->pdf?->toArray(),
         ];
     }
 
