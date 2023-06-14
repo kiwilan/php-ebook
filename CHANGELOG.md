@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.0.11 - 2023-06-14
+
+- `OpfMetadata` fix cover parser to keep only pictures
+
 ## 1.0.10 - 2023-06-14
 
 - `EpubMetadata::class` fix `parseFiles` method
