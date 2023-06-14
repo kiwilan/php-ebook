@@ -15,6 +15,7 @@ class EbookMetadata
         protected ?CbaMetadata $cba = null,
         protected ?PdfMetadata $pdf = null,
         protected ?AudiobookMetadata $audiobook = null,
+        protected ?string $type = null,
     ) {
     }
 
@@ -24,18 +25,22 @@ class EbookMetadata
 
         if ($module instanceof EpubMetadata) {
             $self->epub = $module;
+            $self->type = 'epub';
         }
 
         if ($module instanceof CbaMetadata) {
             $self->cba = $module;
+            $self->type = 'cba';
         }
 
         if ($module instanceof PdfMetadata) {
             $self->pdf = $module;
+            $self->type = 'pdf';
         }
 
         if ($module instanceof AudiobookMetadata) {
             $self->audiobook = $module;
+            $self->type = 'audiobook';
         }
 
         return $self;
@@ -64,6 +69,11 @@ class EbookMetadata
     public function audiobook(): ?AudiobookMetadata
     {
         return $this->audiobook;
+    }
+
+    public function type(): ?string
+    {
+        return $this->type;
     }
 
     public function hasEpub(): bool
