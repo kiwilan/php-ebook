@@ -108,6 +108,7 @@ $ebook->wordsCount(); // ?int => words count in EPUB
 $ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->cover(); // ?EbookCover => cover of book
 $ebook->extras(); // array => additional data for book
+$ebook->extrasExtract(string $key); // mixed => safely extract data from `extras` array
 
 // Check validity
 $ebook->isArchive(); // bool
