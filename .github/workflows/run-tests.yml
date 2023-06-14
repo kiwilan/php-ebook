@@ -1,4 +1,4 @@
-name: Tests on unix
+name: Tests on Linux
 
 on: [push, pull_request]
 
@@ -8,27 +8,19 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         php: [8.1, 8.2]
         stability: [prefer-stable]
 
     name: P${{ matrix.php }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
     steps:
-      - name: Install for Linux
-        if: runner.os == 'Linux'
+      - name: Install
         run: |
           sudo apt -y install p7zip-full ghostscript imagemagick
           sudo apt-get install -y unrar
           sudo apt-get install -y libunrar-dev
           sudo sed -i '/disable ghostscript format types/,+6d' /etc/ImageMagick-6/policy.xml
-        shell: bash
-
-      - name: Install for macOS
-        if: runner.os == 'macOS'
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew install p7zip rar ghostscript imagemagick
         shell: bash
 
       - name: Checkout code
@@ -50,7 +42,6 @@ jobs:
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
       - name: Add rar extension
-        if: runner.os == 'Linux' || runner.os == 'macOS'
         run: |
           git clone https://github.com/cataphract/php-rar
           cd php-rar
@@ -69,8 +60,7 @@ jobs:
       - name: Check extension imagick
         run: php -m | grep imagick
 
-      - name: on Linux run phpstan
-        if: runner.os == 'Linux'
+      - name: PHPstan
         run: vendor/bin/phpstan analyse --memory-limit=2G
         shell: bash
 
