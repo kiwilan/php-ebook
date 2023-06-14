@@ -83,37 +83,38 @@ With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or au
 $ebook = Ebook::read('path/to/archive.epub');
 
 // File data
-$book->path(); // string
-$book->filename(); // string
-$book->extension(); // string
+$ebook->path(); // string
+$ebook->filename(); // string
+$ebook->extension(); // string
 
 // Book data
-$book->title(); // string
-$book->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
-$book->authors(); // BookAuthor[] (name: string, role: string)
-$book->authorMain(); // ?BookAuthor => First BookAuthor (name: string, role: string)
-$book->description(); // ?string
-$book->copyright(); // ?string
-$book->publisher(); // ?string
-$book->identifiers(); // BookIdentifier[] (content: string, type: string)
-$book->publishDate(); // ?DateTime
-$book->language(); // ?string
-$book->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
-$book->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
-$book->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
-$book->pagesCount(); // ?int => computed from words (250 words by page) in EPUB, `pageCount` in PDF, `pageCount` in CBA
-$book->wordsCount(); // ?int => words count in EPUB
+$ebook->title(); // string
+$ebook->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
+$ebook->authors(); // BookAuthor[] (name: string, role: string)
+$ebook->authorMain(); // ?BookAuthor => First BookAuthor (name: string, role: string)
+$ebook->description(); // ?string
+$ebook->copyright(); // ?string
+$ebook->publisher(); // ?string
+$ebook->identifiers(); // BookIdentifier[] (content: string, type: string)
+$ebook->publishDate(); // ?DateTime
+$ebook->language(); // ?string
+$ebook->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
+$ebook->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
+$ebook->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
+$ebook->pagesCount(); // ?int => computed from words (250 words by page) in EPUB, `pageCount` in PDF, `pageCount` in CBA
+$ebook->wordsCount(); // ?int => words count in EPUB
 
 // Additional data
-$book->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
-$book->cover(); // ?EbookCover => cover of book
-$book->extras(); // array => additional data for book
+$ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
+$ebook->cover(); // ?EbookCover => cover of book
+$ebook->extras(); // array => additional data for book
+$ebook->extrasExtract(string $key); // mixed => safely extract data from `extras` array
 
 // Check validity
-$book->isArchive(); // bool
-$book->isAudio(); // bool
-$book->hasMetadata(); // bool
-$book->hasCover(); // bool
+$ebook->isArchive(); // bool
+$ebook->isAudio(); // bool
+$ebook->hasMetadata(); // bool
+$ebook->hasCover(); // bool
 ```
 
 ### Metadata
@@ -134,7 +135,8 @@ $metadata->audiobook(); // `AudiobookMetadata::class`
 Can be set if book's title is not null.
 
 ```php
-$metaTitle = $book->metaTitle(); // ?MetaTitle
+$ebook = Ebook::read('path/to/archive.epub');
+$metaTitle = $ebook->metaTitle(); // ?MetaTitle
 
 $metaTitle->slug(); // string => slugify title, like `the-clan-of-the-cave-bear`
 $metaTitle->slugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`

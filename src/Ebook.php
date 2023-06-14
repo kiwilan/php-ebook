@@ -475,6 +475,18 @@ class Ebook
     }
 
     /**
+     * Get key from `extras` safely.
+     */
+    public function extrasExtract(string $key): mixed
+    {
+        if (! array_key_exists($key, $this->extras)) {
+            return null;
+        }
+
+        return $this->extras[$key];
+    }
+
+    /**
      * Whether the ebook has a cover.
      */
     public function hasCover(): bool
