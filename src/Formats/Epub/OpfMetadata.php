@@ -132,12 +132,42 @@ class OpfMetadata
             return null;
         }
 
-        $path = null;
+        $items = [];
+        $extensionsAllowed = ['jpg', 'jpeg', 'png'];
+
         foreach ($core as $item) {
             $id = $item['@attributes']['id'] ?? null;
+
             if ($id && str_contains($id, 'cover')) {
-                $path = $item['@attributes']['href'] ?? null;
+                $href = $item['@attributes']['href'] ?? null;
+                $extension = pathinfo($href, PATHINFO_EXTENSION);
+
+                if (! in_array($extension, $extensionsAllowed)) {
+                    continue;
+                }
+
+                $items[] = [
+                    'id' => $id,
+                    'href' => $href,
+                    'media-type' => $item['@attributes']['media-type'] ?? null,
+                ];
             }
+        }
+
+        if (count($items) === 1) {
+            return $items[0]['href'];
+        }
+
+        $path = null;
+
+        foreach ($items as $item) {
+            if (! str_contains($item['href'], '/')) {
+                $path = $item['href'];
+
+                break;
+            }
+
+            $path = $item['href'];
         }
 
         return $path;
@@ -159,8 +189,10 @@ class OpfMetadata
         }
 
         $files = [];
+
         foreach ($core as $item) {
             $mediaType = $item['@attributes']['media-type'] ?? null;
+
             if ($mediaType && str_contains($mediaType, 'html')) {
                 $files[] = $item['@attributes']['href'] ?? null;
             }
@@ -326,6 +358,7 @@ class OpfMetadata
     private function setDcCreators(): array
     {
         $core = $this->metadata['dc:creator'] ?? null;
+
         if (! $core) {
             return [];
         }
@@ -350,6 +383,7 @@ class OpfMetadata
     private function setDcContributors(): array
     {
         $core = $this->metadata['dc:contributor'] ?? null;
+
         if (! $core) {
             return [];
         }
@@ -376,6 +410,7 @@ class OpfMetadata
     private function setDcRights(): array
     {
         $core = $this->metadata['dc:rights'] ?? null;
+
         if (! $core) {
             return [];
         }
@@ -402,6 +437,7 @@ class OpfMetadata
     private function setDcIdentifiers(): array
     {
         $core = $this->metadata['dc:identifier'] ?? null;
+
         if (! $core) {
             return [];
         }
@@ -429,6 +465,7 @@ class OpfMetadata
     private function setMeta(): array
     {
         $core = $this->metadata['meta'] ?? null;
+
         if (! $core) {
             return [];
         }
