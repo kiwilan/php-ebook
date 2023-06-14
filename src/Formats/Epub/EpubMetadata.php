@@ -173,6 +173,9 @@ class EpubMetadata extends EbookModule
         $items = [];
         foreach ($this->files as $path) {
             $file = $this->ebook->archive()->find($path);
+            if (! $file) {
+                continue;
+            }
             $html = $this->ebook->archive()->content($file);
             $items[] = EpubHtml::make($html, $file->filename());
         }
