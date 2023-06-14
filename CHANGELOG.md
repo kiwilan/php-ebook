@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.0.01 - 2023-06-14
+
+- add `extrasExtract` method in `Ebook::class`
+
 ## 1.0.0 - 2023-06-13
 
 **BREAKING CHANGES**
