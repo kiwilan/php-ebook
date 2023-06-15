@@ -11,6 +11,7 @@ use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
 use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
 use Kiwilan\Ebook\Formats\EbookMetadata;
 use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
+use Kiwilan\Ebook\Formats\Mobi\MobiMetadata;
 use Kiwilan\Ebook\Formats\Pdf\PdfMetadata;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\BookIdentifier;
@@ -87,7 +88,12 @@ class Ebook
         $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
         $archiveExtensions = ['epub', 'pdf', ...$cbaExtensions];
         $audiobookExtensions = ['mp3', 'm4a', 'm4b', 'flac', 'ogg'];
-        $allowExtensions = [...$archiveExtensions, ...$audiobookExtensions];
+        $mobipocketExtensions = ['mobi', 'azw', 'azw3', 'azw4', 'kf8', 'prc', 'tpz'];
+        $allowExtensions = [...$archiveExtensions, ...$audiobookExtensions, ...$mobipocketExtensions];
+
+        if (! file_exists($path)) {
+            throw new \Exception("File not found: {$path}");
+        }
 
         if ($extension && ! in_array($extension, $allowExtensions)) {
             throw new \Exception("Unknown archive type: {$extension}");
@@ -95,16 +101,21 @@ class Ebook
 
         $self = new self($path, $filename, $extension);
 
-        if (in_array($extension, $cbaExtensions)) {
-            $self->format = EbookFormatEnum::CBA;
-        } elseif ($extension === 'pdf') {
-            $self->format = EbookFormatEnum::PDF;
-        } elseif ($extension === 'epub') {
-            $self->format = EbookFormatEnum::EPUB;
-        } elseif (in_array($extension, $audiobookExtensions)) {
-            $self->format = EbookFormatEnum::AUDIOBOOK;
-        } else {
-            // throw new \Exception("Unknown archive type: {$extension}");
+        $self->format = match ($extension) {
+            'epub' => $self->format = EbookFormatEnum::EPUB,
+            'mobi' => $self->format = EbookFormatEnum::MOBI,
+            'pdf' => $self->format = EbookFormatEnum::PDF,
+            default => null,
+        };
+
+        if (! $self->format) {
+            if (in_array($extension, $cbaExtensions)) {
+                $self->format = EbookFormatEnum::CBA;
+            } elseif (in_array($extension, $audiobookExtensions)) {
+                $self->format = EbookFormatEnum::AUDIOBOOK;
+            } else {
+                // throw new \Exception("Unknown archive type: {$extension}");
+            }
         }
 
         if (in_array($extension, $archiveExtensions)) {
@@ -125,6 +136,7 @@ class Ebook
 
         $format = match ($self->format) {
             EbookFormatEnum::EPUB => $self->epub(),
+            EbookFormatEnum::MOBI => $self->mobi(),
             EbookFormatEnum::CBA => $self->cba(),
             EbookFormatEnum::PDF => $self->pdf(),
             EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
@@ -146,6 +158,15 @@ class Ebook
     private function epub(): self
     {
         $this->metadata = EbookMetadata::make(EpubMetadata::make($this));
+        $this->convertEbook();
+        $this->cover = $this->metadata->module()->toCover();
+
+        return $this;
+    }
+
+    private function mobi(): self
+    {
+        $this->metadata = EbookMetadata::make(MobiMetadata::make($this));
         $this->convertEbook();
         $this->cover = $this->metadata->module()->toCover();
 
