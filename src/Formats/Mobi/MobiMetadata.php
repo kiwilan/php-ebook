@@ -19,6 +19,8 @@ class MobiMetadata extends EbookModule
 
     protected ?MobiExthHeader $exthHeader = null;
 
+    protected ?MobiHeadMeta $headMeta = null;
+
     /** @var MobiPalmRecord[] */
     protected array $palmHeaders = [];
 
@@ -35,15 +37,15 @@ class MobiMetadata extends EbookModule
 
     public function toEbook(): Ebook
     {
-        $this->ebook->setTitle($this->exthHeader->title());
-        $this->ebook->setAuthorMain(new BookAuthor($this->exthHeader->author()));
-        $this->ebook->setIdentifiers([
-            new BookIdentifier($this->exthHeader->isbn()),
-        ]);
-        $this->ebook->setTags([
-            $this->exthHeader->subject(),
-        ]);
-        $this->ebook->setPublisher($this->exthHeader->publisher());
+        $this->ebook->setTitle($this->headMeta->updatedTitle());
+        // $this->ebook->setAuthorMain(new BookAuthor($this->exthHeader->author()));
+        // $this->ebook->setIdentifiers([
+        //     new BookIdentifier($this->exthHeader->isbn()),
+        // ]);
+        // $this->ebook->setTags([
+        //     $this->exthHeader->subject(),
+        // ]);
+        // $this->ebook->setPublisher($this->exthHeader->publisher());
 
         return $this->ebook;
     }
@@ -112,6 +114,7 @@ class MobiMetadata extends EbookModule
         }
 
         $this->exthHeader = MobiExthHeader::make($handle);
+        $this->headMeta = MobiHeadMeta::make($this->exthHeader->records());
 
         fclose($handle);
 

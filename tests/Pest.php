@@ -28,7 +28,7 @@ define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
 
-define('MOBI', __DIR__.'/media/alices-adventures-in-wonderland.mobi');
+define('MOBI', __DIR__.'/media/alices-adventures-in-wonderland-5.mobi');
 
 define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
 define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
