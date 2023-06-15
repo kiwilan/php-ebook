@@ -147,4 +147,4 @@ it('can parse with good performances', function () {
     $ebook = Ebook::read(EPUB);
 
     expect($ebook->execTime())->toBeLessThan(0.06);
-});
+})->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
