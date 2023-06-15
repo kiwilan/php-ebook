@@ -138,7 +138,7 @@ class MetaTitle
     }
 
     /**
-     * Get unique filename, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en`.
+     * Get unique filename, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`.
      */
     public function uniqueFilename(): string
     {
@@ -217,8 +217,9 @@ class MetaTitle
         $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
         $title = $this->setSlug($ebook->title());
         $language = $this->setSlug($ebook->language());
+        $format = $this->setSlug($ebook->extension());
 
-        $filename = "{$author}-{$series}-{$volume}-{$title}-{$language}";
+        $filename = "{$author}-{$series}-{$volume}-{$title}-{$language}-{$format}";
         $filename = $this->setSlug($filename);
 
         return $filename;
