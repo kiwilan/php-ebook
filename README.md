@@ -56,42 +56,28 @@ This package was built for [bookshelves-project/bookshelves](https://github.com/
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
 
-|                Type                | Native |                                                                                       Dependency                                                                                       |         Uses         |
-| :--------------------------------: | :----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :------------------: |
-|          `.epub`, `.cbz`           |   ✅   |                                                                                          N/A                                                                                           |         PHP          |
-|               `.cbt`               |   ✅   |                                                                                          N/A                                                                                           |         PHP          |
-|               `.cbr`               |   ❌   |                                        [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary                                        | PHP `rar` or `p7zip` |
-|               `.cb7`               |   ❌   |                                                                        [`p7zip`](https://www.7-zip.org/) binary                                                                        |       `p7zip`        |
-|               `.pdf`               |   ✅   |                                                Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)                                                 |  `smalot/pdfparser`  |
-| `mp3`, `m4a`, `m4b`, `flac`, `ogg` |   ✅   |                                                                                          N/A                                                                                           | `kiwilan/php-audio`  |
-|                ALL                 |   ❌   | [`p7zip`](https://www.7-zip.org/) binary ([`rar` PHP extension](https://github.com/cataphract/php-rar) and [`imagick` PHP extension](https://github.com/Imagick/imagick) are optional) |                      |
+|                Type                | Supported |                                               Requirement                                                |         Uses         |
+| :--------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :------------------: |
+|          `.epub`, `.cbz`           |    ✅     |                                                   N/A                                                    |         N/A          |
+|               `.cbt`               |    ✅     |                                                   N/A                                                    |         N/A          |
+|               `.cbr`               |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary | PHP `rar` or `p7zip` |
+|               `.cb7`               |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |    `p7zip` binary    |
+|               `.pdf`               |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          |  `smalot/pdfparser`  |
+| `mp3`, `m4a`, `m4b`, `flac`, `ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio`  |
 
-> **Note**
->
-> Here you can read some installation guides for dependencies
->
-> -   [`p7zip` guide](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d)
-> -   [`rar` PHP extension guide](https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9#winrar)
-> -   [`imagick` PHP extension guide](https://gist.github.com/ewilan-riviere/3f4efd752905abe24fd1cd44412d9db9#imagemagick)
-
-> **Warning**
->
-> -   **On macOS**, for `.rar` extract, you have to [install `rar` binary](https://gist.github.com/ewilan-riviere/85d657f9283fa6af255531d97da5d71d#macos) to extract files, `p7zip` not support `.rar` extraction.
-> -   **On Windows**, for `.pdf` extract, [`imagick` PHP extension](https://github.com/Imagick/imagick) have to work but **my tests failed on this feature**. So to extract PDF pages I advice to use [WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
-
-If you want more informations, you can read [kiwilan/php-archive](https://github.com/kiwilan/php-archive).
+If you want more informations, you can read [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
 
 -   Read metadata from eBooks and audiobooks
 -   Extract covers from eBooks and audiobooks
 -   Support metadata
-    -   EPUB v2 and v3 from [IDPF](https://idpf.org/)
+    -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/)
     -   `calibre:series` for EPUB from [Calibre](https://calibre-ebook.com/)
     -   `calibre:series_index` for EPUB from [Calibre](https://calibre-ebook.com/)
     -   `ComicInfo.xml` (CBAM) format from ComicRack and maintained by [anansi-project](https://github.com/anansi-project/comicinfo)
-    -   PDF by [smalot/pdfparser](https://github.com/smalot/pdfparser)
-    -   ID3, Vorbis and flac tags with [kiwilan/php-audio](https://github.com/kiwilan/php-audio)
+    -   `PDF` by [smalot/pdfparser](https://github.com/smalot/pdfparser)
+    -   `ID3`, Vorbis and flac tags with [kiwilan/php-audio](https://github.com/kiwilan/php-audio)
 
 ## Installation
 
@@ -173,6 +159,7 @@ $metaTitle->serieSort(); // ?string => slugify series title without determiners,
 $metaTitle->serieLang(); // ?string => slugify series title with language and type, like `earths-children-epub-en`
 
 $metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
+$metaTitle->uniqueFilename(); // string => unique filename for storage, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`
 ```
 
 ### EPUB
