@@ -2,6 +2,7 @@
 
 namespace Kiwilan\Ebook\Formats\Mobi;
 
+use DateTime;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
@@ -37,15 +38,33 @@ class MobiMetadata extends EbookModule
 
     public function toEbook(): Ebook
     {
+        $authors = [];
+        foreach ($this->headMeta->authors() as $author) {
+            $authors[] = new BookAuthor($author);
+        }
+
+        $isbns = [];
+        foreach ($this->headMeta->isbns() as $isbn) {
+            $isbns[] = new BookIdentifier($isbn);
+        }
+
+        $publishingDate = $this->headMeta->publishingDate();
+        if ($publishingDate) {
+            $publishingDate = new DateTime($publishingDate);
+        }
+
+        $this->ebook->setAuthors($authors);
+        $this->ebook->setPublisher($this->headMeta->publisher());
+        $this->ebook->setDescription($this->headMeta->description());
+        $this->ebook->setIdentifiers($isbns);
+        $this->ebook->setTags($this->headMeta->subjects());
+        $this->ebook->setPublishDate($publishingDate);
         $this->ebook->setTitle($this->headMeta->updatedTitle());
-        // $this->ebook->setAuthorMain(new BookAuthor($this->exthHeader->author()));
-        // $this->ebook->setIdentifiers([
-        //     new BookIdentifier($this->exthHeader->isbn()),
-        // ]);
-        // $this->ebook->setTags([
-        //     $this->exthHeader->subject(),
-        // ]);
-        // $this->ebook->setPublisher($this->exthHeader->publisher());
+        $this->ebook->setLanguage($this->headMeta->language());
+
+        $this->ebook->setExtras([
+            'contributor' => $this->headMeta->contributor(),
+        ]);
 
         return $this->ebook;
     }

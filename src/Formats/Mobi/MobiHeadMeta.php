@@ -6,14 +6,16 @@ class MobiHeadMeta
 {
     /**
      * @param  string[]  $authors
+     * @param  string[]  $subjects
+     * @param  string[]  $isbns
      */
     protected function __construct(
         protected array $authors = [], // 100
         protected ?string $publisher = null, // 101
         protected ?string $imprint = null, // 102
         protected ?string $description = null, // 103
-        protected ?string $isbn = null, // 104
-        protected ?string $subject = null, // 105
+        protected array $isbns = [], // 104
+        protected array $subjects = [], // 105
         protected ?string $publishingDate = null, // 106
         protected ?string $review = null, // 107
         protected ?string $contributor = null, // 108
@@ -110,11 +112,11 @@ class MobiHeadMeta
             }
 
             if ($type === 104) {
-                $this->isbn = $data;
+                $this->isbns[] = $data;
             }
 
             if ($type === 105) {
-                $this->subject = $data;
+                $this->subjects[] = $data;
             }
 
             if ($type === 106) {
@@ -369,14 +371,20 @@ class MobiHeadMeta
         return $this->description;
     }
 
-    public function isbn(): ?string
+    /**
+     * @return string[]
+     */
+    public function isbns(): array
     {
-        return $this->isbn;
+        return $this->isbns;
     }
 
-    public function subject(): ?string
+    /**
+     * @return string[]
+     */
+    public function subjects(): array
     {
-        return $this->subject;
+        return $this->subjects;
     }
 
     public function publishingDate(): ?string
