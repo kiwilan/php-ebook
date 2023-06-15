@@ -15,11 +15,6 @@ class CbaMetadata extends EbookModule
 
     protected ?string $type = null;
 
-    protected function __construct(
-    ) {
-        parent::__construct(...func_get_args());
-    }
-
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);

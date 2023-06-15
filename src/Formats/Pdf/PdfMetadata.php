@@ -12,11 +12,6 @@ class PdfMetadata extends EbookModule
 {
     protected ?PdfMeta $meta = null;
 
-    protected function __construct(
-    ) {
-        parent::__construct(...func_get_args());
-    }
-
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
