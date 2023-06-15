@@ -20,6 +20,28 @@ Supports Linux, macOS and Windows.
   <img src="tests/media/banner.jpg" style="width: 80%;" alt="Banner with eReader picture in background and PHP eBook title" />
 </p>
 
+## Table of Contents
+
+-   [About](#about)
+-   [Requirements](#requirements)
+-   [Features](#features)
+-   [Installation](#installation)
+-   [Usage](#usage)
+    -   [Metadata](#metadata)
+    -   [MetaTitle](#metatitle)
+    -   [EPUB](#epub)
+-   [Roadmap](#roadmap)
+-   [Testing](#testing)
+-   [Changelog](#changelog)
+-   [Resources](#resources)
+    -   [OS](#os)
+    -   [Applications](#applications)
+    -   [Tools](#tools)
+    -   [Metadata](#metadata-1)
+    -   [OPDS](#opds)
+-   [Credits](#credits)
+-   [License](#license)
+
 ## About
 
 This package was built for [bookshelves-project/bookshelves](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.
@@ -188,6 +210,16 @@ Bad multiple creators: `Jean M. Auel, Philippe Rouard`.
     ]
 ]
 ```
+
+## Roadmap
+
+-   [ ] Add `.mobi`, `.azw`, `.azw3` support
+    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
+    -   https://wiki.mobileread.com/wiki/MOBI
+-   [ ] Add `.djvu` support
+-   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
+-   [ ] Add `.epub` creation support
+-   [ ] Add `.epub` metadata update support
 
 ## Testing
 
