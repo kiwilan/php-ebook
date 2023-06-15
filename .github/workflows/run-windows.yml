@@ -13,7 +13,7 @@ jobs:
           iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
           scoop update
           scoop checkup
-          scoop install 7zip imagemagick ghostscript unrar
+          scoop install 7zip
           [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         shell: powershell
 
