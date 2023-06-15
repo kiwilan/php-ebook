@@ -20,6 +20,7 @@ class MetaTitle
         protected ?string $serieSlugLang = null,
 
         protected ?string $slugSortWithSerie = null,
+        protected ?string $uniqueFilename = null,
     ) {
     }
 
@@ -74,6 +75,7 @@ class MetaTitle
         $this->serieSlug = $this->setSlug($series);
         $this->serieSlugSort = $this->generateSortTitle($series, $language);
         $this->serieSlugLang = $this->generateSlug($series, $ebook->extension(), $language);
+        $this->uniqueFilename = $this->generateUniqueFilename($ebook);
 
         return $this;
     }
@@ -136,6 +138,14 @@ class MetaTitle
     }
 
     /**
+     * Get unique filename, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en`.
+     */
+    public function uniqueFilename(): string
+    {
+        return $this->uniqueFilename;
+    }
+
+    /**
      * Try to get sort title.
      * Example: `collier-de-la-reine` from `Le Collier de la Reine`.
      */
@@ -194,6 +204,24 @@ class MetaTitle
         $language = $this->setSlug($language);
 
         return $this->setSlug($title.' '.$type.' '.$language);
+    }
+
+    /**
+     * Generate unique filename.
+     */
+    private function generateUniqueFilename(Ebook $ebook): string
+    {
+        $author = $this->setSlug($ebook->authorMain());
+        $series = $this->setSlug($ebook->series());
+        $volume = (string) $ebook->volume();
+        $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
+        $title = $this->setSlug($ebook->title());
+        $language = $this->setSlug($ebook->language());
+
+        $filename = "{$author}-{$series}-{$volume}-{$title}-{$language}";
+        $filename = $this->setSlug($filename);
+
+        return $filename;
     }
 
     public function toArray(): array
