@@ -1,5 +1,7 @@
 # PHP eBook
 
+![Banner with eReader picture in background and PHP eBook title](tests/media/banner.jpg)
+
 [![php][php-version-src]][php-version-href]
 [![version][version-src]][version-href]
 [![downloads][downloads-src]][downloads-href]
@@ -15,10 +17,6 @@ Supports Linux, macOS and Windows.
 > **Warning**
 >
 > Works with [kiwilan/php-archive](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [p7zip](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
-
-<p align="center">
-  <img src="tests/media/banner.jpg" style="width: 80%;" alt="Banner with eReader picture in background and PHP eBook title" />
-</p>
 
 ## Table of Contents
 
