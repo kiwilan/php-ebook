@@ -88,27 +88,27 @@ class EbookMetadata
         return $this->type;
     }
 
-    public function hasEpub(): bool
+    public function isEpub(): bool
     {
         return $this->epub !== null;
     }
 
-    public function hasMobi(): bool
+    public function isMobi(): bool
     {
         return $this->mobi !== null;
     }
 
-    public function hasCba(): bool
+    public function isCba(): bool
     {
         return $this->cba !== null;
     }
 
-    public function hasPdf(): bool
+    public function isPdf(): bool
     {
         return $this->pdf !== null;
     }
 
-    public function hasAudiobook(): bool
+    public function isAudiobook(): bool
     {
         return $this->audiobook !== null;
     }

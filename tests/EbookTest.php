@@ -42,16 +42,16 @@ it('can parse metadata', function (string $path) {
     $metadata = $ebook->metadata();
     expect($metadata)->toBeInstanceOf(EbookMetadata::class);
 
-    if ($metadata->hasEpub()) {
+    if ($metadata->isEpub()) {
         expect($metadata->epub())->toBeInstanceOf(EpubMetadata::class);
     }
-    if ($metadata->hasCba()) {
+    if ($metadata->isCba()) {
         expect($metadata->cba())->toBeInstanceOf(CbaMetadata::class);
     }
-    if ($metadata->hasPdf()) {
+    if ($metadata->isPdf()) {
         expect($metadata->pdf())->toBeInstanceOf(PdfMetadata::class);
     }
-    if ($metadata->hasAudiobook()) {
+    if ($metadata->isAudiobook()) {
         expect($metadata->audiobook())->toBeInstanceOf(AudiobookMetadata::class);
     }
 })->with([EPUB, CBZ, PDF, AUDIOBOOK]);
