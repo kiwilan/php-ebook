@@ -17,10 +17,6 @@ _Supports Linux, macOS and Windows._
 >
 > This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
 
-> **Warning**
->
-> Works with [kiwilan/php-archive](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [p7zip](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
-
 ## Table of Contents
 
 -   [About](#about)
@@ -61,7 +57,10 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 |               `.pdf`               |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          |  `smalot/pdfparser`  |
 | `mp3`, `m4a`, `m4b`, `flac`, `ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio`  |
 
-If you want more informations, you can read [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
+> **Warning**
+>
+> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
+> Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
 
