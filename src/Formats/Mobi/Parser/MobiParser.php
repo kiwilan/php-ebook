@@ -85,40 +85,7 @@ class MobiParser
 
         $stream->close();
 
-        $self->cover();
-
         return $self;
-    }
-
-    private function cover(): self
-    {
-        $stream = StreamParser::make($this->path, 'rb');
-
-        // $handle = fopen($this->ebook->path(), 'rb');
-        // if (! $handle) {
-        //     return;
-        // }
-
-        // $record = array_filter($this->records, fn ($e) => $e->type() === 201);
-        // $record = reset($record);
-
-        // $command = "exiftool -json -charset UTF8 {$this->path}";
-        // $output = shell_exec($command);
-
-        // $metadata = json_decode($output, true);
-
-        // if (! empty($metadata)) {
-        //     ray($metadata);
-        // }
-
-        // $command = "exiftool -b -CoverImage {$this->path}";
-        // $output = shell_exec($command);
-        // ray($output);
-
-        // $coverPath = 'chemin/vers/votre/cover.jpg';
-        // file_put_contents($coverPath, $output);
-
-        return $this;
     }
 
     public function path(): string
@@ -168,10 +135,5 @@ class MobiParser
     public function errors(): array
     {
         return $this->errors;
-    }
-
-    public function errorLog(): string
-    {
-        return implode("\n", $this->errors);
     }
 }

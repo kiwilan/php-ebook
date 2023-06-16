@@ -80,18 +80,6 @@ class StreamParser
     }
 
     /**
-     * Read binary data from stream, convert to decimal.
-     *
-     * @param  int|string  $byte
-     */
-    public function toDecimal(mixed $byte): int|float
-    {
-        $hexa = bin2hex($byte);
-
-        return hexdec($hexa);
-    }
-
-    /**
      * Add error to `error_log`.
      */
     public function errorLog(string $error): string

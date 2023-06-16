@@ -26,7 +26,7 @@ class MobiReader
         protected ?string $asin = null, // 113
         protected ?string $version = null, // 114
         protected ?string $sample = null, // 115
-        protected ?string $startreading = null, // 116
+        protected ?string $startReading = null, // 116
         protected ?string $adult = null, // 117
         protected ?string $retailPrice = null, // 118
         protected ?string $retailCurrency = null, // 119
@@ -110,7 +110,7 @@ class MobiReader
                 113 => $this->asin = $record->data(),
                 114 => $this->version = $record->data(),
                 115 => $this->sample = $record->data(),
-                116 => $this->startreading = $record->data(),
+                116 => $this->startReading = $record->data(),
                 117 => $this->adult = $record->data(),
                 118 => $this->retailPrice = $record->data(),
                 119 => $this->retailCurrency = $record->data(),
@@ -252,9 +252,9 @@ class MobiReader
         return $this->sample;
     }
 
-    public function startreading(): ?string
+    public function startReading(): ?string
     {
-        return $this->startreading;
+        return $this->startReading;
     }
 
     public function adult(): ?string
