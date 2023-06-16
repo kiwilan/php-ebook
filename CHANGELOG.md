@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.1.0 - 2023-06-16
+
+- Add partial `.mobi` support
+- For `EbookMetadata::class` all methods with `has` prefix use `is` prefix now
+- Add `uniqueFilename` method to `MetaTitle::class`
+- improve documentation
+- add tests
+
 ## 1.0.12 - 2023-06-15
 
 - `MetaTitle` add `uniqueFilename`
