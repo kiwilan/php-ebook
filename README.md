@@ -67,14 +67,14 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   🔎 Read metadata from **eBooks** and **audiobooks**
 -   🖼️ Extract covers from **eBooks** and **audiobooks**
 -   📚 Support metadata
-    -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/)
-        -   `calibre:series` from [Calibre](https://calibre-ebook.com/)
-        -   `calibre:series_index` from [Calibre](https://calibre-ebook.com/)
-    -   `ComicInfo.xml` (CBAM) format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
-    -   `PDF` by [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
-    -   `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+    -   eBooks:
+        -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` and from [Calibre](https://calibre-ebook.com/)
+    -   Comics:
+        -   `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
+    -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
+    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+-   🔖 `EPUB` only support chapters extraction
 
-<!-- -   🔖 `EPUB` only support chapters extraction -->
 <!-- -   📦 `EPUB` and `CBZ` creation supported -->
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
 
@@ -216,6 +216,29 @@ $cover->content(bool $toBase64 = false); // ?string => content of cover, if `$to
 >
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
 > -   For Audiobook, cover can be extracted with `mp3` but not with other formats.
+
+### Formats specifications
+
+#### EPUB
+
+With `EPUB`, metadata are extracted from `OPF` file, `META-INF/container.xml` files, you could access to these metatada but you can also get chapters from `NCX` file. And with `chapters()` method you can merge `NCX` and `HTML` chapters to get full book chapters with `label`, `source` and `content`.
+
+```php
+$ebook = Ebook::read('path/to/ebook.epub');
+
+$epub = $ebook->metadata()?->epub();
+
+$epub->container(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
+$epub->opf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
+$epub->ncx(); // ?NcxMetadata => {`head`: NcxMetadataHead[]|null, `docTitle`: ?string, `navPoints`: NcxMetadataNavPoint[]|null, `version`: ?string, `lang`: ?string}
+$epub->chapters(); // EpubChapter[] => {`label`: string, `source`: string, `content`: string}[]
+$epub->html(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`: ?string}[]
+$epub->files(); // string[] => all files in EPUB
+```
+
+> **Note**
+>
+> For performance reasons, with `ncx`, `html` and `chapters` are only available on demand. If you use `var_dump` to check metadata, these properties will be `null`.
 
 ## Testing
 
