@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
 class MobiPalmRecord
 {
@@ -11,21 +11,13 @@ class MobiPalmRecord
     ) {
     }
 
-    /**
-     * @param  resource  $stream
-     */
-    public static function make(mixed $stream): self
+    public static function make(StreamParser $stream): self
     {
         $self = new self();
 
-        $content = fread($stream, 4);
-        $self->offset = hexdec(bin2hex($content));
-
-        $content = fread($stream, 1);
-        $self->attributes = hexdec(bin2hex($content));
-
-        $content = fread($stream, 3);
-        $self->id = hexdec(bin2hex($content));
+        $self->offset = $stream->toInt(4);
+        $self->attributes = $stream->toInt(1);
+        $self->id = $stream->toInt(3);
 
         return $self;
     }

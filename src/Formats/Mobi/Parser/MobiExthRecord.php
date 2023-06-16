@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
 class MobiExthRecord
 {
@@ -11,17 +11,13 @@ class MobiExthRecord
     ) {
     }
 
-    public static function make(mixed $stream): self
+    public static function make(StreamParser $stream): self
     {
         $self = new self();
 
-        $content = fread($stream, 4);
-        $self->type = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
-        $self->length = hexdec(bin2hex($content));
-
-        $self->data = fread($stream, $self->length - 8);
+        $self->type = $stream->toInt(4);
+        $self->length = $stream->toInt(4);
+        $self->data = $stream->read($self->length - 8);
 
         return $self;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
 class MobiPalmDOCHeader
 {
@@ -13,29 +13,19 @@ class MobiPalmDOCHeader
     }
 
     /**
-     * @param  resource  $stream
      * @param  MobiPalmRecord[]  $palmHeaders
      */
-    public static function make(mixed $stream, array $palmHeaders): self
+    public static function make(StreamParser $stream, array $palmHeaders): self
     {
         $self = new self();
 
-        fseek($stream, $palmHeaders[0]->offset(), SEEK_SET);
+        $stream->seek($palmHeaders[0]->offset());
+        $self->compression = $stream->toInt(2);
+        $self->textLength = $stream->toInt([2, 4]);
+        $self->records = $stream->toInt(2);
+        $self->recordSize = $stream->toInt(2);
 
-        $content = fread($stream, 2);
-        $self->compression = hexdec(bin2hex($content));
-
-        $content = fread($stream, 2);
-        $content = fread($stream, 4);
-        $self->textLength = hexdec(bin2hex($content));
-
-        $content = fread($stream, 2);
-        $self->records = hexdec(bin2hex($content));
-
-        $content = fread($stream, 2);
-        $self->recordSize = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
+        $stream->read(4);
 
         return $self;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
 class MobiExthHeader
 {
@@ -13,15 +13,12 @@ class MobiExthHeader
     ) {
     }
 
-    public static function make(mixed $stream): self
+    public static function make(StreamParser $stream): self
     {
         $self = new self();
 
-        $content = fread($stream, 4);
-        $self->length = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
-        $records = hexdec(bin2hex($content));
+        $self->length = $stream->toInt(4);
+        $records = $stream->toInt(4);
 
         for ($i = 0; $i < $records; $i++) {
             $record = MobiExthRecord::make($stream);

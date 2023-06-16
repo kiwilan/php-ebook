@@ -1,8 +1,8 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
-class MobiHeadMeta
+class MobiReader
 {
     /**
      * @param  string[]  $authors
@@ -37,14 +37,14 @@ class MobiHeadMeta
         protected ?string $originalResolution = null, // 125
         protected ?string $zeroGutter = null, // 126
         protected ?string $zeroMargin = null, // 127
-        protected ?string $MetadataResourceUri = null, // 129
+        protected ?string $metadataResourceUri = null, // 129
         protected ?string $unknown131 = null, // 131
         protected ?string $unknown132 = null, // 132
         protected ?string $dictionaryShortName = null, // 200
-        protected ?string $coveroffset = null, // 201
-        protected ?string $thumboffset = null, // 202
-        protected ?string $hasfakecover = null, // 203
-        protected ?string $creatorsoftware = null, // 204
+        protected ?string $coverOffset = null, // 201
+        protected ?string $thumbOffset = null, // 202
+        protected ?string $hasFakeCover = null, // 203
+        protected ?string $creatorSoftware = null, // 204
         protected ?string $creatorMajorVersion = null, // 205
         protected ?string $creatorMinorVersion = null, // 206
         protected ?string $creatorBuildNumber = null, // 207
@@ -72,13 +72,14 @@ class MobiHeadMeta
         protected ?string $unknown536 = null, // 536
         protected ?string $unknown542 = null, // 542
         protected ?string $inMemory = null, // 547
+        protected array $extra = [],
     ) {
     }
 
     /**
      * @param  MobiExthRecord[]  $records
      */
-    public static function make(array $records): self
+    public static function make(StreamParser $stream, array $records): self
     {
         $self = new self();
         $self->setData($records);
@@ -92,257 +93,71 @@ class MobiHeadMeta
     private function setData(array $records): self
     {
         foreach ($records as $record) {
-            $type = $record->type();
-            $data = $record->data();
-
-            if ($type === 100) {
-                $this->authors[] = $data;
-            }
-
-            if ($type === 101) {
-                $this->publisher = $data;
-            }
-
-            if ($type === 102) {
-                $this->imprint = $data;
-            }
-
-            if ($type === 103) {
-                $this->description = $data;
-            }
-
-            if ($type === 104) {
-                $this->isbns[] = $data;
-            }
-
-            if ($type === 105) {
-                $this->subjects[] = $data;
-            }
-
-            if ($type === 106) {
-                $this->publishingDate = $data;
-            }
-
-            if ($type === 107) {
-                $this->review = $data;
-            }
-
-            if ($type === 108) {
-                $this->contributor = $data;
-            }
-
-            if ($type === 109) {
-                $this->rights = $data;
-            }
-
-            if ($type === 110) {
-                $this->subjectCode = $data;
-            }
-
-            if ($type === 111) {
-                $this->type = $data;
-            }
-
-            if ($type === 112) {
-                $this->source = $data;
-            }
-
-            if ($type === 113) {
-                $this->asin = $data;
-            }
-
-            if ($type === 114) {
-                $this->version = $data;
-            }
-
-            if ($type === 115) {
-                $this->sample = $data;
-            }
-
-            if ($type === 116) {
-                $this->startreading = $data;
-            }
-
-            if ($type === 117) {
-                $this->adult = $data;
-            }
-
-            if ($type === 118) {
-                $this->retailPrice = $data;
-            }
-
-            if ($type === 119) {
-                $this->retailCurrency = $data;
-            }
-
-            if ($type === 121) {
-                $this->Kf8Boundary = $data;
-            }
-
-            if ($type === 122) {
-                $this->fixedLayout = $data;
-            }
-
-            if ($type === 123) {
-                $this->bookType = $data;
-            }
-
-            if ($type === 124) {
-                $this->orientationLock = $data;
-            }
-
-            if ($type === 125) {
-                $this->originalResolution = $data;
-            }
-
-            if ($type === 126) {
-                $this->zeroGutter = $data;
-            }
-
-            if ($type === 127) {
-                $this->zeroMargin = $data;
-            }
-
-            if ($type === 129) {
-                $this->MetadataResourceUri = $data;
-            }
-
-            if ($type === 131) {
-                $this->unknown131 = $data;
-            }
-
-            if ($type === 132) {
-                $this->unknown132 = $data;
-            }
-
-            if ($type === 200) {
-                $this->dictionaryShortName = $data;
-            }
-
-            if ($type === 201) {
-                $this->coveroffset = $data;
-            }
-
-            if ($type === 202) {
-                $this->thumboffset = $data;
-            }
-
-            if ($type === 203) {
-                $this->hasfakecover = $data;
-            }
-
-            if ($type === 204) {
-                $this->creatorsoftware = $data;
-            }
-
-            if ($type === 205) {
-                $this->creatorMajorVersion = $data;
-            }
-
-            if ($type === 206) {
-                $this->creatorMinorVersion = $data;
-            }
-
-            if ($type === 207) {
-                $this->creatorBuildNumber = $data;
-            }
-
-            if ($type === 208) {
-                $this->watermark = $data;
-            }
-
-            if ($type === 209) {
-                $this->tamperProofKeys = $data;
-            }
-
-            if ($type === 300) {
-                $this->fontSignature = $data;
-            }
-
-            if ($type === 401) {
-                $this->clippingLimit = $data;
-            }
-
-            if ($type === 402) {
-                $this->publisherLimit = $data;
-            }
-
-            if ($type === 403) {
-                $this->unknown403 = $data;
-            }
-
-            if ($type === 404) {
-                $this->textToSpeechFlag = $data;
-            }
-
-            if ($type === 405) {
-                $this->unknown405 = $data;
-            }
-
-            if ($type === 406) {
-                $this->rentExpirationDate = $data;
-            }
-
-            if ($type === 407) {
-                $this->unknown407 = $data;
-            }
-
-            if ($type === 450) {
-                $this->unknown450 = $data;
-            }
-
-            if ($type === 451) {
-                $this->unknown451 = $data;
-            }
-
-            if ($type === 452) {
-                $this->unknown452 = $data;
-            }
-
-            if ($type === 453) {
-                $this->unknown453 = $data;
-            }
-
-            if ($type === 501) {
-                $this->cdeContentType = $data;
-            }
-
-            if ($type === 502) {
-                $this->lastUpdateTime = $data;
-            }
-
-            if ($type === 503) {
-                $this->updatedTitle = $data;
-            }
-
-            if ($type === 504) {
-                $this->asin504 = $data;
-            }
-
-            if ($type === 524) {
-                $this->language = $data;
-            }
-
-            if ($type === 525) {
-                $this->writingMode = $data;
-            }
-
-            if ($type === 535) {
-                $this->creatorBuildNumber535 = $data;
-            }
-
-            if ($type === 536) {
-                $this->unknown536 = $data;
-            }
-
-            if ($type === 542) {
-                $this->unknown542 = $data;
-            }
-
-            if ($type === 547) {
-                $this->inMemory = $data;
-            }
-
+            match ($record->type()) {
+                100 => $this->authors[] = $record->data(),
+                101 => $this->publisher = $record->data(),
+                102 => $this->imprint = $record->data(),
+                103 => $this->description = $record->data(),
+                104 => $this->isbns[] = $record->data(),
+                105 => $this->subjects[] = $record->data(),
+                106 => $this->publishingDate = $record->data(),
+                107 => $this->review = $record->data(),
+                108 => $this->contributor = $record->data(),
+                109 => $this->rights = $record->data(),
+                110 => $this->subjectCode = $record->data(),
+                111 => $this->type = $record->data(),
+                112 => $this->source = $record->data(),
+                113 => $this->asin = $record->data(),
+                114 => $this->version = $record->data(),
+                115 => $this->sample = $record->data(),
+                116 => $this->startreading = $record->data(),
+                117 => $this->adult = $record->data(),
+                118 => $this->retailPrice = $record->data(),
+                119 => $this->retailCurrency = $record->data(),
+                121 => $this->Kf8Boundary = $record->data(),
+                122 => $this->fixedLayout = $record->data(),
+                123 => $this->bookType = $record->data(),
+                124 => $this->orientationLock = $record->data(),
+                125 => $this->originalResolution = $record->data(),
+                126 => $this->zeroGutter = $record->data(),
+                127 => $this->zeroMargin = $record->data(),
+                129 => $this->metadataResourceUri = $record->data(),
+                131 => $this->unknown131 = $record->data(),
+                132 => $this->unknown132 = $record->data(),
+                200 => $this->dictionaryShortName = $record->data(),
+                201 => $this->coverOffset = $record->data(),
+                202 => $this->thumbOffset = $record->data(),
+                203 => $this->hasFakeCover = $record->data(),
+                204 => $this->creatorSoftware = $record->data(),
+                205 => $this->creatorMajorVersion = $record->data(),
+                206 => $this->creatorMinorVersion = $record->data(),
+                207 => $this->creatorBuildNumber = $record->data(),
+                208 => $this->watermark = $record->data(),
+                209 => $this->tamperProofKeys = $record->data(),
+                300 => $this->fontSignature = $record->data(),
+                401 => $this->clippingLimit = $record->data(),
+                402 => $this->publisherLimit = $record->data(),
+                403 => $this->unknown403 = $record->data(),
+                404 => $this->textToSpeechFlag = $record->data(),
+                405 => $this->unknown405 = $record->data(),
+                406 => $this->rentExpirationDate = $record->data(),
+                407 => $this->unknown407 = $record->data(),
+                450 => $this->unknown450 = $record->data(),
+                451 => $this->unknown451 = $record->data(),
+                452 => $this->unknown452 = $record->data(),
+                453 => $this->unknown453 = $record->data(),
+                501 => $this->cdeContentType = $record->data(),
+                502 => $this->lastUpdateTime = $record->data(),
+                503 => $this->updatedTitle = $record->data(),
+                504 => $this->asin504 = $record->data(),
+                524 => $this->language = $record->data(),
+                525 => $this->writingMode = $record->data(),
+                535 => $this->creatorBuildNumber535 = $record->data(),
+                536 => $this->unknown536 = $record->data(),
+                542 => $this->unknown542 = $record->data(),
+                547 => $this->inMemory = $record->data(),
+                default => $this->extra[$record->type()] = $record->data(),
+            };
         }
 
         return $this;
@@ -492,9 +307,9 @@ class MobiHeadMeta
         return $this->zeroMargin;
     }
 
-    public function MetadataResourceUri(): ?string
+    public function metadataResourceUri(): ?string
     {
-        return $this->MetadataResourceUri;
+        return $this->metadataResourceUri;
     }
 
     public function unknown131(): ?string
@@ -512,24 +327,24 @@ class MobiHeadMeta
         return $this->dictionaryShortName;
     }
 
-    public function coveroffset(): ?string
+    public function coverOffset(): ?string
     {
-        return $this->coveroffset;
+        return $this->coverOffset;
     }
 
-    public function thumboffset(): ?string
+    public function thumbOffset(): ?string
     {
-        return $this->thumboffset;
+        return $this->thumbOffset;
     }
 
-    public function hasfakecover(): ?string
+    public function hasFakeCover(): ?string
     {
-        return $this->hasfakecover;
+        return $this->hasFakeCover;
     }
 
-    public function creatorsoftware(): ?string
+    public function creatorSoftware(): ?string
     {
-        return $this->creatorsoftware;
+        return $this->creatorSoftware;
     }
 
     public function creatorMajorVersion(): ?string
@@ -665,5 +480,10 @@ class MobiHeadMeta
     public function inMemory(): ?string
     {
         return $this->inMemory;
+    }
+
+    public function extra(): array
+    {
+        return $this->extra;
     }
 }

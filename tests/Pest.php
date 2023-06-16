@@ -28,7 +28,13 @@ define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
 
-define('MOBI', __DIR__.'/media/alices-adventures-in-wonderland-5.mobi');
+define('STANDARD_EPUB', __DIR__.'/media/alice-lewis-carroll-1.epub');
+define('STANDARD_AZW3', __DIR__.'/media/alice-lewis-carroll-2.azw3');
+define('STANDARD_FB2', __DIR__.'/media/alice-lewis-carroll-3.fb2');
+define('STANDARD_LRF', __DIR__.'/media/alice-lewis-carroll-4.lrf');
+define('STANDARD_MOBI', __DIR__.'/media/alice-lewis-carroll-5.mobi');
+define('STANDARD_PDB', __DIR__.'/media/alice-lewis-carroll-6.pdb');
+define('STANDARD_SNB', __DIR__.'/media/alice-lewis-carroll-7.snb');
 
 define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
 define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
@@ -61,6 +67,16 @@ define('AUDIOBOOK_ITEMS', [
     'AUDIOBOOK_PART_1' => AUDIOBOOK_PART_1,
     'AUDIOBOOK_PART_2' => AUDIOBOOK_PART_2,
     'AUDIOBOOK_CHAPTERS' => AUDIOBOOK_CHAPTERS,
+]);
+
+define('STANDARD', [
+    'EPUB' => STANDARD_EPUB,
+    'AZW3' => STANDARD_AZW3,
+    'FB2' => STANDARD_FB2,
+    'LRF' => STANDARD_LRF,
+    'MOBI' => STANDARD_MOBI,
+    'PDB' => STANDARD_PDB,
+    'SNB' => STANDARD_SNB,
 ]);
 
 function outputPath(): string

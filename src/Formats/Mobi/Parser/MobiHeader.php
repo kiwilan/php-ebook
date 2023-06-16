@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Mobi;
+namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
 class MobiHeader
 {
@@ -13,24 +13,14 @@ class MobiHeader
     ) {
     }
 
-    /**
-     * @param  resource  $stream
-     */
-    public static function make(mixed $stream, int|false $mobiStart): self
+    public static function make(StreamParser $stream): self
     {
         $self = new self();
 
-        $content = fread($stream, 4);
-        $self->length = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
-        $self->type = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
-        $self->encoding = hexdec(bin2hex($content));
-
-        $content = fread($stream, 4);
-        $self->id = hexdec(bin2hex($content));
+        $self->length = $stream->toInt(4);
+        $self->type = $stream->toInt(4);
+        $self->encoding = $stream->toInt(4);
+        $self->id = $stream->toInt(4);
 
         return $self;
     }
