@@ -12,11 +12,6 @@ class PdfMetadata extends EbookModule
 {
     protected ?PdfMeta $meta = null;
 
-    protected function __construct(
-    ) {
-        parent::__construct(...func_get_args());
-    }
-
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
@@ -84,15 +79,5 @@ class PdfMetadata extends EbookModule
         return [
             'metadata' => $this->meta?->toArray(),
         ];
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
     }
 }

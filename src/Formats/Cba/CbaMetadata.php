@@ -15,11 +15,6 @@ class CbaMetadata extends EbookModule
 
     protected ?string $type = null;
 
-    protected function __construct(
-    ) {
-        parent::__construct(...func_get_args());
-    }
-
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
@@ -96,20 +91,10 @@ class CbaMetadata extends EbookModule
 
     public function toArray(): array
     {
-        // return $this->metadata->toArray();
-        return [];
-    }
-
-    public function toJson(): string
-    {
-        // return $this->metadata->toJson();
-        return '';
-    }
-
-    public function __toString(): string
-    {
-        // return $this->metadata->__toString();
-        return '';
+        return [
+            'type' => $this->type,
+            'cbam' => $this->cbam?->toArray(),
+        ];
     }
 
     private function arrayableToBookAuthor(array $core, ?string $role = null): array

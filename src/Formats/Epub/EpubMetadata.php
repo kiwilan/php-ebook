@@ -29,11 +29,6 @@ class EpubMetadata extends EbookModule
     /** @var EpubChapter[] */
     protected array $chapters = [];
 
-    protected function __construct(
-    ) {
-        parent::__construct(...func_get_args());
-    }
-
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
@@ -311,15 +306,5 @@ class EpubMetadata extends EbookModule
             'opf' => $this->opf?->toArray(),
             'ncx' => $this->ncx?->toArray(),
         ];
-    }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray());
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
     }
 }

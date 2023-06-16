@@ -1,6 +1,8 @@
 name: Tests on macOS
 
-on: [push, pull_request]
+on:
+  release:
+    types: [released]
 
 jobs:
   test:

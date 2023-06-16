@@ -22,7 +22,13 @@ abstract class EbookModule
 
     abstract public function toArray(): array;
 
-    abstract public function toJson(): string;
+    public function toJson(): string
+    {
+        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
+    }
 
-    abstract public function __toString(): string;
+    public function __toString(): string
+    {
+        return $this->toJson();
+    }
 }

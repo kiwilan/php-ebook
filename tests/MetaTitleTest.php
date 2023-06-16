@@ -19,5 +19,5 @@ it('can be slugify', function () {
     expect($meta->serieSlugSort())->toBe('a-comme-association');
     expect($meta->serieSlugLang())->toBe('a-comme-association-epub-fr');
     expect($meta->slugSortWithSerie())->toBe('a-comme-association-01_pale-lumiere-des-tenebres');
-    expect($meta->uniqueFilename())->toBe('jean-m-auel-a-comme-association-01-la-pale-lumiere-des-tenebres-fr');
+    expect($meta->uniqueFilename())->toBe('jean-m-auel-a-comme-association-01-la-pale-lumiere-des-tenebres-fr-epub');
 });
