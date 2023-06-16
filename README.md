@@ -28,8 +28,10 @@ _Supports Linux, macOS and Windows._
 -   [Features](#features)
 -   [Installation](#installation)
 -   [Usage](#usage)
+    -   [Main](#main)
     -   [Metadata](#metadata)
     -   [MetaTitle](#metatitle)
+    -   [Cover](#cover)
 -   [Roadmap](#roadmap)
 -   [Testing](#testing)
 -   [Changelog](#changelog)
@@ -82,6 +84,8 @@ composer require kiwilan/php-ebook
 ```
 
 ## Usage
+
+### Main
 
 With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
