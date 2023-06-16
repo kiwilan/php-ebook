@@ -59,7 +59,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 > **Warning**
 >
-> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
+> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
 > Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
@@ -100,7 +100,7 @@ $ebook->authorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`
 $ebook->description(); // ?string
 $ebook->copyright(); // ?string
 $ebook->publisher(); // ?string
-$ebook->identifiers(); // BookIdentifier[] (`content`: string, `type`: string)
+$ebook->identifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
 $ebook->publishDate(); // ?DateTime
 $ebook->language(); // ?string
 $ebook->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
