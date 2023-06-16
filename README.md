@@ -115,14 +115,19 @@ $ebook->wordsCount(); // ?int => words count in `EPUB`
 >
 > For performance reasons, with `EPUB`, `pagesCount` and `wordsCount` are only available on demand. If you use `var_dump` to check eBook, these properties will be `null`.
 
+Some metadata can be stored into `extras()` method, without typing, directly from metadata.
+
+```php
+$ebook->extras(); // array<string, mixed> => additional data for book
+$ebook->extrasExtract(string $key); // mixed => safely extract data from `extras` array
+```
+
 To get additional data, you can use these methods:
 
 ```php
 $ebook->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->cover(); // ?EbookCover => cover of book
-$ebook->extras(); // array<string, mixed> => additional data for book
-$ebook->extrasExtract(string $key); // mixed => safely extract data from `extras` array
 ```
 
 And to test if some data exists:
@@ -141,12 +146,18 @@ $ebook->hasCover(); // bool => `true` if cover exists
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$metadata = $ebook->metadata(); // with `module` as `EbookModule::class`, can be `EpubMetadata::class`, `PdfMetadata::class`, `CbaMetadata::class` or `AudiobookMetadata::class`
+$metadata = $ebook->metadata();
 
+$metadata->module(); // Used into parsing can be any of `EbookModule::class`
 $metadata->epub(); // `EpubMetadata::class`
 $metadata->pdf(); // `PdfMetadata::class`
 $metadata->cba(); // `CbaMetadata::class`
 $metadata->audiobook(); // `AudiobookMetadata::class`
+
+$metadata->isEpub(); // bool
+$metadata->isPdf(); // bool
+$metadata->isCba(); // bool
+$metadata->isAudiobook(); // bool
 ```
 
 ### MetaTitle
