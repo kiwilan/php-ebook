@@ -6,7 +6,6 @@
 [![version][version-src]][version-href]
 [![downloads][downloads-src]][downloads-href]
 [![license][license-src]][license-href]
-
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
