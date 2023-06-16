@@ -15,7 +15,7 @@ it('can parse mobi', function () {
     expect($ebook->authors()[1]->name())->toBe('Tim Burton');
     expect($ebook->description())->toBeString();
     expect($ebook->publisher())->toBeString();
-    expect($ebook->identifiers()[0]->content())->toBe('9780194229647');
+    expect($ebook->identifiers()[0]->value())->toBe('9780194229647');
     expect($ebook->publishDate())->toBeInstanceOf(DateTime::class);
     expect($ebook->language())->toBe('en');
     expect($ebook->tags()[0])->toBe('Fictions');

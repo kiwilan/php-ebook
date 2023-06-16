@@ -5,55 +5,55 @@ namespace Kiwilan\Ebook\Tools;
 class BookIdentifier
 {
     public function __construct(
-        protected ?string $content = null,
-        protected ?string $type = null,
+        protected ?string $value = null,
+        protected ?string $scheme = null,
     ) {
     }
 
     public function parse(): self
     {
-        $this->type = $this->parseType();
+        $this->scheme = $this->parseScheme();
 
         return $this;
     }
 
-    private function parseType(): ?string
+    private function parseScheme(): ?string
     {
-        if (! $this->type) {
+        if (! $this->scheme) {
             return null;
         }
 
         $regex = '/\b(?:ISBN(?:: ?| ))?((?:97[89])?\d{9}[\dx])\b/i';
 
-        if (preg_match($regex, str_replace('-', '', $this->content), $matches)) {
+        if (preg_match($regex, str_replace('-', '', $this->value), $matches)) {
             return (10 === strlen($matches[1]))
                 ? 'isbn10'
                 : 'isbn13';
         }
 
-        return strtolower($this->type);
+        return strtolower($this->scheme);
     }
 
-    public function content(): ?string
+    public function value(): ?string
     {
-        return $this->content;
+        return $this->value;
     }
 
-    public function type(): ?string
+    public function scheme(): ?string
     {
-        return $this->type;
+        return $this->scheme;
     }
 
     public function toArray(): array
     {
         return [
-            'content' => $this->content,
-            'type' => $this->type,
+            'value' => $this->value,
+            'scheme' => $this->scheme,
         ];
     }
 
     public function __toString(): string
     {
-        return "{$this->content} {$this->type}";
+        return "{$this->value} {$this->scheme}";
     }
 }

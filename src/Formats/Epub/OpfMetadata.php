@@ -446,14 +446,14 @@ class OpfMetadata
         $items = [];
 
         foreach ($core as $item) {
-            $content = $item['@content'] ?? null;
-            $type = $item['@attributes']['scheme'] ?? null;
+            $value = $item['@content'] ?? null;
+            $scheme = $item['@attributes']['scheme'] ?? null;
             $identifier = new BookIdentifier(
-                content: $content,
-                type: $type,
+                value: $value,
+                scheme: $scheme,
             );
             $identifier->parse();
-            $items[$identifier->type()] = $identifier;
+            $items[$identifier->scheme()] = $identifier;
         }
 
         return $items;

@@ -22,13 +22,13 @@ _Supports Linux, macOS and Windows._
 -   [About](#about)
 -   [Requirements](#requirements)
 -   [Features](#features)
+    -   [Roadmap](#roadmap)
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Main](#main)
     -   [Metadata](#metadata)
     -   [MetaTitle](#metatitle)
     -   [Cover](#cover)
--   [Roadmap](#roadmap)
 -   [Testing](#testing)
 -   [Changelog](#changelog)
 -   [Credits](#credits)
@@ -42,11 +42,11 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 -   **PHP version** >= _8.1_
 -   **PHP extensions**:
-    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native) for `Transliterator`
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
-    -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
+    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
+    -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
 |                Type                | Supported |                                               Requirement                                                |         Uses         |
 | :--------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :------------------: |
@@ -59,20 +59,35 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 > **Warning**
 >
-> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary, see [Requirements](#requirements).
+> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
 > Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
 
--   Read metadata from **eBooks** and **audiobooks**
--   Extract covers from **eBooks** and **audiobooks**
--   Support metadata
-    -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/)
-        -   `calibre:series` from [Calibre](https://calibre-ebook.com/)
-        -   `calibre:series_index` from [Calibre](https://calibre-ebook.com/)
-    -   `ComicInfo.xml` (CBAM) format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
-    -   `PDF` by [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
-    -   `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+-   🔎 Read metadata from **eBooks** and **audiobooks**
+-   🖼️ Extract covers from **eBooks** and **audiobooks**
+-   📚 Support metadata
+    -   eBooks:
+        -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` and from [Calibre](https://calibre-ebook.com/)
+    -   Comics:
+        -   `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
+    -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
+    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+-   🔖 `EPUB` only support chapters extraction
+
+<!-- -   📦 `EPUB` and `CBZ` creation supported -->
+<!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
+
+### Roadmap
+
+-   [ ] Add `.mobi`, `.azw`, `.azw3` support
+    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
+    -   https://wiki.mobileread.com/wiki/MOBI
+-   [ ] Add `.djvu` support
+-   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
+-   [ ] Add `.epub` creation support
+-   [ ] Add `.epub` metadata update support
+-   [ ] Add `.epub` chapters extraction support
 
 ## Installation
 
@@ -100,7 +115,7 @@ $ebook->authorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`
 $ebook->description(); // ?string
 $ebook->copyright(); // ?string
 $ebook->publisher(); // ?string
-$ebook->identifiers(); // BookIdentifier[] (`content`: string, `type`: string)
+$ebook->identifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
 $ebook->publishDate(); // ?DateTime
 $ebook->language(); // ?string
 $ebook->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
@@ -129,6 +144,7 @@ $ebook->extrasExtract(string $key); // mixed => safely extract data from `extras
 To get additional data, you can use these methods:
 
 ```php
+$ebook->metadata(); // ?EbookMetadata => metadata with parsers
 $ebook->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->cover(); // ?EbookCover => cover of book
@@ -201,16 +217,28 @@ $cover->content(bool $toBase64 = false); // ?string => content of cover, if `$to
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
 > -   For Audiobook, cover can be extracted with `mp3` but not with other formats.
 
-## Roadmap
+### Formats specifications
 
--   [ ] Add `.mobi`, `.azw`, `.azw3` support
-    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
-    -   https://wiki.mobileread.com/wiki/MOBI
--   [ ] Add `.djvu` support
--   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
--   [ ] Add `.epub` creation support
--   [ ] Add `.epub` metadata update support
--   [ ] Add `.epub` chapters extraction support
+#### EPUB
+
+With `EPUB`, metadata are extracted from `OPF` file, `META-INF/container.xml` files, you could access to these metatada but you can also get chapters from `NCX` file. And with `chapters()` method you can merge `NCX` and `HTML` chapters to get full book chapters with `label`, `source` and `content`.
+
+```php
+$ebook = Ebook::read('path/to/ebook.epub');
+
+$epub = $ebook->metadata()?->epub();
+
+$epub->container(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
+$epub->opf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
+$epub->ncx(); // ?NcxMetadata => {`head`: NcxMetadataHead[]|null, `docTitle`: ?string, `navPoints`: NcxMetadataNavPoint[]|null, `version`: ?string, `lang`: ?string}
+$epub->chapters(); // EpubChapter[] => {`label`: string, `source`: string, `content`: string}[]
+$epub->html(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`: ?string}[]
+$epub->files(); // string[] => all files in EPUB
+```
+
+> **Note**
+>
+> For performance reasons, with `ncx`, `html` and `chapters` are only available on demand. If you use `var_dump` to check metadata, these properties will be `null`.
 
 ## Testing
 

@@ -49,10 +49,10 @@ it('can use EbookEntity', function () {
     expect($ebook->tags())->toBe([
         'tag',
     ]);
-    expect($ebook->identifiers()['amazon']->content())->toBe('identifierAmazon');
-    expect($ebook->identifiers()['google']->content())->toBe('identifierGoogle');
-    expect($ebook->identifiers()['isbn10']->content())->toBe('identifierIsbn10');
-    expect($ebook->identifiers()['isbn13']->content())->toBe('identifierIsbn13');
+    expect($ebook->identifiers()['amazon']->value())->toBe('identifierAmazon');
+    expect($ebook->identifiers()['google']->value())->toBe('identifierGoogle');
+    expect($ebook->identifiers()['isbn10']->value())->toBe('identifierIsbn10');
+    expect($ebook->identifiers()['isbn13']->value())->toBe('identifierIsbn13');
     expect($ebook->series())->toBe('series');
     expect($ebook->volume())->toBe(1);
     expect($ebook->pagesCount())->toBe(4);
@@ -104,18 +104,18 @@ it('can use BookAuthor', function (string $name, string $role) {
     ],
 ]);
 
-it('can use BookIdentifier', function (string $content, string $type) {
-    $item = new BookIdentifier($content, $type);
+it('can use BookIdentifier', function (string $value, string $scheme) {
+    $item = new BookIdentifier($value, $scheme);
 
-    expect($item->content())->toBe($content);
-    expect($item->type())->toBe($type);
+    expect($item->value())->toBe($value);
+    expect($item->scheme())->toBe($scheme);
     expect($item->toArray())->toBe([
-        'content' => $content,
-        'type' => $type,
+        'value' => $value,
+        'scheme' => $scheme,
     ]);
-    expect($item->__toString())->toBe("{$content} {$type}");
-    if (str_contains($type, 'isbn')) {
-        expect($item->parse()->type())->toBe($type);
+    expect($item->__toString())->toBe("{$value} {$scheme}");
+    if (str_contains($scheme, 'isbn')) {
+        expect($item->parse()->scheme())->toBe($scheme);
     }
 })->with([
     [

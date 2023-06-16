@@ -55,4 +55,19 @@ class EpubChapter
 
         return false;
     }
+
+    public function label(): string
+    {
+        return $this->label;
+    }
+
+    public function source(): string
+    {
+        return $this->source;
+    }
+
+    public function content(): string
+    {
+        return $this->content;
+    }
 }

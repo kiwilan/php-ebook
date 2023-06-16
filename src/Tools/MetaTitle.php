@@ -257,6 +257,10 @@ class MetaTitle
             return null;
         }
 
+        if (! extension_loaded('intl')) {
+            return $this->setSlugNoIntl($title, $separator);
+        }
+
         $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
         $title = $transliterator->transliterate($title);
 
@@ -279,5 +283,36 @@ class MetaTitle
         $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
 
         return trim($title, $separator);
+    }
+
+    private function setSlugNoIntl(?string $text, string $divider = '-'): ?string
+    {
+        if (! $text) {
+            return null;
+        }
+
+        // replace non letter or digits by divider
+        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        // trim
+        $text = trim($text, $divider);
+
+        // remove duplicate divider
+        $text = preg_replace('~-+~', $divider, $text);
+
+        // lowercase
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return 'n-a';
+        }
+
+        return $text;
     }
 }
