@@ -75,14 +75,4 @@ class MobiMetadata extends EbookModule
     {
         return [];
     }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
-    }
 }

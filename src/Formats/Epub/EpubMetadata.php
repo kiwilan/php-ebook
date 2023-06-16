@@ -307,14 +307,4 @@ class EpubMetadata extends EbookModule
             'ncx' => $this->ncx?->toArray(),
         ];
     }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray());
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
-    }
 }

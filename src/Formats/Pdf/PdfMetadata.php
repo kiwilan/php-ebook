@@ -80,14 +80,4 @@ class PdfMetadata extends EbookModule
             'metadata' => $this->meta?->toArray(),
         ];
     }
-
-    public function toJson(): string
-    {
-        return json_encode($this->toArray(), JSON_PRETTY_PRINT);
-    }
-
-    public function __toString(): string
-    {
-        return $this->toJson();
-    }
 }
