@@ -2,6 +2,16 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.2.0 - 2023-06-16
+
+**BREAKING CHANGE**
+
+- `BookIdentifier::class` => `content` is now `value` and `type` is now `scheme`
+
+**FEATURE**
+
+- Add `EPUB` chapters support
+
 ## 1.1.0 - 2023-06-16
 
 - Add partial `.mobi` support
