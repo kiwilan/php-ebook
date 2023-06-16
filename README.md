@@ -15,7 +15,7 @@ _Supports Linux, macOS and Windows._
 
 > **Note**
 >
-> If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
+> This package favors eBooks in open formats such as `.epub` or `.cbz`, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
 
 > **Warning**
 >
@@ -73,7 +73,7 @@ If you want more informations, you can read [`kiwilan/php-archive`](https://gith
         -   `calibre:series_index` from [Calibre](https://calibre-ebook.com/)
     -   `ComicInfo.xml` (CBAM) format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` by [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
-    -   `ID3`, `Vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+    -   `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 
 ## Installation
 
