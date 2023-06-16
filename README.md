@@ -1,6 +1,6 @@
 # PHP eBook
 
-![Banner with eReader picture in background and PHP eBook title](tests/media/banner.jpg)
+![Banner with eReader picture in background and PHP eBook title](docs/banner.jpg)
 
 [![php][php-version-src]][php-version-href]
 [![version][version-src]][version-href]
