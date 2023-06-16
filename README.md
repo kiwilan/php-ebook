@@ -22,13 +22,13 @@ _Supports Linux, macOS and Windows._
 -   [About](#about)
 -   [Requirements](#requirements)
 -   [Features](#features)
+    -   [Roadmap](#roadmap)
 -   [Installation](#installation)
 -   [Usage](#usage)
     -   [Main](#main)
     -   [Metadata](#metadata)
     -   [MetaTitle](#metatitle)
     -   [Cover](#cover)
--   [Roadmap](#roadmap)
 -   [Testing](#testing)
 -   [Changelog](#changelog)
 -   [Credits](#credits)
@@ -64,15 +64,30 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ## Features
 
--   Read metadata from **eBooks** and **audiobooks**
--   Extract covers from **eBooks** and **audiobooks**
--   Support metadata
+-   🔎 Read metadata from **eBooks** and **audiobooks**
+-   🖼️ Extract covers from **eBooks** and **audiobooks**
+-   📚 Support metadata
     -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/)
         -   `calibre:series` from [Calibre](https://calibre-ebook.com/)
         -   `calibre:series_index` from [Calibre](https://calibre-ebook.com/)
     -   `ComicInfo.xml` (CBAM) format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` by [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+
+<!-- -   🔖 `EPUB` only support chapters extraction -->
+<!-- -   📦 `EPUB` and `CBZ` creation supported -->
+<!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
+
+### Roadmap
+
+-   [ ] Add `.mobi`, `.azw`, `.azw3` support
+    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
+    -   https://wiki.mobileread.com/wiki/MOBI
+-   [ ] Add `.djvu` support
+-   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
+-   [ ] Add `.epub` creation support
+-   [ ] Add `.epub` metadata update support
+-   [ ] Add `.epub` chapters extraction support
 
 ## Installation
 
@@ -201,17 +216,6 @@ $cover->content(bool $toBase64 = false); // ?string => content of cover, if `$to
 >
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
 > -   For Audiobook, cover can be extracted with `mp3` but not with other formats.
-
-## Roadmap
-
--   [ ] Add `.mobi`, `.azw`, `.azw3` support
-    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
-    -   https://wiki.mobileread.com/wiki/MOBI
--   [ ] Add `.djvu` support
--   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
--   [ ] Add `.epub` creation support
--   [ ] Add `.epub` metadata update support
--   [ ] Add `.epub` chapters extraction support
 
 ## Testing
 
