@@ -16,16 +16,6 @@ enum EbookFormatEnum: string
 
     case AZW3 = 'azw3';
 
-    case CBR = 'cbr';
-
-    case CBZ = 'cbz';
-
-    case CB7 = 'cb7';
-
-    case CBT = 'cbt';
-
-    case CBC = 'cbc';
-
     case CHM = 'chm';
 
     case DJVU = 'djvu';
