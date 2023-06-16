@@ -129,6 +129,7 @@ $ebook->extrasExtract(string $key); // mixed => safely extract data from `extras
 To get additional data, you can use these methods:
 
 ```php
+$ebook->metadata(); // ?EbookMetadata => metadata with parsers
 $ebook->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->cover(); // ?EbookCover => cover of book
