@@ -10,9 +10,13 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`).z
+PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`).
 
-Supports Linux, macOS and Windows.
+_Supports Linux, macOS and Windows._
+
+> **Note**
+>
+> If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
 
 > **Warning**
 >
@@ -35,7 +39,7 @@ Supports Linux, macOS and Windows.
 
 ## About
 
-This package was built for [bookshelves-project/bookshelves](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.
+This package was built for [`bookshelves-project/bookshelves`](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.
 
 ## Requirements
 
@@ -218,9 +222,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 ## Credits
 
--   [spatie](https://github.com/spatie) for `spatie/package-skeleton-php`
--   [kiwilan/php-archive](https://github.com/kiwilan/php-archive)
--   [kiwilan/php-audio](https://github.com/kiwilan/php-audio)
+-   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
+-   [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive)
+-   [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 
 ## License
 
