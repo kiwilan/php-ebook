@@ -15,7 +15,7 @@ _Supports Linux, macOS and Windows._
 
 > **Note**
 >
-> This package favors eBooks in open formats such as `.epub` or `.cbz`, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
+> This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
 
 > **Warning**
 >
