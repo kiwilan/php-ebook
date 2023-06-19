@@ -20,10 +20,12 @@ define('EPUB_CONTAINER_EPUB2_EMPTY', __DIR__.'/media/container-epub2-empty.xml')
 define('EPUB_CONTAINER_EPUB3', __DIR__.'/media/container-epub3.xml');
 
 define('EPUB_OPF_EPUB2', __DIR__.'/media/opf-epub2.opf');
+define('EPUB_OPF_EPUB2_NO_TAGS', __DIR__.'/media/opf-epub2-no-tags.opf');
 define('EPUB_OPF_EPUB3', __DIR__.'/media/opf-epub3.opf');
 define('EPUB_OPF_EPUB3_ALT', __DIR__.'/media/opf-epub3-alt.opf');
 
 define('EPUB', __DIR__.'/media/test-epub.epub');
+define('EPUB_ONE_TAG', __DIR__.'/media/epub-one-tag.epub');
 define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');

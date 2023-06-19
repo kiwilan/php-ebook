@@ -329,6 +329,10 @@ class OpfMetadata
             $items = $core;
         }
 
+        if (array_key_exists('_value', $items)) {
+            $items = [$items];
+        }
+
         $temp = [];
         foreach ($items as $item) {
             $temp[] = $item['_value'] ?? null;
@@ -391,7 +395,7 @@ class OpfMetadata
      */
     private function setDcContributors(): array
     {
-        $core = $this->metadata['dc:contributor'] ?? null;
+        $core = $this->metadata['dc:contributor']['_value'] ?? null;
 
         if (! $core) {
             return [];
@@ -492,8 +496,12 @@ class OpfMetadata
         return $items;
     }
 
-    private function multipleItems(array $items): array
+    private function multipleItems(mixed $items): array
     {
+        if (! is_array($items)) {
+            $items = [$items];
+        }
+
         $core = $items;
         // Check if subarrays exists
         $isMultiple = array_key_exists(0, $items);

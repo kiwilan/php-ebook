@@ -148,3 +148,10 @@ it('can parse with good performances', function () {
 
     expect($ebook->execTime())->toBeLessThan(0.06);
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
+
+it('can parse epub without tags', function () {
+    $ebook = Ebook::read(EPUB_ONE_TAG);
+
+    expect($ebook->tags())->toBeArray();
+    expect($ebook->tags()[0])->toBeString();
+});
