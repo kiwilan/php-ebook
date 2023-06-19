@@ -64,3 +64,22 @@ it('can parse epub opf alt', function () {
     expect($opf->coverPath())->toBeString();
     expect($opf->epubVersion())->toBeGreaterThanOrEqual(2);
 });
+
+it('can parse epub opf without tags', function () {
+    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB2_NO_TAGS), EPUB_OPF_EPUB2_NO_TAGS);
+
+    expect($opf)->tobeInstanceOf(OpfMetadata::class);
+    expect(EPUB_OPF_EPUB2_NO_TAGS)->toBeReadableFile();
+    expect($opf->dcTitle())->toBeString();
+    expect($opf->dcCreators())->toBeArray();
+    expect($opf->dcDescription())->toBeString();
+    expect($opf->dcContributors())->toBeArray();
+    expect($opf->dcRights())->toBeArray();
+    expect($opf->dcPublisher())->toBeString();
+    expect($opf->dcIdentifiers())->toBeArray();
+    expect($opf->dcSubject())->toBeArray();
+    expect($opf->dcLanguage())->toBeString();
+    expect($opf->meta())->toBeArray();
+    expect($opf->coverPath())->toBeString();
+    expect($opf->epubVersion())->toBeGreaterThanOrEqual(2);
+});
