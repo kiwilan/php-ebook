@@ -2,7 +2,7 @@
 
 use Kiwilan\Ebook\Formats\Epub\EpubContainer;
 use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 it('can parse epub container', function (string $path) {
     $container = EpubContainer::make(file_get_contents($path));
@@ -21,7 +21,7 @@ it('can failed if empty file', function () {
 });
 
 it('can failed with wrong XML', function () {
-    expect(fn () => XmlReader::toArray('<html><body><body></html>'))->toThrow(Exception::class);
+    expect(fn () => XmlReader::make('<html><body><body></html>'))->toThrow(Exception::class);
 });
 
 it('can parse epub opf', function (string $path) {

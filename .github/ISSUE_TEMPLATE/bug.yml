@@ -28,7 +28,7 @@ body:
       attributes:
           label: Package Version
           description: What version of our Package are you running? Please be as specific as possible
-          placeholder: 2.0.0
+          placeholder: 1.2.0
       validations:
           required: true
     - type: input
@@ -42,13 +42,13 @@ body:
     - type: dropdown
       id: operating-systems
       attributes:
-        label: Which operating systems does with happen with?
-        description: You may select more than one.
-        multiple: true
-        options:
-        - macOS
-        - Windows
-        - Linux
+          label: Which operating systems does with happen with?
+          description: You may select more than one.
+          multiple: true
+          options:
+              - macOS
+              - Windows
+              - Linux
     - type: textarea
       id: notes
       attributes:
