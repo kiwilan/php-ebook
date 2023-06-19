@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Ebook\Formats\Epub;
 
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 /**
  * Transform `container.xml` file to an object.
@@ -20,7 +20,7 @@ class EpubContainer
 
     public static function make(string $content): self
     {
-        $xml = XmlReader::toArray($content);
+        $xml = XmlReader::make($content)->content();
 
         $self = new self($xml);
         $self->opfPath = $self->parseOpfPath();
@@ -45,11 +45,17 @@ class EpubContainer
 
     private function parseOpfPath(): ?string
     {
-        if (! isset($this->xml['rootfiles']['rootfile'])) {
+        $container = $this->xml['container'] ?? null;
+
+        if (! $container) {
             return null;
         }
 
-        $root = $this->xml['rootfiles']['rootfile'];
+        if (! isset($container['rootfiles']['rootfile'])) {
+            return null;
+        }
+
+        $root = $container['rootfiles']['rootfile'];
         if (! array_key_exists('@attributes', $root)) {
             return null;
         }
@@ -62,11 +68,13 @@ class EpubContainer
 
     private function parseVersion(): ?string
     {
-        if (! isset($this->xml['@attributes'])) {
+        $container = $this->xml['container'] ?? null;
+
+        if (! isset($container['@attributes'])) {
             return null;
         }
 
-        $attr = $this->xml['@attributes'];
+        $attr = $container['@attributes'];
 
         return $attr['version'] ?? null;
     }

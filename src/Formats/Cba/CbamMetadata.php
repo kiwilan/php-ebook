@@ -119,6 +119,7 @@ class CbamMetadata extends CbaTemplate
      */
     public static function make(array $metadata): self
     {
+        $metadata = $metadata['ComicInfo'] ?? $metadata;
         $self = new self($metadata);
         $self->parse();
 
@@ -209,6 +210,10 @@ class CbamMetadata extends CbaTemplate
 
         if (! $string) {
             return null;
+        }
+
+        if (is_array($string)) {
+            $string = $string['_value'] ?? null;
         }
 
         return $this->normalizeString($string);

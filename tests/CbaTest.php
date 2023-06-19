@@ -9,7 +9,7 @@ use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 use Kiwilan\Ebook\Formats\Cba\CbamMetadata;
 use Kiwilan\Ebook\Tools\ComicMeta;
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 it('can parse cba', function (string $path) {
     $ebook = Ebook::read($path);
@@ -26,8 +26,8 @@ it('can parse no metadata', function () {
 });
 
 it('can parse ComicInfo basic', function () {
-    $metadata = XmlReader::toArray(file_get_contents(COMIC_INFO_BASIC));
-    $cba = CbamMetadata::make($metadata);
+    $metadata = XmlReader::make(file_get_contents(COMIC_INFO_BASIC));
+    $cba = CbamMetadata::make($metadata->content());
 
     expect($cba->title())->toBe('Grise Bouille, Tome I');
     expect($cba->series())->toBe('Grise Bouille');

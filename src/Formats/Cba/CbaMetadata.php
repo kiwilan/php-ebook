@@ -7,7 +7,7 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\ComicMeta;
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 class CbaMetadata extends EbookModule
 {
@@ -24,9 +24,9 @@ class CbaMetadata extends EbookModule
         if (! $xml) {
             return $self;
         }
-        $metadata = XmlReader::toArray($xml);
+        $metadata = XmlReader::make($xml)->content();
 
-        $root = $metadata['@root'] ?? null;
+        $root = $metadata['@root']['tagName'] ?? null;
         $self->type = match ($root) {
             'ComicInfo' => 'cbam',
             'ComicBook' => 'cbml',

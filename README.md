@@ -253,8 +253,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 ## Credits
 
 -   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
--   [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive)
--   [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+-   [`kiwilan`](https://github.com/kiwilan) for `kiwilan/php-archive`, `kiwilan/php-audio`, `kiwilan/php-xml-reader`
 
 ## License
 

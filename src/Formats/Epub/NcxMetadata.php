@@ -2,7 +2,7 @@
 
 namespace Kiwilan\Ebook\Formats\Epub;
 
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 /**
  * Transform `.ncx` file to an object.
@@ -28,23 +28,27 @@ class NcxMetadata
 
     public static function make(string $content): self
     {
-        $xml = XmlReader::toArray($content);
+        $xml = XmlReader::make($content)->content();
 
         $self = new self($xml);
         $self->head = $self->setHead();
 
-        $docTitle = $xml['docTitle'] ?? null;
+        $ncx = $xml['ncx'] ?? null;
+        $docTitle = $ncx['docTitle'] ?? null;
+
         if ($docTitle) {
-            $docTitle = $docTitle['text'] ?? null;
+            $docTitle = $docTitle['text']['_value'] ?? null;
         }
         $self->docTitle = $docTitle;
 
         $self->navPoints = $self->setNavPoints();
-        usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->playOrder() <=> $b->playOrder());
+        if (is_array($self->navPoints)) {
+            usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->playOrder() <=> $b->playOrder());
+        }
 
-        if (array_key_exists('@attributes', $xml)) {
-            $self->version = $xml['@attributes']['version'] ?? null;
-            $self->lang = $xml['@attributes']['lang'] ?? null;
+        if (array_key_exists('@attributes', $ncx)) {
+            $self->version = $ncx['@attributes']['version'] ?? null;
+            $self->lang = $ncx['@attributes']['lang'] ?? null;
         }
 
         return $self;
@@ -55,16 +59,18 @@ class NcxMetadata
      */
     private function setHead(): ?array
     {
-        if (! array_key_exists('head', $this->xml)) {
+        $ncx = $this->xml['ncx'] ?? null;
+
+        if (! array_key_exists('head', $ncx)) {
             return null;
         }
 
-        if (! array_key_exists('meta', $this->xml['head'])) {
+        if (! array_key_exists('meta', $ncx['head'])) {
             return null;
         }
 
         $head = [];
-        foreach ($this->xml['head']['meta'] as $item) {
+        foreach ($ncx['head']['meta'] as $item) {
             $attributes = $item['@attributes'] ?? null;
             if (! $attributes) {
                 continue;
@@ -78,16 +84,18 @@ class NcxMetadata
 
     private function setNavPoints(): ?array
     {
-        if (! array_key_exists('navMap', $this->xml)) {
+        $ncx = $this->xml['ncx'] ?? null;
+
+        if (! array_key_exists('navMap', $ncx)) {
             return null;
         }
 
-        if (! array_key_exists('navPoint', $this->xml['navMap'])) {
+        if (! array_key_exists('navPoint', $ncx['navMap'])) {
             return null;
         }
 
         $navPoints = [];
-        foreach ($this->xml['navMap']['navPoint'] as $item) {
+        foreach ($ncx['navMap']['navPoint'] as $item) {
             $navPoints[] = NcxMetadataNavPoint::make($item);
         }
 
@@ -190,7 +198,7 @@ class NcxMetadataNavPoint
     {
         $self = new self();
 
-        $self->label = $xml['navLabel']['text'] ?? null;
+        $self->label = $xml['navLabel']['text']['_value'] ?? null;
         $self->src = $xml['content']['@attributes']['src'] ?? null;
 
         $attributes = $xml['@attributes'] ?? null;

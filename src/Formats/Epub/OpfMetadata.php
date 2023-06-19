@@ -8,7 +8,7 @@ use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\BookContributor;
 use Kiwilan\Ebook\Tools\BookIdentifier;
 use Kiwilan\Ebook\Tools\BookMeta;
-use Kiwilan\Ebook\XmlReader;
+use Kiwilan\XmlReader\XmlReader;
 
 /**
  * Transform `.opf` file to an object.
@@ -61,14 +61,15 @@ class OpfMetadata
 
     public static function make(string $content, string $filename): self
     {
-        $xml = XmlReader::toArray($content);
+        $xml = XmlReader::make($content)->content();
         $self = new self();
 
-        $self->epubVersion = $xml['@attributes']['version'] ?? null;
-        $self->metadata = $xml['metadata'] ?? [];
-        $self->manifest = $xml['manifest'] ?? [];
-        $self->spine = $xml['spine'] ?? [];
-        $self->guide = $xml['guide'] ?? [];
+        $package = $xml['package'] ?? [];
+        $self->epubVersion = $package['@attributes']['version'] ?? null;
+        $self->metadata = $package['metadata'] ?? [];
+        $self->manifest = $package['manifest'] ?? [];
+        $self->spine = $package['spine'] ?? [];
+        $self->guide = $package['guide'] ?? [];
         $self->filename = $filename;
 
         $self->parseMetadata();
@@ -114,7 +115,7 @@ class OpfMetadata
         }
 
         if (is_array($core)) {
-            return $core['@content'] ?? null;
+            return $core['_value'] ?? null;
         }
 
         return null;
@@ -328,6 +329,12 @@ class OpfMetadata
             $items = $core;
         }
 
+        $temp = [];
+        foreach ($items as $item) {
+            $temp[] = $item['_value'] ?? null;
+        }
+        $items = $temp;
+
         return $items;
     }
 
@@ -338,6 +345,8 @@ class OpfMetadata
         if (! $core) {
             return null;
         }
+
+        $core = $core['_value'] ?? null;
 
         try {
             $date = new DateTime($core, new DateTimeZone('UTC'));
@@ -367,7 +376,7 @@ class OpfMetadata
         $items = [];
 
         foreach ($core as $item) {
-            $name = $item['@content'];
+            $name = $item['_value'];
             $items[$name] = new BookAuthor(
                 name: $name,
                 role: $item['@attributes']['role'] ?? null,
@@ -393,10 +402,10 @@ class OpfMetadata
 
         foreach ($core as $item) {
             if (is_string($item)) {
-                $item = ['@content' => $item];
+                $item = ['_value' => $item];
             }
             $items[] = new BookContributor(
-                content: $item['@content'],
+                content: $item['_value'],
                 role: $item['@attributes']['role'] ?? null,
             );
         }
@@ -423,9 +432,9 @@ class OpfMetadata
 
         foreach ($core as $item) {
             if (is_string($item)) {
-                $item = ['@content' => $item];
+                $item = ['_value' => $item];
             }
-            $items[] = $item['@content'];
+            $items[] = $item['_value'];
         }
 
         return $items;
@@ -446,7 +455,7 @@ class OpfMetadata
         $items = [];
 
         foreach ($core as $item) {
-            $value = $item['@content'] ?? null;
+            $value = $item['_value'] ?? null;
             $scheme = $item['@attributes']['scheme'] ?? null;
             $identifier = new BookIdentifier(
                 value: $value,
@@ -490,7 +499,7 @@ class OpfMetadata
         $isMultiple = array_key_exists(0, $items);
 
         if (! $isMultiple) {
-            $content = $items['@content'] ?? null;
+            $content = $items['_value'] ?? null;
             $attr = $items['@attributes'] ?? null;
 
             // Check if bad multiple creators `Jean M. Auel, Philippe Rouard` exists
@@ -504,7 +513,7 @@ class OpfMetadata
             if (is_array($content)) {
                 foreach ($content as $item) {
                     $temp[] = [
-                        '@content' => $item,
+                        '_value' => $item,
                         '@attributes' => $attr,
                     ];
                 }
