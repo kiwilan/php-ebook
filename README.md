@@ -9,7 +9,7 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`).
+PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`).
 
 _Supports Linux, macOS and Windows._
 
