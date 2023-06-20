@@ -24,9 +24,9 @@ class CbaMetadata extends EbookModule
         if (! $xml) {
             return $self;
         }
-        $metadata = XmlReader::make($xml)->content();
+        $reader = XmlReader::make($xml);
 
-        $root = $metadata['@root']['tagName'] ?? null;
+        $root = $reader->root();
         $self->type = match ($root) {
             'ComicInfo' => 'cbam',
             'ComicBook' => 'cbml',
@@ -46,7 +46,7 @@ class CbaMetadata extends EbookModule
 
         if ($self->type === 'cbam') {
             $self->ebook->setHasMetadata(true);
-            $self->cbam = CbamMetadata::make($metadata);
+            $self->cbam = CbamMetadata::make($reader);
         }
 
         return $self;

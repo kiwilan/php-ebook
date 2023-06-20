@@ -27,7 +27,7 @@ it('can parse no metadata', function () {
 
 it('can parse ComicInfo basic', function () {
     $metadata = XmlReader::make(file_get_contents(COMIC_INFO_BASIC));
-    $cba = CbamMetadata::make($metadata->content());
+    $cba = CbamMetadata::make($metadata);
 
     expect($cba->title())->toBe('Grise Bouille, Tome I');
     expect($cba->series())->toBe('Grise Bouille');
@@ -107,7 +107,7 @@ it('can parse ComicMeta', function (string $path) {
     expect($comicMeta->alternateCount())->toBeNull();
     expect($comicMeta->alternateNumber())->toBeNull();
     expect($comicMeta->seriesGroup())->toBe('Fantastic Four');
-    expect($comicMeta->count())->toBeNull();
+    expect($comicMeta->count())->toBe(24);
     expect($comicMeta->volume())->toBeNull();
     expect($comicMeta->storyArc())->toBeNull();
     expect($comicMeta->storyArcNumber())->toBeNull();
@@ -165,7 +165,7 @@ it('can parse CbamMetadata', function (string $path) {
     expect($cbam->alternateSeries())->toBeString();
     expect($cbam->alternateNumber())->toBeNull();
     expect($cbam->alternateCount())->toBeNull();
-    expect($cbam->count())->toBeNull();
+    expect($cbam->count())->toBe(24);
     expect($cbam->volume())->toBeNull();
     expect($cbam->storyArc())->toBeNull();
     expect($cbam->storyArcNumber())->toBeNull();
