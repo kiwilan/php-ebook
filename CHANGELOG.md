@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.20 - 2023-06-20
+
+- Update dependency `kiwilan/php-xml-reader`
+
 ## 1.3.10 - 2023-06-19
 
 - `OpfMetadata::class` fix only one tag
