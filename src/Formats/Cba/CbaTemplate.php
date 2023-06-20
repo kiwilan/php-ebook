@@ -2,12 +2,11 @@
 
 namespace Kiwilan\Ebook\Formats\Cba;
 
+use Kiwilan\XmlReader\XmlReader;
+
 abstract class CbaTemplate
 {
-    /**
-     * @param  array<string, mixed>  $metadata
-     */
-    abstract public static function make(array $metadata): self;
+    abstract public static function make(XmlReader $xml): self;
 
     /**
      * @return string[]

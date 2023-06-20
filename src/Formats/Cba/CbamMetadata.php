@@ -5,6 +5,7 @@ namespace Kiwilan\Ebook\Formats\Cba;
 use DateTime;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
+use Kiwilan\XmlReader\XmlReader;
 
 /**
  * @docs https://anansi-project.github.io/docs/comicinfo/schemas/v2.0
@@ -110,17 +111,13 @@ class CbamMetadata extends CbaTemplate
     protected string $metadataFilename = 'ComicInfo.xml';
 
     protected function __construct(
-        protected array $metadata,
+        protected XmlReader $xml,
     ) {
     }
 
-    /**
-     * @param  array<string, mixed>  $metadata
-     */
-    public static function make(array $metadata): self
+    public static function make(XmlReader $xml): self
     {
-        $metadata = $metadata['ComicInfo'] ?? $metadata;
-        $self = new self($metadata);
+        $self = new self($xml);
         $self->parse();
 
         return $self;
@@ -188,7 +185,7 @@ class CbamMetadata extends CbaTemplate
         $this->mainCharacterOrTeam = $this->extract('MainCharacterOrTeam');
         $this->review = $this->extract('Review');
 
-        $pages = $this->metadata['Pages'] ?? null;
+        $pages = $this->xml->search('Pages');
 
         if ($pages && array_key_exists('Page', $pages)) {
             $pages = $pages['Page'];
@@ -206,14 +203,14 @@ class CbamMetadata extends CbaTemplate
 
     private function extract(string $key): ?string
     {
-        $string = $this->metadata[$key] ?? null;
+        $string = $this->xml->search($key);
 
         if (! $string) {
             return null;
         }
 
         if (is_array($string)) {
-            $string = $string['@content'] ?? null;
+            $string = XmlReader::getContent($string) ?? null;
         }
 
         return $this->normalizeString($string);
