@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.30 - 2023-06-20
+
+- Fix some `kiwilan/php-xml-reader` parsing error
+
 ## 1.3.20 - 2023-06-20
 
 - Update dependency `kiwilan/php-xml-reader`
