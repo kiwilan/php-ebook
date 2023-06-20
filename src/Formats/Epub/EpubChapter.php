@@ -8,9 +8,9 @@ namespace Kiwilan\Ebook\Formats\Epub;
 class EpubChapter
 {
     protected function __construct(
-        protected string $label,
-        protected string $source,
-        protected string $content,
+        protected ?string $label = null,
+        protected ?string $source = null,
+        protected ?string $content = null,
     ) {
     }
 

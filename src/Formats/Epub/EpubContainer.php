@@ -45,7 +45,7 @@ class EpubContainer
 
     private function parseOpfPath(): ?string
     {
-        $container = $this->xml['container'] ?? null;
+        $container = $this->xml ?? null;
 
         if (! $container) {
             return null;
