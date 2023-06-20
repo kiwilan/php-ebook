@@ -22,22 +22,21 @@ class NcxMetadata
     protected ?string $lang = null;
 
     protected function __construct(
-        protected array $xml,
+        protected XmlReader $xml,
     ) {
     }
 
     public static function make(string $content): self
     {
-        $xml = XmlReader::make($content)->content();
+        $xml = XmlReader::make($content);
 
         $self = new self($xml);
         $self->head = $self->setHead();
 
-        $ncx = $xml['ncx'] ?? null;
-        $docTitle = $ncx['docTitle'] ?? null;
+        $docTitle = $self->xml->search('docTitle');
 
         if ($docTitle) {
-            $docTitle = $docTitle['text']['_value'] ?? null;
+            $docTitle = $docTitle['text'] ?? null;
         }
         $self->docTitle = $docTitle;
 
@@ -46,10 +45,8 @@ class NcxMetadata
             usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->playOrder() <=> $b->playOrder());
         }
 
-        if (array_key_exists('@attributes', $ncx)) {
-            $self->version = $ncx['@attributes']['version'] ?? null;
-            $self->lang = $ncx['@attributes']['lang'] ?? null;
-        }
+        $self->version = $xml->rootAttribute('version');
+        $self->lang = $xml->rootAttribute('lang');
 
         return $self;
     }
@@ -59,7 +56,7 @@ class NcxMetadata
      */
     private function setHead(): ?array
     {
-        $ncx = $this->xml['ncx'] ?? null;
+        $ncx = $this->xml->content();
 
         if (! array_key_exists('head', $ncx)) {
             return null;
@@ -71,7 +68,7 @@ class NcxMetadata
 
         $head = [];
         foreach ($ncx['head']['meta'] as $item) {
-            $attributes = $item['@attributes'] ?? null;
+            $attributes = XmlReader::getAttributes($item) ?? null;
             if (! $attributes) {
                 continue;
             }
@@ -84,18 +81,15 @@ class NcxMetadata
 
     private function setNavPoints(): ?array
     {
-        $ncx = $this->xml['ncx'] ?? null;
+        $navMap = $this->xml->search('navMap');
+        $navPoint = $this->xml->search('navPoint');
 
-        if (! array_key_exists('navMap', $ncx)) {
-            return null;
-        }
-
-        if (! array_key_exists('navPoint', $ncx['navMap'])) {
+        if (! $navPoint || ! $navMap) {
             return null;
         }
 
         $navPoints = [];
-        foreach ($ncx['navMap']['navPoint'] as $item) {
+        foreach ($navPoint as $item) {
             $navPoints[] = NcxMetadataNavPoint::make($item);
         }
 
@@ -198,7 +192,7 @@ class NcxMetadataNavPoint
     {
         $self = new self();
 
-        $self->label = $xml['navLabel']['text']['_value'] ?? null;
+        $self->label = $xml['navLabel']['text'] ?? null;
         $self->src = $xml['content']['@attributes']['src'] ?? null;
 
         $attributes = $xml['@attributes'] ?? null;

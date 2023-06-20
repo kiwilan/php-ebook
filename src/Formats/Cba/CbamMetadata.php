@@ -213,7 +213,7 @@ class CbamMetadata extends CbaTemplate
         }
 
         if (is_array($string)) {
-            $string = $string['_value'] ?? null;
+            $string = $string['@content'] ?? null;
         }
 
         return $this->normalizeString($string);
