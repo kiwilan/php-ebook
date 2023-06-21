@@ -41,6 +41,7 @@ class NcxMetadata
         $self->docTitle = $docTitle;
 
         $self->navPoints = $self->setNavPoints();
+
         if (is_array($self->navPoints)) {
             usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->playOrder() <=> $b->playOrder());
         }
@@ -67,8 +68,10 @@ class NcxMetadata
         }
 
         $head = [];
+
         foreach ($ncx['head']['meta'] as $item) {
             $attributes = XmlReader::getAttributes($item) ?? null;
+
             if (! $attributes) {
                 continue;
             }
@@ -89,6 +92,7 @@ class NcxMetadata
         }
 
         $navPoints = [];
+
         foreach ($navPoint as $item) {
             $navPoints[] = NcxMetadataNavPoint::make($item);
         }
@@ -130,9 +134,9 @@ class NcxMetadata
     public function toArray(): array
     {
         return [
-            'head' => $this->head,
+            'head' => array_map(fn (NcxMetadataHead $item) => $item->toArray(), $this->head),
             'docTitle' => $this->docTitle,
-            'navPoints' => $this->navPoints,
+            'navPoints' => array_map(fn (NcxMetadataNavPoint $item) => $item->toArray(), $this->navPoints),
             'version' => $this->version,
             'lang' => $this->lang,
         ];
@@ -175,6 +179,14 @@ class NcxMetadataHead
     {
         return $this->content;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'content' => $this->content,
+        ];
+    }
 }
 
 class NcxMetadataNavPoint
@@ -196,6 +208,7 @@ class NcxMetadataNavPoint
         $self->src = $xml['content']['@attributes']['src'] ?? null;
 
         $attributes = $xml['@attributes'] ?? null;
+
         if (! $attributes) {
             return $self;
         }
@@ -225,5 +238,16 @@ class NcxMetadataNavPoint
     public function src(): ?string
     {
         return $this->src;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'playOrder' => $this->playOrder,
+            'label' => $this->label,
+            'src' => $this->src,
+            'class' => $this->class,
+        ];
     }
 }
