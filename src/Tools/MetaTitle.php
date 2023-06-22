@@ -211,8 +211,8 @@ class MetaTitle
      */
     private function generateUniqueFilename(Ebook $ebook): string
     {
-        $author = $this->setSlug($ebook->authorMain());
-        $filename = "{$author}";
+        $language = $this->setSlug($ebook->language());
+        $filename = "{$language}";
         if ($ebook->series()) {
             $series = $this->setSlug($ebook->series());
             $filename .= "-{$series}";
@@ -224,8 +224,8 @@ class MetaTitle
         }
         $title = $this->setSlug($ebook->title());
         $filename .= "-{$title}";
-        $language = $this->setSlug($ebook->language());
-        $filename .= "-{$language}";
+        $author = $this->setSlug($ebook->authorMain());
+        $filename .= "-{$author}";
         $format = $this->setSlug($ebook->extension());
         $filename .= "-{$format}";
 
