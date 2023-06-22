@@ -541,18 +541,19 @@ class OpfMetadata
         return [
             'epubVersion' => $this->epubVersion,
             'dcTitle' => $this->dcTitle,
-            'dcCreators' => $this->dcCreators,
-            'dcContributors' => $this->dcContributors,
+            'dcCreators' => array_map(fn (BookAuthor $creator) => $creator->toArray(), $this->dcCreators),
+            'dcContributors' => array_map(fn (BookContributor $contributor) => $contributor->toArray(), $this->dcContributors),
             'dcDescription' => $this->dcDescription,
             'dcPublisher' => $this->dcPublisher,
-            'dcIdentifiers' => $this->dcIdentifiers,
+            'dcIdentifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->dcIdentifiers),
             'dcDate' => $this->dcDate,
             'dcSubject' => $this->dcSubject,
             'dcLanguage' => $this->dcLanguage,
-            'meta' => $this->meta,
+            'meta' => array_map(fn (BookMeta $meta) => $meta->toArray(), $this->meta),
             'coverPath' => $this->coverPath,
             'dcRights' => $this->dcRights,
             'contentFiles' => $this->contentFiles,
+            'raw' => $this->xml->toArray(),
         ];
     }
 
