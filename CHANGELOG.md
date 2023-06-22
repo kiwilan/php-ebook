@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.31 - 2023-06-22
+
+- improve `toArray()` for `EpubMetadata`
+- add `limit` option to `copyright` and `description`
+
 ## 1.3.30 - 2023-06-20
 
 - Fix some `kiwilan/php-xml-reader` parsing error
