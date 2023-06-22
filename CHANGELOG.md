@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.32 - 2023-06-22
+
+- limit length fix bug
+
 ## 1.3.31 - 2023-06-22
 
 - improve `toArray()` for `EpubMetadata`
