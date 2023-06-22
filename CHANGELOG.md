@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.33 - 2023-06-22
+
+- `MetaTitle` fix `uniqueFilename()` with series
+
 ## 1.3.32 - 2023-06-22
 
 - limit length fix bug
