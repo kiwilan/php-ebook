@@ -67,6 +67,7 @@ class MetaTitle
         $this->slugLang = $this->generateSlug($title, $ebook->extension(), $language);
 
         $this->slugSortWithSerie = $this->generateSortSerie($title, $series, $volume, $language);
+        $this->uniqueFilename = $this->generateUniqueFilename($ebook);
 
         if (! $series) {
             return $this;
@@ -75,7 +76,6 @@ class MetaTitle
         $this->serieSlug = $this->setSlug($series);
         $this->serieSlugSort = $this->generateSortTitle($series, $language);
         $this->serieSlugLang = $this->generateSlug($series, $ebook->extension(), $language);
-        $this->uniqueFilename = $this->generateUniqueFilename($ebook);
 
         return $this;
     }
@@ -212,14 +212,23 @@ class MetaTitle
     private function generateUniqueFilename(Ebook $ebook): string
     {
         $author = $this->setSlug($ebook->authorMain());
-        $series = $this->setSlug($ebook->series());
-        $volume = (string) $ebook->volume();
-        $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
+        $filename = "{$author}";
+        if ($ebook->series()) {
+            $series = $this->setSlug($ebook->series());
+            $filename .= "-{$series}";
+        }
+        if ($ebook->volume()) {
+            $volume = (string) $ebook->volume();
+            $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
+            $filename .= "-{$volume}";
+        }
         $title = $this->setSlug($ebook->title());
+        $filename .= "-{$title}";
         $language = $this->setSlug($ebook->language());
+        $filename .= "-{$language}";
         $format = $this->setSlug($ebook->extension());
+        $filename .= "-{$format}";
 
-        $filename = "{$author}-{$series}-{$volume}-{$title}-{$language}-{$format}";
         $filename = $this->setSlug($filename);
 
         return $filename;
