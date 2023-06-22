@@ -526,8 +526,12 @@ class Ebook
         return $this->cover !== null;
     }
 
-    private function limitLength(string $string, int $length): string
+    private function limitLength(?string $string, int $length): ?string
     {
+        if (! $string) {
+            return null;
+        }
+
         if (mb_strlen($string) <= $length) {
             return $string;
         }
