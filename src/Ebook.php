@@ -250,6 +250,7 @@ class Ebook
      */
     public function title(): ?string
     {
+
         return $this->title;
     }
 
@@ -284,8 +285,12 @@ class Ebook
     /**
      * Description of the book.
      */
-    public function description(): ?string
+    public function description(?int $limit = null): ?string
     {
+        if ($limit) {
+            return $this->limitLength($this->description, $limit);
+        }
+
         return $this->description;
     }
 
@@ -294,6 +299,7 @@ class Ebook
      */
     public function publisher(): ?string
     {
+
         return $this->publisher;
     }
 
@@ -338,6 +344,7 @@ class Ebook
      */
     public function series(): ?string
     {
+
         return $this->series;
     }
 
@@ -352,8 +359,12 @@ class Ebook
     /**
      * Copyright of the book.
      */
-    public function copyright(): ?string
+    public function copyright(?int $limit = null): ?string
     {
+        if ($limit) {
+            return $this->limitLength($this->copyright, $limit);
+        }
+
         return $this->copyright;
     }
 
@@ -513,6 +524,15 @@ class Ebook
     public function hasCover(): bool
     {
         return $this->cover !== null;
+    }
+
+    private function limitLength(string $string, int $length): string
+    {
+        if (mb_strlen($string) <= $length) {
+            return $string;
+        }
+
+        return mb_substr($string, 0, $length - 1).'…';
     }
 
     public function setTitle(?string $title): self
