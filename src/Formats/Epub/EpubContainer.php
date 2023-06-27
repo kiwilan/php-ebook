@@ -45,7 +45,7 @@ class EpubContainer
 
     private function parseOpfPath(): ?string
     {
-        $rootfile = $this->xml->search('rootfile');
+        $rootfile = $this->xml->find('rootfile');
 
         if (! $rootfile) {
             return null;

@@ -33,7 +33,7 @@ class NcxMetadata
         $self = new self($xml);
         $self->head = $self->setHead();
 
-        $docTitle = $self->xml->search('docTitle');
+        $docTitle = $self->xml->find('docTitle');
 
         if ($docTitle) {
             $docTitle = $docTitle['text'] ?? null;
@@ -84,8 +84,8 @@ class NcxMetadata
 
     private function setNavPoints(): ?array
     {
-        $navMap = $this->xml->search('navMap');
-        $navPoint = $this->xml->search('navPoint');
+        $navMap = $this->xml->find('navMap');
+        $navPoint = $this->xml->find('navPoint');
 
         if (! $navPoint || ! $navMap) {
             return null;

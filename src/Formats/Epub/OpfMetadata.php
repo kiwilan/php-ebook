@@ -113,7 +113,7 @@ class OpfMetadata
 
     private function parseMetadataNode(string $key): ?string
     {
-        $core = $this->xml->search($key) ?? null;
+        $core = $this->xml->find($key) ?? null;
 
         return $this->parseNode($core);
     }
@@ -343,7 +343,7 @@ class OpfMetadata
 
     private function setDcDate(): ?DateTime
     {
-        $core = $this->xml->search('dc:date');
+        $core = $this->xml->find('dc:date');
 
         if (! $core) {
             return null;
@@ -369,7 +369,7 @@ class OpfMetadata
      */
     private function setDcCreators(): array
     {
-        $core = $this->xml->search('dc:creator');
+        $core = $this->xml->find('dc:creator');
 
         if (! $core) {
             return [];
@@ -395,7 +395,7 @@ class OpfMetadata
      */
     private function setDcContributors(): array
     {
-        $core = $this->xml->search('dc:contributor');
+        $core = $this->xml->find('dc:contributor');
 
         if (! $core) {
             return [];
@@ -422,7 +422,7 @@ class OpfMetadata
      */
     private function setDcRights(): array
     {
-        $core = $this->xml->search('dc:rights');
+        $core = $this->xml->find('dc:rights');
 
         if (! $core) {
             return [];
@@ -449,7 +449,7 @@ class OpfMetadata
      */
     private function setDcIdentifiers(): array
     {
-        $core = $this->xml->search('dc:identifier');
+        $core = $this->xml->find('dc:identifier');
 
         if (! $core) {
             return [];
@@ -477,7 +477,7 @@ class OpfMetadata
      */
     private function setMeta(): array
     {
-        $core = $this->xml->search('meta', strict: true);
+        $core = $this->xml->find('meta', strict: true);
 
         if (! $core) {
             return [];

@@ -185,7 +185,7 @@ class CbamMetadata extends CbaTemplate
         $this->mainCharacterOrTeam = $this->extract('MainCharacterOrTeam');
         $this->review = $this->extract('Review');
 
-        $pages = $this->xml->search('Pages');
+        $pages = $this->xml->find('Pages');
 
         if ($pages && array_key_exists('Page', $pages)) {
             $pages = $pages['Page'];
@@ -203,7 +203,7 @@ class CbamMetadata extends CbaTemplate
 
     private function extract(string $key): ?string
     {
-        $string = $this->xml->search($key);
+        $string = $this->xml->find($key);
 
         if (! $string) {
             return null;
