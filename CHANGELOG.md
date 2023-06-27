@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.35 - 2023-06-27
+
+- `chore`: update `kiwilan/php-xml-reader` to `0.2.22`
+
 ## 1.3.34 - 2023-06-22
 
 - `MetaTitle` improve `uniqueFilename`
