@@ -107,7 +107,7 @@ it('can parse ComicMeta', function (string $path) {
     expect($comicMeta->alternateCount())->toBeNull();
     expect($comicMeta->alternateNumber())->toBeNull();
     expect($comicMeta->seriesGroup())->toBe('Fantastic Four');
-    expect($comicMeta->count())->toBe(24);
+    expect($comicMeta->count())->toBeNull();
     expect($comicMeta->volume())->toBeNull();
     expect($comicMeta->storyArc())->toBeNull();
     expect($comicMeta->storyArcNumber())->toBeNull();
@@ -165,7 +165,7 @@ it('can parse CbamMetadata', function (string $path) {
     expect($cbam->alternateSeries())->toBeString();
     expect($cbam->alternateNumber())->toBeNull();
     expect($cbam->alternateCount())->toBeNull();
-    expect($cbam->count())->toBe(24);
+    expect($cbam->count())->toBeNull();
     expect($cbam->volume())->toBeNull();
     expect($cbam->storyArc())->toBeNull();
     expect($cbam->storyArcNumber())->toBeNull();
