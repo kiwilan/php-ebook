@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.4 - 2023-06-28
+
+- BREAKING CHANGE: `extrasExtract()` is now `extra()`
+- `chore`: `kiwilan/php-xml-reader` to 0.2.30
+
 ## 1.3.35 - 2023-06-27
 
 - `chore`: update `kiwilan/php-xml-reader` to `0.2.22`
