@@ -509,7 +509,7 @@ class Ebook
     /**
      * Get key from `extras` safely.
      */
-    public function extrasExtract(string $key): mixed
+    public function extra(string $key): mixed
     {
         if (! array_key_exists($key, $this->extras)) {
             return null;

@@ -41,8 +41,8 @@ it('can parse epub entity', function () {
     expect($ebook->extras()['contributor'])->toBeString();
     expect($ebook->extras()['rating'])->toBeFloat();
     expect($ebook->extras()['rating'])->toBe(10.0);
-    expect($ebook->extrasExtract('contributor'))->toBeString();
-    expect($ebook->extrasExtract('contributora'))->toBeNull();
+    expect($ebook->extra('contributor'))->toBeString();
+    expect($ebook->extra('contributora'))->toBeNull();
 
     $metadata = $ebook->metadata();
     expect($metadata->toArray())->toBeArray();

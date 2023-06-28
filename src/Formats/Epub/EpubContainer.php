@@ -51,7 +51,6 @@ class EpubContainer
             return null;
         }
 
-        $rootfile = reset($rootfile);
         $rootAttr = XmlReader::getAttributes($rootfile);
 
         if (! $rootAttr) {
