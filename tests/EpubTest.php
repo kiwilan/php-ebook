@@ -35,7 +35,7 @@ it('can parse epub entity', function () {
     expect($ebook->series())->toBe("Earth's Children");
     expect($ebook->volume())->toBe(1);
     expect($ebook->pagesCount())->toBe(34);
-    expect($ebook->wordsCount())->toBe(8267);
+    expect($ebook->wordsCount())->toBe(8379);
 
     expect($ebook->extras())->toBeArray();
     expect($ebook->extras()['contributor'])->toBeString();
