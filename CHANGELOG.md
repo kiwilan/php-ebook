@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.51 - 2023-07-06
+
+- bumpp `kiwilan/php-archive`
+
 ## 1.3.41 - 2023-06-28
 
 - `chore`: `kiwilan/php-xml-reader` to `0.2.31`
