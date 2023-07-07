@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.52 - 2023-07-07
+
+- bump `kiwilan/php-archive` to `1.5.11`
+
 ## 1.3.51 - 2023-07-06
 
 - bumpp `kiwilan/php-archive`
