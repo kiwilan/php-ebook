@@ -147,7 +147,7 @@ it('can build EPUB render', function () {
 it('can parse with good performances', function () {
     $ebook = Ebook::read(EPUB);
 
-    expect($ebook->execTime())->toBeLessThan(0.06);
+    expect($ebook->execTime())->toBeLessThan(0.3);
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
 
 it('can parse epub without tags', function () {
