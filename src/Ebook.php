@@ -67,8 +67,8 @@ class Ebook
         protected string $path,
         protected string $filename,
         protected string $extension,
-        protected BaseArchive|null $archive = null,
-        protected Audio|null $audio = null,
+        protected ?BaseArchive $archive = null,
+        protected ?Audio $audio = null,
         protected bool $isArchive = false,
         protected bool $isAudio = false,
         protected ?EbookMetadata $metadata = null,
@@ -285,7 +285,7 @@ class Ebook
     /**
      * Description of the book.
      */
-    public function description(?int $limit = null): ?string
+    public function description(int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->description, $limit);
@@ -359,7 +359,7 @@ class Ebook
     /**
      * Copyright of the book.
      */
-    public function copyright(?int $limit = null): ?string
+    public function copyright(int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->copyright, $limit);
@@ -395,7 +395,7 @@ class Ebook
     /**
      * Archive reader.
      */
-    public function archive(): BaseArchive|null
+    public function archive(): ?BaseArchive
     {
         return $this->archive;
     }
@@ -403,7 +403,7 @@ class Ebook
     /**
      * Audio reader.
      */
-    public function audio(): Audio|null
+    public function audio(): ?Audio
     {
         return $this->audio;
     }
