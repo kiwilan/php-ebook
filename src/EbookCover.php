@@ -12,7 +12,7 @@ class EbookCover
 
     public static function make(?string $path, ?string $content): ?self
     {
-        if (! $content) {
+        if ($content === null) {
             return null;
         }
 
@@ -28,7 +28,7 @@ class EbookCover
 
     public function content(bool $toBase64 = false): ?string
     {
-        if (! $this->content) {
+        if ($this->content === null) {
             return null;
         }
 
