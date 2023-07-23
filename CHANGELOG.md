@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 1.3.54 - 2023-07-23
+
+- EbookCover `content` method fix
+
 ## 1.3.53 - 2023-07-07
 
 - bump `kiwilan/php-archive` `1.5.12`
