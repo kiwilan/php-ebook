@@ -2,6 +2,19 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 2.0.0 - 2023-08-08
+
+### BREAKING CHANGES
+
+- All simple getters have now `get` prefix. For example, `getTitle()` instead of `title()`, `getPublisher()` instead of `publisher()`, etc. It concerns all simple getters of `EpubMetadata`, `EpubChapter`, `EpubHtml`, `NcxMetadata`, `EpubContainer`, `OpfMetadata`, `Ebook`, `BookIdentifier`, `EbookCover`, `EbookMetadata`, `AudiobookMetadata`, `BookAuthor`, `CbaMetadata`, `CbamMetadata`, `MetaTitle` classes.
+
+> Why?
+All these classes have some methods like setters or actions. To be consistent and clear, all simple getters have now `get` prefix.
+
+### Bugfixes
+
+- `BookContributor` and `BookIdentifier` can be more flexible with `mixed` types
+
 ## 1.3.54 - 2023-07-23
 
 - EbookCover `content` method fix
