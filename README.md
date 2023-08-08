@@ -139,7 +139,7 @@ Some metadata can be stored into `extras()` method, without typing, directly fro
 
 ```php
 $ebook->getExtras(); // array<string, mixed> => additional data for book
-$ebook->extra(string $key); // mixed => safely extract data from `extras` array
+$ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
 ```
 
 To get additional data, you can use these methods:
