@@ -103,11 +103,13 @@ composer require kiwilan/php-ebook
 With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
 ```php
+use Kiwilan\Ebook\Ebook;
+
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$ebook->getpath(); // string => path to ebook
-$ebook->filename(); // string => filename of ebook
-$ebook->extension(); // string => extension of ebook
+$ebook->getPath(); // string => path to ebook
+$ebook->getFilename(); // string => filename of ebook
+$ebook->getExtension(); // string => extension of ebook
 $ebook->getTitle(); // string
 $ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
 $ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
@@ -126,7 +128,7 @@ For pages count, you can use these methods:
 
 ```php
 $ebook->getPagesCount(); // ?int => estimated pages count (250 words by page) in `EPUB`, `pageCount` in PDF, `pageCount` in CBA
-$ebook->wordsCount(); // ?int => words count in `EPUB`
+$ebook->getWordsCount(); // ?int => words count in `EPUB`
 ```
 
 > **Note**
@@ -163,15 +165,17 @@ $ebook->hasCover(); // bool => `true` if cover exists
 `Ebook::class` contains many informations but if you want to access to raw metadata, `metadata()` method is available.
 
 ```php
+use Kiwilan\Ebook\Ebook;
+
 $ebook = Ebook::read('path/to/ebook.epub');
 
 $metadata = $ebook->getMetadata();
 
-$metadata->module(); // Used into parsing can be any of `EbookModule::class`
-$metadata->epub(); // `EpubMetadata::class`
-$metadata->pdf(); // `PdfMetadata::class`
-$metadata->cba(); // `CbaMetadata::class`
-$metadata->audiobook(); // `AudiobookMetadata::class`
+$metadata->getModule(); // Used into parsing can be any of `EbookModule::class`
+$metadata->getEpub(); // `EpubMetadata::class`
+$metadata->getPdf(); // `PdfMetadata::class`
+$metadata->getCba(); // `CbaMetadata::class`
+$metadata->getAudiobook(); // `AudiobookMetadata::class`
 
 $metadata->isEpub(); // bool
 $metadata->isPdf(); // bool
@@ -184,19 +188,21 @@ $metadata->isAudiobook(); // bool
 Can be set if book's title is not null.
 
 ```php
+use Kiwilan\Ebook\Ebook;
+
 $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
-$metaTitle->slug(); // string => slugify title, like `the-clan-of-the-cave-bear`
-$metaTitle->slugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`
-$metaTitle->slugLang(); // string => slugify title with language and type, like `the-clan-of-the-cave-bear-epub-en`
+$metaTitle->getSlug(); // string => slugify title, like `the-clan-of-the-cave-bear`
+$metaTitle->getSlugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`
+$metaTitle->getSlugLang(); // string => slugify title with language and type, like `the-clan-of-the-cave-bear-epub-en`
 
-$metaTitle->serieSlug(); // ?string => slugify series title, like `earths-children`
-$metaTitle->serieSort(); // ?string => slugify series title without determiners, like `earths-children`
-$metaTitle->serieLang(); // ?string => slugify series title with language and type, like `earths-children-epub-en`
+$metaTitle->getSerieSlug(); // ?string => slugify series title, like `earths-children`
+$metaTitle->getSerieSort(); // ?string => slugify series title without determiners, like `earths-children`
+$metaTitle->getSerieLang(); // ?string => slugify series title with language and type, like `earths-children-epub-en`
 
-$metaTitle->slugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
-$metaTitle->uniqueFilename(); // string => unique filename for storage, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`
+$metaTitle->getSlugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
+$metaTitle->getUniqueFilename(); // string => unique filename for storage, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`
 ```
 
 ### Cover
@@ -204,11 +210,13 @@ $metaTitle->uniqueFilename(); // string => unique filename for storage, like `je
 Cover can be extracted from ebook.
 
 ```php
+use Kiwilan\Ebook\Ebook;
+
 $ebook = Ebook::read('path/to/ebook.epub');
 $cover = $ebook->getCover(); // ?EbookCover
 
-$cover->path(); // ?string => path to cover
-$cover->content(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
+$cover->getPath(); // ?string => path to cover
+$cover->getContent(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
 ```
 
 > **Note**
@@ -223,16 +231,18 @@ $cover->content(bool $toBase64 = false); // ?string => content of cover, if `$to
 With `EPUB`, metadata are extracted from `OPF` file, `META-INF/container.xml` files, you could access to these metatada but you can also get chapters from `NCX` file. And with `chapters()` method you can merge `NCX` and `HTML` chapters to get full book chapters with `label`, `source` and `content`.
 
 ```php
+use Kiwilan\Ebook\Ebook;
+
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$epub = $ebook->getMetadata()?->epub();
+$epub = $ebook->getMetadata()?->getEpub();
 
-$epub->container(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
-$epub->opf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
-$epub->ncx(); // ?NcxMetadata => {`head`: NcxMetadataHead[]|null, `docTitle`: ?string, `navPoints`: NcxMetadataNavPoint[]|null, `version`: ?string, `lang`: ?string}
-$epub->chapters(); // EpubChapter[] => {`label`: string, `source`: string, `content`: string}[]
-$epub->html(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`: ?string}[]
-$epub->files(); // string[] => all files in EPUB
+$epub->getContainer(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
+$epub->getOpf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
+$epub->getNcx(); // ?NcxMetadata => {`head`: NcxMetadataHead[]|null, `docTitle`: ?string, `navPoints`: NcxMetadataNavPoint[]|null, `version`: ?string, `lang`: ?string}
+$epub->getChapters(); // EpubChapter[] => {`label`: string, `source`: string, `content`: string}[]
+$epub->getHtml(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`: ?string}[]
+$epub->getFiles(); // string[] => all files in EPUB
 ```
 
 > **Note**
