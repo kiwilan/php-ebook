@@ -5,7 +5,7 @@ use Kiwilan\Ebook\Formats\Epub\EpubChapter;
 
 it('can parse epub chapters', function () {
     $ebook = Ebook::read(EPUB);
-    $chapters = $ebook->metadata()->epub()->chapters();
+    $chapters = $ebook->getMetadata()->getEpub()->getChapters();
 
     expect($chapters)->toBeArray();
     expect($chapters)->toHaveCount(41);

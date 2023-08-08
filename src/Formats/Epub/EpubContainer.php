@@ -24,7 +24,7 @@ class EpubContainer
 
         $self = new self($xml);
         $self->opfPath = $self->parseOpfPath();
-        $self->version = $self->xml->version();
+        $self->version = $self->xml->getVersion();
 
         if (! $self->opfPath) {
             throw new \Exception("Can't parse opf path");
@@ -33,12 +33,12 @@ class EpubContainer
         return $self;
     }
 
-    public function opfPath(): ?string
+    public function getOpfPath(): ?string
     {
         return $this->opfPath;
     }
 
-    public function version(): ?string
+    public function getVersion(): ?string
     {
         return $this->version;
     }
@@ -51,7 +51,7 @@ class EpubContainer
             return null;
         }
 
-        $rootAttr = XmlReader::getAttributes($rootfile);
+        $rootAttr = XmlReader::parseAttributes($rootfile);
 
         if (! $rootAttr) {
             return null;

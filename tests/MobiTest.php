@@ -10,15 +10,15 @@ use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 it('can parse mobi', function () {
     $ebook = Ebook::read(STANDARD_MOBI);
 
-    expect($ebook->title())->toBe("Alice's Adventures in Wonderland");
-    expect($ebook->authors()[0]->name())->toBe('Lewis Carroll');
-    expect($ebook->authors()[1]->name())->toBe('Tim Burton');
-    expect($ebook->description())->toBeString();
-    expect($ebook->publisher())->toBeString();
-    expect($ebook->identifiers()[0]->value())->toBe('9780194229647');
-    expect($ebook->publishDate())->toBeInstanceOf(DateTime::class);
-    expect($ebook->language())->toBe('en');
-    expect($ebook->tags()[0])->toBe('Fictions');
+    expect($ebook->getTitle())->toBe("Alice's Adventures in Wonderland");
+    expect($ebook->getAuthors()[0]->getName())->toBe('Lewis Carroll');
+    expect($ebook->getAuthors()[1]->getName())->toBe('Tim Burton');
+    expect($ebook->getDescription())->toBeString();
+    expect($ebook->getPublisher())->toBeString();
+    expect($ebook->getIdentifiers()[0]->getValue())->toBe('9780194229647');
+    expect($ebook->getPublishDate())->toBeInstanceOf(DateTime::class);
+    expect($ebook->getLanguage())->toBe('en');
+    expect($ebook->getTags()[0])->toBe('Fictions');
 });
 
 it('can use mobi parser', function () {

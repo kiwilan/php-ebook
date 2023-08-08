@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="ean" version="3.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    
+    <dc:title>Insurgent</dc:title>
+    <dc:identifier id="ean">9782092532348</dc:identifier>
+    <meta property="identifier-type" refines="#ean" scheme="onix:codelist5">15</meta>
+    <meta id="role" property="role" refines="#aut" scheme="marc:relators">aut</meta>
+    <dc:publisher>Nathan</dc:publisher>
+    <dc:date>2012-01-11T23:00:00+00:00</dc:date>
+    <dc:rights>L’édition originale de ce livre a été publiée pour la première fois en anglais aux États-Unis aux éditions Katherine Tegen Books, HarperCollins Publishers, sous le titre Insurgent. Copyright © Veronica Roth, 2012. Tous droits réservés. Publié avec l’autorisation de HarperCollins Children’s Books, une division de HarperCollins Publishers. Traduction française © Éditions Nathan (Paris, France), 2012. Couverture : photo de François Caillon © Éditions Nathan (Paris, France), 2012.</dc:rights>
+    <meta property="dcterms:modified">2012-10-18T11:06:06Z</meta>
+    <meta name="calibre:title_sort" content="Insurgent"/>
+    <meta name="calibre:series" content="Divergente"/>
+    <meta name="calibre:series_index" content="2.0"/>
+    <meta name="calibre:rating" content="0.0"/>
+    <dc:description>&lt;div&gt;&lt;p&gt;Abandonnant une ville à feu et à sang, Tris est en fuite. Grâce à ses facultés de Divergente, elle a réussi à échapper au programme des Érudits qui a manipulé et lancé les soldats Audacieux à l'assaut des Altruistes. En trois jours, Tris a perdu sa faction, ses amis, ses parents. Pourtant, elle n'a pas le droit de baisser les bras. Elle seule peut se dresser face aux Érudits. Avec son frère Caleb et son petit ami Tobias, elle doit trouver des alliés parmi les autres factions, les Fraternels et les Sincères. Mais ceux-ci se montrent méfiants. Or les combats ont repris, et le temps presse...&lt;/p&gt;&lt;h3&gt;Extrait&lt;/h3&gt;&lt;p&gt;JE M'ÉVEILLE avec son nom à la bouche. Will.&lt;br /&gt;Les yeux fermés, je le revois qui s'affale sur le trottoir. Mort. Et c'est moi qui l'ai tué.&lt;br /&gt;Tobias s'accroupit devant moi, une main sur mon épaule gauche. Le wagon tressaute sur les rails. Marcus, Peter et Caleb sont debout devant la portière ouverte. Je gonfle mes poumons et je bloque ma respiration dans l'espoir de soulager un peu le poids qui m'oppresse.&lt;br /&gt;Il y a encore une heure, rien de ce qui est arrivé ne me semblait réel. Maintenant, si.&lt;br /&gt;J'expire, et le poids est toujours là.&lt;br /&gt;- Allez, viens, Tris, me dit Tobias, ses yeux fouillant les miens. On doit sauter.&lt;br /&gt;Il fait trop sombre pour voir où on est, mais si c'est le moment de descendre, on ne doit pas être loin de la Clôture. Tobias m'aide à me lever et me guide jusqu'à la portière.&lt;br /&gt;Les autres sautent : d'abord Peter, puis Marcus et enfin Caleb. Je prends la main de Tobias. Debout dans l'encadrement, je sens la pression du vent qui me repousse vers l'intérieur, vers la sécurité.&lt;br /&gt;Pourtant, on se jette dans le noir et on atterrit lourdement sur la terre ferme. Le choc réveille la douleur de ma blessure à l'épaule. Je me mords la lèvre pour retenir un cri et cherche mon frère des yeux.&lt;br /&gt;Il est là, assis dans l'herbe, en train de se frotter le genou.&lt;br /&gt;- Ça va ?&lt;br /&gt;Il me fait oui de la tête. Je l'entends renifler comme s'il ravalait des larmes et je détourne le regard.&lt;br /&gt;On a sauté près de la Clôture, à quelques mètres du portail que franchissent les camions de ravitaillement des Fraternels sur le chemin de la ville et qui, fermé, nous bloque à l'intérieur. La Clôture se dresse au-dessus de nous, trop haute et pas assez rigide pour être escaladée, trop massive pour être abattue.&lt;br /&gt;- Il y a des gardes Audacieux ici, normalement, dit Marcus. Où sont-ils passés ?&lt;br /&gt;- Ils ont dû être soumis à la simulation, répond Tobias. Maintenant... qui sait où ils sont et ce qu'ils font.&lt;br /&gt;On a arrêté la simulation - le poids du disque dur dans ma poche arrière est là pour en témoigner -, mais on ne s'est pas attardés pour découvrir les conséquences. Qu'est-il arrivé à nos amis, à nos camarades, à nos chefs, à nos factions ? Impossible de le savoir.&lt;br /&gt;Tobias s'approche d'un petit boîtier métallique fixé à droite du portail et l'ouvre, révélant un pavé numérique.&lt;br /&gt;- Espérons que les Érudits n'ont pas eu l'idée de changer la combinaison, dit-il en tapant une série de chiffres.&lt;br /&gt;Il s'arrête au bout du huitième et la serrure s'ouvre (...) &lt;/p&gt;&lt;/div&gt;</dc:description>
+    <meta name="calibre:author_link_map" content="{&quot;Roth, Véronica&quot;: &quot;&quot;}"/>
+    <dc:contributor opf:role="bkp">calibre (2.33.0) [http://calibre-ebook.com]</dc:contributor>
+    
+    <dc:language>French</dc:language>
+    <dc:identifier opf:scheme="calibre">dc84a609-c40f-42fc-85a7-b6ac0ce3a746</dc:identifier>
+    <dc:identifier opf:scheme="ISBN">9782092532317</dc:identifier>
+    <meta name="calibre:timestamp" content="2014-04-24T11:41:23+00:00"/>
+    <meta name="calibre:user_metadata:#statut" content="{&quot;table&quot;: &quot;custom_column_2&quot;, &quot;display&quot;: {&quot;enum_colors&quot;: [&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;orange&quot;], &quot;enum_values&quot;: [&quot;A lire&quot;, &quot;Lu&quot;, &quot;En dernier recours&quot;, &quot;Sans Opinion&quot;], &quot;use_decorations&quot;: 0}, &quot;colnum&quot;: 2, &quot;is_multiple2&quot;: {}, &quot;kind&quot;: &quot;field&quot;, &quot;is_editable&quot;: true, &quot;link_column&quot;: &quot;value&quot;, &quot;is_custom&quot;: true, &quot;datatype&quot;: &quot;enumeration&quot;, &quot;column&quot;: &quot;value&quot;, &quot;category_sort&quot;: &quot;value&quot;, &quot;#value#&quot;: &quot;A lire&quot;, &quot;#extra#&quot;: null, &quot;name&quot;: &quot;Statut&quot;, &quot;search_terms&quot;: [&quot;#statut&quot;], &quot;is_category&quot;: true, &quot;is_csp&quot;: false, &quot;rec_index&quot;: 23, &quot;label&quot;: &quot;statut&quot;, &quot;is_multiple&quot;: null}"/>
+    <meta name="calibre:user_metadata:#covers" content="{&quot;table&quot;: &quot;custom_column_1&quot;, &quot;display&quot;: {}, &quot;colnum&quot;: 1, &quot;is_multiple2&quot;: {}, &quot;kind&quot;: &quot;field&quot;, &quot;is_editable&quot;: true, &quot;link_column&quot;: &quot;value&quot;, &quot;is_custom&quot;: true, &quot;datatype&quot;: &quot;bool&quot;, &quot;column&quot;: &quot;value&quot;, &quot;category_sort&quot;: &quot;value&quot;, &quot;#value#&quot;: null, &quot;#extra#&quot;: null, &quot;name&quot;: &quot;Couverture&quot;, &quot;search_terms&quot;: [&quot;#covers&quot;], &quot;is_category&quot;: false, &quot;is_csp&quot;: false, &quot;rec_index&quot;: 22, &quot;label&quot;: &quot;covers&quot;, &quot;is_multiple&quot;: null}"/>
+    <meta name="calibre:user_metadata:#packs" content="{&quot;table&quot;: &quot;custom_column_2&quot;, &quot;display&quot;: {&quot;use_decorations&quot;: 0}, &quot;colnum&quot;: 2, &quot;is_multiple2&quot;: {}, &quot;kind&quot;: &quot;field&quot;, &quot;is_editable&quot;: true, &quot;link_column&quot;: &quot;value&quot;, &quot;is_custom&quot;: true, &quot;datatype&quot;: &quot;text&quot;, &quot;column&quot;: &quot;value&quot;, &quot;category_sort&quot;: &quot;value&quot;, &quot;#value#&quot;: null, &quot;#extra#&quot;: null, &quot;name&quot;: &quot;Torrent&quot;, &quot;search_terms&quot;: [&quot;#packs&quot;], &quot;is_category&quot;: true, &quot;is_csp&quot;: false, &quot;rec_index&quot;: 22, &quot;label&quot;: &quot;packs&quot;, &quot;is_multiple&quot;: null}"/>
+    <meta name="cover" content="cover"/>
+  <dc:creator opf:role="aut" opf:file-as="Roth, Véronica">Roth, Véronica</dc:creator><dc:subject>Dystopie</dc:subject></metadata>
+  <manifest>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+    <item href="nav.html" id="nav" media-type="application/xhtml+xml" properties="nav"/>
+    <item href="ident.htm" id="ident-htm" media-type="application/xhtml+xml"/>
+    <item href="images/LogoNathanEpub.jpg" id="images-LogoNathanEpub-jpg" media-type="image/jpeg"/>
+    <item href="sommaire.html" id="sommaire-html" media-type="application/xhtml+xml"/>
+    <item href="part1.htm" id="part1-htm" media-type="application/xhtml+xml"/>
+    <item href="part2.htm" id="part2-htm" media-type="application/xhtml+xml"/>
+    <item href="part3.htm" id="part3-htm" media-type="application/xhtml+xml"/>
+    <item href="part4.htm" id="part4-htm" media-type="application/xhtml+xml"/>
+    <item href="part5.htm" id="part5-htm" media-type="application/xhtml+xml"/>
+    <item href="part6.htm" id="part6-htm" media-type="application/xhtml+xml"/>
+    <item href="part7.htm" id="part7-htm" media-type="application/xhtml+xml"/>
+    <item href="part8.htm" id="part8-htm" media-type="application/xhtml+xml"/>
+    <item href="part9.htm" id="part9-htm" media-type="application/xhtml+xml"/>
+    <item href="part10.htm" id="part10-htm" media-type="application/xhtml+xml"/>
+    <item href="part11.htm" id="part11-htm" media-type="application/xhtml+xml"/>
+    <item href="part12.htm" id="part12-htm" media-type="application/xhtml+xml"/>
+    <item href="part13.htm" id="part13-htm" media-type="application/xhtml+xml"/>
+    <item href="part14.htm" id="part14-htm" media-type="application/xhtml+xml"/>
+    <item href="part15.htm" id="part15-htm" media-type="application/xhtml+xml"/>
+    <item href="part16.htm" id="part16-htm" media-type="application/xhtml+xml"/>
+    <item href="part17.htm" id="part17-htm" media-type="application/xhtml+xml"/>
+    <item href="part18.htm" id="part18-htm" media-type="application/xhtml+xml"/>
+    <item href="part19.htm" id="part19-htm" media-type="application/xhtml+xml"/>
+    <item href="part20.htm" id="part20-htm" media-type="application/xhtml+xml"/>
+    <item href="part21.htm" id="part21-htm" media-type="application/xhtml+xml"/>
+    <item href="part22.htm" id="part22-htm" media-type="application/xhtml+xml"/>
+    <item href="part23.htm" id="part23-htm" media-type="application/xhtml+xml"/>
+    <item href="part24.htm" id="part24-htm" media-type="application/xhtml+xml"/>
+    <item href="part25.htm" id="part25-htm" media-type="application/xhtml+xml"/>
+    <item href="part26.htm" id="part26-htm" media-type="application/xhtml+xml"/>
+    <item href="part27.htm" id="part27-htm" media-type="application/xhtml+xml"/>
+    <item href="part28.htm" id="part28-htm" media-type="application/xhtml+xml"/>
+    <item href="part29.htm" id="part29-htm" media-type="application/xhtml+xml"/>
+    <item href="part30.htm" id="part30-htm" media-type="application/xhtml+xml"/>
+    <item href="part31.htm" id="part31-htm" media-type="application/xhtml+xml"/>
+    <item href="part32.htm" id="part32-htm" media-type="application/xhtml+xml"/>
+    <item href="part33.htm" id="part33-htm" media-type="application/xhtml+xml"/>
+    <item href="part34.htm" id="part34-htm" media-type="application/xhtml+xml"/>
+    <item href="part35.htm" id="part35-htm" media-type="application/xhtml+xml"/>
+    <item href="part36.htm" id="part36-htm" media-type="application/xhtml+xml"/>
+    <item href="part37.htm" id="part37-htm" media-type="application/xhtml+xml"/>
+    <item href="part38.htm" id="part38-htm" media-type="application/xhtml+xml"/>
+    <item href="part39.htm" id="part39-htm" media-type="application/xhtml+xml"/>
+    <item href="part40.htm" id="part40-htm" media-type="application/xhtml+xml"/>
+    <item href="part41.htm" id="part41-htm" media-type="application/xhtml+xml"/>
+    <item href="part42.htm" id="part42-htm" media-type="application/xhtml+xml"/>
+    <item href="part43.htm" id="part43-htm" media-type="application/xhtml+xml"/>
+    <item href="part44.htm" id="part44-htm" media-type="application/xhtml+xml"/>
+    <item href="part45.htm" id="part45-htm" media-type="application/xhtml+xml"/>
+    <item href="part46.htm" id="part46-htm" media-type="application/xhtml+xml"/>
+    <item href="part47.htm" id="part47-htm" media-type="application/xhtml+xml"/>
+    <item href="part48.htm" id="part48-htm" media-type="application/xhtml+xml"/>
+    <item href="part49.htm" id="part49-htm" media-type="application/xhtml+xml"/>
+    <item href="part50.htm" id="part50-htm" media-type="application/xhtml+xml"/>
+    <item href="images/img001.jpg" id="images-img001-jpg" media-type="image/jpeg"/>
+    <item href="chap1.htm" id="chap1-htm" media-type="application/xhtml+xml"/>
+    <item href="chap2.htm" id="chap2-htm" media-type="application/xhtml+xml"/>
+    <item href="chap3.htm" id="chap3-htm" media-type="application/xhtml+xml"/>
+    <item href="chap4.htm" id="chap4-htm" media-type="application/xhtml+xml"/>
+    <item href="part51.htm" id="part51-htm" media-type="application/xhtml+xml"/>
+    <item href="images/img002.jpg" id="images-img002-jpg" media-type="image/jpeg"/>
+    <item href="images/img003.jpg" id="images-img003-jpg" media-type="image/jpeg"/>
+    <item href="mention.html" id="mention-html" media-type="application/xhtml+xml"/>
+    <!--from_template-->
+    <item href="content.css" id="content_css" media-type="text/css"/>
+    <!--from_template-->
+    <item href="cover.css" id="cover_css" media-type="text/css"/>
+    <!--from_template-->
+    <item href="fonts/timesbi.ttf" id="timesbi" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/timesi.ttf" id="timesi" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/times.ttf" id="times" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-BoldItalic.otf" id="AGaramondPro-BoldItalic" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Italic.otf" id="AGaramondPro-Italic" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Bold.otf" id="AGaramondPro-Bold" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Regular.otf" id="AGaramondPro-Regular" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-BoldItalic.otf" id="JansonTextLTStd-BoldItalic" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Italic.otf" id="JansonTextLTStd-Italic" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Bold.otf" id="JansonTextLTStd-Bold" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Roman.otf" id="JansonTextLTStd-Roman" media-type="application/vnd.ms-opentype"/>
+    <!--from_template-->
+    <item href="images/lg_tiret.jpg" id="lg_tiret" media-type="image/jpeg"/>
+    <!--from_template-->
+    <item href="fonts/timesbd.ttf" id="timesbd_ttf" media-type="application/vnd.ms-opentype"/>
+    <item href="cover/cover.m4v" id="cover-video" media-type="video/x-m4v"/>
+    <item href="images/cover.jpg" id="cover" media-type="image/jpeg"/>
+    <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage"/>
+    <itemref idref="ident-htm"/>
+    <itemref idref="sommaire-html"/>
+    <itemref idref="part1-htm"/>
+    <itemref idref="part2-htm"/>
+    <itemref idref="part3-htm"/>
+    <itemref idref="part4-htm"/>
+    <itemref idref="part5-htm"/>
+    <itemref idref="part6-htm"/>
+    <itemref idref="part7-htm"/>
+    <itemref idref="part8-htm"/>
+    <itemref idref="part9-htm"/>
+    <itemref idref="part10-htm"/>
+    <itemref idref="part11-htm"/>
+    <itemref idref="part12-htm"/>
+    <itemref idref="part13-htm"/>
+    <itemref idref="part14-htm"/>
+    <itemref idref="part15-htm"/>
+    <itemref idref="part16-htm"/>
+    <itemref idref="part17-htm"/>
+    <itemref idref="part18-htm"/>
+    <itemref idref="part19-htm"/>
+    <itemref idref="part20-htm"/>
+    <itemref idref="part21-htm"/>
+    <itemref idref="part22-htm"/>
+    <itemref idref="part23-htm"/>
+    <itemref idref="part24-htm"/>
+    <itemref idref="part25-htm"/>
+    <itemref idref="part26-htm"/>
+    <itemref idref="part27-htm"/>
+    <itemref idref="part28-htm"/>
+    <itemref idref="part29-htm"/>
+    <itemref idref="part30-htm"/>
+    <itemref idref="part31-htm"/>
+    <itemref idref="part32-htm"/>
+    <itemref idref="part33-htm"/>
+    <itemref idref="part34-htm"/>
+    <itemref idref="part35-htm"/>
+    <itemref idref="part36-htm"/>
+    <itemref idref="part37-htm"/>
+    <itemref idref="part38-htm"/>
+    <itemref idref="part39-htm"/>
+    <itemref idref="part40-htm"/>
+    <itemref idref="part41-htm"/>
+    <itemref idref="part42-htm"/>
+    <itemref idref="part43-htm"/>
+    <itemref idref="part44-htm"/>
+    <itemref idref="part45-htm"/>
+    <itemref idref="part46-htm"/>
+    <itemref idref="part47-htm"/>
+    <itemref idref="part48-htm"/>
+    <itemref idref="part49-htm"/>
+    <itemref idref="part50-htm"/>
+    <itemref idref="chap1-htm"/>
+    <itemref idref="chap2-htm"/>
+    <itemref idref="chap3-htm"/>
+    <itemref idref="chap4-htm"/>
+    <itemref idref="part51-htm"/>
+    <itemref idref="mention-html"/>
+  </spine>
+  <guide>
+    <reference href="sommaire.html" title="Sommaire" type="toc"/>
+    <reference href="titlepage.xhtml" title="Couverture" type="cover"/>
+  </guide>
+</package>

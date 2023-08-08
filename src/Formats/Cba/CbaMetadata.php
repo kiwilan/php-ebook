@@ -26,7 +26,7 @@ class CbaMetadata extends EbookModule
         }
         $reader = XmlReader::make($xml);
 
-        $root = $reader->root();
+        $root = $reader->getRoot();
         $self->type = match ($root) {
             'ComicInfo' => 'cbam',
             'ComicBook' => 'cbml',
@@ -52,9 +52,14 @@ class CbaMetadata extends EbookModule
         return $self;
     }
 
-    public function cbam(): ?CbamMetadata
+    public function getCbam(): ?CbamMetadata
     {
         return $this->cbam;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
     }
 
     public function toEbook(): Ebook
@@ -69,16 +74,16 @@ class CbaMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        $files = $this->ebook->archive()->filter('jpg');
+        $files = $this->ebook->getArchive()->filter('jpg');
         if (empty($files)) {
-            $files = $this->ebook->archive()->filter('jpeg');
+            $files = $this->ebook->getArchive()->filter('jpeg');
         }
 
         if (! empty($files)) {
             $ebook = $files[0];
-            $content = $this->ebook->archive()->content($ebook);
+            $content = $this->ebook->getArchive()->getContent($ebook);
 
-            return EbookCover::make($ebook->path(), $content);
+            return EbookCover::make($ebook->getPath(), $content);
         }
 
         return null;
@@ -113,55 +118,55 @@ class CbaMetadata extends EbookModule
 
     private function parseCbam(): Ebook
     {
-        $writers = $this->arrayableToBookAuthor($this->cbam->writers(), 'writer');
-        $this->ebook->setTitle($this->cbam->title());
+        $writers = $this->arrayableToBookAuthor($this->cbam->getWriters(), 'writer');
+        $this->ebook->setTitle($this->cbam->getTitle());
         if (array_key_exists(0, $writers)) {
             $this->ebook->setAuthorMain($writers[0]);
         }
         $this->ebook->setAuthors([
             ...$writers,
-            ...$this->arrayableToBookAuthor($this->cbam->pencillers(), 'penciller'),
-            ...$this->arrayableToBookAuthor($this->cbam->inkers(), 'inker'),
-            ...$this->arrayableToBookAuthor($this->cbam->colorists(), 'colorist'),
-            ...$this->arrayableToBookAuthor($this->cbam->letterers(), 'letterer'),
-            ...$this->arrayableToBookAuthor($this->cbam->coverArtists(), 'cover artist'),
-            ...$this->arrayableToBookAuthor($this->cbam->translators(), 'translator'),
+            ...$this->arrayableToBookAuthor($this->cbam->getPencillers(), 'penciller'),
+            ...$this->arrayableToBookAuthor($this->cbam->getInkers(), 'inker'),
+            ...$this->arrayableToBookAuthor($this->cbam->getColorists(), 'colorist'),
+            ...$this->arrayableToBookAuthor($this->cbam->getLetterers(), 'letterer'),
+            ...$this->arrayableToBookAuthor($this->cbam->getCoverArtists(), 'cover artist'),
+            ...$this->arrayableToBookAuthor($this->cbam->getTranslators(), 'translator'),
         ]);
-        $this->ebook->setDescription($this->cbam->summary());
-        $this->ebook->setPublisher($this->cbam->publisher());
+        $this->ebook->setDescription($this->cbam->getSummary());
+        $this->ebook->setPublisher($this->cbam->getPublisher());
         //$this->ebook->setIdentifiers();
-        $this->ebook->setPublishDate($this->cbam->date());
-        $this->ebook->setLanguage($this->cbam->language());
-        $this->ebook->setTags($this->cbam->genres());
-        $this->ebook->setSeries($this->cbam->series());
-        $this->ebook->setVolume($this->cbam->number());
-        $this->ebook->setPagesCount($this->cbam->pageCount());
+        $this->ebook->setPublishDate($this->cbam->getDate());
+        $this->ebook->setLanguage($this->cbam->getLanguage());
+        $this->ebook->setTags($this->cbam->getGenres());
+        $this->ebook->setSeries($this->cbam->getSeries());
+        $this->ebook->setVolume($this->cbam->getNumber());
+        $this->ebook->setPagesCount($this->cbam->getPageCount());
 
         $comicMeta = new ComicMeta(
-            alternateSeries: $this->cbam->alternateSeries(),
-            alternateNumber: $this->cbam->alternateNumber(),
-            alternateCount: $this->cbam->alternateCount(),
-            count: $this->cbam->count(),
-            volume: $this->cbam->volume(),
-            storyArc: $this->cbam->storyArc(),
-            storyArcNumber: $this->cbam->storyArcNumber(),
-            seriesGroup: $this->cbam->seriesGroup(),
-            imprint: $this->cbam->imprint(),
-            scanInformation: $this->cbam->scanInformation(),
-            notes: $this->cbam->notes(),
-            communityRating: $this->cbam->communityRating(),
+            alternateSeries: $this->cbam->getAlternateSeries(),
+            alternateNumber: $this->cbam->getAlternateNumber(),
+            alternateCount: $this->cbam->getAlternateCount(),
+            count: $this->cbam->getCount(),
+            volume: $this->cbam->getVolume(),
+            storyArc: $this->cbam->getStoryArc(),
+            storyArcNumber: $this->cbam->getStoryArcNumber(),
+            seriesGroup: $this->cbam->getSeriesGroup(),
+            imprint: $this->cbam->getImprint(),
+            scanInformation: $this->cbam->getScanInformation(),
+            notes: $this->cbam->getNotes(),
+            communityRating: $this->cbam->getCommunityRating(),
             isBlackAndWhite: $this->cbam->isBlackAndWhite(),
-            ageRating: $this->cbam->ageRating(),
-            review: $this->cbam->review(),
-            web: $this->cbam->web(),
-            manga: $this->cbam->manga(),
-            mainCharacterOrTeam: $this->cbam->mainCharacterOrTeam(),
-            format: $this->cbam->format(),
+            ageRating: $this->cbam->getAgeRating(),
+            review: $this->cbam->getReview(),
+            web: $this->cbam->getWeb(),
+            manga: $this->cbam->getManga(),
+            mainCharacterOrTeam: $this->cbam->getMainCharacterOrTeam(),
+            format: $this->cbam->getFormat(),
         );
-        $comicMeta->setCharacters($this->cbam->characters());
-        $comicMeta->setTeams($this->cbam->teams());
-        $comicMeta->setLocations($this->cbam->locations());
-        $comicMeta->setEditors($this->cbam->editors());
+        $comicMeta->setCharacters($this->cbam->getCharacters());
+        $comicMeta->setTeams($this->cbam->getTeams());
+        $comicMeta->setLocations($this->cbam->getLocations());
+        $comicMeta->setEditors($this->cbam->getEditors());
 
         $this->ebook->setExtras([
             'comicMeta' => $comicMeta,

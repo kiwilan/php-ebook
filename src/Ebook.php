@@ -159,7 +159,7 @@ class Ebook
     {
         $this->metadata = EbookMetadata::make(EpubMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->module()->toCover();
+        $this->cover = $this->metadata->getModule()->toCover();
 
         return $this;
     }
@@ -168,7 +168,7 @@ class Ebook
     {
         $this->metadata = EbookMetadata::make(MobiMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->module()->toCover();
+        $this->cover = $this->metadata->getModule()->toCover();
 
         return $this;
     }
@@ -177,7 +177,7 @@ class Ebook
     {
         $this->metadata = EbookMetadata::make(CbaMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->module()->toCover();
+        $this->cover = $this->metadata->getModule()->toCover();
 
         return $this;
     }
@@ -186,7 +186,7 @@ class Ebook
     {
         $this->metadata = EbookMetadata::make(PdfMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->module()->toCover();
+        $this->cover = $this->metadata->getModule()->toCover();
 
         return $this;
     }
@@ -195,28 +195,28 @@ class Ebook
     {
         $this->metadata = EbookMetadata::make(AudiobookMetadata::make($this));
         $this->convertEbook();
-        $this->cover = $this->metadata->module()->toCover();
+        $this->cover = $this->metadata->getModule()->toCover();
 
         return $this;
     }
 
     private function convertEbook(): self
     {
-        $ebook = $this->metadata->module()->toEbook();
+        $ebook = $this->metadata->getModule()->toEbook();
 
-        $this->title = $ebook->title();
-        $this->metaTitle = $ebook->metaTitle();
-        $this->authorMain = $ebook->authorMain();
-        $this->authors = $ebook->authors();
-        $this->description = $ebook->description();
-        $this->publisher = $ebook->publisher();
-        $this->identifiers = $ebook->identifiers();
-        $this->publishDate = $ebook->publishDate();
-        $this->language = $ebook->language();
-        $this->tags = $ebook->tags();
-        $this->series = $ebook->series();
-        $this->volume = $ebook->volume();
-        $this->copyright = $ebook->copyright();
+        $this->title = $ebook->getTitle();
+        $this->metaTitle = $ebook->getMetaTitle();
+        $this->authorMain = $ebook->getAuthorMain();
+        $this->authors = $ebook->getAuthors();
+        $this->description = $ebook->getDescription();
+        $this->publisher = $ebook->getPublisher();
+        $this->identifiers = $ebook->getIdentifiers();
+        $this->publishDate = $ebook->getPublishDate();
+        $this->language = $ebook->getLanguage();
+        $this->tags = $ebook->getTags();
+        $this->series = $ebook->getSeries();
+        $this->volume = $ebook->getVolume();
+        $this->copyright = $ebook->getCopyright();
 
         return $this;
     }
@@ -224,10 +224,10 @@ class Ebook
     private function convertCounts(): self
     {
         $this->countsParsed = true;
-        $counts = $this->metadata->module()->toCounts();
+        $counts = $this->metadata->getModule()->toCounts();
 
-        $this->wordsCount = $counts->wordsCount();
-        $this->pagesCount = $counts->pagesCount();
+        $this->wordsCount = $counts->getWordsCount();
+        $this->pagesCount = $counts->getPagesCount();
 
         return $this;
     }
@@ -240,7 +240,7 @@ class Ebook
     public function toXml(string $path): ?string
     {
         $ebook = $this->archive->find($path);
-        $content = $this->archive->content($ebook);
+        $content = $this->archive->getContent($ebook);
 
         return $content;
     }
@@ -248,7 +248,7 @@ class Ebook
     /**
      * Title of the book.
      */
-    public function title(): ?string
+    public function getTitle(): ?string
     {
 
         return $this->title;
@@ -258,7 +258,7 @@ class Ebook
      * Title metadata of the book with slug, sort title, series slug, etc.
      * Can be null if the title is null.
      */
-    public function metaTitle(): ?MetaTitle
+    public function getMetaTitle(): ?MetaTitle
     {
         return $this->metaTitle;
     }
@@ -266,7 +266,7 @@ class Ebook
     /**
      * First author of the book (useful if you need to display only one author).
      */
-    public function authorMain(): ?BookAuthor
+    public function getAuthorMain(): ?BookAuthor
     {
         return $this->authorMain;
     }
@@ -276,7 +276,7 @@ class Ebook
      *
      * @return BookAuthor[]
      */
-    public function authors(): array
+    public function getAuthors(): array
     {
 
         return $this->authors;
@@ -285,7 +285,7 @@ class Ebook
     /**
      * Description of the book.
      */
-    public function description(int $limit = null): ?string
+    public function getDescription(int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->description, $limit);
@@ -297,7 +297,7 @@ class Ebook
     /**
      * Publisher of the book.
      */
-    public function publisher(): ?string
+    public function getPublisher(): ?string
     {
 
         return $this->publisher;
@@ -308,7 +308,7 @@ class Ebook
      *
      * @return BookIdentifier[]
      */
-    public function identifiers(): array
+    public function getIdentifiers(): array
     {
         return $this->identifiers;
     }
@@ -316,7 +316,7 @@ class Ebook
     /**
      * Publish date of the book.
      */
-    public function publishDate(): ?DateTime
+    public function getPublishDate(): ?DateTime
     {
         return $this->publishDate;
     }
@@ -324,7 +324,7 @@ class Ebook
     /**
      * Language of the book.
      */
-    public function language(): ?string
+    public function getLanguage(): ?string
     {
         return $this->language;
     }
@@ -334,7 +334,7 @@ class Ebook
      *
      * @return string[]
      */
-    public function tags(): array
+    public function getTags(): array
     {
         return $this->tags;
     }
@@ -342,7 +342,7 @@ class Ebook
     /**
      * Series of the book.
      */
-    public function series(): ?string
+    public function getSeries(): ?string
     {
 
         return $this->series;
@@ -351,7 +351,7 @@ class Ebook
     /**
      * Volume of the book.
      */
-    public function volume(): ?int
+    public function getVolume(): ?int
     {
         return $this->volume;
     }
@@ -359,7 +359,7 @@ class Ebook
     /**
      * Copyright of the book.
      */
-    public function copyright(int $limit = null): ?string
+    public function getCopyright(int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->copyright, $limit);
@@ -371,7 +371,7 @@ class Ebook
     /**
      * Physical path to the ebook.
      */
-    public function path(): string
+    public function getPath(): string
     {
         return $this->path;
     }
@@ -379,7 +379,7 @@ class Ebook
     /**
      * Filename of the ebook.
      */
-    public function filename(): string
+    public function getFilename(): string
     {
         return $this->filename;
     }
@@ -387,7 +387,7 @@ class Ebook
     /**
      * Extension of the ebook.
      */
-    public function extension(): string
+    public function getExtension(): string
     {
         return $this->extension;
     }
@@ -395,7 +395,7 @@ class Ebook
     /**
      * Archive reader.
      */
-    public function archive(): ?BaseArchive
+    public function getArchive(): ?BaseArchive
     {
         return $this->archive;
     }
@@ -403,7 +403,7 @@ class Ebook
     /**
      * Audio reader.
      */
-    public function audio(): ?Audio
+    public function getAudio(): ?Audio
     {
         return $this->audio;
     }
@@ -435,7 +435,7 @@ class Ebook
     /**
      * Format of the ebook.
      */
-    public function format(): ?EbookFormatEnum
+    public function getFormat(): ?EbookFormatEnum
     {
         return $this->format;
     }
@@ -443,7 +443,7 @@ class Ebook
     /**
      * Metadata of the ebook.
      */
-    public function metadata(): ?EbookMetadata
+    public function getMetadata(): ?EbookMetadata
     {
         return $this->metadata;
     }
@@ -451,7 +451,7 @@ class Ebook
     /**
      * Cover of the ebook.
      */
-    public function cover(): ?EbookCover
+    public function getCover(): ?EbookCover
     {
         return $this->cover;
     }
@@ -459,7 +459,7 @@ class Ebook
     /**
      * Word count of the ebook.
      */
-    public function wordsCount(): ?int
+    public function getWordsCount(): ?int
     {
         if ($this->wordsCount) {
             return $this->wordsCount;
@@ -475,7 +475,7 @@ class Ebook
     /**
      * Page count of the ebook.
      */
-    public function pagesCount(): ?int
+    public function getPagesCount(): ?int
     {
         if ($this->pagesCount) {
             return $this->pagesCount;
@@ -491,7 +491,7 @@ class Ebook
     /**
      * Execution time for parsing the ebook.
      */
-    public function execTime(): ?float
+    public function getExecTime(): ?float
     {
         return $this->execTime;
     }
@@ -501,7 +501,7 @@ class Ebook
      *
      * @return array<string, mixed>
      */
-    public function extras(): array
+    public function getExtras(): array
     {
         return $this->extras;
     }
@@ -509,7 +509,7 @@ class Ebook
     /**
      * Get key from `extras` safely.
      */
-    public function extra(string $key): mixed
+    public function getExtra(string $key): mixed
     {
         if (! array_key_exists($key, $this->extras)) {
             return null;
@@ -683,8 +683,8 @@ class Ebook
     {
         return [
             'title' => $this->title,
-            'authorMain' => $this->authorMain?->name(),
-            'authors' => array_map(fn (BookAuthor $author) => $author->name(), $this->authors),
+            'authorMain' => $this->authorMain?->getName(),
+            'authors' => array_map(fn (BookAuthor $author) => $author->getName(), $this->authors),
             'description' => $this->description,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),

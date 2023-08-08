@@ -38,17 +38,17 @@ class EpubHtml
         return '';
     }
 
-    public function filename(): string
+    public function getFilename(): string
     {
         return $this->filename;
     }
 
-    public function head(): ?string
+    public function getHead(): ?string
     {
         return $this->head;
     }
 
-    public function body(): ?string
+    public function getBody(): ?string
     {
         return $this->body;
     }

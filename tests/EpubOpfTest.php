@@ -8,8 +8,8 @@ it('can parse epub container', function (string $path) {
     $container = EpubContainer::make(file_get_contents($path));
 
     expect($path)->toBeReadableFile();
-    expect($container->opfPath())->toBeString();
-    expect($container->version())->toBeString();
+    expect($container->getOpfPath())->toBeString();
+    expect($container->getVersion())->toBeString();
 })->with([EPUB_CONTAINER_EPUB2, EPUB_CONTAINER_EPUB3]);
 
 it('can failed if bad file', function () {
@@ -29,40 +29,40 @@ it('can parse epub opf', function (string $path) {
 
     expect($opf)->tobeInstanceOf(OpfMetadata::class);
     expect($path)->toBeReadableFile();
-    expect($opf->dcTitle())->toBeString();
-    expect($opf->dcCreators())->toBeArray();
-    expect($opf->dcDescription())->toBeString();
-    expect($opf->dcContributors())->toBeArray();
-    expect($opf->dcRights())->toBeArray();
-    expect($opf->dcPublisher())->toBeString();
-    expect($opf->dcIdentifiers())->toBeArray();
-    expect($opf->dcSubject())->toBeArray();
-    expect($opf->dcLanguage())->toBeString();
-    expect($opf->meta())->toBeArray();
-    expect($opf->coverPath())->toBeString();
-    expect($opf->epubVersion())->toBeGreaterThanOrEqual(2);
-})->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3]);
+    expect($opf->getDcTitle())->toBeString();
+    expect($opf->getDcCreators())->toBeArray();
+    expect($opf->getDcDescription())->toBeString();
+    expect($opf->getDcContributors())->toBeArray();
+    expect($opf->getDcRights())->toBeArray();
+    expect($opf->getDcPublisher())->toBeString();
+    expect($opf->getDcIdentifiers())->toBeArray();
+    expect($opf->getDcSubject())->toBeArray();
+    expect($opf->getDcLanguage())->toBeString();
+    expect($opf->getMeta())->toBeArray();
+    expect($opf->getCoverPath())->toBeString();
+    expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
+})->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3, EPUB_OPF_INSURGENT, EPUB_OPF_LAGUERREETERNELLE, EPUB_OPF_EPEEETMORT]);
 
 it('can parse epub opf alt', function () {
     $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB3_ALT), EPUB_OPF_EPUB3_ALT);
 
-    expect($opf->metadata())->toBeArray();
-    expect($opf->manifest())->toBeArray();
-    expect($opf->spine())->toBeArray();
-    expect($opf->guide())->toBeArray();
-    expect($opf->dcTitle())->toBeString();
-    expect($opf->dcCreators())->toBeArray();
-    expect($opf->dcDescription())->toBeString();
-    expect($opf->dcContributors())->toBeArray();
-    expect($opf->dcRights())->toBeArray();
-    expect($opf->dcPublisher())->toBeString();
-    expect($opf->dcIdentifiers())->toBeArray();
-    expect($opf->dcDate())->toBeNull();
-    expect($opf->dcSubject())->toBeArray();
-    expect($opf->dcLanguage())->toBeString();
-    expect($opf->meta())->toBeArray();
-    expect($opf->coverPath())->toBeString();
-    expect($opf->epubVersion())->toBeGreaterThanOrEqual(2);
+    expect($opf->getMetadata())->toBeArray();
+    expect($opf->getManifest())->toBeArray();
+    expect($opf->getSpine())->toBeArray();
+    expect($opf->getGuide())->toBeArray();
+    expect($opf->getDcTitle())->toBeString();
+    expect($opf->getDcCreators())->toBeArray();
+    expect($opf->getDcDescription())->toBeString();
+    expect($opf->getDcContributors())->toBeArray();
+    expect($opf->getDcRights())->toBeArray();
+    expect($opf->getDcPublisher())->toBeString();
+    expect($opf->getDcIdentifiers())->toBeArray();
+    expect($opf->getDcDate())->toBeNull();
+    expect($opf->getDcSubject())->toBeArray();
+    expect($opf->getDcLanguage())->toBeString();
+    expect($opf->getMeta())->toBeArray();
+    expect($opf->getCoverPath())->toBeString();
+    expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 });
 
 it('can parse epub opf without tags', function () {
@@ -70,16 +70,16 @@ it('can parse epub opf without tags', function () {
 
     expect($opf)->tobeInstanceOf(OpfMetadata::class);
     expect(EPUB_OPF_EPUB2_NO_TAGS)->toBeReadableFile();
-    expect($opf->dcTitle())->toBeString();
-    expect($opf->dcCreators())->toBeArray();
-    expect($opf->dcDescription())->toBeString();
-    expect($opf->dcContributors())->toBeArray();
-    expect($opf->dcRights())->toBeArray();
-    expect($opf->dcPublisher())->toBeString();
-    expect($opf->dcIdentifiers())->toBeArray();
-    expect($opf->dcSubject())->toBeArray();
-    expect($opf->dcLanguage())->toBeString();
-    expect($opf->meta())->toBeArray();
-    expect($opf->coverPath())->toBeString();
-    expect($opf->epubVersion())->toBeGreaterThanOrEqual(2);
+    expect($opf->getDcTitle())->toBeString();
+    expect($opf->getDcCreators())->toBeArray();
+    expect($opf->getDcDescription())->toBeString();
+    expect($opf->getDcContributors())->toBeArray();
+    expect($opf->getDcRights())->toBeArray();
+    expect($opf->getDcPublisher())->toBeString();
+    expect($opf->getDcIdentifiers())->toBeArray();
+    expect($opf->getDcSubject())->toBeArray();
+    expect($opf->getDcLanguage())->toBeString();
+    expect($opf->getMeta())->toBeArray();
+    expect($opf->getCoverPath())->toBeString();
+    expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 });

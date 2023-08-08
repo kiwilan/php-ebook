@@ -21,12 +21,12 @@ class EbookCover
         return new self($path, $content);
     }
 
-    public function path(): ?string
+    public function getPath(): ?string
     {
         return $this->path;
     }
 
-    public function content(bool $toBase64 = false): ?string
+    public function getContent(bool $toBase64 = false): ?string
     {
         if ($this->content === null) {
             return null;

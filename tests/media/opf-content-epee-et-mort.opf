@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="BookId" version="2.0">
+  <!-- Your OPF file was broken so Sigil tried to rebuild it for you. -->
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    
+    <dc:identifier id="BookId" opf:scheme="UUID">urn:uuid:0a3c32bb-b057-4622-95cb-e4aec4d8cfcf</dc:identifier>
+    <dc:publisher xmlns:dc="http://purl.org/dc/elements/1.1/">Bragelonne</dc:publisher>
+    <dc:contributor xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" opf:role="trl">Jean Claude Mallé</dc:contributor>
+    <dc:contributor xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" opf:role="aut">Fritz Leiber</dc:contributor>
+    <dc:contributor xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf" opf:role="trl">Jean Claude Mallé</dc:contributor>
+    <dc:description xmlns:dc="http://purl.org/dc/elements/1.1/">Imaginez un monde antique et fabuleux, un monde de sortilèges et de joyaux, de crânes et d’épées affûtées. Au cœur de cet univers de légende : la cité de Lankhmar, dont les tours et les ruelles grouillent de brigands et de magiciens.C’est là que se sont rencontrés pour la première fois Fafhrd, barbare des déserts Froids, et le Souricier gris, dont les yeux malicieux luisaient de magie. Ils ne savaient pas encore que leur amitié serait plus longue que mille quêtes et cent vies d’aventure !Lorsque Fafhrd le Barbare et le Souricier gris, les plus grands aventuriers que cet univers – et les autres – aient jamais comptés, ont tous deux perdu leur premier amour, la vie leur a semblé futile et vide. Mais le destin ne les laisse pas s’avachir : bien vite les choses sérieuses commencent !Ils se lancent sans hésiter sur le long et sinueux chemin de la débauche, du vin et des femmes. Mais ce n’est que le préambule à une quête qui les entraînera vers des continents inconnus et de fabuleux trésors, de mortels adversaires et de rusés sorciers...Une quête qui leur commande de voler : un crâne, une maison, l’œil d’une idole et le masque du voleur le plus redoutable : la Mort !</dc:description>
+    <dc:date xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">2015-09-01T22:00:00+00:00</dc:date>
+    <meta xmlns="http://www.idpf.org/2007/opf" content="Adobe InDesign 10.1" name="generator"/>
+    <meta xmlns="http://www.idpf.org/2007/opf" content="0.7.4" name="Sigil version"/>
+    <dc:title>Épées et Mort</dc:title>
+    <meta name="calibre:title_sort" content="Épées et Mort"/>
+    <meta name="calibre:series" content="Le cycle des épées"/>
+    <meta name="calibre:series_index" content="2.0"/>
+    
+    <dc:contributor opf:role="bkp">calibre (2.54.0) [http://calibre-ebook.com]</dc:contributor>
+    <meta name="calibre:author_link_map" content="{&quot;Leiber, Fritz&quot;: &quot;&quot;}"/>
+    <dc:language>French</dc:language>
+    <dc:identifier opf:scheme="calibre">155c88af-81cd-484f-bed5-409b52704040</dc:identifier>
+    <meta name="calibre:timestamp" content="2015-09-03T19:32:02+00:00"/>
+    <meta name="calibre:user_metadata:#covers" content="{&quot;category_sort&quot;: &quot;value&quot;, &quot;is_category&quot;: false, &quot;#value#&quot;: null, &quot;is_editable&quot;: true, &quot;is_multiple&quot;: null, &quot;search_terms&quot;: [&quot;#covers&quot;], &quot;rec_index&quot;: 22, &quot;is_custom&quot;: true, &quot;column&quot;: &quot;value&quot;, &quot;kind&quot;: &quot;field&quot;, &quot;name&quot;: &quot;Couverture&quot;, &quot;is_csp&quot;: false, &quot;datatype&quot;: &quot;bool&quot;, &quot;colnum&quot;: 1, &quot;#extra#&quot;: null, &quot;link_column&quot;: &quot;value&quot;, &quot;label&quot;: &quot;covers&quot;, &quot;display&quot;: {}, &quot;is_multiple2&quot;: {}, &quot;table&quot;: &quot;custom_column_1&quot;}"/>
+    <meta name="calibre:user_metadata:#statut" content="{&quot;category_sort&quot;: &quot;value&quot;, &quot;is_category&quot;: true, &quot;#value#&quot;: null, &quot;is_editable&quot;: true, &quot;is_multiple&quot;: null, &quot;search_terms&quot;: [&quot;#statut&quot;], &quot;rec_index&quot;: 23, &quot;is_custom&quot;: true, &quot;column&quot;: &quot;value&quot;, &quot;kind&quot;: &quot;field&quot;, &quot;name&quot;: &quot;Statut&quot;, &quot;is_csp&quot;: false, &quot;datatype&quot;: &quot;enumeration&quot;, &quot;colnum&quot;: 2, &quot;#extra#&quot;: null, &quot;link_column&quot;: &quot;value&quot;, &quot;label&quot;: &quot;statut&quot;, &quot;display&quot;: {&quot;use_decorations&quot;: 0, &quot;enum_values&quot;: [&quot;A lire&quot;, &quot;Lu&quot;, &quot;En dernier recours&quot;, &quot;Sans Opinion&quot;], &quot;enum_colors&quot;: [&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;orange&quot;]}, &quot;is_multiple2&quot;: {}, &quot;table&quot;: &quot;custom_column_2&quot;}"/>
+    <meta name="cover" content="cover"/>
+  <dc:creator opf:role="aut" opf:file-as="Leiber, Fritz">Leiber, Fritz</dc:creator><dc:subject>Fantasy</dc:subject></metadata>
+  <manifest>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+    <item href="Text/9782820522870-1.xhtml" id="x9782820522870-1.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-2.xhtml" id="x9782820522870-2.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-3.xhtml" id="x9782820522870-3.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-4.xhtml" id="x9782820522870-4.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-5.xhtml" id="x9782820522870-5.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-6.xhtml" id="x9782820522870-6.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-7.xhtml" id="x9782820522870-7.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-8.xhtml" id="x9782820522870-8.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-9.xhtml" id="x9782820522870-9.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-10.xhtml" id="x9782820522870-10.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-11.xhtml" id="x9782820522870-11.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-12.xhtml" id="x9782820522870-12.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-13.xhtml" id="x9782820522870-13.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-14.xhtml" id="x9782820522870-14.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-15.xhtml" id="x9782820522870-15.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Text/9782820522870-16.xhtml" id="x9782820522870-16.xhtml" media-type="application/xhtml+xml"/>
+    <item href="Styles/Style0001LK.css" id="Style0001LK.css" media-type="text/css"/>
+    <item href="Styles/title.css" id="title.css" media-type="text/css"/>
+    <item href="cover.jpg" id="cover" media-type="image/jpeg"/>
+    <item href="Text/titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage"/>
+    <itemref idref="x9782820522870-1.xhtml"/>
+    <itemref idref="x9782820522870-2.xhtml"/>
+    <itemref idref="x9782820522870-3.xhtml"/>
+    <itemref idref="x9782820522870-4.xhtml"/>
+    <itemref idref="x9782820522870-5.xhtml"/>
+    <itemref idref="x9782820522870-6.xhtml"/>
+    <itemref idref="x9782820522870-7.xhtml"/>
+    <itemref idref="x9782820522870-8.xhtml"/>
+    <itemref idref="x9782820522870-9.xhtml"/>
+    <itemref idref="x9782820522870-10.xhtml"/>
+    <itemref idref="x9782820522870-11.xhtml"/>
+    <itemref idref="x9782820522870-12.xhtml"/>
+    <itemref idref="x9782820522870-13.xhtml"/>
+    <itemref idref="x9782820522870-14.xhtml"/>
+    <itemref idref="x9782820522870-15.xhtml"/>
+    <itemref idref="x9782820522870-16.xhtml"/>
+  </spine>
+  <guide>
+    <reference href="Text/titlepage.xhtml" title="Couverture" type="cover"/>
+  </guide>
+</package>

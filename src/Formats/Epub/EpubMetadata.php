@@ -47,40 +47,46 @@ class EpubMetadata extends EbookModule
 
         $this->container = EpubContainer::make($xml);
 
-        $xml = $this->ebook->toXml($this->container->opfPath());
+        $xml = $this->ebook->toXml($this->container->getOpfPath());
         if (! $xml) {
             return $this;
         }
 
         $this->ebook->setHasMetadata(true);
-        $this->opf = OpfMetadata::make($xml, $this->ebook->filename());
-        $this->coverPath = $this->opf->coverPath();
-        $this->files = $this->opf->contentFiles();
+        $this->opf = OpfMetadata::make($xml, $this->ebook->getFilename());
+        $this->coverPath = $this->opf->getCoverPath();
+        $this->files = $this->opf->getContentFiles();
 
         return $this;
     }
 
     public function toEbook(): Ebook
     {
-        $altTitle = explode('.', $this->ebook->filename());
+        $altTitle = explode('.', $this->ebook->getFilename());
         $altTitle = $altTitle[0] ?? 'untitled';
 
-        $this->ebook->setTitle($this->opf->dcTitle() ?? $altTitle);
+        if (! $this->opf) {
+            $this->ebook->setTitle($altTitle);
 
-        $authors = array_values($this->opf->dcCreators());
-        $this->ebook->setAuthors($authors);
-        if ($this->opf->dcDescription()) {
-            $this->ebook->setDescription(strip_tags($this->opf->dcDescription()));
+            return $this->ebook;
         }
-        $this->ebook->setCopyright(! empty($this->opf->dcRights()) ? implode(', ', $this->opf->dcRights()) : null);
-        $this->ebook->setPublisher($this->opf->dcPublisher());
-        $this->ebook->setIdentifiers($this->opf->dcIdentifiers());
-        $this->ebook->setPublishDate($this->opf->dcDate());
-        $this->ebook->setLanguage($this->opf->dcLanguage());
+
+        $this->ebook->setTitle($this->opf->getDcTitle() ?? $altTitle);
+
+        $authors = array_values($this->opf->getDcCreators());
+        $this->ebook->setAuthors($authors);
+        if ($this->opf->getDcDescription()) {
+            $this->ebook->setDescription(strip_tags($this->opf->getDcDescription()));
+        }
+        $this->ebook->setCopyright(! empty($this->opf->getDcRights()) ? implode(', ', $this->opf->getDcRights()) : null);
+        $this->ebook->setPublisher($this->opf->getDcPublisher());
+        $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
+        $this->ebook->setPublishDate($this->opf->getDcDate());
+        $this->ebook->setLanguage($this->opf->getDcLanguage());
 
         $tags = [];
-        if (! empty($this->opf->dcSubject())) {
-            foreach ($this->opf->dcSubject() as $subject) {
+        if (! empty($this->opf->getDcSubject())) {
+            foreach ($this->opf->getDcSubject() as $subject) {
                 if (strlen($subject) < 50) {
                     $tags[] = $subject;
                 }
@@ -89,8 +95,8 @@ class EpubMetadata extends EbookModule
         $this->ebook->setTags($tags);
 
         $rating = null;
-        if (! empty($this->opf->meta())) {
-            foreach ($this->opf->meta() as $meta) {
+        if (! empty($this->opf->getMeta())) {
+            foreach ($this->opf->getMeta() as $meta) {
                 if ($meta->name() === 'calibre:series') {
                     $this->ebook->setSeries($meta->content());
                 }
@@ -103,7 +109,7 @@ class EpubMetadata extends EbookModule
             }
         }
 
-        $contributor = ! empty($this->opf->dcContributors()) ? implode(', ', $this->opf->dcContributors()) : null;
+        $contributor = ! empty($this->opf->getDcContributors()) ? implode(', ', $this->opf->getDcContributors()) : null;
         $this->ebook->setExtras([
             'contributor' => $contributor,
             'rating' => $rating,
@@ -118,8 +124,8 @@ class EpubMetadata extends EbookModule
             return null;
         }
 
-        $file = $this->ebook->archive()->find($this->coverPath);
-        $content = $this->ebook->archive()->content($file);
+        $file = $this->ebook->getArchive()->find($this->coverPath);
+        $content = $this->ebook->getArchive()->getContent($file);
 
         return EbookCover::make($this->coverPath, $content);
     }
@@ -144,7 +150,7 @@ class EpubMetadata extends EbookModule
 
         $wordsCount = 0;
         foreach ($this->html as $html) {
-            $body = $html->body();
+            $body = $html->getBody();
             $content = strip_tags($body);
             $content = preg_replace('/[\r\n|\n|\r)]+/', '', $content);
             $words = str_word_count($content, 1);
@@ -167,12 +173,12 @@ class EpubMetadata extends EbookModule
     {
         $items = [];
         foreach ($this->files as $path) {
-            $file = $this->ebook->archive()->find($path);
+            $file = $this->ebook->getArchive()->find($path);
             if (! $file) {
                 continue;
             }
-            $html = $this->ebook->archive()->content($file);
-            $items[] = EpubHtml::make($html, $file->filename());
+            $html = $this->ebook->getArchive()->getContent($file);
+            $items[] = EpubHtml::make($html, $file->getFilename());
         }
 
         $this->html = $items;
@@ -198,7 +204,7 @@ class EpubMetadata extends EbookModule
 
     private function parseNcx(): ?NcxMetadata
     {
-        $manifest = $this->opf->manifest();
+        $manifest = $this->opf->getManifest();
         $items = reset($manifest);
 
         $path = null;
@@ -217,25 +223,25 @@ class EpubMetadata extends EbookModule
             return null;
         }
 
-        $item = $this->ebook->archive()->find($path);
-        $xml = $this->ebook->archive()->content($item);
+        $item = $this->ebook->getArchive()->find($path);
+        $xml = $this->ebook->getArchive()->getContent($item);
 
         $ncx = NcxMetadata::make($xml);
 
         return $ncx;
     }
 
-    public function container(): ?EpubContainer
+    public function getContainer(): ?EpubContainer
     {
         return $this->container;
     }
 
-    public function opf(): ?OpfMetadata
+    public function getOpf(): ?OpfMetadata
     {
         return $this->opf;
     }
 
-    public function ncx(): ?NcxMetadata
+    public function getNcx(): ?NcxMetadata
     {
         if (is_null($this->ncx)) {
             $this->ncx = $this->parseNcx();
@@ -244,12 +250,12 @@ class EpubMetadata extends EbookModule
         return $this->ncx;
     }
 
-    public function coverPath(): ?string
+    public function getCoverPath(): ?string
     {
         return $this->coverPath;
     }
 
-    public function pagesCount(): ?int
+    public function getPagesCount(): ?int
     {
         if (is_null($this->pagesCount)) {
             $this->setCounts();
@@ -258,7 +264,7 @@ class EpubMetadata extends EbookModule
         return $this->pagesCount;
     }
 
-    public function wordsCount(): ?int
+    public function getWordsCount(): ?int
     {
         if (is_null($this->wordsCount)) {
             $this->setCounts();
@@ -270,7 +276,7 @@ class EpubMetadata extends EbookModule
     /**
      * @return EpubChapter[]
      */
-    public function chapters(): array
+    public function getChapters(): array
     {
         if (empty($this->chapters)) {
             $this->parseChapters();
@@ -282,7 +288,7 @@ class EpubMetadata extends EbookModule
     /**
      * @return EpubHtml[]
      */
-    public function html(): array
+    public function getHtml(): array
     {
         if (empty($this->html)) {
             $this->parseFiles();
@@ -294,7 +300,7 @@ class EpubMetadata extends EbookModule
     /**
      * @return string[]
      */
-    public function files(): array
+    public function getFiles(): array
     {
         return $this->files;
     }

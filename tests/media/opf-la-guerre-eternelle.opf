@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="ean" version="2.0">
+  <metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    
+    <dc:publisher>Nathan</dc:publisher>
+    <dc:date>2013-03-24T23:00:00+00:00</dc:date>
+    <dc:rights>Couverture : design de James Fraser, photo de Neil Spence L'édition originale de ce livre a été publiée pour la première fois en anglais au Royaume-Uni par Puffin Books, Penguin Books Ltd (Londres, Angleterre), sous le titre Time Riders : The Eternal War. Copyright © Alex Scarrow, 2011. Tous droits réservés. Traduction française © Éditions Nathan (Paris, France), 2013.</dc:rights>
+    <meta name="calibre:title_sort" content="La guerre éternelle"/>
+    <meta name="calibre:series" content="Time Riders"/>
+    <meta name="calibre:series_index" content="4.0"/>
+    <dc:description>&lt;div&gt;LIAM O'CONNOR&lt;br /&gt; aurait dû mourir en mer en 1912.&lt;br /&gt;&lt;br /&gt; MADDY CARTER&lt;br /&gt; aurait dû mourir en avion en 2010.&lt;br /&gt;&lt;br /&gt; SAL VIKRAM&lt;br /&gt; aurait dû mourir dans un incendie en 2026.&lt;br /&gt;&lt;br /&gt; Mais à la dernière seconde, une mystérieuse agence les a sauvés pour les recruter.&lt;br /&gt;&lt;br /&gt; Désormais, ils sont des TIME RIDERS&lt;br /&gt;&lt;br /&gt; Leur mission : empêcher que les voyages dans le temps ne modifient le passé... et ne détruisent notre monde.&lt;br /&gt;&lt;br /&gt;
+ Maddy, Liam et Sal doivent retrouver Abraham Lincoln, qui a subitement 
+disparu. Ils n'ont pas une minute à perdre, car, sans lui, la Guerre de 
+Sécession ne peut pas prendre fin !&lt;/div&gt;</dc:description>
+    <dc:contributor xmlns:ns1="http://www.idpf.org/2007/opf" ns1:role="bkp">calibre (2.33.0) [http://calibre-ebook.com]</dc:contributor>
+    <meta name="calibre:author_link_map" content="{&quot;Scarrow, Alex&quot;: &quot;&quot;}"/>
+    <dc:title>La guerre éternelle</dc:title>
+    <dc:language>French</dc:language>
+    <dc:identifier xmlns:ns1="http://www.idpf.org/2007/opf" ns1:scheme="calibre">05804df4-f9ce-4b30-9b37-9cbcb6c041a2</dc:identifier>
+    <meta name="calibre:timestamp" content="2014-03-26T08:53:01+00:00"/>
+    <meta name="calibre:user_metadata:#covers" content="{&quot;search_terms&quot;: [&quot;#covers&quot;], &quot;display&quot;: {}, &quot;category_sort&quot;: &quot;value&quot;, &quot;is_multiple2&quot;: {}, &quot;colnum&quot;: 1, &quot;#extra#&quot;: null, &quot;column&quot;: &quot;value&quot;, &quot;name&quot;: &quot;Couverture&quot;, &quot;is_custom&quot;: true, &quot;is_editable&quot;: true, &quot;kind&quot;: &quot;field&quot;, &quot;is_multiple&quot;: null, &quot;rec_index&quot;: 22, &quot;#value#&quot;: null, &quot;is_csp&quot;: false, &quot;is_category&quot;: false, &quot;link_column&quot;: &quot;value&quot;, &quot;label&quot;: &quot;covers&quot;, &quot;datatype&quot;: &quot;bool&quot;, &quot;table&quot;: &quot;custom_column_1&quot;}"/>
+    <meta name="calibre:user_metadata:#statut" content="{&quot;search_terms&quot;: [&quot;#statut&quot;], &quot;display&quot;: {&quot;use_decorations&quot;: 0, &quot;enum_values&quot;: [&quot;A lire&quot;, &quot;Lu&quot;, &quot;En dernier recours&quot;, &quot;Sans Opinion&quot;], &quot;enum_colors&quot;: [&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;orange&quot;]}, &quot;category_sort&quot;: &quot;value&quot;, &quot;is_multiple2&quot;: {}, &quot;colnum&quot;: 2, &quot;#extra#&quot;: null, &quot;column&quot;: &quot;value&quot;, &quot;name&quot;: &quot;Statut&quot;, &quot;is_custom&quot;: true, &quot;is_editable&quot;: true, &quot;kind&quot;: &quot;field&quot;, &quot;is_multiple&quot;: null, &quot;rec_index&quot;: 23, &quot;#value#&quot;: &quot;Sans Opinion&quot;, &quot;is_csp&quot;: false, &quot;is_category&quot;: true, &quot;link_column&quot;: &quot;value&quot;, &quot;label&quot;: &quot;statut&quot;, &quot;datatype&quot;: &quot;enumeration&quot;, &quot;table&quot;: &quot;custom_column_2&quot;}"/>
+    <meta name="cover" content="cover"/>
+  <dc:creator xmlns:default="http://www.idpf.org/2007/opf" default:role="aut" default:file-as="Scarrow, Alex">Scarrow, Alex</dc:creator></metadata>
+  <manifest>
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml"/>
+    <item href="images/LogoNathanEpub.jpg" id="images-LogoNathanEpub-jpg" media-type="image/jpeg"/>
+    <item href="copyright.html" id="copyright-html" media-type="application/xhtml+xml"/>
+    <item href="titre.html" id="titre-html" media-type="application/xhtml+xml"/>
+    <item href="ident.html" id="ident-html" media-type="application/xhtml+xml"/>
+    <item href="sommaire.html" id="sommaire-html" media-type="application/xhtml+xml"/>
+    <item href="part1.htm" id="part1-htm" media-type="application/xhtml+xml"/>
+    <item href="part2.htm" id="part2-htm" media-type="application/xhtml+xml"/>
+    <item href="part3.htm" id="part3-htm" media-type="application/xhtml+xml"/>
+    <item href="part4.htm" id="part4-htm" media-type="application/xhtml+xml"/>
+    <item href="part5.htm" id="part5-htm" media-type="application/xhtml+xml"/>
+    <item href="part6.htm" id="part6-htm" media-type="application/xhtml+xml"/>
+    <item href="part7.htm" id="part7-htm" media-type="application/xhtml+xml"/>
+    <item href="part8.htm" id="part8-htm" media-type="application/xhtml+xml"/>
+    <item href="part9.htm" id="part9-htm" media-type="application/xhtml+xml"/>
+    <item href="part10.htm" id="part10-htm" media-type="application/xhtml+xml"/>
+    <item href="part11.htm" id="part11-htm" media-type="application/xhtml+xml"/>
+    <item href="part12.htm" id="part12-htm" media-type="application/xhtml+xml"/>
+    <item href="part13.htm" id="part13-htm" media-type="application/xhtml+xml"/>
+    <item href="part14.htm" id="part14-htm" media-type="application/xhtml+xml"/>
+    <item href="part15.htm" id="part15-htm" media-type="application/xhtml+xml"/>
+    <item href="part16.htm" id="part16-htm" media-type="application/xhtml+xml"/>
+    <item href="part17.htm" id="part17-htm" media-type="application/xhtml+xml"/>
+    <item href="part18.htm" id="part18-htm" media-type="application/xhtml+xml"/>
+    <item href="part19.htm" id="part19-htm" media-type="application/xhtml+xml"/>
+    <item href="part20.htm" id="part20-htm" media-type="application/xhtml+xml"/>
+    <item href="part21.htm" id="part21-htm" media-type="application/xhtml+xml"/>
+    <item href="part22.htm" id="part22-htm" media-type="application/xhtml+xml"/>
+    <item href="part23.htm" id="part23-htm" media-type="application/xhtml+xml"/>
+    <item href="part24.htm" id="part24-htm" media-type="application/xhtml+xml"/>
+    <item href="part25.htm" id="part25-htm" media-type="application/xhtml+xml"/>
+    <item href="part26.htm" id="part26-htm" media-type="application/xhtml+xml"/>
+    <item href="part27.htm" id="part27-htm" media-type="application/xhtml+xml"/>
+    <item href="part28.htm" id="part28-htm" media-type="application/xhtml+xml"/>
+    <item href="part29.htm" id="part29-htm" media-type="application/xhtml+xml"/>
+    <item href="part30.htm" id="part30-htm" media-type="application/xhtml+xml"/>
+    <item href="part31.htm" id="part31-htm" media-type="application/xhtml+xml"/>
+    <item href="part32.htm" id="part32-htm" media-type="application/xhtml+xml"/>
+    <item href="part33.htm" id="part33-htm" media-type="application/xhtml+xml"/>
+    <item href="part34.htm" id="part34-htm" media-type="application/xhtml+xml"/>
+    <item href="part35.htm" id="part35-htm" media-type="application/xhtml+xml"/>
+    <item href="part36.htm" id="part36-htm" media-type="application/xhtml+xml"/>
+    <item href="part37.htm" id="part37-htm" media-type="application/xhtml+xml"/>
+    <item href="part38.htm" id="part38-htm" media-type="application/xhtml+xml"/>
+    <item href="part39.htm" id="part39-htm" media-type="application/xhtml+xml"/>
+    <item href="part40.htm" id="part40-htm" media-type="application/xhtml+xml"/>
+    <item href="part41.htm" id="part41-htm" media-type="application/xhtml+xml"/>
+    <item href="part42.htm" id="part42-htm" media-type="application/xhtml+xml"/>
+    <item href="part43.htm" id="part43-htm" media-type="application/xhtml+xml"/>
+    <item href="part44.htm" id="part44-htm" media-type="application/xhtml+xml"/>
+    <item href="part45.htm" id="part45-htm" media-type="application/xhtml+xml"/>
+    <item href="part46.htm" id="part46-htm" media-type="application/xhtml+xml"/>
+    <item href="part47.htm" id="part47-htm" media-type="application/xhtml+xml"/>
+    <item href="part48.htm" id="part48-htm" media-type="application/xhtml+xml"/>
+    <item href="part49.htm" id="part49-htm" media-type="application/xhtml+xml"/>
+    <item href="part50.htm" id="part50-htm" media-type="application/xhtml+xml"/>
+    <item href="part51.htm" id="part51-htm" media-type="application/xhtml+xml"/>
+    <item href="part52.htm" id="part52-htm" media-type="application/xhtml+xml"/>
+    <item href="part53.htm" id="part53-htm" media-type="application/xhtml+xml"/>
+    <item href="part54.htm" id="part54-htm" media-type="application/xhtml+xml"/>
+    <item href="part55.htm" id="part55-htm" media-type="application/xhtml+xml"/>
+    <item href="part56.htm" id="part56-htm" media-type="application/xhtml+xml"/>
+    <item href="part57.htm" id="part57-htm" media-type="application/xhtml+xml"/>
+    <item href="part58.htm" id="part58-htm" media-type="application/xhtml+xml"/>
+    <item href="part59.htm" id="part59-htm" media-type="application/xhtml+xml"/>
+    <item href="part60.htm" id="part60-htm" media-type="application/xhtml+xml"/>
+    <item href="part61.htm" id="part61-htm" media-type="application/xhtml+xml"/>
+    <item href="part62.htm" id="part62-htm" media-type="application/xhtml+xml"/>
+    <item href="part63.htm" id="part63-htm" media-type="application/xhtml+xml"/>
+    <item href="part64.htm" id="part64-htm" media-type="application/xhtml+xml"/>
+    <item href="part65.htm" id="part65-htm" media-type="application/xhtml+xml"/>
+    <item href="part66.htm" id="part66-htm" media-type="application/xhtml+xml"/>
+    <item href="part67.htm" id="part67-htm" media-type="application/xhtml+xml"/>
+    <item href="part68.htm" id="part68-htm" media-type="application/xhtml+xml"/>
+    <item href="part69.htm" id="part69-htm" media-type="application/xhtml+xml"/>
+    <item href="part70.htm" id="part70-htm" media-type="application/xhtml+xml"/>
+    <item href="part71.htm" id="part71-htm" media-type="application/xhtml+xml"/>
+    <item href="part72.htm" id="part72-htm" media-type="application/xhtml+xml"/>
+    <item href="part73.htm" id="part73-htm" media-type="application/xhtml+xml"/>
+    <item href="part74.htm" id="part74-htm" media-type="application/xhtml+xml"/>
+    <item href="part75.htm" id="part75-htm" media-type="application/xhtml+xml"/>
+    <item href="part76.htm" id="part76-htm" media-type="application/xhtml+xml"/>
+    <item href="part77.htm" id="part77-htm" media-type="application/xhtml+xml"/>
+    <item href="part78.htm" id="part78-htm" media-type="application/xhtml+xml"/>
+    <item href="part79.htm" id="part79-htm" media-type="application/xhtml+xml"/>
+    <item href="part80.htm" id="part80-htm" media-type="application/xhtml+xml"/>
+    <item href="part81.htm" id="part81-htm" media-type="application/xhtml+xml"/>
+    <item href="part82.htm" id="part82-htm" media-type="application/xhtml+xml"/>
+    <item href="part83.htm" id="part83-htm" media-type="application/xhtml+xml"/>
+    <item href="part84.htm" id="part84-htm" media-type="application/xhtml+xml"/>
+    <item href="part85.htm" id="part85-htm" media-type="application/xhtml+xml"/>
+    <item href="part86.htm" id="part86-htm" media-type="application/xhtml+xml"/>
+    <item href="part87.htm" id="part87-htm" media-type="application/xhtml+xml"/>
+    <item href="part88.htm" id="part88-htm" media-type="application/xhtml+xml"/>
+    <item href="part89.htm" id="part89-htm" media-type="application/xhtml+xml"/>
+    <item href="part90.htm" id="part90-htm" media-type="application/xhtml+xml"/>
+    <item href="part91.htm" id="part91-htm" media-type="application/xhtml+xml"/>
+    <item href="part92.htm" id="part92-htm" media-type="application/xhtml+xml"/>
+    <item href="part93.htm" id="part93-htm" media-type="application/xhtml+xml"/>
+    <item href="part94.htm" id="part94-htm" media-type="application/xhtml+xml"/>
+    <item href="part95.htm" id="part95-htm" media-type="application/xhtml+xml"/>
+    <item href="part96.htm" id="part96-htm" media-type="application/xhtml+xml"/>
+    <item href="part97.htm" id="part97-htm" media-type="application/xhtml+xml"/>
+    <item href="images/img001.jpg" id="images-img001-jpg" media-type="image/jpeg"/>
+    <item href="part98.htm" id="part98-htm" media-type="application/xhtml+xml"/>
+    <item href="images/img002.jpg" id="images-img002-jpg" media-type="image/jpeg"/>
+    <item href="part99.htm" id="part99-htm" media-type="application/xhtml+xml"/>
+    <item href="part100.htm" id="part100-htm" media-type="application/xhtml+xml"/>
+    <item href="images/img003.jpg" id="images-img003-jpg" media-type="image/jpeg"/>
+    <item href="images/img004.jpg" id="images-img004-jpg" media-type="image/jpeg"/>
+    <item href="mention.html" id="mention-html" media-type="application/xhtml+xml"/>
+    <!--from_template-->
+    <item href="content.css" id="content_css" media-type="text/css"/>
+    <!--from_template-->
+    <item href="cover.css" id="cover_css" media-type="text/css"/>
+    <!--from_template-->
+    <item href="fonts/timesbi.ttf" id="timesbi" media-type="application/font-tdpfr"/>
+    <!--from_template-->
+    <item href="fonts/timesi.ttf" id="timesi" media-type="application/font-tdpfr"/>
+    <!--from_template-->
+    <item href="fonts/times.ttf" id="times" media-type="application/font-tdpfr"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-BoldItalic.otf" id="AGaramondPro-BoldItalic" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Italic.otf" id="AGaramondPro-Italic" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Bold.otf" id="AGaramondPro-Bold" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/AGaramondPro-Regular.otf" id="AGaramondPro-Regular" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-BoldItalic.otf" id="JansonTextLTStd-BoldItalic" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Italic.otf" id="JansonTextLTStd-Italic" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Bold.otf" id="JansonTextLTStd-Bold" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="fonts/JansonTextLTStd-Roman.otf" id="JansonTextLTStd-Roman" media-type="application/x-font-opentype"/>
+    <!--from_template-->
+    <item href="images/lg_tiret.jpg" id="lg_tiret" media-type="image/jpeg"/>
+    <!--from_template-->
+    <item href="fonts/timesbd.ttf" id="timesbd_ttf" media-type="application/font-tdpfr"/>
+    <item href="images/cover.jpg" id="cover" media-type="image/jpeg"/>
+    <item href="titlepage.xhtml" id="titlepage" media-type="application/xhtml+xml"/>
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage"/>
+    <itemref idref="copyright-html"/>
+    <itemref idref="titre-html"/>
+    <itemref idref="ident-html"/>
+    <itemref idref="sommaire-html"/>
+    <itemref idref="part1-htm"/>
+    <itemref idref="part2-htm"/>
+    <itemref idref="part3-htm"/>
+    <itemref idref="part4-htm"/>
+    <itemref idref="part5-htm"/>
+    <itemref idref="part6-htm"/>
+    <itemref idref="part7-htm"/>
+    <itemref idref="part8-htm"/>
+    <itemref idref="part9-htm"/>
+    <itemref idref="part10-htm"/>
+    <itemref idref="part11-htm"/>
+    <itemref idref="part12-htm"/>
+    <itemref idref="part13-htm"/>
+    <itemref idref="part14-htm"/>
+    <itemref idref="part15-htm"/>
+    <itemref idref="part16-htm"/>
+    <itemref idref="part17-htm"/>
+    <itemref idref="part18-htm"/>
+    <itemref idref="part19-htm"/>
+    <itemref idref="part20-htm"/>
+    <itemref idref="part21-htm"/>
+    <itemref idref="part22-htm"/>
+    <itemref idref="part23-htm"/>
+    <itemref idref="part24-htm"/>
+    <itemref idref="part25-htm"/>
+    <itemref idref="part26-htm"/>
+    <itemref idref="part27-htm"/>
+    <itemref idref="part28-htm"/>
+    <itemref idref="part29-htm"/>
+    <itemref idref="part30-htm"/>
+    <itemref idref="part31-htm"/>
+    <itemref idref="part32-htm"/>
+    <itemref idref="part33-htm"/>
+    <itemref idref="part34-htm"/>
+    <itemref idref="part35-htm"/>
+    <itemref idref="part36-htm"/>
+    <itemref idref="part37-htm"/>
+    <itemref idref="part38-htm"/>
+    <itemref idref="part39-htm"/>
+    <itemref idref="part40-htm"/>
+    <itemref idref="part41-htm"/>
+    <itemref idref="part42-htm"/>
+    <itemref idref="part43-htm"/>
+    <itemref idref="part44-htm"/>
+    <itemref idref="part45-htm"/>
+    <itemref idref="part46-htm"/>
+    <itemref idref="part47-htm"/>
+    <itemref idref="part48-htm"/>
+    <itemref idref="part49-htm"/>
+    <itemref idref="part50-htm"/>
+    <itemref idref="part51-htm"/>
+    <itemref idref="part52-htm"/>
+    <itemref idref="part53-htm"/>
+    <itemref idref="part54-htm"/>
+    <itemref idref="part55-htm"/>
+    <itemref idref="part56-htm"/>
+    <itemref idref="part57-htm"/>
+    <itemref idref="part58-htm"/>
+    <itemref idref="part59-htm"/>
+    <itemref idref="part60-htm"/>
+    <itemref idref="part61-htm"/>
+    <itemref idref="part62-htm"/>
+    <itemref idref="part63-htm"/>
+    <itemref idref="part64-htm"/>
+    <itemref idref="part65-htm"/>
+    <itemref idref="part66-htm"/>
+    <itemref idref="part67-htm"/>
+    <itemref idref="part68-htm"/>
+    <itemref idref="part69-htm"/>
+    <itemref idref="part70-htm"/>
+    <itemref idref="part71-htm"/>
+    <itemref idref="part72-htm"/>
+    <itemref idref="part73-htm"/>
+    <itemref idref="part74-htm"/>
+    <itemref idref="part75-htm"/>
+    <itemref idref="part76-htm"/>
+    <itemref idref="part77-htm"/>
+    <itemref idref="part78-htm"/>
+    <itemref idref="part79-htm"/>
+    <itemref idref="part80-htm"/>
+    <itemref idref="part81-htm"/>
+    <itemref idref="part82-htm"/>
+    <itemref idref="part83-htm"/>
+    <itemref idref="part84-htm"/>
+    <itemref idref="part85-htm"/>
+    <itemref idref="part86-htm"/>
+    <itemref idref="part87-htm"/>
+    <itemref idref="part88-htm"/>
+    <itemref idref="part89-htm"/>
+    <itemref idref="part90-htm"/>
+    <itemref idref="part91-htm"/>
+    <itemref idref="part92-htm"/>
+    <itemref idref="part93-htm"/>
+    <itemref idref="part94-htm"/>
+    <itemref idref="part95-htm"/>
+    <itemref idref="part96-htm"/>
+    <itemref idref="part97-htm"/>
+    <itemref idref="part98-htm"/>
+    <itemref idref="part99-htm"/>
+    <itemref idref="part100-htm"/>
+    <itemref idref="mention-html"/>
+  </spine>
+  <guide>
+    <reference href="sommaire.html" title="Sommaire" type="toc"/>
+    <reference href="titlepage.xhtml" title="Couverture" type="cover"/>
+  </guide>
+</package>

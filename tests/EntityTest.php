@@ -38,24 +38,24 @@ it('can use EbookEntity', function () {
     $ebook->setPagesCount(4);
     $ebook->setExtras($extras);
 
-    expect($ebook->title())->toBe('title');
-    expect($ebook->authors())->toBeArray();
-    expect($ebook->description())->toBe('description');
-    expect($ebook->extras())->toBe($extras);
-    expect($ebook->publisher())->toBe('publisher');
-    expect($ebook->identifiers())->toBeArray();
-    expect($ebook->publishDate()->format('Y-m-d H:i:s'))->toBe('1980-01-13 21:00:00');
-    expect($ebook->language())->toBe('fr');
-    expect($ebook->tags())->toBe([
+    expect($ebook->getTitle())->toBe('title');
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getDescription())->toBe('description');
+    expect($ebook->getExtras())->toBe($extras);
+    expect($ebook->getPublisher())->toBe('publisher');
+    expect($ebook->getIdentifiers())->toBeArray();
+    expect($ebook->getPublishDate()->format('Y-m-d H:i:s'))->toBe('1980-01-13 21:00:00');
+    expect($ebook->getLanguage())->toBe('fr');
+    expect($ebook->getTags())->toBe([
         'tag',
     ]);
-    expect($ebook->identifiers()['amazon']->value())->toBe('identifierAmazon');
-    expect($ebook->identifiers()['google']->value())->toBe('identifierGoogle');
-    expect($ebook->identifiers()['isbn10']->value())->toBe('identifierIsbn10');
-    expect($ebook->identifiers()['isbn13']->value())->toBe('identifierIsbn13');
-    expect($ebook->series())->toBe('series');
-    expect($ebook->volume())->toBe(1);
-    expect($ebook->pagesCount())->toBe(4);
+    expect($ebook->getIdentifiers()['amazon']->getValue())->toBe('identifierAmazon');
+    expect($ebook->getIdentifiers()['google']->getValue())->toBe('identifierGoogle');
+    expect($ebook->getIdentifiers()['isbn10']->getValue())->toBe('identifierIsbn10');
+    expect($ebook->getIdentifiers()['isbn13']->getValue())->toBe('identifierIsbn13');
+    expect($ebook->getSeries())->toBe('series');
+    expect($ebook->getVolume())->toBe(1);
+    expect($ebook->getPagesCount())->toBe(4);
 
     expect($ebook->toArray())->toBeArray();
     expect($ebook->toJson())->toBeString();
@@ -86,8 +86,8 @@ it('can use BookContributor', function (string $content, string $role) {
 it('can use BookAuthor', function (string $name, string $role) {
     $item = new BookAuthor($name, $role);
 
-    expect($item->name())->toBe($name);
-    expect($item->role())->toBe($role);
+    expect($item->getName())->toBe($name);
+    expect($item->getRole())->toBe($role);
     expect($item->toArray())->toBe([
         'name' => $name,
         'role' => $role,
@@ -107,15 +107,15 @@ it('can use BookAuthor', function (string $name, string $role) {
 it('can use BookIdentifier', function (string $value, string $scheme) {
     $item = new BookIdentifier($value, $scheme);
 
-    expect($item->value())->toBe($value);
-    expect($item->scheme())->toBe($scheme);
+    expect($item->getValue())->toBe($value);
+    expect($item->getScheme())->toBe($scheme);
     expect($item->toArray())->toBe([
         'value' => $value,
         'scheme' => $scheme,
     ]);
     expect($item->__toString())->toBe("{$value} {$scheme}");
     if (str_contains($scheme, 'isbn')) {
-        expect($item->parse()->scheme())->toBe($scheme);
+        expect($item->parse()->getScheme())->toBe($scheme);
     }
 })->with([
     [

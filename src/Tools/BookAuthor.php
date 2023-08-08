@@ -10,12 +10,12 @@ class BookAuthor
     ) {
     }
 
-    public function name(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function role(): ?string
+    public function getRole(): ?string
     {
         return $this->role;
     }

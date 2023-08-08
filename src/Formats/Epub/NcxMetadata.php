@@ -43,11 +43,11 @@ class NcxMetadata
         $self->navPoints = $self->setNavPoints();
 
         if (is_array($self->navPoints)) {
-            usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->playOrder() <=> $b->playOrder());
+            usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->getPlayOrder() <=> $b->getPlayOrder());
         }
 
-        $self->version = $xml->rootAttribute('version');
-        $self->lang = $xml->rootAttribute('lang');
+        $self->version = $xml->getRootAttribute('version');
+        $self->lang = $xml->getRootAttribute('lang');
 
         return $self;
     }
@@ -57,7 +57,7 @@ class NcxMetadata
      */
     private function setHead(): ?array
     {
-        $ncx = $this->xml->content();
+        $ncx = $this->xml->getContent();
 
         if (! array_key_exists('head', $ncx)) {
             return null;
@@ -70,7 +70,7 @@ class NcxMetadata
         $head = [];
 
         foreach ($ncx['head']['meta'] as $item) {
-            $attributes = XmlReader::getAttributes($item) ?? null;
+            $attributes = XmlReader::parseAttributes($item) ?? null;
 
             if (! $attributes) {
                 continue;
@@ -103,12 +103,12 @@ class NcxMetadata
     /**
      * @return NcxMetadataHead[]|null
      */
-    public function head(): ?array
+    public function getHead(): ?array
     {
         return $this->head;
     }
 
-    public function docTitle(): ?string
+    public function getDocTitle(): ?string
     {
         return $this->docTitle;
     }
@@ -116,17 +116,17 @@ class NcxMetadata
     /**
      * @return NcxMetadataNavPoint[]|null
      */
-    public function navPoints(): ?array
+    public function getNavPoints(): ?array
     {
         return $this->navPoints;
     }
 
-    public function version(): ?string
+    public function getVersion(): ?string
     {
         return $this->version;
     }
 
-    public function lang(): ?string
+    public function getLang(): ?string
     {
         return $this->lang;
     }
@@ -170,12 +170,12 @@ class NcxMetadataHead
         return $self;
     }
 
-    public function name(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function content(): ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -220,22 +220,22 @@ class NcxMetadataNavPoint
         return $self;
     }
 
-    public function id(): ?string
+    public function getId(): ?string
     {
         return $this->id;
     }
 
-    public function playOrder(): ?int
+    public function getPlayOrder(): ?int
     {
         return $this->playOrder;
     }
 
-    public function label(): ?string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    public function src(): ?string
+    public function getSrc(): ?string
     {
         return $this->src;
     }

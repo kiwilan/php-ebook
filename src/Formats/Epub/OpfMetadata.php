@@ -69,8 +69,8 @@ class OpfMetadata
         $xml = XmlReader::make($content);
         $self = new self($xml);
 
-        $content = $xml->content();
-        $self->epubVersion = $self->xml->rootAttribute('version');
+        $content = $xml->getContent();
+        $self->epubVersion = $self->xml->getRootAttribute('version');
         $metadata = $content['metadata'] ?? [];
         $manifest = $content['manifest'] ?? [];
         $spine = $content['spine'] ?? [];
@@ -120,7 +120,7 @@ class OpfMetadata
 
     private function parseNode(mixed $core): ?string
     {
-        $value = XmlReader::getContent($core);
+        $value = XmlReader::parseContent($core);
 
         if (! is_string($value)) {
             return null;
@@ -145,7 +145,7 @@ class OpfMetadata
         $extensionsAllowed = ['jpg', 'jpeg', 'png'];
 
         foreach ($core as $item) {
-            $attributes = XmlReader::getAttributes($item);
+            $attributes = XmlReader::parseAttributes($item);
             $id = $attributes['id'] ?? null;
 
             if ($id && str_contains($id, 'cover')) {
@@ -211,32 +211,32 @@ class OpfMetadata
         return $files;
     }
 
-    public function metadata(): array
+    public function getMetadata(): array
     {
         return $this->metadata;
     }
 
-    public function manifest(): array
+    public function getManifest(): array
     {
         return $this->manifest;
     }
 
-    public function spine(): array
+    public function getSpine(): array
     {
         return $this->spine;
     }
 
-    public function guide(): array
+    public function getGuide(): array
     {
         return $this->guide;
     }
 
-    public function epubVersion(): ?int
+    public function getEpubVersion(): ?int
     {
         return $this->epubVersion;
     }
 
-    public function dcTitle(): ?string
+    public function getDcTitle(): ?string
     {
         return $this->dcTitle;
     }
@@ -244,7 +244,7 @@ class OpfMetadata
     /**
      * @return BookAuthor[]
      */
-    public function dcCreators(): array
+    public function getDcCreators(): array
     {
         return $this->dcCreators;
     }
@@ -252,17 +252,17 @@ class OpfMetadata
     /**
      * @return BookContributor[]
      */
-    public function dcContributors(): array
+    public function getDcContributors(): array
     {
         return $this->dcContributors;
     }
 
-    public function dcDescription(): ?string
+    public function getDcDescription(): ?string
     {
         return $this->dcDescription;
     }
 
-    public function dcPublisher(): ?string
+    public function getDcPublisher(): ?string
     {
         return $this->dcPublisher;
     }
@@ -270,12 +270,12 @@ class OpfMetadata
     /**
      * @return BookIdentifier[]
      */
-    public function dcIdentifiers(): array
+    public function getDcIdentifiers(): array
     {
         return $this->dcIdentifiers;
     }
 
-    public function dcDate(): ?DateTime
+    public function getDcDate(): ?DateTime
     {
         return $this->dcDate;
     }
@@ -283,12 +283,12 @@ class OpfMetadata
     /**
      * @return string[]
      */
-    public function dcSubject(): array
+    public function getDcSubject(): array
     {
         return $this->dcSubject;
     }
 
-    public function dcLanguage(): ?string
+    public function getDcLanguage(): ?string
     {
         return $this->dcLanguage;
     }
@@ -296,12 +296,12 @@ class OpfMetadata
     /**
      * @return BookMeta[]
      */
-    public function meta(): array
+    public function getMeta(): array
     {
         return $this->meta;
     }
 
-    public function coverPath(): ?string
+    public function getCoverPath(): ?string
     {
         return $this->coverPath;
     }
@@ -309,7 +309,7 @@ class OpfMetadata
     /**
      * @return string[]
      */
-    public function dcRights(): array
+    public function getDcRights(): array
     {
         return $this->dcRights;
     }
@@ -317,7 +317,7 @@ class OpfMetadata
     /**
      * @return string[]
      */
-    public function contentFiles(): array
+    public function getContentFiles(): array
     {
         return $this->contentFiles;
     }
@@ -349,7 +349,7 @@ class OpfMetadata
             return null;
         }
 
-        $core = XmlReader::getContent($core) ?? null;
+        $core = XmlReader::parseContent($core);
 
         try {
             $date = new DateTime($core, new DateTimeZone('UTC'));
@@ -379,8 +379,8 @@ class OpfMetadata
         $items = [];
 
         foreach ($core as $item) {
-            $name = XmlReader::getContent($item);
-            $attributes = XmlReader::getAttributes($item);
+            $name = XmlReader::parseContent($item);
+            $attributes = XmlReader::parseAttributes($item);
             $items[$name] = new BookAuthor(
                 name: $name,
                 role: $attributes['role'] ?? null,
@@ -409,8 +409,8 @@ class OpfMetadata
                 $item = ['@content' => $item];
             }
             $items[] = new BookContributor(
-                content: XmlReader::getContent($item),
-                role: XmlReader::getAttributes($item)['role'] ?? null,
+                content: XmlReader::parseContent($item),
+                role: XmlReader::parseAttributes($item)['role'] ?? null,
             );
         }
 
@@ -459,14 +459,14 @@ class OpfMetadata
         $items = [];
 
         foreach ($core as $item) {
-            $value = XmlReader::getContent($item) ?? null;
-            $scheme = XmlReader::getAttributes($item)['scheme'] ?? null;
+            $value = XmlReader::parseContent($item);
+            $scheme = XmlReader::parseAttributes($item)['scheme'] ?? null;
             $identifier = new BookIdentifier(
                 value: $value,
                 scheme: $scheme,
             );
             $identifier->parse();
-            $items[$identifier->scheme()] = $identifier;
+            $items[$identifier->getScheme()] = $identifier;
         }
 
         return $items;
@@ -507,8 +507,8 @@ class OpfMetadata
         $isMultiple = array_key_exists(0, $items);
 
         if (! $isMultiple) {
-            $content = XmlReader::getContent($items) ?? null;
-            $attr = XmlReader::getAttributes($items) ?? null;
+            $content = XmlReader::parseContent($items);
+            $attr = XmlReader::parseAttributes($items);
 
             // Check if bad multiple creators `Jean M. Auel, Philippe Rouard` exists
             if (str_contains($content, ',')) {
@@ -564,7 +564,7 @@ class OpfMetadata
 
     public function __toString(): string
     {
-        $creators = array_map(fn (BookAuthor $creator) => $creator->name(), $this->dcCreators);
+        $creators = array_map(fn (BookAuthor $creator) => $creator->getName(), $this->dcCreators);
         $creators = implode(', ', $creators);
 
         return "{$this->dcTitle} by {$creators}";

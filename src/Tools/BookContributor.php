@@ -5,9 +5,10 @@ namespace Kiwilan\Ebook\Tools;
 class BookContributor
 {
     public function __construct(
-        protected ?string $content = null,
+        protected mixed $content = null,
         protected ?string $role = null,
     ) {
+        $this->content = BookMeta::parse($this->content);
     }
 
     public function content(): ?string
