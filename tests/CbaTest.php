@@ -15,8 +15,8 @@ it('can parse cba', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
-    expect($ebook->format())->toBe(EbookFormatEnum::CBA);
-    expect($ebook->path())->toBe($path);
+    expect($ebook->getFormat())->toBe(EbookFormatEnum::CBA);
+    expect($ebook->getpath())->toBe($path);
 })->with([...CBA_ITEMS, CBZ_CBAM]);
 
 it('can parse no metadata', function () {
@@ -29,36 +29,36 @@ it('can parse ComicInfo basic', function () {
     $metadata = XmlReader::make(file_get_contents(COMIC_INFO_BASIC));
     $cba = CbamMetadata::make($metadata);
 
-    expect($cba->title())->toBe('Grise Bouille, Tome I');
-    expect($cba->series())->toBe('Grise Bouille');
-    expect($cba->number())->toBe(1);
-    expect($cba->writers())->toBeArray()
+    expect($cba->getTitle())->toBe('Grise Bouille, Tome I');
+    expect($cba->getSeries())->toBe('Grise Bouille');
+    expect($cba->getNumber())->toBe(1);
+    expect($cba->getWriters())->toBeArray()
         ->toHaveCount(1)
         ->toContain('Simon « Gee » Giraudot');
-    expect($cba->publisher())->toBe('Des livres en Communs (Framasoft)');
-    expect($cba->language())->toBe('fr');
+    expect($cba->getPublisher())->toBe('Des livres en Communs (Framasoft)');
+    expect($cba->getLanguage())->toBe('fr');
 });
 
 it('can parse ComicInfo basic cba book', function (string $path) {
     $ebook = Ebook::read($path);
 
-    expect($ebook->title())->toBe('Grise Bouille, Tome I');
-    expect($ebook->series())->toBe('Transmetropolitain');
-    expect($ebook->volume())->toBe(1);
-    expect($ebook->authors())->toBeArray();
-    expect($ebook->authors())->toHaveCount(1);
-    expect($ebook->authors()[0]->name())->toBe('Simon « Gee » Giraudot');
-    expect($ebook->publisher())->toBe('Des livres en Communs (Framasoft)');
-    expect($ebook->language())->toBe('fr');
+    expect($ebook->getTitle())->toBe('Grise Bouille, Tome I');
+    expect($ebook->getSeries())->toBe('Transmetropolitain');
+    expect($ebook->getVolume())->toBe(1);
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getAuthors())->toHaveCount(1);
+    expect($ebook->getAuthors()[0]->getName())->toBe('Simon « Gee » Giraudot');
+    expect($ebook->getPublisher())->toBe('Des livres en Communs (Framasoft)');
+    expect($ebook->getLanguage())->toBe('fr');
 })->with(CBA_ITEMS);
 
 it('can extract cba cover', function (string $path) {
     $ebook = Ebook::read($path);
 
     $path = 'tests/output/cover-cba.jpg';
-    file_put_contents($path, $ebook->cover());
+    file_put_contents($path, $ebook->getCover());
 
-    expect($ebook->cover()->content())->toBeString();
+    expect($ebook->getCover()->getContent())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 })->with([...CBA_ITEMS, CBZ_CBAM]);
@@ -67,28 +67,28 @@ it('can parse ComicMeta', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
-    expect($ebook->format())->toBe(EbookFormatEnum::CBA);
-    expect($ebook->path())->toBe($path);
+    expect($ebook->getFormat())->toBe(EbookFormatEnum::CBA);
+    expect($ebook->getpath())->toBe($path);
     expect($ebook->hasMetadata())->toBeTrue();
 
-    expect($ebook->title())->toBe('You Had One Job');
-    expect($ebook->series())->toBe('Fantastic Four');
-    expect($ebook->volume())->toBe(22);
-    expect($ebook->authors())->toBeArray();
-    expect($ebook->authorMain()->name())->toBe('Dan Slott');
-    expect($ebook->authors())->toHaveCount(12);
-    expect($ebook->authors()[0]->name())->toBe('Dan Slott');
-    expect($ebook->publisher())->toBe('Marvel');
-    expect($ebook->language())->toBe('en');
-    expect($ebook->description())->toBeString();
+    expect($ebook->getTitle())->toBe('You Had One Job');
+    expect($ebook->getSeries())->toBe('Fantastic Four');
+    expect($ebook->getVolume())->toBe(22);
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getAuthorMain()->getName())->toBe('Dan Slott');
+    expect($ebook->getAuthors())->toHaveCount(12);
+    expect($ebook->getAuthors()[0]->getName())->toBe('Dan Slott');
+    expect($ebook->getPublisher())->toBe('Marvel');
+    expect($ebook->getLanguage())->toBe('en');
+    expect($ebook->getDescription())->toBeString();
 
     $date = new DateTime('2020-10-01');
-    expect($ebook->publishDate()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
-    expect($ebook->pagesCount())->toBe(24);
+    expect($ebook->getPublishDate()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
+    expect($ebook->getPagesCount())->toBe(24);
 
-    expect($ebook->extras())->toBeArray();
+    expect($ebook->getExtras())->toBeArray();
     /** @var ComicMeta $comicMeta */
-    $comicMeta = $ebook->extras()['comicMeta'];
+    $comicMeta = $ebook->getExtras()['comicMeta'];
 
     expect($comicMeta)->toBeInstanceOf(ComicMeta::class);
     expect($comicMeta->editors())->toBeArray();
@@ -115,67 +115,67 @@ it('can parse ComicMeta', function (string $path) {
 
 it('can parse CbamMetadata', function (string $path) {
     $ebook = Ebook::read($path);
-    $cbam = $ebook->metadata()->cba()?->cbam();
+    $cbam = $ebook->getMetadata()->getCba()?->getCbam();
 
     if (! $cbam) {
         throw new Exception('CBAM is null');
     }
 
     expect($cbam)->toBeInstanceOf(CbamMetadata::class);
-    expect($cbam->title())->toBe('You Had One Job');
-    expect($cbam->series())->toBe('Fantastic Four');
-    expect($cbam->number())->toBe(22);
-    expect($cbam->writers())->toBeArray();
-    expect($cbam->writers())->toHaveCount(1);
-    expect($cbam->writers()[0])->toBe('Dan Slott');
-    expect($cbam->publisher())->toBe('Marvel');
-    expect($cbam->language())->toBe('en');
-    expect($cbam->summary())->toBeString();
+    expect($cbam->getTitle())->toBe('You Had One Job');
+    expect($cbam->getSeries())->toBe('Fantastic Four');
+    expect($cbam->getNumber())->toBe(22);
+    expect($cbam->getWriters())->toBeArray();
+    expect($cbam->getWriters())->toHaveCount(1);
+    expect($cbam->getWriters()[0])->toBe('Dan Slott');
+    expect($cbam->getPublisher())->toBe('Marvel');
+    expect($cbam->getLanguage())->toBe('en');
+    expect($cbam->getSummary())->toBeString();
 
-    expect($cbam->pencillers())->toBeArray();
-    expect($cbam->inkers())->toBeArray();
-    expect($cbam->colorists())->toBeArray();
-    expect($cbam->letterers())->toBeArray();
-    expect($cbam->coverArtists())->toBeArray();
-    expect($cbam->translators())->toBeArray();
+    expect($cbam->getPencillers())->toBeArray();
+    expect($cbam->getInkers())->toBeArray();
+    expect($cbam->getColorists())->toBeArray();
+    expect($cbam->getLetterers())->toBeArray();
+    expect($cbam->getCoverArtists())->toBeArray();
+    expect($cbam->getTranslators())->toBeArray();
 
-    expect($cbam->genres())->toBeArray();
-    expect($cbam->genres())->toHaveCount(1);
+    expect($cbam->getGenres())->toBeArray();
+    expect($cbam->getGenres())->toHaveCount(1);
 
-    expect($cbam->characters())->toBeArray();
-    expect($cbam->teams())->toBeArray();
-    expect($cbam->locations())->toBeArray();
+    expect($cbam->getCharacters())->toBeArray();
+    expect($cbam->getTeams())->toBeArray();
+    expect($cbam->getLocations())->toBeArray();
 
-    expect($cbam->alternateSeries())->toBe('Empyre');
-    expect($cbam->seriesGroup())->toBe('Fantastic Four');
-    expect($cbam->ageRating())->toBe(AgeRatingEnum::TEEN);
-    expect($cbam->manga())->toBe(MangaEnum::NO);
-    expect($cbam->pageCount())->toBe(24);
-    expect($cbam->imprint())->toBe('Vertigo');
-    expect($cbam->web())->toBe('https://comicvine.gamespot.com/fantastic-four-22-you-had-one-job/4000-787351/');
-    expect($cbam->notes())->toBeString();
-    expect($cbam->gtin())->toBeArray();
-    expect($cbam->extras())->toBeArray();
-    expect($cbam->editors())->toBeArray();
-    expect($cbam->scanInformation())->toBeString();
-    expect($cbam->communityRating())->toBeNull();
+    expect($cbam->getAlternateSeries())->toBe('Empyre');
+    expect($cbam->getSeriesGroup())->toBe('Fantastic Four');
+    expect($cbam->getAgeRating())->toBe(AgeRatingEnum::TEEN);
+    expect($cbam->getManga())->toBe(MangaEnum::NO);
+    expect($cbam->getPageCount())->toBe(24);
+    expect($cbam->getImprint())->toBe('Vertigo');
+    expect($cbam->getWeb())->toBe('https://comicvine.gamespot.com/fantastic-four-22-you-had-one-job/4000-787351/');
+    expect($cbam->getNotes())->toBeString();
+    expect($cbam->getGtin())->toBeArray();
+    expect($cbam->getExtras())->toBeArray();
+    expect($cbam->getEditors())->toBeArray();
+    expect($cbam->getScanInformation())->toBeString();
+    expect($cbam->getCommunityRating())->toBeNull();
     expect($cbam->isBlackAndWhite())->toBeFalse();
 
-    expect($cbam->review())->toBeNull();
-    expect($cbam->alternateSeries())->toBeString();
-    expect($cbam->alternateNumber())->toBeNull();
-    expect($cbam->alternateCount())->toBeNull();
-    expect($cbam->count())->toBeNull();
-    expect($cbam->volume())->toBeNull();
-    expect($cbam->storyArc())->toBeNull();
-    expect($cbam->storyArcNumber())->toBeNull();
-    expect($cbam->seriesGroup())->toBeString();
+    expect($cbam->getReview())->toBeNull();
+    expect($cbam->getAlternateSeries())->toBeString();
+    expect($cbam->getAlternateNumber())->toBeNull();
+    expect($cbam->getAlternateCount())->toBeNull();
+    expect($cbam->getCount())->toBeNull();
+    expect($cbam->getVolume())->toBeNull();
+    expect($cbam->getStoryArc())->toBeNull();
+    expect($cbam->getStoryArcNumber())->toBeNull();
+    expect($cbam->getSeriesGroup())->toBeString();
 
-    expect($cbam->mainCharacterOrTeam())->toBeNull();
-    expect($cbam->format())->toBe('CBZ');
+    expect($cbam->getMainCharacterOrTeam())->toBeNull();
+    expect($cbam->getFormat())->toBe('CBZ');
 
     $date = new DateTime('2020-10-01');
-    expect($cbam->date()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
+    expect($cbam->getDate()->format('Y-m-d'))->toBe($date->format('Y-m-d'));
 
     expect($cbam->toArray())->toBeArray();
     expect($cbam->toJson())->toBeString();

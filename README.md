@@ -105,27 +105,27 @@ With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or au
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$ebook->path(); // string => path to ebook
+$ebook->getpath(); // string => path to ebook
 $ebook->filename(); // string => filename of ebook
 $ebook->extension(); // string => extension of ebook
-$ebook->title(); // string
-$ebook->authors(); // BookAuthor[] (`name`: string, `role`: string)
-$ebook->authorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
-$ebook->description(); // ?string
-$ebook->copyright(); // ?string
-$ebook->publisher(); // ?string
-$ebook->identifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
-$ebook->publishDate(); // ?DateTime
-$ebook->language(); // ?string
-$ebook->tags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
-$ebook->series(); // ?string => `calibre:series` in EPUB, `series` in CBA
-$ebook->volume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
+$ebook->getTitle(); // string
+$ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
+$ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
+$ebook->getDescription(); // ?string
+$ebook->getCopyright(); // ?string
+$ebook->getPublisher(); // ?string
+$ebook->getIdentifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
+$ebook->getPublishDate(); // ?DateTime
+$ebook->getLanguage(); // ?string
+$ebook->getTags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
+$ebook->getSeries(); // ?string => `calibre:series` in EPUB, `series` in CBA
+$ebook->getVolume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
 ```
 
 For pages count, you can use these methods:
 
 ```php
-$ebook->pagesCount(); // ?int => estimated pages count (250 words by page) in `EPUB`, `pageCount` in PDF, `pageCount` in CBA
+$ebook->getPagesCount(); // ?int => estimated pages count (250 words by page) in `EPUB`, `pageCount` in PDF, `pageCount` in CBA
 $ebook->wordsCount(); // ?int => words count in `EPUB`
 ```
 
@@ -136,17 +136,17 @@ $ebook->wordsCount(); // ?int => words count in `EPUB`
 Some metadata can be stored into `extras()` method, without typing, directly from metadata.
 
 ```php
-$ebook->extras(); // array<string, mixed> => additional data for book
+$ebook->getExtras(); // array<string, mixed> => additional data for book
 $ebook->extra(string $key); // mixed => safely extract data from `extras` array
 ```
 
 To get additional data, you can use these methods:
 
 ```php
-$ebook->metadata(); // ?EbookMetadata => metadata with parsers
-$ebook->metaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
-$ebook->format(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
-$ebook->cover(); // ?EbookCover => cover of book
+$ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
+$ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
+$ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
+$ebook->getCover(); // ?EbookCover => cover of book
 ```
 
 And to test if some data exists:
@@ -165,7 +165,7 @@ $ebook->hasCover(); // bool => `true` if cover exists
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$metadata = $ebook->metadata();
+$metadata = $ebook->getMetadata();
 
 $metadata->module(); // Used into parsing can be any of `EbookModule::class`
 $metadata->epub(); // `EpubMetadata::class`
@@ -185,7 +185,7 @@ Can be set if book's title is not null.
 
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
-$metaTitle = $ebook->metaTitle(); // ?MetaTitle
+$metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
 $metaTitle->slug(); // string => slugify title, like `the-clan-of-the-cave-bear`
 $metaTitle->slugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`
@@ -205,7 +205,7 @@ Cover can be extracted from ebook.
 
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
-$cover = $ebook->cover(); // ?EbookCover
+$cover = $ebook->getCover(); // ?EbookCover
 
 $cover->path(); // ?string => path to cover
 $cover->content(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
@@ -225,7 +225,7 @@ With `EPUB`, metadata are extracted from `OPF` file, `META-INF/container.xml` fi
 ```php
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$epub = $ebook->metadata()?->epub();
+$epub = $ebook->getMetadata()?->epub();
 
 $epub->container(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
 $epub->opf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}

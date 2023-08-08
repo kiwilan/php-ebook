@@ -53,10 +53,10 @@ class MetaTitle
 
     private function setMetaTitle(Ebook $ebook): static
     {
-        $title = $ebook->title();
-        $language = $ebook->language();
-        $series = $ebook->series();
-        $volume = $ebook->volume();
+        $title = $ebook->getTitle();
+        $language = $ebook->getLanguage();
+        $series = $ebook->getSeries();
+        $volume = $ebook->getVolume();
 
         if (! $title) {
             return $this;
@@ -64,7 +64,7 @@ class MetaTitle
 
         $this->slug = $this->setSlug($title);
         $this->slugSort = $this->generateSortTitle($title, $language);
-        $this->slugLang = $this->generateSlug($title, $ebook->extension(), $language);
+        $this->slugLang = $this->generateSlug($title, $ebook->getExtension(), $language);
 
         $this->slugSortWithSerie = $this->generateSortSerie($title, $series, $volume, $language);
         $this->uniqueFilename = $this->generateUniqueFilename($ebook);
@@ -75,7 +75,7 @@ class MetaTitle
 
         $this->serieSlug = $this->setSlug($series);
         $this->serieSlugSort = $this->generateSortTitle($series, $language);
-        $this->serieSlugLang = $this->generateSlug($series, $ebook->extension(), $language);
+        $this->serieSlugLang = $this->generateSlug($series, $ebook->getExtension(), $language);
 
         return $this;
     }
@@ -83,7 +83,7 @@ class MetaTitle
     /**
      * Get slug of book title, like `the-clan-of-the-cave-bear`.
      */
-    public function slug(): string
+    public function getSlug(): string
     {
         return $this->slug;
     }
@@ -91,7 +91,7 @@ class MetaTitle
     /**
      * Get slug of book title without determiners, like `clan-of-the-cave-bear`.
      */
-    public function slugSort(): string
+    public function getSlugSort(): string
     {
         return $this->slugSort;
     }
@@ -99,7 +99,7 @@ class MetaTitle
     /**
      * Get slug of book title with language and with type, like `the-clan-of-the-cave-bear-epub-en`.
      */
-    public function slugLang(): string
+    public function getSlugLang(): string
     {
         return $this->slugLang;
     }
@@ -107,7 +107,7 @@ class MetaTitle
     /**
      * Get slug of serie title, like `earths-children`.
      */
-    public function serieSlug(): ?string
+    public function getSerieSlug(): ?string
     {
         return $this->serieSlug;
     }
@@ -115,7 +115,7 @@ class MetaTitle
     /**
      * Get slug of serie title without determiners, like `earths-children`.
      */
-    public function serieSlugSort(): ?string
+    public function getSerieSlugSort(): ?string
     {
         return $this->serieSlugSort;
     }
@@ -123,7 +123,7 @@ class MetaTitle
     /**
      * Get slug of serie title with language and with type, like `earths-children-epub-en`.
      */
-    public function serieSlugLang(): ?string
+    public function getSerieSlugLang(): ?string
     {
         return $this->serieSlugLang;
     }
@@ -132,7 +132,7 @@ class MetaTitle
      * Get slug of book title with serie title, like `earths-children-01_clan-of-the-cave-bear`.
      * If series is null, book's title will be used like `clan-of-the-cave-bear`.
      */
-    public function slugSortWithSerie(): string
+    public function getSlugSortWithSerie(): string
     {
         return $this->slugSortWithSerie;
     }
@@ -140,7 +140,7 @@ class MetaTitle
     /**
      * Get unique filename, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`.
      */
-    public function uniqueFilename(): string
+    public function getUniqueFilename(): string
     {
         return $this->uniqueFilename;
     }
@@ -211,22 +211,22 @@ class MetaTitle
      */
     private function generateUniqueFilename(Ebook $ebook): string
     {
-        $language = $this->setSlug($ebook->language());
+        $language = $this->setSlug($ebook->getLanguage());
         $filename = "{$language}";
-        if ($ebook->series()) {
-            $series = $this->setSlug($ebook->series());
+        if ($ebook->getSeries()) {
+            $series = $this->setSlug($ebook->getSeries());
             $filename .= "-{$series}";
         }
-        if ($ebook->volume()) {
-            $volume = (string) $ebook->volume();
+        if ($ebook->getVolume()) {
+            $volume = (string) $ebook->getVolume();
             $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
             $filename .= "-{$volume}";
         }
-        $title = $this->setSlug($ebook->title());
+        $title = $this->setSlug($ebook->getTitle());
         $filename .= "-{$title}";
-        $author = $this->setSlug($ebook->authorMain());
+        $author = $this->setSlug($ebook->getAuthorMain());
         $filename .= "-{$author}";
-        $format = $this->setSlug($ebook->extension());
+        $format = $this->setSlug($ebook->getExtension());
         $filename .= "-{$format}";
 
         $filename = $this->setSlug($filename);

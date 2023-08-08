@@ -17,7 +17,7 @@ class MobiMetadata extends EbookModule
     public static function make(Ebook $ebook): EbookModule
     {
         $self = new self($ebook);
-        $self->parser = MobiParser::make($ebook->path());
+        $self->parser = MobiParser::make($ebook->getPath());
 
         return $self;
     }

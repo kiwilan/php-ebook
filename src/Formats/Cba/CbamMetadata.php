@@ -210,7 +210,7 @@ class CbamMetadata extends CbaTemplate
         }
 
         if (is_array($string)) {
-            $string = XmlReader::getContent($string) ?? null;
+            $string = XmlReader::parseContent($string);
         }
 
         return $this->normalizeString($string);
@@ -241,7 +241,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function writers(): array
+    public function getWriters(): array
     {
         return $this->writers;
     }
@@ -249,7 +249,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function pencillers(): array
+    public function getPencillers(): array
     {
         return $this->pencillers;
     }
@@ -257,7 +257,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function inkers(): array
+    public function getInkers(): array
     {
         return $this->inkers;
     }
@@ -265,7 +265,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function colorists(): array
+    public function getColorists(): array
     {
         return $this->colorists;
     }
@@ -273,7 +273,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function letterers(): array
+    public function getLetterers(): array
     {
         return $this->letterers;
     }
@@ -281,7 +281,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function coverArtists(): array
+    public function getCoverArtists(): array
     {
         return $this->coverArtists;
     }
@@ -289,7 +289,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function translators(): array
+    public function getTranslators(): array
     {
         return $this->translators;
     }
@@ -297,7 +297,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function genres(): array
+    public function getGenres(): array
     {
         return $this->genres;
     }
@@ -305,7 +305,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function characters(): array
+    public function getCharacters(): array
     {
         return $this->characters;
     }
@@ -313,7 +313,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function teams(): array
+    public function getTeams(): array
     {
         return $this->teams;
     }
@@ -321,7 +321,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function locations(): array
+    public function getLocations(): array
     {
         return $this->locations;
     }
@@ -329,7 +329,7 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function gtin(): array
+    public function getGtin(): array
     {
         return $this->gtin;
     }
@@ -337,42 +337,42 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return array<string, string>
      */
-    public function extras(): array
+    public function getExtras(): array
     {
         return $this->extras;
     }
 
-    public function title(): ?string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function series(): ?string
+    public function getSeries(): ?string
     {
         return $this->series;
     }
 
-    public function number(): ?int
+    public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function summary(): ?string
+    public function getSummary(): ?string
     {
         return $this->summary;
     }
 
-    public function date(): ?DateTime
+    public function getDate(): ?DateTime
     {
         return $this->date;
     }
 
-    public function pageCount(): ?int
+    public function getPageCount(): ?int
     {
         return $this->pageCount;
     }
 
-    public function language(): ?string
+    public function getLanguage(): ?string
     {
         return $this->language;
     }
@@ -380,22 +380,22 @@ class CbamMetadata extends CbaTemplate
     /**
      * @return string[]
      */
-    public function editors(): array
+    public function getEditors(): array
     {
         return $this->editors;
     }
 
-    public function publisher(): ?string
+    public function getPublisher(): ?string
     {
         return $this->publisher;
     }
 
-    public function imprint(): ?string
+    public function getImprint(): ?string
     {
         return $this->imprint;
     }
 
-    public function communityRating(): ?float
+    public function getCommunityRating(): ?float
     {
         return $this->communityRating;
     }
@@ -405,82 +405,82 @@ class CbamMetadata extends CbaTemplate
         return $this->isBlackAndWhite;
     }
 
-    public function manga(): ?MangaEnum
+    public function getManga(): ?MangaEnum
     {
         return $this->manga;
     }
 
-    public function ageRating(): ?AgeRatingEnum
+    public function getAgeRating(): ?AgeRatingEnum
     {
         return $this->ageRating;
     }
 
-    public function review(): ?string
+    public function getReview(): ?string
     {
         return $this->review;
     }
 
-    public function mainCharacterOrTeam(): ?string
+    public function getMainCharacterOrTeam(): ?string
     {
         return $this->mainCharacterOrTeam;
     }
 
-    public function alternateSeries(): ?string
+    public function getAlternateSeries(): ?string
     {
         return $this->alternateSeries;
     }
 
-    public function alternateNumber(): ?int
+    public function getAlternateNumber(): ?int
     {
         return $this->alternateNumber;
     }
 
-    public function alternateCount(): ?string
+    public function getAlternateCount(): ?string
     {
         return $this->alternateCount;
     }
 
-    public function count(): ?int
+    public function getCount(): ?int
     {
         return $this->count;
     }
 
-    public function volume(): ?int
+    public function getVolume(): ?int
     {
         return $this->volume;
     }
 
-    public function storyArc(): ?string
+    public function getStoryArc(): ?string
     {
         return $this->storyArc;
     }
 
-    public function storyArcNumber(): ?int
+    public function getStoryArcNumber(): ?int
     {
         return $this->storyArcNumber;
     }
 
-    public function seriesGroup(): ?string
+    public function getSeriesGroup(): ?string
     {
         return $this->seriesGroup;
     }
 
-    public function notes(): ?string
+    public function getNotes(): ?string
     {
         return $this->notes;
     }
 
-    public function scanInformation(): ?string
+    public function getScanInformation(): ?string
     {
         return $this->scanInformation;
     }
 
-    public function web(): ?string
+    public function getWeb(): ?string
     {
         return $this->web;
     }
 
-    public function format(): ?string
+    public function getFormat(): ?string
     {
         return $this->format;
     }

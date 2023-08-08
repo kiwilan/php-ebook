@@ -23,12 +23,18 @@ define('EPUB_OPF_EPUB2', __DIR__.'/media/opf-epub2.opf');
 define('EPUB_OPF_EPUB2_NO_TAGS', __DIR__.'/media/opf-epub2-no-tags.opf');
 define('EPUB_OPF_EPUB3', __DIR__.'/media/opf-epub3.opf');
 define('EPUB_OPF_EPUB3_ALT', __DIR__.'/media/opf-epub3-alt.opf');
+define('EPUB_OPF_INSURGENT', __DIR__.'/media/opf-insurgent.opf');
+define('EPUB_OPF_LAGUERREETERNELLE', __DIR__.'/media/opf-la-guerre-eternelle.opf');
+define('EPUB_OPF_EPEEETMORT', __DIR__.'/media/opf-content-epee-et-mort.opf');
 
 define('EPUB', __DIR__.'/media/test-epub.epub');
 define('EPUB_ONE_TAG', __DIR__.'/media/epub-one-tag.epub');
 define('EPUB_NO_META', __DIR__.'/media/epub-no-meta.epub');
 define('EPUB_MULTIPLE_CREATORS', __DIR__.'/media/epub-multiple-creators.epub');
 define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.epub');
+define('EPUB_NO_CONTAINER', __DIR__.'/media/epub-no-container.epub');
+define('EPUB_NO_OPF', __DIR__.'/media/epub-no-opf.epub');
+define('EPUB_BAD_FILE', __DIR__.'/media/epub-bad-file.epub');
 
 define('STANDARD_EPUB', __DIR__.'/media/alice-lewis-carroll-1.epub');
 define('STANDARD_AZW3', __DIR__.'/media/alice-lewis-carroll-2.azw3');

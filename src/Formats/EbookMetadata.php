@@ -53,37 +53,37 @@ class EbookMetadata
         return $self;
     }
 
-    public function module(): EbookModule
+    public function getModule(): EbookModule
     {
         return $this->module;
     }
 
-    public function epub(): ?EpubMetadata
+    public function getEpub(): ?EpubMetadata
     {
         return $this->epub;
     }
 
-    public function mobi(): ?MobiMetadata
+    public function getMobi(): ?MobiMetadata
     {
         return $this->mobi;
     }
 
-    public function cba(): ?CbaMetadata
+    public function getCba(): ?CbaMetadata
     {
         return $this->cba;
     }
 
-    public function pdf(): ?PdfMetadata
+    public function getPdf(): ?PdfMetadata
     {
         return $this->pdf;
     }
 
-    public function audiobook(): ?AudiobookMetadata
+    public function getAudiobook(): ?AudiobookMetadata
     {
         return $this->audiobook;
     }
 
-    public function type(): ?string
+    public function getType(): ?string
     {
         return $this->type;
     }

@@ -25,17 +25,17 @@ class EpubChapter
         }
 
         $chapters = [];
-        foreach ($ncx->navPoints() as $item) {
-            $htmlItem = self::findByFilename($html, $item->src());
+        foreach ($ncx->getNavPoints() as $item) {
+            $htmlItem = self::findByFilename($html, $item->getSrc());
 
             if (! $htmlItem) {
                 continue;
             }
 
             $chapters[] = new self(
-                $item->label(),
-                $item->src(),
-                $htmlItem->body(),
+                $item->getLabel(),
+                $item->getSrc(),
+                $htmlItem->getBody(),
             );
         }
 
@@ -48,7 +48,7 @@ class EpubChapter
     private static function findByFilename(array $html, string $filename)
     {
         foreach ($html as $item) {
-            if ($filename == $item->filename()) {
+            if ($filename == $item->getFilename()) {
                 return $item;
             }
         }

@@ -23,70 +23,70 @@ class AudiobookMetadata extends EbookModule
 
     private function create(): self
     {
-        $audio = $this->ebook->audio();
+        $audio = $this->ebook->getAudio();
 
         $this->audio = [
-            'title' => $audio->title(),
-            'artist' => $audio->artist(),
-            'albumArtist' => $audio->albumArtist(),
-            'album' => $audio->album(),
-            'genre' => $audio->genre(),
-            'year' => $audio->year(),
-            'trackNumber' => $audio->trackNumber(),
-            'description' => $audio->description(),
-            'comment' => $audio->comment(),
-            'creationDate' => $audio->creationDate(),
-            'composer' => $audio->composer(),
-            'discNumber' => $audio->discNumber(),
+            'title' => $audio->getTitle(),
+            'artist' => $audio->getArtist(),
+            'albumArtist' => $audio->getAlbumArtist(),
+            'album' => $audio->getAlbum(),
+            'genre' => $audio->getGenre(),
+            'year' => $audio->getYear(),
+            'trackNumber' => $audio->getTrackNumber(),
+            'description' => $audio->getDescription(),
+            'comment' => $audio->getComment(),
+            'creationDate' => $audio->getCreationDate(),
+            'composer' => $audio->getComposer(),
+            'discNumber' => $audio->getDiscNumber(),
             'isCompilation' => $audio->isCompilation(),
-            'encoding' => $audio->encoding(),
-            'lyrics' => $audio->lyrics(),
-            'stik' => $audio->stik(),
-            'duration' => $audio->duration(),
+            'encoding' => $audio->getEncoding(),
+            'lyrics' => $audio->getLyrics(),
+            'stik' => $audio->getStik(),
+            'duration' => $audio->getDuration(),
         ];
 
         return $this;
     }
 
-    public function audio(): array
+    public function getAudio(): array
     {
         return $this->audio;
     }
 
     public function toEbook(): Ebook
     {
-        $audio = $this->ebook->audio();
+        $audio = $this->ebook->getAudio();
 
-        $author = new BookAuthor($audio->artist());
+        $author = new BookAuthor($audio->getArtist());
 
         $date = null;
-        if ($audio->creationDate()) {
-            $date = new DateTime($audio->creationDate());
-        } elseif ($audio->year()) {
-            $date = new DateTime("{$audio->year()}-01-01");
+        if ($audio->getCreationDate()) {
+            $date = new DateTime($audio->getCreationDate());
+        } elseif ($audio->getYear()) {
+            $date = new DateTime("{$audio->getYear()}-01-01");
         }
 
-        $description = "{$audio->description()} {$audio->comment()}";
+        $description = "{$audio->getDescription()} {$audio->getComment()}";
         $description = trim($description);
 
-        $this->ebook->setTitle($audio->title());
+        $this->ebook->setTitle($audio->getTitle());
         $this->ebook->setAuthors([$author]);
-        $this->ebook->setPublisher($audio->albumArtist());
+        $this->ebook->setPublisher($audio->getAlbumArtist());
         $this->ebook->setDescription($description);
-        $this->ebook->setTags([$audio->genre()]);
-        // $this->ebook->setLanguage($audio->language());
-        $this->ebook->setSeries($audio->album());
-        $this->ebook->setVolume($audio->trackNumber());
+        $this->ebook->setTags([$audio->getGenre()]);
+        // $this->ebook->setLanguage($audio->getLanguage());
+        $this->ebook->setSeries($audio->getAlbum());
+        $this->ebook->setVolume($audio->getTrackNumber());
         $this->ebook->setPublishDate($date);
-        $this->ebook->setCopyright($audio->encodingBy());
+        $this->ebook->setCopyright($audio->getEncodingBy());
         $this->ebook->setExtras([
-            'composer' => $audio->composer(),
-            'discNumber' => $audio->discNumber(),
+            'composer' => $audio->getComposer(),
+            'discNumber' => $audio->getDiscNumber(),
             'isCompilation' => $audio->isCompilation(),
-            'encoding' => $audio->encoding(),
-            'lyrics' => $audio->lyrics(),
-            'stik' => $audio->stik(),
-            'duration' => $audio->duration(),
+            'encoding' => $audio->getEncoding(),
+            'lyrics' => $audio->getLyrics(),
+            'stik' => $audio->getStik(),
+            'duration' => $audio->getDuration(),
         ]);
 
         $this->ebook->setHasMetadata(true);
@@ -96,16 +96,16 @@ class AudiobookMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        $audio = $this->ebook->audio();
+        $audio = $this->ebook->getAudio();
 
-        return EbookCover::make($audio->cover()->mimeType(), $audio->cover()->content());
+        return EbookCover::make($audio->getCover()->getMimeType(), $audio->getCover()->getContent());
     }
 
     public function toCounts(): Ebook
     {
-        $audio = $this->ebook->audio();
+        $audio = $this->ebook->getAudio();
 
-        $this->ebook->setPagesCount(intval($audio->duration()));
+        $this->ebook->setPagesCount(intval($audio->getDuration()));
 
         return $this->ebook;
     }

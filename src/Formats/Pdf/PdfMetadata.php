@@ -15,16 +15,16 @@ class PdfMetadata extends EbookModule
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
-        $self->meta = $ebook->archive()->pdf();
+        $self->meta = $ebook->getArchive()->getPdf();
 
         return $self;
     }
 
     public function toEbook(): Ebook
     {
-        $this->ebook->setTitle($this->meta->title());
+        $this->ebook->setTitle($this->meta->getTitle());
 
-        $author = $this->meta->author();
+        $author = $this->meta->getAuthor();
         $authors = [];
         if (str_contains($author, ',')) {
             $authors = explode(',', $author);
@@ -44,10 +44,10 @@ class PdfMetadata extends EbookModule
         }
 
         $this->ebook->setAuthors($creators);
-        $this->ebook->setDescription($this->meta->subject());
-        $this->ebook->setPublisher($this->meta->creator());
-        $this->ebook->setTags($this->meta->keywords());
-        $this->ebook->setPublishDate($this->meta->creationDate());
+        $this->ebook->setDescription($this->meta->getSubject());
+        $this->ebook->setPublisher($this->meta->getCreator());
+        $this->ebook->setTags($this->meta->getKeywords());
+        $this->ebook->setPublishDate($this->meta->getCreationDate());
 
         $this->ebook->setHasMetadata(true);
 
@@ -60,16 +60,21 @@ class PdfMetadata extends EbookModule
             return null;
         }
 
-        $file = $this->ebook->archive()->first();
-        $content = $this->ebook->archive()->content($file);
-        $path = $file->path();
+        $file = $this->ebook->getArchive()->getFirst();
+        $content = $this->ebook->getArchive()->getContent($file);
+        $path = $file->getPath();
 
         return EbookCover::make($path, $content);
     }
 
+    public function getMeta(): ?PdfMeta
+    {
+        return $this->meta;
+    }
+
     public function toCounts(): Ebook
     {
-        $this->ebook->setPagesCount($this->ebook->archive()->count());
+        $this->ebook->setPagesCount($this->ebook->getArchive()->getCount());
 
         return $this->ebook;
     }

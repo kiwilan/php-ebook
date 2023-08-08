@@ -11,7 +11,7 @@ it('can create an instance of Ebook', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
-    expect($ebook->path())->toBe($path);
+    expect($ebook->getpath())->toBe($path);
     expect($ebook->toArray())->toBeArray();
     expect($ebook->toJson())->toBeString();
     expect($ebook->__toString())->toBeString();
@@ -21,38 +21,38 @@ it('can create PDF an instance of Ebook', function () {
     $ebook = Ebook::read(PDF);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
-    expect($ebook->path())->toBe(PDF);
+    expect($ebook->getpath())->toBe(PDF);
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
 
 it('can parse ebooks', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
-    expect($ebook->path())->toBe($path);
+    expect($ebook->getpath())->toBe($path);
     expect($ebook->toArray())->toBeArray();
     expect($ebook->toJson())->toBeString();
     expect($ebook->__toString())->toBeString();
 
-    expect($ebook->title())->toBeString();
+    expect($ebook->getTitle())->toBeString();
 })->with(EBOOKS_ITEMS);
 
 it('can parse metadata', function (string $path) {
     $ebook = Ebook::read($path);
 
-    $metadata = $ebook->metadata();
+    $metadata = $ebook->getMetadata();
     expect($metadata)->toBeInstanceOf(EbookMetadata::class);
-    expect($ebook->metaTitle()->uniqueFilename())->toBeString();
+    expect($ebook->getMetaTitle()->getUniqueFilename())->toBeString();
 
     if ($metadata->isEpub()) {
-        expect($metadata->epub())->toBeInstanceOf(EpubMetadata::class);
+        expect($metadata->getEpub())->toBeInstanceOf(EpubMetadata::class);
     }
     if ($metadata->isCba()) {
-        expect($metadata->cba())->toBeInstanceOf(CbaMetadata::class);
+        expect($metadata->getCba())->toBeInstanceOf(CbaMetadata::class);
     }
     if ($metadata->isPdf()) {
-        expect($metadata->pdf())->toBeInstanceOf(PdfMetadata::class);
+        expect($metadata->getPdf())->toBeInstanceOf(PdfMetadata::class);
     }
     if ($metadata->isAudiobook()) {
-        expect($metadata->audiobook())->toBeInstanceOf(AudiobookMetadata::class);
+        expect($metadata->getAudiobook())->toBeInstanceOf(AudiobookMetadata::class);
     }
 })->with([EPUB, CBZ, PDF, AUDIOBOOK]);

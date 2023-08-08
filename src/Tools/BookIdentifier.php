@@ -5,9 +5,10 @@ namespace Kiwilan\Ebook\Tools;
 class BookIdentifier
 {
     public function __construct(
-        protected ?string $value = null,
+        protected mixed $value = null,
         protected ?string $scheme = null,
     ) {
+        $this->value = BookMeta::parse($this->value);
     }
 
     public function parse(): self
@@ -34,12 +35,12 @@ class BookIdentifier
         return strtolower($this->scheme);
     }
 
-    public function value(): ?string
+    public function getValue(): ?string
     {
         return $this->value;
     }
 
-    public function scheme(): ?string
+    public function getScheme(): ?string
     {
         return $this->scheme;
     }
