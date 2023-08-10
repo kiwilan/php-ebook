@@ -71,6 +71,7 @@ class Ebook
         protected ?Audio $audio = null,
         protected bool $isArchive = false,
         protected bool $isAudio = false,
+        protected bool $isBadFile = false,
         protected ?EbookMetadata $metadata = null,
         protected bool $hasMetadata = false,
     ) {
@@ -127,7 +128,13 @@ class Ebook
         }
 
         if ($self->isArchive) {
-            $self->archive = Archive::read($path);
+            try {
+                $archive = Archive::read($path);
+                $self->archive = $archive;
+            } catch (\Throwable $th) {
+                error_log("Error reading archive: {$path}");
+                $self->isBadFile = true;
+            }
         }
 
         if ($self->isAudio) {
@@ -239,6 +246,10 @@ class Ebook
 
     public function toXml(string $path): ?string
     {
+        if ($this->isBadFile) {
+            return null;
+        }
+
         $ebook = $this->archive->find($path);
         $content = $this->archive->getContent($ebook);
 
@@ -414,6 +425,14 @@ class Ebook
     public function isAudio(): bool
     {
         return $this->isAudio;
+    }
+
+    /**
+     * Whether the ebook is a bad file.
+     */
+    public function isBadFile(): bool
+    {
+        return $this->isBadFile;
     }
 
     /**

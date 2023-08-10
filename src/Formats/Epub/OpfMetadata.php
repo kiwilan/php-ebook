@@ -441,7 +441,7 @@ class OpfMetadata
             if (is_string($item)) {
                 $item = ['@content' => $item];
             }
-            $items[] = $item['@content'];
+            $items[] = XmlReader::parseContent($item);
         }
 
         return $items;
@@ -514,7 +514,7 @@ class OpfMetadata
             $attr = XmlReader::parseAttributes($items);
 
             // Check if bad multiple creators `Jean M. Auel, Philippe Rouard` exists
-            if (str_contains($content, ',')) {
+            if (is_string($content) && str_contains($content, ',')) {
                 $content = explode(',', $content);
                 $content = array_map('trim', $content);
             }
