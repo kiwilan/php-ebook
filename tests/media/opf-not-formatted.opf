@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="ean" version="2.0">
+  <opf:metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+    <dc:title>La maison d'Hadès</dc:title>
+    <dc:creator>Rick Riordan</dc:creator>
+    <dc:language>French</dc:language>
+    <dc:date>2014</dc:date>
+    <dc:publisher>Albin Michel</dc:publisher>
+    <dc:rights>© Éditions Albin Michel, 2014</dc:rights>
+    <meta content="cover-image" name="cover" />
+    <dc:identifier id="ean">urn:uuid:83f59617-a963-45b4-b89d-97051c748ea2</dc:identifier>
+    <dc:creator opf:role="aut" opf:file-as="Riordan, Rick">Riordan, Rick</dc:creator>
+    <dc:description>&lt;p&gt;Percy et Annabeth ont trouvé les Portes de la Mort et sont maintenant
+      prisonniers dans les Enfers, dans la Maison d’Hadès. Les cinq autres
+      demi-dieux, Jason, Piper, Nico, Leo et Frank unissent leurs forces pour
+      les sauver. À leur tour, ils doivent trouver l’entrée des Portes de la
+      Mort. S’ils y parviennent et que Percy et Annabeth sont toujours en vie,
+      alors les sept demi-dieux pourront sceller à jamais les Enfers et
+      sauver la Terre de l’invasion des monstres de la Maison d’Hadès. Mais...
+      arriveront-ils à temps ?&lt;/p&gt;</dc:description>
+    <dc:subject>Jeunesse</dc:subject>
+    <dc:identifier opf:scheme="calibre">722e7a75-f8f1-40d9-8ca3-cb1f47db1e0d</dc:identifier>
+    <meta name="calibre:series" content="Héros de l'Olympe" />
+    <meta name="calibre:series_index" content="4.0" />
+  </opf:metadata>
+  <manifest>
+    <item href="ident.css" id="ident_css" media-type="text/css" />
+    <item href="styles-lg.css" id="styles_lg_css" media-type="text/css" />
+    <item href="toc.ncx" id="ncx" media-type="application/x-dtbncx+xml" />
+    <item href="ident1.html" id="ident1" media-type="application/xhtml+xml" />
+    <item href="ident1-1.html" id="ident1-1" media-type="application/xhtml+xml" />
+    <item href="ident1-2.html" id="ident1-2" media-type="application/xhtml+xml" />
+    <item href="chap1.html" id="chap1" media-type="application/xhtml+xml" />
+    <item href="chap2.html" id="chap2" media-type="application/xhtml+xml" />
+    <item href="chap3.html" id="chap3" media-type="application/xhtml+xml" />
+    <item href="chap4.html" id="chap4" media-type="application/xhtml+xml" />
+    <item href="chap5.html" id="chap5" media-type="application/xhtml+xml" />
+    <item href="chap6.html" id="chap6" media-type="application/xhtml+xml" />
+    <item href="chap7.html" id="chap7" media-type="application/xhtml+xml" />
+    <item href="chap8.html" id="chap8" media-type="application/xhtml+xml" />
+    <item href="chap9.html" id="chap9" media-type="application/xhtml+xml" />
+    <item href="chap10.html" id="chap10" media-type="application/xhtml+xml" />
+    <item href="chap11.html" id="chap11" media-type="application/xhtml+xml" />
+    <item href="chap12.html" id="chap12" media-type="application/xhtml+xml" />
+    <item href="chap13.html" id="chap13" media-type="application/xhtml+xml" />
+    <item href="chap14.html" id="chap14" media-type="application/xhtml+xml" />
+    <item href="chap15.html" id="chap15" media-type="application/xhtml+xml" />
+    <item href="chap16.html" id="chap16" media-type="application/xhtml+xml" />
+    <item href="chap17.html" id="chap17" media-type="application/xhtml+xml" />
+    <item href="chap18.html" id="chap18" media-type="application/xhtml+xml" />
+    <item href="chap19.html" id="chap19" media-type="application/xhtml+xml" />
+    <item href="chap20.html" id="chap20" media-type="application/xhtml+xml" />
+    <item href="chap21.html" id="chap21" media-type="application/xhtml+xml" />
+    <item href="chap22.html" id="chap22" media-type="application/xhtml+xml" />
+    <item href="chap23.html" id="chap23" media-type="application/xhtml+xml" />
+    <item href="chap24.html" id="chap24" media-type="application/xhtml+xml" />
+    <item href="chap25.html" id="chap25" media-type="application/xhtml+xml" />
+    <item href="chap26.html" id="chap26" media-type="application/xhtml+xml" />
+    <item href="chap27.html" id="chap27" media-type="application/xhtml+xml" />
+    <item href="chap28.html" id="chap28" media-type="application/xhtml+xml" />
+    <item href="chap29.html" id="chap29" media-type="application/xhtml+xml" />
+    <item href="chap30.html" id="chap30" media-type="application/xhtml+xml" />
+    <item href="chap31.html" id="chap31" media-type="application/xhtml+xml" />
+    <item href="chap32.html" id="chap32" media-type="application/xhtml+xml" />
+    <item href="chap33.html" id="chap33" media-type="application/xhtml+xml" />
+    <item href="chap34.html" id="chap34" media-type="application/xhtml+xml" />
+    <item href="chap35.html" id="chap35" media-type="application/xhtml+xml" />
+    <item href="chap36.html" id="chap36" media-type="application/xhtml+xml" />
+    <item href="chap37.html" id="chap37" media-type="application/xhtml+xml" />
+    <item href="chap38.html" id="chap38" media-type="application/xhtml+xml" />
+    <item href="chap39.html" id="chap39" media-type="application/xhtml+xml" />
+    <item href="chap40.html" id="chap40" media-type="application/xhtml+xml" />
+    <item href="chap41.html" id="chap41" media-type="application/xhtml+xml" />
+    <item href="chap42.html" id="chap42" media-type="application/xhtml+xml" />
+    <item href="chap43.html" id="chap43" media-type="application/xhtml+xml" />
+    <item href="chap44.html" id="chap44" media-type="application/xhtml+xml" />
+    <item href="chap45.html" id="chap45" media-type="application/xhtml+xml" />
+    <item href="chap46.html" id="chap46" media-type="application/xhtml+xml" />
+    <item href="chap47.html" id="chap47" media-type="application/xhtml+xml" />
+    <item href="chap48.html" id="chap48" media-type="application/xhtml+xml" />
+    <item href="chap49.html" id="chap49" media-type="application/xhtml+xml" />
+    <item href="chap50.html" id="chap50" media-type="application/xhtml+xml" />
+    <item href="chap51.html" id="chap51" media-type="application/xhtml+xml" />
+    <item href="chap52.html" id="chap52" media-type="application/xhtml+xml" />
+    <item href="chap53.html" id="chap53" media-type="application/xhtml+xml" />
+    <item href="chap54.html" id="chap54" media-type="application/xhtml+xml" />
+    <item href="chap55.html" id="chap55" media-type="application/xhtml+xml" />
+    <item href="chap56.html" id="chap56" media-type="application/xhtml+xml" />
+    <item href="chap57.html" id="chap57" media-type="application/xhtml+xml" />
+    <item href="chap58.html" id="chap58" media-type="application/xhtml+xml" />
+    <item href="chap59.html" id="chap59" media-type="application/xhtml+xml" />
+    <item href="chap60.html" id="chap60" media-type="application/xhtml+xml" />
+    <item href="chap61.html" id="chap61" media-type="application/xhtml+xml" />
+    <item href="chap62.html" id="chap62" media-type="application/xhtml+xml" />
+    <item href="chap63.html" id="chap63" media-type="application/xhtml+xml" />
+    <item href="chap64.html" id="chap64" media-type="application/xhtml+xml" />
+    <item href="chap65.html" id="chap65" media-type="application/xhtml+xml" />
+    <item href="chap66.html" id="chap66" media-type="application/xhtml+xml" />
+    <item href="chap67.html" id="chap67" media-type="application/xhtml+xml" />
+    <item href="chap68.html" id="chap68" media-type="application/xhtml+xml" />
+    <item href="chap69.html" id="chap69" media-type="application/xhtml+xml" />
+    <item href="chap70.html" id="chap70" media-type="application/xhtml+xml" />
+    <item href="chap71.html" id="chap71" media-type="application/xhtml+xml" />
+    <item href="chap72.html" id="chap72" media-type="application/xhtml+xml" />
+    <item href="chap73.html" id="chap73" media-type="application/xhtml+xml" />
+    <item href="chap74.html" id="chap74" media-type="application/xhtml+xml" />
+    <item href="chap75.html" id="chap75" media-type="application/xhtml+xml" />
+    <item href="chap76.html" id="chap76" media-type="application/xhtml+xml" />
+    <item href="chap77.html" id="chap77" media-type="application/xhtml+xml" />
+    <item href="chap78.html" id="chap78" media-type="application/xhtml+xml" />
+    <item href="appen2.html" id="appen2" media-type="application/xhtml+xml" />
+    <item href="appen3.html" id="appen3" media-type="application/xhtml+xml" />
+    <item href="appen4.html" id="appen4" media-type="application/xhtml+xml" />
+    <item href="images/LOGOWIZ2.jpg" id="IMGLG0" media-type="image/jpeg" />
+    <item href="images/pageprochainement.jpg" id="IMGLG1" media-type="image/jpeg" />
+    <item href="cover/cover.jpg" id="cover-image" media-type="image/jpeg" />
+    <item href="cover.html" id="html-cover-page" media-type="application/xhtml+xml" />
+    <item href="couverture.css" id="couverture_css" media-type="text/css" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="html-cover-page" />
+    <itemref idref="ident1" />
+    <itemref idref="ident1-1" />
+    <itemref idref="ident1-2" />
+    <itemref idref="chap1" />
+    <itemref idref="chap2" />
+    <itemref idref="chap3" />
+    <itemref idref="chap4" />
+    <itemref idref="chap5" />
+    <itemref idref="chap6" />
+    <itemref idref="chap7" />
+    <itemref idref="chap8" />
+    <itemref idref="chap9" />
+    <itemref idref="chap10" />
+    <itemref idref="chap11" />
+    <itemref idref="chap12" />
+    <itemref idref="chap13" />
+    <itemref idref="chap14" />
+    <itemref idref="chap15" />
+    <itemref idref="chap16" />
+    <itemref idref="chap17" />
+    <itemref idref="chap18" />
+    <itemref idref="chap19" />
+    <itemref idref="chap20" />
+    <itemref idref="chap21" />
+    <itemref idref="chap22" />
+    <itemref idref="chap23" />
+    <itemref idref="chap24" />
+    <itemref idref="chap25" />
+    <itemref idref="chap26" />
+    <itemref idref="chap27" />
+    <itemref idref="chap28" />
+    <itemref idref="chap29" />
+    <itemref idref="chap30" />
+    <itemref idref="chap31" />
+    <itemref idref="chap32" />
+    <itemref idref="chap33" />
+    <itemref idref="chap34" />
+    <itemref idref="chap35" />
+    <itemref idref="chap36" />
+    <itemref idref="chap37" />
+    <itemref idref="chap38" />
+    <itemref idref="chap39" />
+    <itemref idref="chap40" />
+    <itemref idref="chap41" />
+    <itemref idref="chap42" />
+    <itemref idref="chap43" />
+    <itemref idref="chap44" />
+    <itemref idref="chap45" />
+    <itemref idref="chap46" />
+    <itemref idref="chap47" />
+    <itemref idref="chap48" />
+    <itemref idref="chap49" />
+    <itemref idref="chap50" />
+    <itemref idref="chap51" />
+    <itemref idref="chap52" />
+    <itemref idref="chap53" />
+    <itemref idref="chap54" />
+    <itemref idref="chap55" />
+    <itemref idref="chap56" />
+    <itemref idref="chap57" />
+    <itemref idref="chap58" />
+    <itemref idref="chap59" />
+    <itemref idref="chap60" />
+    <itemref idref="chap61" />
+    <itemref idref="chap62" />
+    <itemref idref="chap63" />
+    <itemref idref="chap64" />
+    <itemref idref="chap65" />
+    <itemref idref="chap66" />
+    <itemref idref="chap67" />
+    <itemref idref="chap68" />
+    <itemref idref="chap69" />
+    <itemref idref="chap70" />
+    <itemref idref="chap71" />
+    <itemref idref="chap72" />
+    <itemref idref="chap73" />
+    <itemref idref="chap74" />
+    <itemref idref="chap75" />
+    <itemref idref="chap76" />
+    <itemref idref="chap77" />
+    <itemref idref="chap78" />
+    <itemref idref="appen2" />
+    <itemref idref="appen3" />
+    <itemref idref="appen4" />
+  </spine>
+  <guide>
+    <reference href="cover.html" title="Couverture" type="title-page" />
+  </guide>
+</package>

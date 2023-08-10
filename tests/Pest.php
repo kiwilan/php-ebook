@@ -26,6 +26,7 @@ define('EPUB_OPF_EPUB3_ALT', __DIR__.'/media/opf-epub3-alt.opf');
 define('EPUB_OPF_INSURGENT', __DIR__.'/media/opf-insurgent.opf');
 define('EPUB_OPF_LAGUERREETERNELLE', __DIR__.'/media/opf-la-guerre-eternelle.opf');
 define('EPUB_OPF_EPEEETMORT', __DIR__.'/media/opf-content-epee-et-mort.opf');
+define('EPUB_OPF_NOT_FORMATTED', __DIR__.'/media/opf-not-formatted.opf');
 
 define('EPUB', __DIR__.'/media/test-epub.epub');
 define('EPUB_ONE_TAG', __DIR__.'/media/epub-one-tag.epub');
