@@ -158,7 +158,10 @@ it('can parse epub without tags', function () {
 });
 
 it('can handle bad file', function () {
-    expect(fn () => Ebook::read(EPUB_BAD_FILE))->toThrow(ValueError::class);
+    $ebook = Ebook::read(EPUB_BAD_FILE);
+
+    expect($ebook->hasMetadata())->toBeFalse();
+    expect($ebook->isBadFile())->toBeTrue();
 });
 
 it('can handle bad epub', function (string $epub) {
