@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 2.0.1 - 2023-08-10
+
+- add `opf:metadata` support for OPF files
+
 ## 2.0.0 - 2023-08-08
 
 ### BREAKING CHANGES
