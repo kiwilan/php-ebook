@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 2.0.12 - 2023-08-10
+
+- fix `OpfMetadata` `dcRights()` parse array to string
+
 ## 2.0.11 - 2023-08-10
 
 - add `Epub` property `isBadFile` to check if the file is corrupted, eBook file will be read but not parsed if it is corrupted, it's possible to know if file is valid with `isBadFile()` method or with `hasMetadata()` method
