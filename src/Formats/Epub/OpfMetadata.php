@@ -72,6 +72,9 @@ class OpfMetadata
         $content = $xml->getContent();
         $self->epubVersion = $self->xml->getRootAttribute('version');
         $metadata = $content['metadata'] ?? [];
+        if (array_key_exists('opf:metadata', $content)) {
+            $metadata = $content['opf:metadata'] ?? [];
+        }
         $manifest = $content['manifest'] ?? [];
         $spine = $content['spine'] ?? [];
         $guide = $content['guide'] ?? [];

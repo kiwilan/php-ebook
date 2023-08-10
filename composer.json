@@ -1,7 +1,7 @@
 {
     "name": "kiwilan/php-ebook",
     "description": "PHP package to read metadata and extract covers from eBooks (.epub, .cbz, .cbr, .cb7, .cbt, .pdf) and audiobooks (.mp3, .m4a, .m4b, .flac, .ogg).",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "keywords": [
         "php",
         "ebook",
@@ -36,7 +36,7 @@
         "php": "^8.1",
         "kiwilan/php-archive": "^2.0.0",
         "kiwilan/php-audio": "^3.0.0",
-        "kiwilan/php-xml-reader": "^1.0.0"
+        "kiwilan/php-xml-reader": "^1.0.1"
     },
     "require-dev": {
         "laravel/pint": "^1.7",

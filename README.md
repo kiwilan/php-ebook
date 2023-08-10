@@ -15,7 +15,7 @@ _Supports Linux, macOS and Windows._
 
 > **Note**
 >
-> This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](docs/README.md).
+> This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
 
 ## Table of Contents
 
@@ -139,7 +139,7 @@ Some metadata can be stored into `extras()` method, without typing, directly fro
 
 ```php
 $ebook->getExtras(); // array<string, mixed> => additional data for book
-$ebook->extra(string $key); // mixed => safely extract data from `extras` array
+$ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
 ```
 
 To get additional data, you can use these methods:
