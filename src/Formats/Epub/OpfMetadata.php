@@ -384,7 +384,7 @@ class OpfMetadata
 
         foreach ($core as $item) {
             $name = XmlReader::parseContent($item);
-            if(is_array($name)){
+            if (is_array($name)) {
                 continue;
             }
             $attributes = XmlReader::parseAttributes($item);
