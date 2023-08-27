@@ -4,7 +4,7 @@
     xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata">
     <dc:title>Le clan de l'ours des cavernes</dc:title>
-    <dc:creator opf:role="aut" opf:file-as="Auel, Jean M.">Jean M. Auel</dc:creator>
+    <dc:creator opf:role="aut" opf:file-as="Auel, Jean M."></dc:creator>
     <dc:contributor opf:role="bkp">calibre (6.12.0) [https://calibre-ebook.com]</dc:contributor>
     <dc:description>&lt;div&gt;
       &lt;p&gt;Quelque part en Europe, 35 000 ans avant notre ère. Petite fille Cro-Magnon de cinq
