@@ -30,6 +30,8 @@ class Ebook
 
     protected ?string $description = null;
 
+    protected ?string $descriptionHtml = null;
+
     protected ?string $publisher = null;
 
     /** @var BookIdentifier[] */
@@ -216,6 +218,7 @@ class Ebook
         $this->authorMain = $ebook->getAuthorMain();
         $this->authors = $ebook->getAuthors();
         $this->description = $ebook->getDescription();
+        $this->descriptionHtml = $ebook->getDescriptionHtml();
         $this->publisher = $ebook->getPublisher();
         $this->identifiers = $ebook->getIdentifiers();
         $this->publishDate = $ebook->getPublishDate();
@@ -303,6 +306,14 @@ class Ebook
         }
 
         return $this->description;
+    }
+
+    /**
+     * Description of the book with HTML sanitized.
+     */
+    public function getDescriptionHtml(): ?string
+    {
+        return $this->descriptionHtml;
     }
 
     /**
@@ -601,6 +612,13 @@ class Ebook
         return $this;
     }
 
+    public function setDescriptionHtml(?string $descriptionHtml): self
+    {
+        $this->descriptionHtml = $descriptionHtml;
+
+        return $this;
+    }
+
     public function setPublisher(?string $publisher): self
     {
         $this->publisher = $publisher;
@@ -705,6 +723,7 @@ class Ebook
             'authorMain' => $this->authorMain?->getName(),
             'authors' => array_map(fn (BookAuthor $author) => $author->getName(), $this->authors),
             'description' => $this->description,
+            'descriptionHtml' => $this->descriptionHtml,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
             'date' => $this->publishDate?->format('Y-m-d H:i:s'),

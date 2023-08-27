@@ -114,6 +114,7 @@ $ebook->getTitle(); // string
 $ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
 $ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
 $ebook->getDescription(); // ?string
+$ebook->getDescriptionHtml(); // ?string
 $ebook->getCopyright(); // ?string
 $ebook->getPublisher(); // ?string
 $ebook->getIdentifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
