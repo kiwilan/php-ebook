@@ -43,19 +43,20 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   **PHP version** >= _8.1_
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
+    -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
-|                  Type                   | Supported |                                               Requirement                                                |         Uses         |
-| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :------------------: |
-|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary | PHP `rar` or `p7zip` |
-|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |    `p7zip` binary    |
-|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          |  `smalot/pdfparser`  |
-| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio`  |
+|                  Type                   | Supported |                                               Requirement                                                |              Uses              |
+| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :----------------------------: |
+|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |      `zip` PHP extension       |
+|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |      `phar` PHP extension      |
+|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary |      PHP `rar` or `p7zip`      |
+|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |         `p7zip` binary         |
+|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          | `smalot/pdfparser` (included)  |
+| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio` (included) |
 
 > **Warning**
 >
@@ -156,6 +157,11 @@ $ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
 $ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
+```
+
+To access to archive of eBook, you can use `getArchive()` method. You can find more informations about archive in [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive).
+
+```php
 $ebook->getArchive(); // ?BaseArchive => archive of book from `kiwilan/php-archive`
 ```
 
@@ -166,6 +172,7 @@ $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
 $ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
+$ebook->isBadFile(); // bool => `true` if file is not readable
 ```
 
 ### Metadata
