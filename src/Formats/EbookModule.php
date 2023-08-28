@@ -22,6 +22,9 @@ abstract class EbookModule
 
     abstract public function toArray(): array;
 
+    /**
+     * Convert HTML to string, remove all tags.
+     */
     protected function htmlToString(?string $html): ?string
     {
         if (! $html) {
@@ -34,6 +37,9 @@ abstract class EbookModule
         return $html;
     }
 
+    /**
+     * Sanitize HTML, remove all tags except div, p, br, b, i, u, strong, em.
+     */
     protected function sanitizeHtml(?string $html): ?string
     {
         if (! $html) {
@@ -55,6 +61,9 @@ abstract class EbookModule
         return $html;
     }
 
+    /**
+     * Clean string, remove tabs, new lines, carriage returns, and multiple spaces.
+     */
     private function formatText(string $text): string
     {
         $text = str_replace("\n", '', $text);

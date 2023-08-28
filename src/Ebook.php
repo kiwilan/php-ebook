@@ -319,7 +319,10 @@ class Ebook
     }
 
     /**
-     * Description of the book.
+     * Description of the book, without HTML.
+     *
+     * If original description has HTML, all HTML will be removed and text will be trimmed.
+     * You can use `getDescriptionHtml()` to get the original description sanitized.
      *
      * @param  int|null  $limit  Limit the length of the description.
      */
