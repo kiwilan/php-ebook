@@ -150,6 +150,7 @@ $ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
 $ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
+$ebook->getArchive(); // ?BaseArchive => archive of book from `kiwilan/php-archive`
 ```
 
 And to test if some data exists:

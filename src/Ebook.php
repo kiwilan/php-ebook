@@ -68,6 +68,7 @@ class Ebook
     protected function __construct(
         protected string $path,
         protected string $filename,
+        protected string $basename,
         protected string $extension,
         protected ?BaseArchive $archive = null,
         protected ?Audio $audio = null,
@@ -85,7 +86,46 @@ class Ebook
     public static function read(string $path): ?self
     {
         $start = microtime(true);
-        $filename = pathinfo($path, PATHINFO_BASENAME);
+        $self = self::parseFile($path);
+
+        $format = match ($self->format) {
+            EbookFormatEnum::EPUB => $self->epub(),
+            EbookFormatEnum::MOBI => $self->mobi(),
+            EbookFormatEnum::CBA => $self->cba(),
+            EbookFormatEnum::PDF => $self->pdf(),
+            EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
+            default => null,
+        };
+
+        if ($format === null) {
+            return null;
+        }
+
+        $self->metaTitle = MetaTitle::make($self);
+
+        $time = microtime(true) - $start;
+        $self->execTime = (float) number_format((float) $time, 5, '.', '');
+
+        return $self;
+    }
+
+    /**
+     * Check if an ebook file is valid.
+     */
+    public static function isValid(string $path): bool
+    {
+        $self = self::parseFile($path);
+
+        return ! $self->isBadFile;
+    }
+
+    /**
+     * Parse an ebook file.
+     */
+    private static function parseFile(string $path): Ebook
+    {
+        $basename = pathinfo($path, PATHINFO_BASENAME);
+        $filename = pathinfo($path, PATHINFO_FILENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
@@ -102,7 +142,7 @@ class Ebook
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $filename, $extension);
+        $self = new self($path, $filename, $basename, $extension);
 
         $self->format = match ($extension) {
             'epub' => $self->format = EbookFormatEnum::EPUB,
@@ -142,24 +182,6 @@ class Ebook
         if ($self->isAudio) {
             $self->audio = Audio::get($path);
         }
-
-        $format = match ($self->format) {
-            EbookFormatEnum::EPUB => $self->epub(),
-            EbookFormatEnum::MOBI => $self->mobi(),
-            EbookFormatEnum::CBA => $self->cba(),
-            EbookFormatEnum::PDF => $self->pdf(),
-            EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
-            default => null,
-        };
-
-        if ($format === null) {
-            return null;
-        }
-
-        $self->metaTitle = MetaTitle::make($self);
-
-        $time = microtime(true) - $start;
-        $self->execTime = (float) number_format((float) $time, 5, '.', '');
 
         return $self;
     }
@@ -298,6 +320,8 @@ class Ebook
 
     /**
      * Description of the book.
+     *
+     * @param  int|null  $limit  Limit the length of the description.
      */
     public function getDescription(int $limit = null): ?string
     {
@@ -310,6 +334,8 @@ class Ebook
 
     /**
      * Description of the book with HTML sanitized.
+     *
+     * If original description doesn't have HTML, it will be the same as `getDescription()`.
      */
     public function getDescriptionHtml(): ?string
     {
@@ -399,7 +425,7 @@ class Ebook
     }
 
     /**
-     * Filename of the ebook.
+     * Filename of the ebook, e.g. `The Clan of the Cave Bear`.
      */
     public function getFilename(): string
     {
@@ -407,7 +433,15 @@ class Ebook
     }
 
     /**
-     * Extension of the ebook.
+     * Basename of the ebook, e.g. `The Clan of the Cave Bear.epub`.
+     */
+    public function getBasename(): string
+    {
+        return $this->basename;
+    }
+
+    /**
+     * Extension of the ebook, e.g. `epub`.
      */
     public function getExtension(): string
     {
@@ -415,15 +449,24 @@ class Ebook
     }
 
     /**
-     * Archive reader.
+     * Archive reader, from `kiwilan/php-archive`.
+     *
+     * @docs https://github.com/kiwilan/php-archive
      */
     public function getArchive(): ?BaseArchive
     {
+        // if (! $this->archive) {
+        //     error_log("{$this->path} can't be read as archive.");
+        //     throw new \Exception("{$this->path} can't be read as archive.");
+        // }
+
         return $this->archive;
     }
 
     /**
-     * Audio reader.
+     * Audio reader, from `kiwilan/php-audio`.
+     *
+     * @docs https://github.com/kiwilan/php-audio
      */
     public function getAudio(): ?Audio
     {
@@ -735,6 +778,7 @@ class Ebook
             'pagesCount' => $this->pagesCount,
             'path' => $this->path,
             'filename' => $this->filename,
+            'basename' => $this->basename,
             'extension' => $this->extension,
             'format' => $this->format,
             'metadata' => $this->metadata?->toArray(),
