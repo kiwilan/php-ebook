@@ -2,6 +2,13 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.1.0 - 2023-08-28
+
+- Add some improvements for `description` parsing (remove extra spaces, remove newlines, etc.)
+- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance   
+  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`   
+  
+
 ## v2.0.20 - 2023-08-28
 
 - add `descriptionHtml()` method to `Ebook::class`, which can contains description with html tags if it is available, html is sanitized, original description is still available via `description()` method with plain text
