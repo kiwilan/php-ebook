@@ -384,6 +384,10 @@ class OpfMetadata
 
         foreach ($core as $item) {
             $name = XmlReader::parseContent($item);
+            // if `<dc:creator></dc:creator>`
+            if (is_array($name)) {
+                continue;
+            }
             $attributes = XmlReader::parseAttributes($item);
             $items[$name] = new BookAuthor(
                 name: $name,
