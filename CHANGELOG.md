@@ -2,6 +2,36 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## 2.0.12 - 2023-08-10
+
+- fix `OpfMetadata` `dcRights()` parse array to string
+
+## 2.0.11 - 2023-08-10
+
+- add `Epub` property `isBadFile` to check if the file is corrupted, eBook file will be read but not parsed if it is corrupted, it's possible to know if file is valid with `isBadFile()` method or with `hasMetadata()` method
+- fix some problems with OPF parsing to be more flexible
+
+## 2.0.1 - 2023-08-10
+
+- add `opf:metadata` support for OPF files
+
+## 2.0.0 - 2023-08-08
+
+### BREAKING CHANGES
+
+- All simple getters have now `get` prefix. For example, `getTitle()` instead of `title()`, `getPublisher()` instead of `publisher()`, etc. It concerns all simple getters of `EpubMetadata`, `EpubChapter`, `EpubHtml`, `NcxMetadata`, `EpubContainer`, `OpfMetadata`, `Ebook`, `BookIdentifier`, `EbookCover`, `EbookMetadata`, `AudiobookMetadata`, `BookAuthor`, `CbaMetadata`, `CbamMetadata`, `MetaTitle` classes.
+
+> Why?
+All these classes have some methods like setters or actions. To be consistent and clear, all simple getters have now `get` prefix.
+
+### Bugfixes
+
+- `BookContributor` and `BookIdentifier` can be more flexible with `mixed` types
+
+## 1.3.54 - 2023-07-23
+
+- EbookCover `content` method fix
+
 ## 1.3.53 - 2023-07-07
 
 - bump `kiwilan/php-archive` `1.5.12`
