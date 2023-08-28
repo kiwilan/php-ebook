@@ -98,8 +98,6 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-### Main
-
 With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
 ```php
@@ -141,6 +139,14 @@ Some metadata can be stored into `extras()` method, without typing, directly fro
 ```php
 $ebook->getExtras(); // array<string, mixed> => additional data for book
 $ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
+```
+
+To know if eBook is valid, you can use `isValid()` static method, before `read()`.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$isValid = Ebook::isValid('path/to/ebook.epub');
 ```
 
 To get additional data, you can use these methods:
