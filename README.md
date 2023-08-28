@@ -43,19 +43,20 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   **PHP version** >= _8.1_
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
+    -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
-|                  Type                   | Supported |                                               Requirement                                                |         Uses         |
-| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :------------------: |
-|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary | PHP `rar` or `p7zip` |
-|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |    `p7zip` binary    |
-|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          |  `smalot/pdfparser`  |
-| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio`  |
+|                  Type                   | Supported |                                               Requirement                                                |              Uses              |
+| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :----------------------------: |
+|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |      `zip` PHP extension       |
+|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |      `phar` PHP extension      |
+|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary |      PHP `rar` or `p7zip`      |
+|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |         `p7zip` binary         |
+|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          | `smalot/pdfparser` (included)  |
+| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio` (included) |
 
 > **Warning**
 >
@@ -74,8 +75,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 -   🔖 Chapters extraction (`EPUB` only)
-
-<!-- -   📦 `EPUB` and `CBZ` creation supported -->
+-   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
 
 ### Roadmap
@@ -85,7 +85,6 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   https://wiki.mobileread.com/wiki/MOBI
 -   [ ] Add `.djvu` support
 -   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
--   [ ] Add `.epub` creation support
 -   [ ] Add `.epub` metadata update support
 
 ## Installation
@@ -97,8 +96,6 @@ composer require kiwilan/php-ebook
 ```
 
 ## Usage
-
-### Main
 
 With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
@@ -114,6 +111,7 @@ $ebook->getTitle(); // string
 $ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
 $ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
 $ebook->getDescription(); // ?string
+$ebook->getDescriptionHtml(); // ?string
 $ebook->getCopyright(); // ?string
 $ebook->getPublisher(); // ?string
 $ebook->getIdentifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
@@ -142,6 +140,14 @@ $ebook->getExtras(); // array<string, mixed> => additional data for book
 $ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
 ```
 
+To know if eBook is valid, you can use `isValid()` static method, before `read()`.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$isValid = Ebook::isValid('path/to/ebook.epub');
+```
+
 To get additional data, you can use these methods:
 
 ```php
@@ -151,6 +157,12 @@ $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
 ```
 
+To access to archive of eBook, you can use `getArchive()` method. You can find more informations about archive in [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive).
+
+```php
+$ebook->getArchive(); // ?BaseArchive => archive of book from `kiwilan/php-archive`
+```
+
 And to test if some data exists:
 
 ```php
@@ -158,6 +170,7 @@ $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
 $ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
+$ebook->isBadFile(); // bool => `true` if file is not readable
 ```
 
 ### Metadata
@@ -249,6 +262,34 @@ $epub->getFiles(); // string[] => all files in EPUB
 >
 > For performance reasons, with `ncx`, `html` and `chapters` are only available on demand. If you use `var_dump` to check metadata, these properties will be `null`.
 
+### Creation
+
+You can create an EPUB or CBZ file with `create()` static method.
+
+> **Note**
+>
+> Only `EPUB` and `CBZ` are supported for creation.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$creator = Ebook::create('path/to/ebook.epub');
+
+// Build manually
+$creator->addFromString('mimetype', 'application/epub+zip')
+    ->addFromString('META-INF/container.xml', '<?xml version="1.0" encoding="UTF-8" standalone="no" ?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>')
+    ->save();
+
+// Build from files
+$creator->addFile('mimetype', 'path/to/mimetype')
+    ->addFile('META-INF/container.xml', 'path/to/container.xml')
+    ->save();
+
+// Build from directory
+$creator->addDirectory('./', 'path/to/directory')
+    ->save();
+```
+
 ## Testing
 
 ```bash
@@ -263,6 +304,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 -   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
 -   [`kiwilan`](https://github.com/kiwilan) for `kiwilan/php-archive`, `kiwilan/php-audio`, `kiwilan/php-xml-reader`
+-   [All Contributors](../../contributors)
 
 ## License
 

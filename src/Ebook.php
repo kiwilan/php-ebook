@@ -4,8 +4,10 @@ namespace Kiwilan\Ebook;
 
 use DateTime;
 use Kiwilan\Archive\Archive;
+use Kiwilan\Archive\ArchiveZipCreate;
 use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Audio\Audio;
+use Kiwilan\Ebook\Creator\EbookCreator;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
 use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
@@ -29,6 +31,8 @@ class Ebook
     protected array $authors = [];
 
     protected ?string $description = null;
+
+    protected ?string $descriptionHtml = null;
 
     protected ?string $publisher = null;
 
@@ -66,6 +70,7 @@ class Ebook
     protected function __construct(
         protected string $path,
         protected string $filename,
+        protected string $basename,
         protected string $extension,
         protected ?BaseArchive $archive = null,
         protected ?Audio $audio = null,
@@ -83,7 +88,54 @@ class Ebook
     public static function read(string $path): ?self
     {
         $start = microtime(true);
-        $filename = pathinfo($path, PATHINFO_BASENAME);
+        $self = self::parseFile($path);
+
+        $format = match ($self->format) {
+            EbookFormatEnum::EPUB => $self->epub(),
+            EbookFormatEnum::MOBI => $self->mobi(),
+            EbookFormatEnum::CBA => $self->cba(),
+            EbookFormatEnum::PDF => $self->pdf(),
+            EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
+            default => null,
+        };
+
+        if ($format === null) {
+            return null;
+        }
+
+        $self->metaTitle = MetaTitle::make($self);
+
+        $time = microtime(true) - $start;
+        $self->execTime = (float) number_format((float) $time, 5, '.', '');
+
+        return $self;
+    }
+
+    /**
+     * Check if an ebook file is valid.
+     */
+    public static function isValid(string $path): bool
+    {
+        $self = self::parseFile($path);
+
+        return ! $self->isBadFile;
+    }
+
+    /**
+     * Create an ebook file.
+     */
+    public static function create(string $path): ArchiveZipCreate
+    {
+        return EbookCreator::create($path);
+    }
+
+    /**
+     * Parse an ebook file.
+     */
+    private static function parseFile(string $path): Ebook
+    {
+        $basename = pathinfo($path, PATHINFO_BASENAME);
+        $filename = pathinfo($path, PATHINFO_FILENAME);
         $extension = pathinfo($path, PATHINFO_EXTENSION);
 
         $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
@@ -100,7 +152,7 @@ class Ebook
             throw new \Exception("Unknown archive type: {$extension}");
         }
 
-        $self = new self($path, $filename, $extension);
+        $self = new self($path, $filename, $basename, $extension);
 
         $self->format = match ($extension) {
             'epub' => $self->format = EbookFormatEnum::EPUB,
@@ -140,24 +192,6 @@ class Ebook
         if ($self->isAudio) {
             $self->audio = Audio::get($path);
         }
-
-        $format = match ($self->format) {
-            EbookFormatEnum::EPUB => $self->epub(),
-            EbookFormatEnum::MOBI => $self->mobi(),
-            EbookFormatEnum::CBA => $self->cba(),
-            EbookFormatEnum::PDF => $self->pdf(),
-            EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
-            default => null,
-        };
-
-        if ($format === null) {
-            return null;
-        }
-
-        $self->metaTitle = MetaTitle::make($self);
-
-        $time = microtime(true) - $start;
-        $self->execTime = (float) number_format((float) $time, 5, '.', '');
 
         return $self;
     }
@@ -216,6 +250,7 @@ class Ebook
         $this->authorMain = $ebook->getAuthorMain();
         $this->authors = $ebook->getAuthors();
         $this->description = $ebook->getDescription();
+        $this->descriptionHtml = $ebook->getDescriptionHtml();
         $this->publisher = $ebook->getPublisher();
         $this->identifiers = $ebook->getIdentifiers();
         $this->publishDate = $ebook->getPublishDate();
@@ -294,7 +329,12 @@ class Ebook
     }
 
     /**
-     * Description of the book.
+     * Description of the book, without HTML.
+     *
+     * If original description has HTML, all HTML will be removed and text will be trimmed.
+     * You can use `getDescriptionHtml()` to get the original description sanitized.
+     *
+     * @param  int|null  $limit  Limit the length of the description.
      */
     public function getDescription(int $limit = null): ?string
     {
@@ -303,6 +343,16 @@ class Ebook
         }
 
         return $this->description;
+    }
+
+    /**
+     * Description of the book with HTML sanitized.
+     *
+     * If original description doesn't have HTML, it will be the same as `getDescription()`.
+     */
+    public function getDescriptionHtml(): ?string
+    {
+        return $this->descriptionHtml;
     }
 
     /**
@@ -388,7 +438,7 @@ class Ebook
     }
 
     /**
-     * Filename of the ebook.
+     * Filename of the ebook, e.g. `The Clan of the Cave Bear`.
      */
     public function getFilename(): string
     {
@@ -396,7 +446,15 @@ class Ebook
     }
 
     /**
-     * Extension of the ebook.
+     * Basename of the ebook, e.g. `The Clan of the Cave Bear.epub`.
+     */
+    public function getBasename(): string
+    {
+        return $this->basename;
+    }
+
+    /**
+     * Extension of the ebook, e.g. `epub`.
      */
     public function getExtension(): string
     {
@@ -404,15 +462,24 @@ class Ebook
     }
 
     /**
-     * Archive reader.
+     * Archive reader, from `kiwilan/php-archive`.
+     *
+     * @docs https://github.com/kiwilan/php-archive
      */
     public function getArchive(): ?BaseArchive
     {
+        // if (! $this->archive) {
+        //     error_log("{$this->path} can't be read as archive.");
+        //     throw new \Exception("{$this->path} can't be read as archive.");
+        // }
+
         return $this->archive;
     }
 
     /**
-     * Audio reader.
+     * Audio reader, from `kiwilan/php-audio`.
+     *
+     * @docs https://github.com/kiwilan/php-audio
      */
     public function getAudio(): ?Audio
     {
@@ -601,6 +668,13 @@ class Ebook
         return $this;
     }
 
+    public function setDescriptionHtml(?string $descriptionHtml): self
+    {
+        $this->descriptionHtml = $descriptionHtml;
+
+        return $this;
+    }
+
     public function setPublisher(?string $publisher): self
     {
         $this->publisher = $publisher;
@@ -705,6 +779,7 @@ class Ebook
             'authorMain' => $this->authorMain?->getName(),
             'authors' => array_map(fn (BookAuthor $author) => $author->getName(), $this->authors),
             'description' => $this->description,
+            'descriptionHtml' => $this->descriptionHtml,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
             'date' => $this->publishDate?->format('Y-m-d H:i:s'),
@@ -716,6 +791,7 @@ class Ebook
             'pagesCount' => $this->pagesCount,
             'path' => $this->path,
             'filename' => $this->filename,
+            'basename' => $this->basename,
             'extension' => $this->extension,
             'format' => $this->format,
             'metadata' => $this->metadata?->toArray(),

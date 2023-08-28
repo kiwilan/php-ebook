@@ -10,10 +10,12 @@ use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
 it('can parse epub entity', function () {
     $ebook = Ebook::read(EPUB);
     $firstAuthor = $ebook->getAuthors()[0];
+    $filename = pathinfo(EPUB, PATHINFO_FILENAME);
     $basename = pathinfo(EPUB, PATHINFO_BASENAME);
 
     expect($ebook->getpath())->toBe(EPUB);
-    expect($ebook->getFilename())->toBe($basename);
+    expect($ebook->getFilename())->toBe($filename);
+    expect($ebook->getBasename())->toBe($basename);
     expect($ebook->hasMetadata())->toBeTrue();
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
@@ -47,6 +49,7 @@ it('can parse epub entity', function () {
     $metadata = $ebook->getMetadata();
     expect($metadata->toArray())->toBeArray();
     expect($metadata->toJson())->toBeString();
+    expect(Ebook::isValid(EPUB))->toBeTrue();
 });
 
 it('can get epub cover', function () {
@@ -160,8 +163,11 @@ it('can parse epub without tags', function () {
 it('can handle bad file', function () {
     $ebook = Ebook::read(EPUB_BAD_FILE);
 
+    expect(Ebook::isValid(EPUB_BAD_FILE))->toBeFalse();
     expect($ebook->hasMetadata())->toBeFalse();
     expect($ebook->isBadFile())->toBeTrue();
+    // expect(fn () => $ebook->getArchive())->toThrow(Exception::class);
+    expect(fn () => $ebook->getArchive()?->filter('opf'))->not()->toThrow(Exception::class);
 });
 
 it('can handle bad epub', function (string $epub) {
@@ -172,3 +178,10 @@ it('can handle bad epub', function (string $epub) {
     EPUB_NO_CONTAINER,
     EPUB_NO_OPF,
 ]);
+
+it('can parse description', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getDescription())->toBe("1re vague : Extinction des feux. 2e vague : Déferlante. 3e vague : Pandémie. 4e vague : Silence. À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper... Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés. Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend... Ils connaissent notre manière de penser. Ils savent commentr nous exterminer. Ils nous ont enlevé toute raison de vivre. Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.");
+    expect($ebook->getDescriptionHtml())->toBe("<div><p>1re vague : Extinction des feux.<br>2e vague : Déferlante.<br>3e vague : Pandémie.<br>4e vague : Silence.<br><br>À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper... Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés.<br><br>Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend...</p><p>Ils connaissent notre manière de penser.</p><p>Ils savent commentr nous exterminer.</p><p>Ils nous ont enlevé toute raison de vivre.</p><p>Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.</p></div>");
+})->with([EPUB_DESCRIPTION]);

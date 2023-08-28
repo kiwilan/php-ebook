@@ -75,9 +75,8 @@ class EpubMetadata extends EbookModule
 
         $authors = array_values($this->opf->getDcCreators());
         $this->ebook->setAuthors($authors);
-        if ($this->opf->getDcDescription()) {
-            $this->ebook->setDescription(strip_tags($this->opf->getDcDescription()));
-        }
+        $this->ebook->setDescription($this->htmlToString($this->opf->getDcDescription()));
+        $this->ebook->setDescriptionHtml($this->sanitizeHtml($this->opf->getDcDescription()));
         $this->ebook->setCopyright(! empty($this->opf->getDcRights()) ? implode(', ', $this->opf->getDcRights()) : null);
         $this->ebook->setPublisher($this->opf->getDcPublisher());
         $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
@@ -97,14 +96,14 @@ class EpubMetadata extends EbookModule
         $rating = null;
         if (! empty($this->opf->getMeta())) {
             foreach ($this->opf->getMeta() as $meta) {
-                if ($meta->name() === 'calibre:series') {
-                    $this->ebook->setSeries($meta->content());
+                if ($meta->getName() === 'calibre:series') {
+                    $this->ebook->setSeries($meta->getContent());
                 }
-                if ($meta->name() === 'calibre:series_index') {
-                    $this->ebook->setVolume((int) $meta->content());
+                if ($meta->getName() === 'calibre:series_index') {
+                    $this->ebook->setVolume((int) $meta->getContent());
                 }
-                if ($meta->name() === 'calibre:rating') {
-                    $rating = (float) $meta->content();
+                if ($meta->getName() === 'calibre:rating') {
+                    $rating = (float) $meta->getContent();
                 }
             }
         }

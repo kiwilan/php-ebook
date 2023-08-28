@@ -56,3 +56,10 @@ it('can parse metadata', function (string $path) {
         expect($metadata->getAudiobook())->toBeInstanceOf(AudiobookMetadata::class);
     }
 })->with([EPUB, CBZ, PDF, AUDIOBOOK]);
+
+it('can have description with HTML', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getDescription())->toBe('A natural disaster leaves the young girl wandering alone in an unfamiliar and dangerous land until she is found by a woman of the Clan, people very different from her own kind. To them, blond, blue-eyed Ayla looks peculiar and ugly—she is one of the Others, those who have moved into their ancient homeland; but Iza cannot leave the girl to die and takes her with them. Iza and Creb, the old Mog-ur, grow to love her, and as Ayla learns the ways of the Clan and Iza’s way of healing, most come to accept her. But the brutal and proud youth who is destined to become their next leader sees her differences as a threat to his authority. He develops a deep and abiding hatred for the strange girl of the Others who lives in their midst, and is determined to get his revenge.');
+    expect($ebook->getDescriptionHtml())->toBe('<div><p>A natural disaster leaves the young girl wandering alone in an unfamiliar and dangerous land until she is found by a woman of the Clan, people very different from her own kind. To them, blond, blue-eyed Ayla looks peculiar and ugly—she is one of the Others, those who have moved into their ancient homeland; but Iza cannot leave the girl to die and takes her with them. Iza and Creb, the old Mog-ur, grow to love her, and as Ayla learns the ways of the Clan and Iza’s way of healing, most come to accept her. But the brutal and proud youth who is destined to become their next leader sees her differences as a threat to his authority. He develops a deep and abiding hatred for the strange girl of the Others who lives in their midst, and is determined to get his revenge.</p></div>');
+})->with([EPUB]);

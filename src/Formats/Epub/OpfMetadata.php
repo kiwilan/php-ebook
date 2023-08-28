@@ -384,7 +384,8 @@ class OpfMetadata
 
         foreach ($core as $item) {
             $name = XmlReader::parseContent($item);
-            if(is_array($name)){
+            // if `<dc:creator></dc:creator>`
+            if (is_array($name)) {
                 continue;
             }
             $attributes = XmlReader::parseAttributes($item);
