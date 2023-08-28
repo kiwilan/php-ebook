@@ -28,6 +28,7 @@ define('EPUB_OPF_LAGUERREETERNELLE', __DIR__.'/media/opf-la-guerre-eternelle.opf
 define('EPUB_OPF_EPEEETMORT', __DIR__.'/media/opf-content-epee-et-mort.opf');
 define('EPUB_OPF_NOT_FORMATTED', __DIR__.'/media/opf-not-formatted.opf');
 define('EPUB_OPF_EMPTY_CREATOR', __DIR__.'/media/opf-epub2-empty-creator.opf');
+define('EPUB_OPF_LA5EVAGUE', __DIR__.'/media/opf-content-la-5e-vague.opf');
 
 define('EPUB', __DIR__.'/media/test-epub.epub');
 define('EPUB_ONE_TAG', __DIR__.'/media/epub-one-tag.epub');
@@ -37,6 +38,7 @@ define('EPUB_BAD_MULTIPLE_CREATORS', __DIR__.'/media/epub-bad-multiple-creators.
 define('EPUB_NO_CONTAINER', __DIR__.'/media/epub-no-container.epub');
 define('EPUB_NO_OPF', __DIR__.'/media/epub-no-opf.epub');
 define('EPUB_BAD_FILE', __DIR__.'/media/epub-bad-file.epub');
+define('EPUB_DESCRIPTION', __DIR__.'/media/epub-description.epub');
 
 define('STANDARD_EPUB', __DIR__.'/media/alice-lewis-carroll-1.epub');
 define('STANDARD_AZW3', __DIR__.'/media/alice-lewis-carroll-2.azw3');
@@ -89,9 +91,9 @@ define('STANDARD', [
     'SNB' => STANDARD_SNB,
 ]);
 
-function outputPath(): string
+function outputPath(?string $path): string
 {
-    return __DIR__.'/output/';
+    return __DIR__.'/output/'.$path;
 }
 
 function outputPathFake(): string
@@ -160,11 +162,11 @@ function listFiles(string $dir): array
     $files = array_diff(scandir($dir), ['.', '..', '.gitignore']);
 
     $items = [];
-    foreach ($files as $ebook) {
-        if (! is_dir("$dir/$ebook") && ! is_link("$dir/$ebook")) {
-            $items[] = $ebook;
+    foreach ($files as $file) {
+        if (! is_dir("$dir/$file") && ! is_link("$dir/$file")) {
+            $items[] = $file;
         } else {
-            $items = array_merge($items, listFiles("$dir/$ebook"));
+            $items = array_merge($items, listFiles("$dir/$file"));
         }
     }
 
@@ -184,4 +186,24 @@ function recurseRmdir(string $dir)
         }
     }
     // rmdir($dir);
+}
+
+/**
+ * @return SplFileInfo[]
+ */
+function getAllFiles(string $path): array
+{
+    $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
+    $files = [];
+
+    /** @var SplFileInfo $file */
+    foreach ($rii as $file) {
+        if ($file->isDir()) {
+            continue;
+        }
+
+        $files[] = $file;
+    }
+
+    return $files;
 }

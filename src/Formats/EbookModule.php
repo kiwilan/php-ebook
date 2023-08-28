@@ -66,11 +66,20 @@ abstract class EbookModule
      */
     private function formatText(string $text): string
     {
-        $text = str_replace("\n", '', $text);
-        $text = str_replace("\r", '', $text);
-        $text = str_replace("\t", '', $text);
+        $text = str_replace("\n", '', $text); // remove new lines
+        $text = str_replace("\r", '', $text); // remove carriage returns
+        $text = str_replace("\t", '', $text); // remove tabs
         $text = trim($text);
-        $text = preg_replace('/\s+/', ' ', $text);
+
+        $text = str_replace('...', 'SUSPENSE_DOTS', $text);
+        $text = preg_replace('/\.(?!\s)/', '. ', $text); // remove dot without space
+        $text = str_replace('SUSPENSE_DOTS', '... ', $text);
+        $text = preg_replace('/\s+/', ' ', $text); // remove multiple spaces
+        $text = trim($text);
+
+        if ($text !== strip_tags($text)) {
+            $text = preg_replace('/\s+</', '<', $text); // remove spaces before tags
+        }
 
         return $text;
     }
