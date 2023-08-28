@@ -265,6 +265,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 -   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
 -   [`kiwilan`](https://github.com/kiwilan) for `kiwilan/php-archive`, `kiwilan/php-audio`, `kiwilan/php-xml-reader`
+-   [All Contributors](../../contributors)
 
 ## License
 
