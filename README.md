@@ -172,6 +172,7 @@ $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
 $ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
+$ebook->isBadFile(); // bool => `true` if file is not readable
 ```
 
 ### Metadata
