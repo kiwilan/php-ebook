@@ -49,14 +49,14 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
-|                  Type                   | Supported |                                               Requirement                                                |         Uses         |
-| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :------------------: |
-|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |         N/A          |
-|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary | PHP `rar` or `p7zip` |
-|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |    `p7zip` binary    |
-|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          |  `smalot/pdfparser`  |
-| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio`  |
+|                  Type                   | Supported |                                               Requirement                                                |              Uses              |
+| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :----------------------------: |
+|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |      `zip` PHP extension       |
+|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |      `phar` PHP extension      |
+|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary |      PHP `rar` or `p7zip`      |
+|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |         `p7zip` binary         |
+|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          | `smalot/pdfparser` (included)  |
+| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio` (included) |
 
 > **Warning**
 >
