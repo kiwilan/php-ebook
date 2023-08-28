@@ -83,3 +83,9 @@ it('can parse epub opf without tags', function () {
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 });
+
+it('can parse epub opf with empty dc:creator', function (string $path) {
+    $opf = OpfMetadata::make(file_get_contents($path), $path);
+
+    expect($opf->getDcCreators())->toBeEmpty();
+})->with([EPUB_OPF_EMPTY_CREATOR]);

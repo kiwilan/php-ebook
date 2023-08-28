@@ -10,10 +10,12 @@ use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
 it('can parse epub entity', function () {
     $ebook = Ebook::read(EPUB);
     $firstAuthor = $ebook->getAuthors()[0];
+    $filename = pathinfo(EPUB, PATHINFO_FILENAME);
     $basename = pathinfo(EPUB, PATHINFO_BASENAME);
 
     expect($ebook->getpath())->toBe(EPUB);
-    expect($ebook->getFilename())->toBe($basename);
+    expect($ebook->getFilename())->toBe($filename);
+    expect($ebook->getBasename())->toBe($basename);
     expect($ebook->hasMetadata())->toBeTrue();
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
@@ -47,6 +49,7 @@ it('can parse epub entity', function () {
     $metadata = $ebook->getMetadata();
     expect($metadata->toArray())->toBeArray();
     expect($metadata->toJson())->toBeString();
+    expect(Ebook::isValid(EPUB))->toBeTrue();
 });
 
 it('can get epub cover', function () {
@@ -160,8 +163,11 @@ it('can parse epub without tags', function () {
 it('can handle bad file', function () {
     $ebook = Ebook::read(EPUB_BAD_FILE);
 
+    expect(Ebook::isValid(EPUB_BAD_FILE))->toBeFalse();
     expect($ebook->hasMetadata())->toBeFalse();
     expect($ebook->isBadFile())->toBeTrue();
+    // expect(fn () => $ebook->getArchive())->toThrow(Exception::class);
+    expect(fn () => $ebook->getArchive()?->filter('opf'))->not()->toThrow(Exception::class);
 });
 
 it('can handle bad epub', function (string $epub) {

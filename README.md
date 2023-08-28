@@ -98,8 +98,6 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-### Main
-
 With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
 
 ```php
@@ -114,6 +112,7 @@ $ebook->getTitle(); // string
 $ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
 $ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
 $ebook->getDescription(); // ?string
+$ebook->getDescriptionHtml(); // ?string
 $ebook->getCopyright(); // ?string
 $ebook->getPublisher(); // ?string
 $ebook->getIdentifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
@@ -142,6 +141,14 @@ $ebook->getExtras(); // array<string, mixed> => additional data for book
 $ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
 ```
 
+To know if eBook is valid, you can use `isValid()` static method, before `read()`.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$isValid = Ebook::isValid('path/to/ebook.epub');
+```
+
 To get additional data, you can use these methods:
 
 ```php
@@ -149,6 +156,7 @@ $ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
 $ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
+$ebook->getArchive(); // ?BaseArchive => archive of book from `kiwilan/php-archive`
 ```
 
 And to test if some data exists:
@@ -263,6 +271,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 -   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
 -   [`kiwilan`](https://github.com/kiwilan) for `kiwilan/php-archive`, `kiwilan/php-audio`, `kiwilan/php-xml-reader`
+-   [All Contributors](../../contributors)
 
 ## License
 

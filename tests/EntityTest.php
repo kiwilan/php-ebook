@@ -143,8 +143,8 @@ it('can use BookIdentifier', function (string $value, string $scheme) {
 it('can use BookMeta', function (string $name, string $content) {
     $item = new BookMeta($name, $content);
 
-    expect($item->name())->toBe($name);
-    expect($item->content())->toBe($content);
+    expect($item->getName())->toBe($name);
+    expect($item->getContent())->toBe($content);
     expect($item->toArray())->toBe([
         'name' => $name,
         'content' => $content,

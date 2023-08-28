@@ -10,12 +10,12 @@ class BookMeta
     ) {
     }
 
-    public function name(): ?string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function content(): ?string
+    public function getContent(): ?string
     {
         return $this->content;
     }
