@@ -43,6 +43,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   **PHP version** >= _8.1_
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
+    -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
@@ -156,6 +157,11 @@ $ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
 $ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
+```
+
+To access to archive of eBook, you can use `getArchive()` method. You can find more informations about archive in [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive).
+
+```php
 $ebook->getArchive(); // ?BaseArchive => archive of book from `kiwilan/php-archive`
 ```
 
