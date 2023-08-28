@@ -4,8 +4,10 @@ namespace Kiwilan\Ebook;
 
 use DateTime;
 use Kiwilan\Archive\Archive;
+use Kiwilan\Archive\ArchiveZipCreate;
 use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Audio\Audio;
+use Kiwilan\Ebook\Creator\EbookCreator;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
 use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
@@ -117,6 +119,14 @@ class Ebook
         $self = self::parseFile($path);
 
         return ! $self->isBadFile;
+    }
+
+    /**
+     * Create an ebook file.
+     */
+    public static function create(string $path): ArchiveZipCreate
+    {
+        return EbookCreator::create($path);
     }
 
     /**

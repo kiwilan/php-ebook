@@ -75,8 +75,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 -   🔖 Chapters extraction (`EPUB` only)
-
-<!-- -   📦 `EPUB` and `CBZ` creation supported -->
+-   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
 
 ### Roadmap
@@ -86,7 +85,6 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   https://wiki.mobileread.com/wiki/MOBI
 -   [ ] Add `.djvu` support
 -   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
--   [ ] Add `.epub` creation support
 -   [ ] Add `.epub` metadata update support
 
 ## Installation
@@ -263,6 +261,34 @@ $epub->getFiles(); // string[] => all files in EPUB
 > **Note**
 >
 > For performance reasons, with `ncx`, `html` and `chapters` are only available on demand. If you use `var_dump` to check metadata, these properties will be `null`.
+
+### Creation
+
+You can create an EPUB or CBZ file with `create()` static method.
+
+> **Note**
+>
+> Only `EPUB` and `CBZ` are supported for creation.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$creator = Ebook::create('path/to/ebook.epub');
+
+// Build manually
+$creator->addFromString('mimetype', 'application/epub+zip')
+    ->addFromString('META-INF/container.xml', '<?xml version="1.0" encoding="UTF-8" standalone="no" ?><container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container"><rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles></container>')
+    ->save();
+
+// Build from files
+$creator->addFile('mimetype', 'path/to/mimetype')
+    ->addFile('META-INF/container.xml', 'path/to/container.xml')
+    ->save();
+
+// Build from directory
+$creator->addDirectory('./', 'path/to/directory')
+    ->save();
+```
 
 ## Testing
 
