@@ -119,7 +119,7 @@ class EpubMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        if (! $this->coverPath || $this->ebook->getArchive()===null) {
+        if (! $this->coverPath || $this->ebook->getArchive() === null) {
             return null;
         }
 
@@ -172,7 +172,7 @@ class EpubMetadata extends EbookModule
     {
         $items = [];
         foreach ($this->files as $path) {
-            if ($this->ebook->getArchive()===null) {
+            if ($this->ebook->getArchive() === null) {
                 continue;
             }
             $file = $this->ebook->getArchive()->find($path);
@@ -221,7 +221,7 @@ class EpubMetadata extends EbookModule
             }
         }
 
-        if (! $path || $this->ebook->getArchive()===null) {
+        if (! $path || $this->ebook->getArchive() === null) {
             return null;
         }
 

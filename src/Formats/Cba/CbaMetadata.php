@@ -74,7 +74,7 @@ class CbaMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        if ($this->ebook->getArchive()===null) {
+        if ($this->ebook->getArchive() === null) {
             return null;
         }
 
