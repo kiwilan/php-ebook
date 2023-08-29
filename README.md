@@ -17,23 +17,6 @@ _Supports Linux, macOS and Windows._
 >
 > This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
 
-## Table of Contents
-
--   [About](#about)
--   [Requirements](#requirements)
--   [Features](#features)
-    -   [Roadmap](#roadmap)
--   [Installation](#installation)
--   [Usage](#usage)
-    -   [Main](#main)
-    -   [Metadata](#metadata)
-    -   [MetaTitle](#metatitle)
-    -   [Cover](#cover)
--   [Testing](#testing)
--   [Changelog](#changelog)
--   [Credits](#credits)
--   [License](#license)
-
 ## About
 
 This package was built for [`bookshelves-project/bookshelves`](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.

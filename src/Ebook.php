@@ -468,11 +468,6 @@ class Ebook
      */
     public function getArchive(): ?BaseArchive
     {
-        // if (! $this->archive) {
-        //     error_log("{$this->path} can't be read as archive.");
-        //     throw new \Exception("{$this->path} can't be read as archive.");
-        // }
-
         return $this->archive;
     }
 
