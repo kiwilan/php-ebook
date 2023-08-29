@@ -2,6 +2,21 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.1.0 - 2023-08-28
+
+- Add some improvements for `description` parsing (remove extra spaces, remove newlines, etc.)
+- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance   
+  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`   
+  
+
+## v2.0.20 - 2023-08-28
+
+- add `descriptionHtml()` method to `Ebook::class`, which can contains description with html tags if it is available, html is sanitized, original description is still available via `description()` method with plain text
+- add `getBasename()` method to `Ebook::class`, which returns basename of ebook file, `getFilename()` now return real filename of ebook file
+- add `isValid(string $path)` static method to `Ebook::class`, which checks if ebook file is valid, thanks to @SergioMendolia: [https://github.com/kiwilan/php-ebook/issues/38](https://github.com/kiwilan/php-ebook/issues/38)
+- fix `<dc:creator>` empty tag in `opf` file, thanks to @SergioMendolia: [https://github.com/kiwilan/php-ebook/pull/39](https://github.com/kiwilan/php-ebook/pull/39)
+- Bugfixes
+
 ## 2.0.12 - 2023-08-10
 
 - fix `OpfMetadata` `dcRights()` parse array to string
