@@ -56,7 +56,7 @@ class PdfMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        if (! extension_loaded('imagick') || $this->ebook->getArchive()===null) {
+        if (! extension_loaded('imagick') || $this->ebook->getArchive() === null) {
             return null;
         }
 
