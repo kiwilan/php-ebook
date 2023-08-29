@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.1.01 - 2023-08-29
+
+- avoids crashing when trying to read metadata while archive is null, by @SergioMendolia in [https://github.com/kiwilan/php-ebook/pull/45](https://github.com/kiwilan/php-ebook/pull/45)
+
 ## v2.1.0 - 2023-08-28
 
 - Add some improvements for `description` parsing (remove extra spaces, remove newlines, etc.)
