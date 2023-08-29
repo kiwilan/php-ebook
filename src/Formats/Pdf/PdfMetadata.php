@@ -56,7 +56,7 @@ class PdfMetadata extends EbookModule
 
     public function toCover(): ?EbookCover
     {
-        if (! extension_loaded('imagick')) {
+        if (! extension_loaded('imagick') || $this->ebook->getArchive()===null) {
             return null;
         }
 
@@ -74,7 +74,7 @@ class PdfMetadata extends EbookModule
 
     public function toCounts(): Ebook
     {
-        $this->ebook->setPagesCount($this->ebook->getArchive()->getCount());
+        $this->ebook->setPagesCount($this->ebook->getArchive()?->getCount());
 
         return $this->ebook;
     }
