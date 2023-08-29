@@ -166,8 +166,7 @@ it('can handle bad file', function () {
     expect(Ebook::isValid(EPUB_BAD_FILE))->toBeFalse();
     expect($ebook->hasMetadata())->toBeFalse();
     expect($ebook->isBadFile())->toBeTrue();
-    // expect(fn () => $ebook->getArchive())->toThrow(Exception::class);
-    expect(fn () => $ebook->getArchive()?->filter('opf'))->not()->toThrow(Exception::class);
+    expect(fn () => $ebook->getArchive()->filter('opf'))->not()->toThrow(Exception::class);
 });
 
 it('can handle bad epub', function (string $epub) {
