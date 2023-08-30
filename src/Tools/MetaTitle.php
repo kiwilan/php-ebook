@@ -42,7 +42,11 @@ class MetaTitle
                 'au ',
             ],
         ],
-    ): self {
+    ): ?self {
+        if (! $ebook->getTitle()) {
+            return null;
+        }
+
         $self = new self();
 
         $self->determiners = $determiners;

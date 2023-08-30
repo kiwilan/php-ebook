@@ -15,17 +15,17 @@ class PdfMetadata extends EbookModule
     public static function make(Ebook $ebook): self
     {
         $self = new self($ebook);
-        $self->meta = $ebook->getArchive()->getPdf();
+        $self->meta = $ebook->getArchive()?->getPdf();
 
         return $self;
     }
 
     public function toEbook(): Ebook
     {
-        $this->ebook->setTitle($this->meta->getTitle());
+        $this->ebook->setTitle($this->meta?->getTitle());
 
-        $author = $this->meta->getAuthor();
-        if($author!==null) {
+        $author = $this->meta?->getAuthor();
+        if ($author !== null) {
             $authors = [];
             if (str_contains($author, ',')) {
                 $authors = explode(',', $author);
@@ -46,10 +46,10 @@ class PdfMetadata extends EbookModule
 
             $this->ebook->setAuthors($creators);
         }
-        $this->ebook->setDescription($this->meta->getSubject());
-        $this->ebook->setPublisher($this->meta->getCreator());
-        $this->ebook->setTags($this->meta->getKeywords());
-        $this->ebook->setPublishDate($this->meta->getCreationDate());
+        $this->ebook->setDescription($this->meta?->getSubject());
+        $this->ebook->setPublisher($this->meta?->getCreator());
+        $this->ebook->setTags($this->meta?->getKeywords());
+        $this->ebook->setPublishDate($this->meta?->getCreationDate());
 
         $this->ebook->setHasMetadata(true);
 
