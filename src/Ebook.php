@@ -629,6 +629,10 @@ class Ebook
 
     public function setMetaTitle(Ebook $ebook): self
     {
+        if (! $ebook->getTitle()) {
+            return $this;
+        }
+
         $this->metaTitle = MetaTitle::make($ebook);
 
         return $this;
@@ -702,10 +706,14 @@ class Ebook
     }
 
     /**
-     * @param  string[]  $tags
+     * @param  string[]|null  $tags
      */
-    public function setTags(array $tags): self
+    public function setTags(?array $tags): self
     {
+        if (! $tags) {
+            $tags = [];
+        }
+
         $this->tags = $tags;
 
         return $this;

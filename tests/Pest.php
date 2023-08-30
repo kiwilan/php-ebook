@@ -1,6 +1,9 @@
 <?php
 
-define('PDF', __DIR__.'/media/example.pdf');
+// exiftool -Title="This is the Title" -Author="New Author" -Subject="Meta" pdf-example.pdf
+define('PDF', __DIR__.'/media/pdf-example.pdf');
+define('PDF_EMPTY', __DIR__.'/media/pdf-empty.pdf');
+define('PDF_SIMPLE', __DIR__.'/media/pdf-simple.pdf');
 
 define('CBZ_NO_METADATA', __DIR__.'/media/cba-no-metadata.cbz');
 define('CBZ', __DIR__.'/media/cba.cbz');
