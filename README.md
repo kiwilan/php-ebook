@@ -273,6 +273,10 @@ $creator->addDirectory('./', 'path/to/directory')
     ->save();
 ```
 
+## More
+
+-   [kiwilan/php-opds](https://github.com/kiwilan/php-opds): PHP package to generate OPDS feeds
+
 ## Testing
 
 ```bash
