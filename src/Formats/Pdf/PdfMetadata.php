@@ -25,6 +25,7 @@ class PdfMetadata extends EbookModule
         $this->ebook->setTitle($this->meta?->getTitle());
 
         $author = $this->meta?->getAuthor();
+
         if ($author !== null) {
             $authors = [];
             if (str_contains($author, ',')) {
