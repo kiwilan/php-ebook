@@ -25,25 +25,27 @@ class PdfMetadata extends EbookModule
         $this->ebook->setTitle($this->meta->getTitle());
 
         $author = $this->meta->getAuthor();
-        $authors = [];
-        if (str_contains($author, ',')) {
-            $authors = explode(',', $author);
-        } elseif (str_contains($author, '&')) {
-            $authors = explode(',', $author);
-        } elseif (str_contains($author, 'and')) {
-            $authors = explode(',', $author);
-        } else {
-            $authors[] = $author;
-        }
+        if($author!==null) {
+            $authors = [];
+            if (str_contains($author, ',')) {
+                $authors = explode(',', $author);
+            } elseif (str_contains($author, '&')) {
+                $authors = explode(',', $author);
+            } elseif (str_contains($author, 'and')) {
+                $authors = explode(',', $author);
+            } else {
+                $authors[] = $author;
+            }
 
-        $creators = [];
-        foreach ($authors as $author) {
-            $creators[] = new BookAuthor(
-                name: trim($author),
-            );
-        }
+            $creators = [];
+            foreach ($authors as $author) {
+                $creators[] = new BookAuthor(
+                    name: trim($author),
+                );
+            }
 
-        $this->ebook->setAuthors($creators);
+            $this->ebook->setAuthors($creators);
+        }
         $this->ebook->setDescription($this->meta->getSubject());
         $this->ebook->setPublisher($this->meta->getCreator());
         $this->ebook->setTags($this->meta->getKeywords());
