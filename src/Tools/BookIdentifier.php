@@ -27,7 +27,7 @@ class BookIdentifier
         $regex = '/\b(?:ISBN(?:: ?| ))?((?:97[89])?\d{9}[\dx])\b/i';
 
         if (preg_match($regex, str_replace('-', '', $this->value), $matches)) {
-            return (10 === strlen($matches[1]))
+            return (strlen($matches[1]) === 10)
                 ? 'isbn10'
                 : 'isbn13';
         }
