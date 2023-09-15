@@ -15,7 +15,7 @@ _Supports Linux, macOS and Windows._
 
 > **Note**
 >
-> This package favors eBooks in open formats such as `.epub` or `.cbz` and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
+> This package favors eBooks in open formats such as `.epub` (from [IDPF](https://en.wikipedia.org/wiki/International_Digital_Publishing_Forum)) or `.cbz` (from [CBA](https://en.wikipedia.org/wiki/Comic_book_archive)) and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
 
 ## About
 
@@ -29,7 +29,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
-    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
+    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
 |                  Type                   | Supported |                                               Requirement                                                |              Uses              |
@@ -63,12 +63,30 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ### Roadmap
 
--   [ ] Add `.mobi`, `.azw`, `.azw3` support
-    -   https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
-    -   https://wiki.mobileread.com/wiki/MOBI
--   [ ] Add `.djvu` support
--   [ ] Add `.fb2`, `.lrf`, `.pdb`, `.snb` support
+-   [ ] More formats support: `.mobi`, `.azw`, `.azw3`, `.djvu`, `.fb2`
+-   [ ] Better `.epub` creation support
 -   [ ] Add `.epub` metadata update support
+
+### Formats
+
+There is a lot of different formats for eBooks and comics, if you want to know more about:
+
+-   [Comparison of e-book formats](https://en.wikipedia.org/wiki/Comparison_of_e-book_formats) for eBooks
+-   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
+-   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
+
+|       Name       |           Extensions            | Supported |     Notes     |
+| :--------------: | :-----------------------------: | :-------: | :-----------: |
+|   EPUB (IDPF)    |             `.epub`             |    ✅     |               |
+| Kindle (Amazon)  | `.azw`, `.azw3`, `.kf8`, `.kfx` |    ❌     | _proprietary_ |
+| Mobipocket (KF8) |         `.mobi`, `.prc`         |    ❌     | _deprecated_  |
+|       PDF        |             `.pdf`              |    ✅     |               |
+|  iBook (Apple)   |            `.ibooks`            |    ❌     | _proprietary_ |
+|       DjVu       |         `.djvu`, `.djv`         |    ❌     |               |
+| Rich Text Format |             `.rtf`              |    ❌     |               |
+|   FictionBook    |             `.fb2`              |    ❌     |               |
+| Broadband eBooks |         `.lrf`, `.lrx`          |    ❌     |               |
+|    Palm Media    |             `.pdb`              |    ❌     |               |
 
 ## Installation
 
