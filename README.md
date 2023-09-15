@@ -29,7 +29,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
     -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
-    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator`
+    -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 
 |                  Type                   | Supported |                                               Requirement                                                |              Uses              |
