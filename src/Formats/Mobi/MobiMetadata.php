@@ -10,6 +10,10 @@ use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\BookIdentifier;
 
+/**
+ * @docs https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
+ * @docs https://wiki.mobileread.com/wiki/MOBI
+ */
 class MobiMetadata extends EbookModule
 {
     protected ?MobiParser $parser = null;
