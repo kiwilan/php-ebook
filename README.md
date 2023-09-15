@@ -75,18 +75,20 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 -   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
 -   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
 
-|       Name       |           Extensions            | Supported |     Notes     |
-| :--------------: | :-----------------------------: | :-------: | :-----------: |
-|   EPUB (IDPF)    |             `.epub`             |    ✅     |               |
-| Kindle (Amazon)  | `.azw`, `.azw3`, `.kf8`, `.kfx` |    ❌     | _proprietary_ |
-| Mobipocket (KF8) |         `.mobi`, `.prc`         |    ❌     | _deprecated_  |
-|       PDF        |             `.pdf`              |    ✅     |               |
-|  iBook (Apple)   |            `.ibooks`            |    ❌     | _proprietary_ |
-|       DjVu       |         `.djvu`, `.djv`         |    ❌     |               |
-| Rich Text Format |             `.rtf`              |    ❌     |               |
-|   FictionBook    |             `.fb2`              |    ❌     |               |
-| Broadband eBooks |         `.lrf`, `.lrx`          |    ❌     |               |
-|    Palm Media    |             `.pdb`              |    ❌     |               |
+|       Name       |                           Extensions                            | Supported |     Notes     |
+| :--------------: | :-------------------------------------------------------------: | :-------: | :-----------: |
+|   EPUB (IDPF)    |                             `.epub`                             |    ✅     |               |
+| Kindle (Amazon)  |                 `.azw`, `.azw3`, `.kf8`, `.kfx`                 |    ❌     | _proprietary_ |
+| Mobipocket (KF8) |                         `.mobi`, `.prc`                         |    ❌     | _deprecated_  |
+|       PDF        |                             `.pdf`                              |    ✅     |               |
+|  iBook (Apple)   |                            `.ibooks`                            |    ❌     | _proprietary_ |
+|       DjVu       |                         `.djvu`, `.djv`                         |    ❌     |               |
+| Rich Text Format |                             `.rtf`                              |    ❌     |               |
+|   FictionBook    |                             `.fb2`                              |    ❌     |               |
+| Broadband eBooks |                         `.lrf`, `.lrx`                          |    ❌     |               |
+|    Palm Media    |                             `.pdb`                              |    ❌     |               |
+|       CBA        |                 `.cbz`, `.cbr`, `.cb7`, `.cbt`                  |    ✅     |               |
+|      Audio       | See [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) |    ✅     |               |
 
 ## Installation
 
