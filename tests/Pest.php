@@ -42,6 +42,8 @@ define('EPUB_NO_CONTAINER', __DIR__.'/media/epub-no-container.epub');
 define('EPUB_NO_OPF', __DIR__.'/media/epub-no-opf.epub');
 define('EPUB_BAD_FILE', __DIR__.'/media/epub-bad-file.epub');
 define('EPUB_DESCRIPTION', __DIR__.'/media/epub-description.epub');
+define('EPUB_VOL0', __DIR__.'/media/epub-vol-0.epub');
+define('EPUB_EPEE_ET_MORT', __DIR__.'/media/epub-epee-et-mort.epub');
 
 define('STANDARD_EPUB', __DIR__.'/media/alice-lewis-carroll-1.epub');
 define('STANDARD_AZW3', __DIR__.'/media/alice-lewis-carroll-2.azw3');

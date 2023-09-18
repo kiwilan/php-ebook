@@ -76,7 +76,7 @@ class EpubMetadata extends EbookModule
         $authors = array_values($this->opf->getDcCreators());
         $this->ebook->setAuthors($authors);
         $this->ebook->setDescription($this->htmlToString($this->opf->getDcDescription()));
-        $this->ebook->setDescriptionHtml($this->sanitizeHtml($this->opf->getDcDescription()));
+        $this->ebook->setDescriptionHtml($this->toHtml($this->opf->getDcDescription()));
         $this->ebook->setCopyright(! empty($this->opf->getDcRights()) ? implode(', ', $this->opf->getDcRights()) : null);
         $this->ebook->setPublisher($this->opf->getDcPublisher());
         $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
@@ -113,6 +113,10 @@ class EpubMetadata extends EbookModule
             'contributor' => $contributor,
             'rating' => $rating,
         ]);
+
+        if ($this->ebook->getSeries() && ! $this->ebook->getVolume()) {
+            $this->ebook->setVolume(0);
+        }
 
         return $this->ebook;
     }

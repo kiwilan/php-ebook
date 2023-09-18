@@ -61,6 +61,20 @@ abstract class EbookModule
         return $html;
     }
 
+    protected function toHtml(?string $html): ?string
+    {
+        $html = $this->sanitizeHtml($html);
+        if (! $html) {
+            return null;
+        }
+
+        if ($html === strip_tags($html)) {
+            return "<div>$html</div>";
+        }
+
+        return $html;
+    }
+
     /**
      * Clean string, remove tabs, new lines, carriage returns, and multiple spaces.
      */
