@@ -9,9 +9,9 @@ use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\ComicMeta;
 use Kiwilan\XmlReader\XmlReader;
 
-class CbaMetadata extends EbookModule
+class CbaModule extends EbookModule
 {
-    protected ?CbamMetadata $cbam = null;
+    protected ?CbamTemplate $cbam = null;
 
     protected ?string $type = null;
 
@@ -35,7 +35,7 @@ class CbaMetadata extends EbookModule
 
         /** @var ?CbaTemplate */
         $parser = match ($self->type) {
-            'cbam' => CbamMetadata::class,
+            'cbam' => CbamTemplate::class,
             // 'cbml' => CbaCbml::class,
             default => null,
         };
@@ -46,13 +46,13 @@ class CbaMetadata extends EbookModule
 
         if ($self->type === 'cbam') {
             $self->ebook->setHasMetadata(true);
-            $self->cbam = CbamMetadata::make($reader);
+            $self->cbam = CbamTemplate::make($reader);
         }
 
         return $self;
     }
 
-    public function getCbam(): ?CbamMetadata
+    public function getCbam(): ?CbamTemplate
     {
         return $this->cbam;
     }

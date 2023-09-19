@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Epub;
+namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 /**
  * Merge `.ncx` and `.html` files to create chapters.
@@ -18,7 +18,7 @@ class EpubChapter
      * @param  EpubHtml[]  $html
      * @return EpubChapter[]
      */
-    public static function toArray(?NcxMetadata $ncx, ?array $html): array
+    public static function toArray(?NcxItem $ncx, ?array $html): array
     {
         if (! $ncx || ! $html) {
             return [];

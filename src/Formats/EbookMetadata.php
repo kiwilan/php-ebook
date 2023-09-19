@@ -2,21 +2,23 @@
 
 namespace Kiwilan\Ebook\Formats;
 
-use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
-use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
-use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
-use Kiwilan\Ebook\Formats\Mobi\MobiMetadata;
-use Kiwilan\Ebook\Formats\Pdf\PdfMetadata;
+use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
+use Kiwilan\Ebook\Formats\Cba\CbaModule;
+use Kiwilan\Ebook\Formats\Epub\EpubModule;
+use Kiwilan\Ebook\Formats\Fb2\Fb2Module;
+use Kiwilan\Ebook\Formats\Mobi\MobiModule;
+use Kiwilan\Ebook\Formats\Pdf\PdfModule;
 
 class EbookMetadata
 {
     protected function __construct(
         protected EbookModule $module,
-        protected ?EpubMetadata $epub = null,
-        protected ?MobiMetadata $mobi = null,
-        protected ?CbaMetadata $cba = null,
-        protected ?PdfMetadata $pdf = null,
-        protected ?AudiobookMetadata $audiobook = null,
+        protected ?EpubModule $epub = null,
+        protected ?MobiModule $mobi = null,
+        protected ?Fb2Module $fb2 = null,
+        protected ?CbaModule $cba = null,
+        protected ?PdfModule $pdf = null,
+        protected ?AudiobookModule $audiobook = null,
         protected ?string $type = null,
     ) {
     }
@@ -25,27 +27,32 @@ class EbookMetadata
     {
         $self = new self($module);
 
-        if ($module instanceof EpubMetadata) {
+        if ($module instanceof EpubModule) {
             $self->epub = $module;
             $self->type = 'epub';
         }
 
-        if ($module instanceof MobiMetadata) {
+        if ($module instanceof MobiModule) {
             $self->mobi = $module;
             $self->type = 'mobi';
         }
 
-        if ($module instanceof CbaMetadata) {
+        if ($module instanceof Fb2Module) {
+            $self->fb2 = $module;
+            $self->type = 'fb2';
+        }
+
+        if ($module instanceof CbaModule) {
             $self->cba = $module;
             $self->type = 'cba';
         }
 
-        if ($module instanceof PdfMetadata) {
+        if ($module instanceof PdfModule) {
             $self->pdf = $module;
             $self->type = 'pdf';
         }
 
-        if ($module instanceof AudiobookMetadata) {
+        if ($module instanceof AudiobookModule) {
             $self->audiobook = $module;
             $self->type = 'audiobook';
         }
@@ -58,27 +65,32 @@ class EbookMetadata
         return $this->module;
     }
 
-    public function getEpub(): ?EpubMetadata
+    public function getEpub(): ?EpubModule
     {
         return $this->epub;
     }
 
-    public function getMobi(): ?MobiMetadata
+    public function getMobi(): ?MobiModule
     {
         return $this->mobi;
     }
 
-    public function getCba(): ?CbaMetadata
+    public function getFb2(): ?Fb2Module
+    {
+        return $this->fb2;
+    }
+
+    public function getCba(): ?CbaModule
     {
         return $this->cba;
     }
 
-    public function getPdf(): ?PdfMetadata
+    public function getPdf(): ?PdfModule
     {
         return $this->pdf;
     }
 
-    public function getAudiobook(): ?AudiobookMetadata
+    public function getAudiobook(): ?AudiobookModule
     {
         return $this->audiobook;
     }

@@ -1,11 +1,11 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Formats\Epub\EpubChapter;
-use Kiwilan\Ebook\Formats\Epub\EpubContainer;
-use Kiwilan\Ebook\Formats\Epub\EpubHtml;
-use Kiwilan\Ebook\Formats\Epub\NcxMetadata;
-use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubChapter;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubHtml;
+use Kiwilan\Ebook\Formats\Epub\Parser\NcxItem;
+use Kiwilan\Ebook\Formats\Epub\Parser\OpfItem;
 
 it('can parse epub entity', function () {
     $ebook = Ebook::read(EPUB);
@@ -98,8 +98,8 @@ it('can read epub metadata', function () {
     $pagesCount = $epub->getPagesCount();
 
     expect($container)->toBeInstanceOf(EpubContainer::class);
-    expect($opf)->toBeInstanceOf(OpfMetadata::class);
-    expect($ncx)->toBeInstanceOf(NcxMetadata::class);
+    expect($opf)->toBeInstanceOf(OpfItem::class);
+    expect($ncx)->toBeInstanceOf(NcxItem::class);
     expect($chapters)->toBeArray()
         ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubChapter::class));
     expect($files)->toBeArray()

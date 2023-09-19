@@ -1,7 +1,7 @@
 <?php
 
-use Kiwilan\Ebook\Formats\Epub\EpubContainer;
-use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
+use Kiwilan\Ebook\Formats\Epub\Parser\OpfItem;
 use Kiwilan\XmlReader\XmlReader;
 
 it('can parse epub container', function (string $path) {
@@ -25,9 +25,9 @@ it('can failed with wrong XML', function () {
 });
 
 it('can parse epub opf', function (string $path) {
-    $opf = OpfMetadata::make(file_get_contents($path), $path);
+    $opf = OpfItem::make(file_get_contents($path), $path);
 
-    expect($opf)->tobeInstanceOf(OpfMetadata::class);
+    expect($opf)->tobeInstanceOf(OpfItem::class);
     expect($path)->toBeReadableFile();
     expect($opf->getDcTitle())->toBeString();
     expect($opf->getDcCreators())->toBeArray();
@@ -44,7 +44,7 @@ it('can parse epub opf', function (string $path) {
 })->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3, EPUB_OPF_INSURGENT, EPUB_OPF_LAGUERREETERNELLE, EPUB_OPF_EPEEETMORT, EPUB_OPF_NOT_FORMATTED]);
 
 it('can parse epub opf alt', function () {
-    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB3_ALT), EPUB_OPF_EPUB3_ALT);
+    $opf = OpfItem::make(file_get_contents(EPUB_OPF_EPUB3_ALT), EPUB_OPF_EPUB3_ALT);
 
     expect($opf->getMetadata())->toBeArray();
     expect($opf->getManifest())->toBeArray();
@@ -66,9 +66,9 @@ it('can parse epub opf alt', function () {
 });
 
 it('can parse epub opf without tags', function () {
-    $opf = OpfMetadata::make(file_get_contents(EPUB_OPF_EPUB2_NO_TAGS), EPUB_OPF_EPUB2_NO_TAGS);
+    $opf = OpfItem::make(file_get_contents(EPUB_OPF_EPUB2_NO_TAGS), EPUB_OPF_EPUB2_NO_TAGS);
 
-    expect($opf)->tobeInstanceOf(OpfMetadata::class);
+    expect($opf)->tobeInstanceOf(OpfItem::class);
     expect(EPUB_OPF_EPUB2_NO_TAGS)->toBeReadableFile();
     expect($opf->getDcTitle())->toBeString();
     expect($opf->getDcCreators())->toBeArray();
@@ -85,7 +85,7 @@ it('can parse epub opf without tags', function () {
 });
 
 it('can parse epub opf with empty dc:creator', function (string $path) {
-    $opf = OpfMetadata::make(file_get_contents($path), $path);
+    $opf = OpfItem::make(file_get_contents($path), $path);
 
     expect($opf->getDcCreators())->toBeEmpty();
 })->with([EPUB_OPF_EMPTY_CREATOR]);

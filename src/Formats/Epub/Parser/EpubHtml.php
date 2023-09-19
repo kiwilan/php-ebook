@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Epub;
+namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 /**
  * Read `.html` file from `.epub` archive to extract content.

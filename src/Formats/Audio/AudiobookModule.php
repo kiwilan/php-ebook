@@ -8,7 +8,7 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 
-class AudiobookMetadata extends EbookModule
+class AudiobookModule extends EbookModule
 {
     /** @var array<string, mixed> */
     protected array $audio = [];

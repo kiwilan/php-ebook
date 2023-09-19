@@ -10,15 +10,22 @@ class EbookCover
     ) {
     }
 
-    public static function make(?string $path, ?string $content): ?self
+    public static function make(string $path = null, string $content = null): ?self
     {
         if ($content === null) {
             return null;
         }
 
-        $content = base64_encode($content);
+        if (! EbookCover::isBase64($content)) {
+            $content = base64_encode($content);
+        }
 
         return new self($path, $content);
+    }
+
+    private static function isBase64(string $content): bool
+    {
+        return (bool) preg_match('`^[a-zA-Z0-9+/]+={0,2}$`', $content);
     }
 
     public function getPath(): ?string

@@ -6,21 +6,24 @@ class BookIdentifier
 {
     public function __construct(
         protected mixed $value = null,
-        protected ?string $scheme = null,
+        protected ?string $scheme = null, // isbn10, isbn13, asin, etc.
     ) {
         $this->value = BookMeta::parse($this->value);
-    }
-
-    public function parse(): self
-    {
         $this->scheme = $this->parseScheme();
-
-        return $this;
     }
 
     private function parseScheme(): ?string
     {
-        if (! $this->scheme) {
+        if ($this->scheme === null) {
+            $regex = '/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/';
+            if (preg_match($regex, $this->value, $matches)) {
+                $isbn = str_replace('-', '', $matches[0]);
+
+                return (strlen($isbn) === 10)
+                    ? 'isbn10'
+                    : 'isbn13';
+            }
+
             return null;
         }
 

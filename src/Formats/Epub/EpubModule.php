@@ -5,14 +5,19 @@ namespace Kiwilan\Ebook\Formats\Epub;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubChapter;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubHtml;
+use Kiwilan\Ebook\Formats\Epub\Parser\NcxItem;
+use Kiwilan\Ebook\Formats\Epub\Parser\OpfItem;
 
-class EpubMetadata extends EbookModule
+class EpubModule extends EbookModule
 {
     protected ?EpubContainer $container = null;
 
-    protected ?OpfMetadata $opf = null;
+    protected ?OpfItem $opf = null;
 
-    protected ?NcxMetadata $ncx = null;
+    protected ?NcxItem $ncx = null;
 
     protected ?string $coverPath = null;
 
@@ -53,7 +58,7 @@ class EpubMetadata extends EbookModule
         }
 
         $this->ebook->setHasMetadata(true);
-        $this->opf = OpfMetadata::make($xml, $this->ebook->getFilename());
+        $this->opf = OpfItem::make($xml, $this->ebook->getFilename());
         $this->coverPath = $this->opf->getCoverPath();
         $this->files = $this->opf->getContentFiles();
 
@@ -75,8 +80,8 @@ class EpubMetadata extends EbookModule
 
         $authors = array_values($this->opf->getDcCreators());
         $this->ebook->setAuthors($authors);
-        $this->ebook->setDescription($this->htmlToString($this->opf->getDcDescription()));
-        $this->ebook->setDescriptionHtml($this->toHtml($this->opf->getDcDescription()));
+        $this->ebook->setDescription($this->descriptionToString($this->opf->getDcDescription()));
+        $this->ebook->setDescriptionHtml($this->descriptionToHtml($this->opf->getDcDescription()));
         $this->ebook->setCopyright(! empty($this->opf->getDcRights()) ? implode(', ', $this->opf->getDcRights()) : null);
         $this->ebook->setPublisher($this->opf->getDcPublisher());
         $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
@@ -208,7 +213,7 @@ class EpubMetadata extends EbookModule
         return $chapters;
     }
 
-    private function parseNcx(): ?NcxMetadata
+    private function parseNcx(): ?NcxItem
     {
         $manifest = $this->opf->getManifest();
         $items = reset($manifest);
@@ -232,7 +237,7 @@ class EpubMetadata extends EbookModule
         $item = $this->ebook->getArchive()->find($path);
         $xml = $this->ebook->getArchive()->getContent($item);
 
-        $ncx = NcxMetadata::make($xml);
+        $ncx = NcxItem::make($xml);
 
         return $ncx;
     }
@@ -242,12 +247,12 @@ class EpubMetadata extends EbookModule
         return $this->container;
     }
 
-    public function getOpf(): ?OpfMetadata
+    public function getOpf(): ?OpfItem
     {
         return $this->opf;
     }
 
-    public function getNcx(): ?NcxMetadata
+    public function getNcx(): ?NcxItem
     {
         if (is_null($this->ncx)) {
             $this->ncx = $this->parseNcx();

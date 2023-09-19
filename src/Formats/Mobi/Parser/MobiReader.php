@@ -2,488 +2,883 @@
 
 namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
+/**
+ * @docs https://wiki.mobileread.com/wiki/MOBI
+ */
 class MobiReader
 {
-    /**
-     * @param  string[]  $authors
-     * @param  string[]  $subjects
-     * @param  string[]  $isbns
-     */
     protected function __construct(
-        protected array $authors = [], // 100
-        protected ?string $publisher = null, // 101
-        protected ?string $imprint = null, // 102
-        protected ?string $description = null, // 103
-        protected array $isbns = [], // 104
-        protected array $subjects = [], // 105
-        protected ?string $publishingDate = null, // 106
-        protected ?string $review = null, // 107
-        protected ?string $contributor = null, // 108
-        protected ?string $rights = null, // 109
-        protected ?string $subjectCode = null, // 110
-        protected ?string $type = null, // 111
-        protected ?string $source = null, // 112
-        protected ?string $asin = null, // 113
-        protected ?string $version = null, // 114
-        protected ?string $sample = null, // 115
-        protected ?string $startReading = null, // 116
-        protected ?string $adult = null, // 117
-        protected ?string $retailPrice = null, // 118
-        protected ?string $retailCurrency = null, // 119
-        protected ?string $Kf8Boundary = null, // 121
-        protected ?string $fixedLayout = null, // 122
-        protected ?string $bookType = null, // 123
-        protected ?string $orientationLock = null, // 124
-        protected ?string $originalResolution = null, // 125
-        protected ?string $zeroGutter = null, // 126
-        protected ?string $zeroMargin = null, // 127
-        protected ?string $metadataResourceUri = null, // 129
-        protected ?string $unknown131 = null, // 131
-        protected ?string $unknown132 = null, // 132
-        protected ?string $dictionaryShortName = null, // 200
-        protected ?string $coverOffset = null, // 201
-        protected ?string $thumbOffset = null, // 202
-        protected ?string $hasFakeCover = null, // 203
-        protected ?string $creatorSoftware = null, // 204
-        protected ?string $creatorMajorVersion = null, // 205
-        protected ?string $creatorMinorVersion = null, // 206
-        protected ?string $creatorBuildNumber = null, // 207
-        protected ?string $watermark = null, // 208
-        protected ?string $tamperProofKeys = null, // 209
-        protected ?string $fontSignature = null, // 300
-        protected ?string $clippingLimit = null, // 401
-        protected ?string $publisherLimit = null, // 402
-        protected ?string $unknown403 = null, // 403
-        protected ?string $textToSpeechFlag = null, // 404
-        protected ?string $unknown405 = null, // 405
-        protected ?string $rentExpirationDate = null, // 406
-        protected ?string $unknown407 = null, // 407
-        protected ?string $unknown450 = null, // 450
-        protected ?string $unknown451 = null, // 451
-        protected ?string $unknown452 = null, // 452
-        protected ?string $unknown453 = null, // 453
-        protected ?string $cdeContentType = null, // 501
-        protected ?string $lastUpdateTime = null, // 502
-        protected ?string $updatedTitle = null, // 503
-        protected ?string $asin504 = null, // 504
-        protected ?string $language = null, // 524
-        protected ?string $writingMode = null, // 525
-        protected ?string $creatorBuildNumber535 = null, // 535
-        protected ?string $unknown536 = null, // 536
-        protected ?string $unknown542 = null, // 542
-        protected ?string $inMemory = null, // 547
-        protected array $extra = [],
+        protected MobiParser $parser,
+
+        protected ?string $drmServerId = null,
+        protected ?string $drmCommerceId = null,
+        protected ?string $drmEbookbaseBookId = null,
+        protected ?string $author = null,
+        protected ?string $publisher = null,
+        protected ?string $imprint = null,
+        protected ?string $description = null,
+        protected ?string $isbn = null,
+        protected ?string $subject = null,
+        protected ?string $publishingdate = null,
+        protected ?string $review = null,
+        protected ?string $contributor = null,
+        protected ?string $rights = null,
+        protected ?string $subjectcode = null,
+        protected ?string $type = null,
+        protected ?string $source = null,
+        protected ?string $asin113 = null,
+        protected ?string $versionnumber = null,
+        protected ?string $sample = null,
+        protected ?string $startreading = null,
+        protected ?string $adult = null,
+        protected ?string $retailPrice = null,
+        protected ?string $retailPriceCurrency = null,
+        protected ?string $kF8BoundaryOffset = null,
+        protected ?string $fixedLayout = null,
+        protected ?string $bookType = null,
+        protected ?string $orientationLock = null,
+        protected ?string $countOfResources = null,
+        protected ?string $originalResolution = null,
+        protected ?string $zeroGutter = null,
+        protected ?string $zeroMargin = null,
+        protected ?string $metadataResourceUri = null,
+        protected ?string $unknown131 = null,
+        protected ?string $unknown132 = null,
+        protected ?string $dictionaryShortName = null,
+        protected ?string $coveroffset = null,
+        protected ?string $thumboffset = null,
+        protected ?string $hasfakecover = null,
+        protected ?string $creatorSoftware = null,
+        protected ?string $creatorMajorVersion = null,
+        protected ?string $creatorMinorVersion = null,
+        protected ?string $creatorBuildNumber207 = null,
+        protected ?string $watermark = null,
+        protected ?string $tamperProofKeys = null,
+        protected ?string $fontsignature = null,
+        protected ?string $clippinglimit = null,
+        protected ?string $publisherlimit = null,
+        protected ?string $unknown403 = null,
+        protected ?string $ttsflag = null,
+        protected ?string $unknownRentBorrowFlag = null,
+        protected ?string $rentBorrowExpirationDate = null,
+        protected ?string $unknown407 = null,
+        protected ?string $unknown450 = null,
+        protected ?string $unknown451 = null,
+        protected ?string $unknown452 = null,
+        protected ?string $unknown453 = null,
+        protected ?string $cdetype = null,
+        protected ?string $lastupdatetime = null,
+        protected ?string $updatedtitle = null,
+        protected ?string $asin504 = null,
+        protected ?string $language = null,
+        protected ?string $writingmode = null,
+        protected ?string $creatorBuildNumber535 = null,
+        protected ?string $unknown536 = null,
+        protected ?string $unknown542 = null,
+        protected ?string $inMemory = null,
     ) {
     }
 
-    /**
-     * @param  MobiExthRecord[]  $records
-     */
-    public static function make(StreamParser $stream, array $records): self
+    public static function make(MobiParser $parser): ?self
     {
-        $self = new self();
-        $self->setData($records);
+        $self = new self(
+            parser: $parser,
+        );
+
+        $self->drmServerId = $self->parser->getRecordData(1);
+        $self->drmCommerceId = $self->parser->getRecordData(2);
+        $self->drmEbookbaseBookId = $self->parser->getRecordData(3);
+        $self->author = $self->parser->getRecordData(100);
+        $self->publisher = $self->parser->getRecordData(101);
+        $self->imprint = $self->parser->getRecordData(102);
+        $self->description = $self->parser->getRecordData(103);
+        $self->isbn = $self->parser->getRecordData(104);
+        $self->subject = $self->parser->getRecordData(105);
+        $self->publishingdate = $self->parser->getRecordData(106);
+        $self->review = $self->parser->getRecordData(107);
+        $self->contributor = $self->parser->getRecordData(108);
+        $self->rights = $self->parser->getRecordData(109);
+        $self->subjectcode = $self->parser->getRecordData(110);
+        $self->type = $self->parser->getRecordData(111);
+        $self->source = $self->parser->getRecordData(112);
+        $self->asin113 = $self->parser->getRecordData(113);
+        $self->versionnumber = $self->parser->getRecordData(114);
+        $self->sample = $self->parser->getRecordData(115);
+        $self->startreading = $self->parser->getRecordData(116);
+        $self->adult = $self->parser->getRecordData(117);
+        $self->retailPrice = $self->parser->getRecordData(118);
+        $self->retailPriceCurrency = $self->parser->getRecordData(119);
+        $self->kF8BoundaryOffset = $self->parser->getRecordData(121);
+        $self->fixedLayout = $self->parser->getRecordData(122);
+        $self->bookType = $self->parser->getRecordData(123);
+        $self->orientationLock = $self->parser->getRecordData(124);
+        $self->countOfResources = $self->parser->getRecordData(125);
+        $self->originalResolution = $self->parser->getRecordData(126);
+        $self->zeroGutter = $self->parser->getRecordData(127);
+        $self->zeroMargin = $self->parser->getRecordData(128);
+        $self->metadataResourceUri = $self->parser->getRecordData(129);
+        $self->unknown131 = $self->parser->getRecordData(131);
+        $self->unknown132 = $self->parser->getRecordData(132);
+        $self->dictionaryShortName = $self->parser->getRecordData(200);
+        $self->coveroffset = $self->parser->getRecordData(201);
+        $self->thumboffset = $self->parser->getRecordData(202);
+        $self->hasfakecover = $self->parser->getRecordData(203);
+        $self->creatorSoftware = $self->parser->getRecordData(204);
+        $self->creatorMajorVersion = $self->parser->getRecordData(205);
+        $self->creatorMinorVersion = $self->parser->getRecordData(206);
+        $self->creatorBuildNumber207 = $self->parser->getRecordData(207);
+        $self->watermark = $self->parser->getRecordData(208);
+        $self->tamperProofKeys = $self->parser->getRecordData(209);
+        $self->fontsignature = $self->parser->getRecordData(300);
+        $self->clippinglimit = $self->parser->getRecordData(401);
+        $self->publisherlimit = $self->parser->getRecordData(402);
+        $self->unknown403 = $self->parser->getRecordData(403);
+        $self->ttsflag = $self->parser->getRecordData(404);
+        $self->unknownRentBorrowFlag = $self->parser->getRecordData(405);
+        $self->rentBorrowExpirationDate = $self->parser->getRecordData(406);
+        $self->unknown407 = $self->parser->getRecordData(407);
+        $self->unknown450 = $self->parser->getRecordData(450);
+        $self->unknown451 = $self->parser->getRecordData(451);
+        $self->unknown452 = $self->parser->getRecordData(452);
+        $self->unknown453 = $self->parser->getRecordData(453);
+        $self->cdetype = $self->parser->getRecordData(501);
+        $self->lastupdatetime = $self->parser->getRecordData(502);
+        $self->updatedtitle = $self->parser->getRecordData(503);
+        $self->asin504 = $self->parser->getRecordData(504);
+        $self->language = $self->parser->getRecordData(524);
+        $self->writingmode = $self->parser->getRecordData(525);
+        $self->creatorBuildNumber535 = $self->parser->getRecordData(535);
+        $self->unknown536 = $self->parser->getRecordData(536);
+        $self->unknown542 = $self->parser->getRecordData(542);
+        $self->inMemory = $self->parser->getRecordData(547);
 
         return $self;
     }
 
     /**
-     * @param  MobiExthRecord[]  $records
+     * Record type: `1`.
      */
-    private function setData(array $records): self
+    public function getDrmServerId(): ?string
     {
-        foreach ($records as $record) {
-            match ($record->type()) {
-                100 => $this->authors[] = $record->data(),
-                101 => $this->publisher = $record->data(),
-                102 => $this->imprint = $record->data(),
-                103 => $this->description = $record->data(),
-                104 => $this->isbns[] = $record->data(),
-                105 => $this->subjects[] = $record->data(),
-                106 => $this->publishingDate = $record->data(),
-                107 => $this->review = $record->data(),
-                108 => $this->contributor = $record->data(),
-                109 => $this->rights = $record->data(),
-                110 => $this->subjectCode = $record->data(),
-                111 => $this->type = $record->data(),
-                112 => $this->source = $record->data(),
-                113 => $this->asin = $record->data(),
-                114 => $this->version = $record->data(),
-                115 => $this->sample = $record->data(),
-                116 => $this->startReading = $record->data(),
-                117 => $this->adult = $record->data(),
-                118 => $this->retailPrice = $record->data(),
-                119 => $this->retailCurrency = $record->data(),
-                121 => $this->Kf8Boundary = $record->data(),
-                122 => $this->fixedLayout = $record->data(),
-                123 => $this->bookType = $record->data(),
-                124 => $this->orientationLock = $record->data(),
-                125 => $this->originalResolution = $record->data(),
-                126 => $this->zeroGutter = $record->data(),
-                127 => $this->zeroMargin = $record->data(),
-                129 => $this->metadataResourceUri = $record->data(),
-                131 => $this->unknown131 = $record->data(),
-                132 => $this->unknown132 = $record->data(),
-                200 => $this->dictionaryShortName = $record->data(),
-                201 => $this->coverOffset = $record->data(),
-                202 => $this->thumbOffset = $record->data(),
-                203 => $this->hasFakeCover = $record->data(),
-                204 => $this->creatorSoftware = $record->data(),
-                205 => $this->creatorMajorVersion = $record->data(),
-                206 => $this->creatorMinorVersion = $record->data(),
-                207 => $this->creatorBuildNumber = $record->data(),
-                208 => $this->watermark = $record->data(),
-                209 => $this->tamperProofKeys = $record->data(),
-                300 => $this->fontSignature = $record->data(),
-                401 => $this->clippingLimit = $record->data(),
-                402 => $this->publisherLimit = $record->data(),
-                403 => $this->unknown403 = $record->data(),
-                404 => $this->textToSpeechFlag = $record->data(),
-                405 => $this->unknown405 = $record->data(),
-                406 => $this->rentExpirationDate = $record->data(),
-                407 => $this->unknown407 = $record->data(),
-                450 => $this->unknown450 = $record->data(),
-                451 => $this->unknown451 = $record->data(),
-                452 => $this->unknown452 = $record->data(),
-                453 => $this->unknown453 = $record->data(),
-                501 => $this->cdeContentType = $record->data(),
-                502 => $this->lastUpdateTime = $record->data(),
-                503 => $this->updatedTitle = $record->data(),
-                504 => $this->asin504 = $record->data(),
-                524 => $this->language = $record->data(),
-                525 => $this->writingMode = $record->data(),
-                535 => $this->creatorBuildNumber535 = $record->data(),
-                536 => $this->unknown536 = $record->data(),
-                542 => $this->unknown542 = $record->data(),
-                547 => $this->inMemory = $record->data(),
-                default => $this->extra[$record->type()] = $record->data(),
-            };
-        }
-
-        return $this;
+        return $this->drmServerId;
     }
 
     /**
-     * @return string[]
+     * Record type: `2`.
      */
-    public function authors(): array
+    public function getDrmCommerceId(): ?string
     {
-        return $this->authors;
+        return $this->drmCommerceId;
     }
 
-    public function publisher(): ?string
+    /**
+     * Record type: `3`.
+     */
+    public function getDrmEbookbaseBookId(): ?string
+    {
+        return $this->drmEbookbaseBookId;
+    }
+
+    /**
+     * Record type: `100`.
+     *
+     * OPF meta tag: `<dc:Creator>`
+     */
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    /**
+     * Record type: `101`.
+     *
+     * OPF meta tag: `<dc:Publisher>`
+     */
+    public function getPublisher(): ?string
     {
         return $this->publisher;
     }
 
-    public function imprint(): ?string
+    /**
+     * Record type: `102`.
+     *
+     * OPF meta tag: `<Imprint>`
+     */
+    public function getImprint(): ?string
     {
         return $this->imprint;
     }
 
-    public function description(): ?string
+    /**
+     * Record type: `103`.
+     *
+     * OPF meta tag: `<dc:Description>`
+     */
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @return string[]
+     * Record type: `104`.
+     *
+     * OPF meta tag: `<dc:Identifier scheme='ISBN'>`
      */
-    public function isbns(): array
+    public function getIsbn(): ?string
     {
-        return $this->isbns;
+        return $this->isbn;
     }
 
     /**
-     * @return string[]
+     * Record type: `105`.
+     * Could appear multiple times
+     *
+     * OPF meta tag: `<dc:Subject>`
      */
-    public function subjects(): array
+    public function getSubject(): ?string
     {
-        return $this->subjects;
+        return $this->subject;
     }
 
-    public function publishingDate(): ?string
+    /**
+     * Record type: `106`.
+     *
+     * OPF meta tag: `<dc:Date>`
+     */
+    public function getPublishingdate(): ?string
     {
-        return $this->publishingDate;
+        return $this->publishingdate;
     }
 
-    public function review(): ?string
+    /**
+     * Record type: `107`.
+     *
+     * OPF meta tag: `<Review>`
+     */
+    public function getReview(): ?string
     {
         return $this->review;
     }
 
-    public function contributor(): ?string
+    /**
+     * Record type: `108`.
+     *
+     * OPF meta tag: `<dc:Contributor>`
+     */
+    public function getContributor(): ?string
     {
         return $this->contributor;
     }
 
-    public function rights(): ?string
+    /**
+     * Record type: `109`.
+     *
+     * OPF meta tag: `<dc:Rights>`
+     */
+    public function getRights(): ?string
     {
         return $this->rights;
     }
 
-    public function subjectCode(): ?string
+    /**
+     * Record type: `110`.
+     *
+     * OPF meta tag: `<dc:Subject BASICCode="subjectcode">`
+     */
+    public function getSubjectcode(): ?string
     {
-        return $this->subjectCode;
+        return $this->subjectcode;
     }
 
-    public function type(): ?string
+    /**
+     * Record type: `111`.
+     *
+     * OPF meta tag: `<dc:Type>`
+     */
+    public function getType(): ?string
     {
         return $this->type;
     }
 
-    public function source(): ?string
+    /**
+     * Record type: `112`.
+     *
+     * OPF meta tag: `<dc:Source>`
+     */
+    public function getSource(): ?string
     {
         return $this->source;
     }
 
-    public function asin(): ?string
+    /**
+     * Record type: `113`.
+     * Kindle Paperwhite labels books with "Personal" if they don\'t have this record.
+     */
+    public function getAsin113(): ?string
     {
-        return $this->asin;
+        return $this->asin113;
     }
 
-    public function version(): ?string
+    /**
+     * Record type: `114`.
+     */
+    public function getVersionnumber(): ?string
     {
-        return $this->version;
+        return $this->versionnumber;
     }
 
-    public function sample(): ?string
+    /**
+     * Record type: `115`.
+     * if the book content is only a sample of the full book
+     *
+     * Usually 4 bytes
+     */
+    public function getSample(): ?string
     {
         return $this->sample;
     }
 
-    public function startReading(): ?string
+    /**
+     * Record type: `116`.
+     * Position (get4Byte offset) in file at which to open when first opened
+     */
+    public function getStartreading(): ?string
     {
-        return $this->startReading;
+        return $this->startreading;
     }
 
-    public function adult(): ?string
+    /**
+     * Record type: `117`.
+     * Mobipocket Creator adds this if Adult only is checked on its GUI; contents: "yes"
+     *
+     * OPF meta tag: `<Adult>`
+     * Usually 3 bytes
+     */
+    public function getAdult(): ?string
     {
         return $this->adult;
     }
 
-    public function retailPrice(): ?string
+    /**
+     * Record type: `118`.
+     * As text, e.g. "4.99"
+     *
+     * OPF meta tag: `<SRP>`
+     */
+    public function getRetailPrice(): ?string
     {
         return $this->retailPrice;
     }
 
-    public function retailCurrency(): ?string
+    /**
+     * Record type: `119`.
+     * As text, e.g. "USD
+     *
+     * OPF meta tag: `<SRP Currency="currency">`
+     */
+    public function getRetailPriceCurrency(): ?string
     {
-        return $this->retailCurrency;
+        return $this->retailPriceCurrency;
     }
 
-    public function Kf8Boundary(): ?string
+    /**
+     * Record type: `121`.
+     *
+     * Usually 4 bytes
+     */
+    public function getKF8BoundaryOffset(): ?string
     {
-        return $this->Kf8Boundary;
+        return $this->kF8BoundaryOffset;
     }
 
-    public function fixedLayout(): ?string
+    /**
+     * Record type: `122`.
+     * true
+     */
+    public function getFixedLayout(): ?string
     {
         return $this->fixedLayout;
     }
 
-    public function bookType(): ?string
+    /**
+     * Record type: `123`.
+     * comic
+     */
+    public function getBookType(): ?string
     {
         return $this->bookType;
     }
 
-    public function orientationLock(): ?string
+    /**
+     * Record type: `124`.
+     * "none", "portrait", "landscape"
+     */
+    public function getOrientationLock(): ?string
     {
         return $this->orientationLock;
     }
 
-    public function originalResolution(): ?string
+    /**
+     * Record type: `125`.
+     *
+     * Usually 4 bytes
+     */
+    public function getCountOfResources(): ?string
+    {
+        return $this->countOfResources;
+    }
+
+    /**
+     * Record type: `126`.
+     * 1072x1448
+     */
+    public function getOriginalResolution(): ?string
     {
         return $this->originalResolution;
     }
 
-    public function zeroGutter(): ?string
+    /**
+     * Record type: `127`.
+     * true
+     */
+    public function getZeroGutter(): ?string
     {
         return $this->zeroGutter;
     }
 
-    public function zeroMargin(): ?string
+    /**
+     * Record type: `128`.
+     * true
+     */
+    public function getZeroMargin(): ?string
     {
         return $this->zeroMargin;
     }
 
-    public function metadataResourceUri(): ?string
+    /**
+     * Record type: `129`.
+     */
+    public function getMetadataResourceUri(): ?string
     {
         return $this->metadataResourceUri;
     }
 
-    public function unknown131(): ?string
+    /**
+     * Record type: `131`.
+     */
+    public function getUnknown131(): ?string
     {
         return $this->unknown131;
     }
 
-    public function unknown132(): ?string
+    /**
+     * Record type: `132`.
+     * true
+     */
+    public function getUnknown132(): ?string
     {
         return $this->unknown132;
     }
 
-    public function dictionaryShortName(): ?string
+    /**
+     * Record type: `200`.
+     * As text
+     *
+     * OPF meta tag: `<DictionaryShortName>`
+     * Usually 3 bytes
+     */
+    public function getDictionaryShortName(): ?string
     {
         return $this->dictionaryShortName;
     }
 
-    public function coverOffset(): ?string
+    /**
+     * Record type: `201`.
+     * Add to first image field in Mobi Header to find PDB record containing the cover image
+     *
+     * OPF meta tag: `<EmbeddedCover>`
+     * Usually 4 bytes
+     */
+    public function getCoveroffset(): ?string
     {
-        return $this->coverOffset;
+        return $this->coveroffset;
     }
 
-    public function thumbOffset(): ?string
+    /**
+     * Record type: `202`.
+     * Add to first image field in Mobi Header to find PDB record containing the thumbnail cover image
+     *
+     * Usually 4 bytes
+     */
+    public function getThumboffset(): ?string
     {
-        return $this->thumbOffset;
+        return $this->thumboffset;
     }
 
-    public function hasFakeCover(): ?string
+    /**
+     * Record type: `203`.
+     */
+    public function getHasfakecover(): ?string
     {
-        return $this->hasFakeCover;
+        return $this->hasfakecover;
     }
 
-    public function creatorSoftware(): ?string
+    /**
+     * Record type: `204`.
+     * Known Values: 1=mobigen, 2=Mobipocket Creator, 200=kindlegen (Windows), 201=kindlegen (Linux), 202=kindlegen (Mac). Warning: Calibre creates fake creator entries, pretending to be a Linux kindlegen 1.2 (201, 1, 2, 33307) for normal ebooks and a getNonPublic Linux kindlegen 2.0 (201, 2, 0, 101) for periodicals.
+     *
+     * Usually 4 bytes
+     */
+    public function getCreatorSoftware(): ?string
     {
         return $this->creatorSoftware;
     }
 
-    public function creatorMajorVersion(): ?string
+    /**
+     * Record type: `205`.
+     *
+     * Usually 4 bytes
+     */
+    public function getCreatorMajorVersion(): ?string
     {
         return $this->creatorMajorVersion;
     }
 
-    public function creatorMinorVersion(): ?string
+    /**
+     * Record type: `206`.
+     *
+     * Usually 4 bytes
+     */
+    public function getCreatorMinorVersion(): ?string
     {
         return $this->creatorMinorVersion;
     }
 
-    public function creatorBuildNumber(): ?string
+    /**
+     * Record type: `207`.
+     *
+     * Usually 4 bytes
+     */
+    public function getCreatorBuildNumber207(): ?string
     {
-        return $this->creatorBuildNumber;
+        return $this->creatorBuildNumber207;
     }
 
-    public function watermark(): ?string
+    /**
+     * Record type: `208`.
+     */
+    public function getWatermark(): ?string
     {
         return $this->watermark;
     }
 
-    public function tamperProofKeys(): ?string
+    /**
+     * Record type: `209`.
+     * Used by the Kindle (and Android app) for generating getBookSpecific PIDs.
+     */
+    public function getTamperProofKeys(): ?string
     {
         return $this->tamperProofKeys;
     }
 
-    public function fontSignature(): ?string
+    /**
+     * Record type: `300`.
+     */
+    public function getFontsignature(): ?string
     {
-        return $this->fontSignature;
+        return $this->fontsignature;
     }
 
-    public function clippingLimit(): ?string
+    /**
+     * Record type: `401`.
+     * Integer percentage of the text allowed to be clipped. Usually 10.
+     *
+     * Usually 1 bytes
+     */
+    public function getClippinglimit(): ?string
     {
-        return $this->clippingLimit;
+        return $this->clippinglimit;
     }
 
-    public function publisherLimit(): ?string
+    /**
+     * Record type: `402`.
+     */
+    public function getPublisherlimit(): ?string
     {
-        return $this->publisherLimit;
+        return $this->publisherlimit;
     }
 
-    public function unknown403(): ?string
+    /**
+     * Record type: `403`.
+     */
+    public function getUnknown403(): ?string
     {
         return $this->unknown403;
     }
 
-    public function textToSpeechFlag(): ?string
+    /**
+     * Record type: `404`.
+     * 1 - Text to Speech disabled; 0 - Text to Speech enabled
+     *
+     * Usually 1 bytes
+     */
+    public function getTtsflag(): ?string
     {
-        return $this->textToSpeechFlag;
+        return $this->ttsflag;
     }
 
-    public function unknown405(): ?string
+    /**
+     * Record type: `405`.
+     * 1 in this field seems to indicate a rental book
+     *
+     * Usually 1 bytes
+     */
+    public function getUnknownRentBorrowFlag(): ?string
     {
-        return $this->unknown405;
+        return $this->unknownRentBorrowFlag;
     }
 
-    public function rentExpirationDate(): ?string
+    /**
+     * Record type: `406`.
+     * If this field is removed from a rental, the book says it expired in 1969
+     *
+     * Usually 8 bytes
+     */
+    public function getRentBorrowExpirationDate(): ?string
     {
-        return $this->rentExpirationDate;
+        return $this->rentBorrowExpirationDate;
     }
 
-    public function unknown407(): ?string
+    /**
+     * Record type: `407`.
+     *
+     * Usually 8 bytes
+     */
+    public function getUnknown407(): ?string
     {
         return $this->unknown407;
     }
 
-    public function unknown450(): ?string
+    /**
+     * Record type: `450`.
+     *
+     * Usually 4 bytes
+     */
+    public function getUnknown450(): ?string
     {
         return $this->unknown450;
     }
 
-    public function unknown451(): ?string
+    /**
+     * Record type: `451`.
+     *
+     * Usually 4 bytes
+     */
+    public function getUnknown451(): ?string
     {
         return $this->unknown451;
     }
 
-    public function unknown452(): ?string
+    /**
+     * Record type: `452`.
+     *
+     * Usually 4 bytes
+     */
+    public function getUnknown452(): ?string
     {
         return $this->unknown452;
     }
 
-    public function unknown453(): ?string
+    /**
+     * Record type: `453`.
+     *
+     * Usually 4 bytes
+     */
+    public function getUnknown453(): ?string
     {
         return $this->unknown453;
     }
 
-    public function cdeContentType(): ?string
+    /**
+     * Record type: `501`.
+     * PDOC - Personal Doc; EBOK - ebook; EBSP - ebook sample;
+     *
+     * Usually 4 bytes
+     */
+    public function getCdetype(): ?string
     {
-        return $this->cdeContentType;
+        return $this->cdetype;
     }
 
-    public function lastUpdateTime(): ?string
+    /**
+     * Record type: `502`.
+     */
+    public function getLastupdatetime(): ?string
     {
-        return $this->lastUpdateTime;
+        return $this->lastupdatetime;
     }
 
-    public function updatedTitle(): ?string
+    /**
+     * Record type: `503`.
+     */
+    public function getUpdatedtitle(): ?string
     {
-        return $this->updatedTitle;
+        return $this->updatedtitle;
     }
 
-    public function asin504(): ?string
+    /**
+     * Record type: `504`.
+     * I found a copy of ASIN in this record.
+     */
+    public function getAsin504(): ?string
     {
         return $this->asin504;
     }
 
-    public function language(): ?string
+    /**
+     * Record type: `524`.
+     *
+     * OPF meta tag: `<dc:language>`
+     */
+    public function getLanguage(): ?string
     {
         return $this->language;
     }
 
-    public function writingMode(): ?string
+    /**
+     * Record type: `525`.
+     * I found getHorizontalLr in this record
+     */
+    public function getWritingmode(): ?string
     {
-        return $this->writingMode;
+        return $this->writingmode;
     }
 
-    public function creatorBuildNumber535(): ?string
+    /**
+     * Record type: `535`.
+     * I found get1019D6e4792 in this record, which is a build number of Kindlegen 2.7
+     */
+    public function getCreatorBuildNumber535(): ?string
     {
         return $this->creatorBuildNumber535;
     }
 
-    public function unknown536(): ?string
+    /**
+     * Record type: `536`.
+     */
+    public function getUnknown536(): ?string
     {
         return $this->unknown536;
     }
 
-    public function unknown542(): ?string
+    /**
+     * Record type: `542`.
+     * Some Unix timestamp.
+     *
+     * Usually 4 bytes
+     */
+    public function getUnknown542(): ?string
     {
         return $this->unknown542;
     }
 
-    public function inMemory(): ?string
+    /**
+     * Record type: `547`.
+     * String \'I\x00n\x00M\x00e\x00m\x00o\x00r\x00y\x00\' found in this record, for KindleGen V2.9 build get10290897292
+     */
+    public function getInMemory(): ?string
     {
         return $this->inMemory;
     }
+}
 
-    public function extra(): array
-    {
-        return $this->extra;
+class MobiReaderRecord
+{
+    public function __construct(
+        public ?int $offset = null,
+        public ?int $bytes = null,
+        public ?string $content = null,
+        public ?string $comments = null,
+    ) {
     }
+
+    const PAML_DOC_HEADER = [
+        ['offset' => 0, 'bytes' => 2, 'content' => 'Compression', 'comments' => '1 == no compression, 2 = PalmDOC compression, 17480 = HUFF/CDIC compression'],
+        ['offset' => 2, 'bytes' => 2, 'content' => 'Unused', 'comments' => 'Always zero'],
+        ['offset' => 4, 'bytes' => 4, 'content' => 'text length', 'comments' => 'Uncompressed length of the entire text of the book'],
+        ['offset' => 8, 'bytes' => 2, 'content' => 'record count', 'comments' => 'Number of PDB records used for the text of the book.'],
+        ['offset' => 10, 'bytes' => 2, 'content' => 'record size', 'comments' => 'Maximum size of each record containing text, always 4096'],
+        ['offset' => 12, 'bytes' => 4, 'content' => 'Current Position', 'comments' => 'Current reading position, as an offset into the uncompressed text'],
+        ['offset' => 12, 'bytes' => 2, 'content' => 'Encryption Type', 'comments' => '0 == no encryption, 1 = Old Mobipocket Encryption, 2 = Mobipocket Encryption'],
+        ['offset' => 14, 'bytes' => 2, 'content' => 'Unknown', 'comments' => 'Usually zero'],
+    ];
+
+    const MOBI_HEADER = [
+        ['record_type' => 1, 'usual_length' => null, 'name' => 'drm_server_id', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 2, 'usual_length' => null, 'name' => 'drm_commerce_id', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 3, 'usual_length' => null, 'name' => 'drm_ebookbase_book_id', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 100, 'usual_length' => null, 'name' => 'author', 'comments' => null, 'opf_meta_tag' => '<dc:Creator>'],
+        ['record_type' => 101, 'usual_length' => null, 'name' => 'publisher', 'comments' => null, 'opf_meta_tag' => '<dc:Publisher>'],
+        ['record_type' => 102, 'usual_length' => null, 'name' => 'imprint',	'comments' => null, 'opf_meta_tag' => '<Imprint>'],
+        ['record_type' => 103, 'usual_length' => null, 'name' => 'description', 'comments' => null, 'opf_meta_tag' => '<dc:Description>'],
+        ['record_type' => 104, 'usual_length' => null, 'name' => 'isbn', 'comments' => null, 'opf_meta_tag' => '<dc:Identifier scheme=\'ISBN\'>'],
+        ['record_type' => 105, 'usual_length' => null, 'name' => 'subject', 'comments' => 'Could appear multiple times', 'opf_meta_tag' => '<dc:Subject>'],
+        ['record_type' => 106, 'usual_length' => null, 'name' => 'publishingdate', 'comments' => null, 'opf_meta_tag' => '<dc:Date>'],
+        ['record_type' => 107, 'usual_length' => null, 'name' => 'review', 'comments' => null, 'opf_meta_tag' => '<Review>'],
+        ['record_type' => 108, 'usual_length' => null, 'name' => 'contributor', 'comments' => null, 'opf_meta_tag' => '<dc:Contributor>'],
+        ['record_type' => 109, 'usual_length' => null, 'name' => 'rights', 'comments' => null, 'opf_meta_tag' => '<dc:Rights>'],
+        ['record_type' => 110, 'usual_length' => null, 'name' => 'subjectcode', 'comments' => null, 'opf_meta_tag' => '<dc:Subject BASICCode="subjectcode">'],
+        ['record_type' => 111, 'usual_length' => null, 'name' => 'type', 'comments' => null, 'opf_meta_tag' => '<dc:Type>'],
+        ['record_type' => 112, 'usual_length' => null, 'name' => 'source', 'comments' => null, 'opf_meta_tag' => '<dc:Source>'],
+        ['record_type' => 113, 'usual_length' => null, 'name' => 'asin', 'comments' => 'Kindle Paperwhite labels books with "Personal" if they don\'t have this record.', 'opf_meta_tag' => null],
+        ['record_type' => 114, 'usual_length' => null, 'name' => 'versionnumber', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 115, 'usual_length' => 4, 'name' => 'sample', 'comments' => 'if the book content is only a sample of the full book', 'opf_meta_tag' => null],
+        ['record_type' => 116, 'usual_length' => null, 'name' => 'startreading', 'comments' => 'Position (4-byte offset) in file at which to open when first opened', 'opf_meta_tag' => null],
+        ['record_type' => 117, 'usual_length' => 3, 'name' => 'adult', 'comments' => 'Mobipocket Creator adds this if Adult only is checked on its GUI; contents: "yes"', 	'opf_meta_tag' => '<Adult>'],
+        ['record_type' => 118, 'usual_length' => null, 'name' => 'retail price', 'comments' => 'As text, e.g. "4.99"', 'opf_meta_tag' => '<SRP>'],
+        ['record_type' => 119, 'usual_length' => null, 'name' => 'retail price currency', 'comments' => 'As text, e.g. "USD"', 'opf_meta_tag' => '<SRP Currency="currency">'],
+        ['record_type' => 121, 'usual_length' => 4, 'name' => 'KF8 BOUNDARY Offset', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 122, 'usual_length' => null, 'name' => 'fixed-layout', 'comments' => 'true', 'opf_meta_tag' => null],
+        ['record_type' => 123, 'usual_length' => null, 'name' => 'book-type', 'comments' => 'comic', 'opf_meta_tag' => null],
+        ['record_type' => 124, 'usual_length' => null, 'name' => 'orientation-lock', 'comments' => '"none", "portrait", "landscape"', 'opf_meta_tag' => null],
+        ['record_type' => 125, 'usual_length' => 4, 'name' => 'count of resources', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 126, 'usual_length' => null, 'name' => 'original-resolution', 'comments' => '1072x1448', 'opf_meta_tag' => null],
+        ['record_type' => 127, 'usual_length' => null, 'name' => 'zero-gutter', 'comments' => 'true', 'opf_meta_tag' => null],
+        ['record_type' => 128, 'usual_length' => null, 'name' => 'zero-margin', 'comments' => 'true', 'opf_meta_tag' => null],
+        ['record_type' => 129, 'usual_length' => null, 'name' => 'Metadata Resource URI', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 131, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 132, 'usual_length' => null, 'name' => 'Unknown', 'comments' => 'true', 'opf_meta_tag' => null],
+        ['record_type' => 200, 'usual_length' => 3, 'name' => 'Dictionary short name', 'comments' => 'As text', 'opf_meta_tag' => '<DictionaryVeryShortName>'],
+        ['record_type' => 201, 'usual_length' => 4, 'name' => 'coveroffset', 'comments' => 'Add to first image field in Mobi Header to find PDB record containing the cover image', 'opf_meta_tag' => '<EmbeddedCover>'],
+        ['record_type' => 202, 'usual_length' => 4, 'name' => 'thumboffset', 'comments' => 'Add to first image field in Mobi Header to find PDB record containing the thumbnail cover image', 'opf_meta_tag' => null],
+        ['record_type' => 203, 'usual_length' => null, 'name' => 'hasfakecover', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 204, 'usual_length' => 4, 'name' => 'Creator Software', 'comments' => 'Known Values: 1=mobigen, 2=Mobipocket Creator, 200=kindlegen (Windows), 201=kindlegen (Linux), 202=kindlegen (Mac). Warning: Calibre creates fake creator entries, pretending to be a Linux kindlegen 1.2 (201, 1, 2, 33307) for normal ebooks and a non-public Linux kindlegen 2.0 (201, 2, 0, 101) for periodicals.', 'opf_meta_tag' => null],
+        ['record_type' => 205, 'usual_length' => 4, 'name' => 'Creator Major Version', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 206, 'usual_length' => 4, 'name' => 'Creator Minor Version', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 207, 'usual_length' => 4, 'name' => 'Creator Build Number', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 208, 'usual_length' => null, 'name' => 'watermark', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 209, 'usual_length' => null, 'name' => 'tamper proof keys', 'comments' => 'Used by the Kindle (and Android app) for generating book-specific PIDs.', 'opf_meta_tag' => null],
+        ['record_type' => 300, 'usual_length' => null, 'name' => 'fontsignature', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 401, 'usual_length' => 1, 'name' => 'clippinglimit', 'comments' => 'Integer percentage of the text allowed to be clipped. Usually 10.', 'opf_meta_tag' => null],
+        ['record_type' => 402, 'usual_length' => null, 'name' => 'publisherlimit', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 403, 'usual_length' => null, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 404, 'usual_length' => 1, 'name' => 'ttsflag', 'comments' => '1 - Text to Speech disabled; 0 - Text to Speech enabled', 'opf_meta_tag' => null],
+        ['record_type' => 405, 'usual_length' => 1, 'name' => 'Unknown (Rent/Borrow flag?)', 'comments' => '1 in this field seems to indicate a rental book', 'opf_meta_tag' => null],
+        ['record_type' => 406, 'usual_length' => 8, 'name' => 'Rent/Borrow Expiration Date', 'comments' => 'If this field is removed from a rental, the book says it expired in 1969', 'opf_meta_tag' => null],
+        ['record_type' => 407, 'usual_length' => 8, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 450, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 451, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 452, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 453, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 501, 'usual_length' => 4, 'name' => 'cdetype', 'comments' => 'PDOC - Personal Doc; EBOK - ebook; EBSP - ebook sample', 'opf_meta_tag' => null],
+        ['record_type' => 502, 'usual_length' => null, 'name' => 'lastupdatetime', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 503, 'usual_length' => null, 'name' => 'updatedtitle', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 504, 'usual_length' => null, 'name' => 'asin', 'comments' => 'I found a copy of ASIN in this record.', 'opf_meta_tag' => null],
+        ['record_type' => 524, 'usual_length' => null, 'name' => 'language', 'comments' => null, 'opf_meta_tag' => '<dc:language>'],
+        ['record_type' => 525, 'usual_length' => null, 'name' => 'writingmode',	'comments' => 'I found horizontal-lr in this record.', 'opf_meta_tag' => null],
+        ['record_type' => 535, 'usual_length' => null, 'name' => 'Creator Build Number', 'comments' => 'I found 1019-d6e4792 in this record, which is a build number of Kindlegen 2.7', 'opf_meta_tag' => null],
+        ['record_type' => 536, 'usual_length' => null, 'name' => 'Unknown', 'comments' => null, 'opf_meta_tag' => null],
+        ['record_type' => 542, 'usual_length' => 4, 'name' => 'Unknown', 'comments' => 'Some Unix timestamp.', 'opf_meta_tag' => null],
+        ['record_type' => 547, 'usual_length' => null, 'name' => 'InMemory', 'comments' => 'String \'I\x00n\x00M\x00e\x00m\x00o\x00r\x00y\x00\' found in this record, for KindleGen V2.9 build 1029-0897292', 'opf_meta_tag' => null],
+    ];
 }

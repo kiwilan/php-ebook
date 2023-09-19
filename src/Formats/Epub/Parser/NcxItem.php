@@ -1,20 +1,20 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Epub;
+namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 use Kiwilan\XmlReader\XmlReader;
 
 /**
  * Transform `.ncx` file to an object.
  */
-class NcxMetadata
+class NcxItem
 {
-    /** @var NcxMetadataHead[]|null */
+    /** @var NcxItemHead[]|null */
     protected ?array $head = null;
 
     protected ?string $docTitle = null;
 
-    /** @var NcxMetadataNavPoint[]|null */
+    /** @var NcxItemNavPoint[]|null */
     protected ?array $navPoints = null;
 
     protected ?string $version = null;
@@ -43,7 +43,7 @@ class NcxMetadata
         $self->navPoints = $self->setNavPoints();
 
         if (is_array($self->navPoints)) {
-            usort($self->navPoints, fn (NcxMetadataNavPoint $a, NcxMetadataNavPoint $b) => $a->getPlayOrder() <=> $b->getPlayOrder());
+            usort($self->navPoints, fn (NcxItemNavPoint $a, NcxItemNavPoint $b) => $a->getPlayOrder() <=> $b->getPlayOrder());
         }
 
         $self->version = $xml->getRootAttribute('version');
@@ -53,7 +53,7 @@ class NcxMetadata
     }
 
     /**
-     * @return NcxMetadataHead[]|null
+     * @return NcxItemHead[]|null
      */
     private function setHead(): ?array
     {
@@ -76,7 +76,7 @@ class NcxMetadata
                 continue;
             }
 
-            $head[] = NcxMetadataHead::make($attributes);
+            $head[] = NcxItemHead::make($attributes);
         }
 
         return $head;
@@ -94,14 +94,14 @@ class NcxMetadata
         $navPoints = [];
 
         foreach ($navPoint as $item) {
-            $navPoints[] = NcxMetadataNavPoint::make($item);
+            $navPoints[] = NcxItemNavPoint::make($item);
         }
 
         return $navPoints;
     }
 
     /**
-     * @return NcxMetadataHead[]|null
+     * @return NcxItemHead[]|null
      */
     public function getHead(): ?array
     {
@@ -114,7 +114,7 @@ class NcxMetadata
     }
 
     /**
-     * @return NcxMetadataNavPoint[]|null
+     * @return NcxItemNavPoint[]|null
      */
     public function getNavPoints(): ?array
     {
@@ -134,9 +134,9 @@ class NcxMetadata
     public function toArray(): array
     {
         return [
-            'head' => array_map(fn (NcxMetadataHead $item) => $item->toArray(), $this->head),
+            'head' => array_map(fn (NcxItemHead $item) => $item->toArray(), $this->head),
             'docTitle' => $this->docTitle,
-            'navPoints' => array_map(fn (NcxMetadataNavPoint $item) => $item->toArray(), $this->navPoints),
+            'navPoints' => array_map(fn (NcxItemNavPoint $item) => $item->toArray(), $this->navPoints),
             'version' => $this->version,
             'lang' => $this->lang,
         ];
@@ -153,7 +153,7 @@ class NcxMetadata
     }
 }
 
-class NcxMetadataHead
+class NcxItemHead
 {
     protected function __construct(
         protected ?string $name = null,
@@ -189,7 +189,7 @@ class NcxMetadataHead
     }
 }
 
-class NcxMetadataNavPoint
+class NcxItemNavPoint
 {
     protected function __construct(
         protected ?string $id = null,

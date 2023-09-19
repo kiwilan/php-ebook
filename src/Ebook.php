@@ -9,12 +9,14 @@ use Kiwilan\Archive\Readers\BaseArchive;
 use Kiwilan\Audio\Audio;
 use Kiwilan\Ebook\Creator\EbookCreator;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
-use Kiwilan\Ebook\Formats\Audio\AudiobookMetadata;
-use Kiwilan\Ebook\Formats\Cba\CbaMetadata;
+use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
+use Kiwilan\Ebook\Formats\Cba\CbaModule;
 use Kiwilan\Ebook\Formats\EbookMetadata;
-use Kiwilan\Ebook\Formats\Epub\EpubMetadata;
-use Kiwilan\Ebook\Formats\Mobi\MobiMetadata;
-use Kiwilan\Ebook\Formats\Pdf\PdfMetadata;
+use Kiwilan\Ebook\Formats\EbookModule;
+use Kiwilan\Ebook\Formats\Epub\EpubModule;
+use Kiwilan\Ebook\Formats\Fb2\Fb2Module;
+use Kiwilan\Ebook\Formats\Mobi\MobiModule;
+use Kiwilan\Ebook\Formats\Pdf\PdfModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\BookIdentifier;
 use Kiwilan\Ebook\Tools\MetaTitle;
@@ -93,6 +95,10 @@ class Ebook
         $format = match ($self->format) {
             EbookFormatEnum::EPUB => $self->epub(),
             EbookFormatEnum::MOBI => $self->mobi(),
+            EbookFormatEnum::AZW3 => $self->mobi(),
+            EbookFormatEnum::LRF => $self->mobi(),
+            EbookFormatEnum::FB2 => $self->fb2(),
+            // EbookFormatEnum::RTF => $self->rtf(),
             EbookFormatEnum::CBA => $self->cba(),
             EbookFormatEnum::PDF => $self->pdf(),
             EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
@@ -103,6 +109,9 @@ class Ebook
             return null;
         }
 
+        $self->metadata = EbookMetadata::make($format);
+        $self->convertEbook();
+        $self->cover = $self->metadata->getModule()->toCover();
         $self->metaTitle = MetaTitle::make($self);
 
         $time = microtime(true) - $start;
@@ -141,8 +150,9 @@ class Ebook
         $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
         $archiveExtensions = ['epub', 'pdf', ...$cbaExtensions];
         $audiobookExtensions = ['mp3', 'm4a', 'm4b', 'flac', 'ogg'];
-        $mobipocketExtensions = ['mobi', 'azw', 'azw3', 'azw4', 'kf8', 'prc', 'tpz'];
-        $allowExtensions = [...$archiveExtensions, ...$audiobookExtensions, ...$mobipocketExtensions];
+        $mobipocketExtensions = ['mobi', 'azw', 'azw3', 'azw4', 'kf8', 'kfx', 'prc', 'tpz'];
+        $extrasExtensions = ['lrf', 'lrx', 'fb2', 'rtf', 'ibooks', 'pdb', 'snb', 'djvu', 'djv'];
+        $allowExtensions = [...$archiveExtensions, ...$audiobookExtensions, ...$mobipocketExtensions, ...$extrasExtensions];
 
         if (! file_exists($path)) {
             throw new \Exception("File not found: {$path}");
@@ -157,6 +167,10 @@ class Ebook
         $self->format = match ($extension) {
             'epub' => $self->format = EbookFormatEnum::EPUB,
             'mobi' => $self->format = EbookFormatEnum::MOBI,
+            'azw3' => $self->format = EbookFormatEnum::AZW3,
+            'lrf' => $self->format = EbookFormatEnum::LRF,
+            // 'rtf' => $self->format = EbookFormatEnum::RTF,
+            'fb2' => $self->format = EbookFormatEnum::FB2,
             'pdf' => $self->format = EbookFormatEnum::PDF,
             default => null,
         };
@@ -196,49 +210,34 @@ class Ebook
         return $self;
     }
 
-    private function epub(): self
+    private function epub(): EbookModule
     {
-        $this->metadata = EbookMetadata::make(EpubMetadata::make($this));
-        $this->convertEbook();
-        $this->cover = $this->metadata->getModule()->toCover();
-
-        return $this;
+        return EpubModule::make($this);
     }
 
-    private function mobi(): self
+    private function mobi(): EbookModule
     {
-        $this->metadata = EbookMetadata::make(MobiMetadata::make($this));
-        $this->convertEbook();
-        $this->cover = $this->metadata->getModule()->toCover();
-
-        return $this;
+        return MobiModule::make($this);
     }
 
-    private function cba(): self
+    private function fb2(): EbookModule
     {
-        $this->metadata = EbookMetadata::make(CbaMetadata::make($this));
-        $this->convertEbook();
-        $this->cover = $this->metadata->getModule()->toCover();
-
-        return $this;
+        return Fb2Module::make($this);
     }
 
-    private function pdf(): self
+    private function cba(): EbookModule
     {
-        $this->metadata = EbookMetadata::make(PdfMetadata::make($this));
-        $this->convertEbook();
-        $this->cover = $this->metadata->getModule()->toCover();
-
-        return $this;
+        return CbaModule::make($this);
     }
 
-    private function audiobook(): self
+    private function pdf(): EbookModule
     {
-        $this->metadata = EbookMetadata::make(AudiobookMetadata::make($this));
-        $this->convertEbook();
-        $this->cover = $this->metadata->getModule()->toCover();
+        return PdfModule::make($this);
+    }
 
-        return $this;
+    private function audiobook(): EbookModule
+    {
+        return AudiobookModule::make($this);
     }
 
     private function convertEbook(): self
@@ -645,6 +644,21 @@ class Ebook
         return $this;
     }
 
+    public function setAuthor(BookAuthor $author): self
+    {
+
+        $this->authors = [
+            $author,
+            ...$this->authors,
+        ];
+
+        if (! $this->authorMain) {
+            $this->authorMain = $author;
+        }
+
+        return $this;
+    }
+
     /**
      * @param  BookAuthor[]  $authors
      */
@@ -681,12 +695,31 @@ class Ebook
         return $this;
     }
 
+    public function setIdentifier(BookIdentifier $identifier): self
+    {
+        if (array_key_exists($identifier->getScheme(), $this->identifiers)) {
+            $this->identifiers[] = [
+                $identifier,
+                ...$this->identifiers,
+            ];
+        }
+
+        $this->identifiers = [
+            $identifier->getScheme() => $identifier,
+            ...$this->identifiers,
+        ];
+
+        return $this;
+    }
+
     /**
      * @param  BookIdentifier[]  $identifiers
      */
     public function setIdentifiers(array $identifiers): self
     {
-        $this->identifiers = $identifiers;
+        foreach ($identifiers as $identifier) {
+            $this->setIdentifier($identifier);
+        }
 
         return $this;
     }
@@ -705,16 +738,33 @@ class Ebook
         return $this;
     }
 
+    public function setTag(?string $tag): self
+    {
+        if (! $tag) {
+            return $this;
+        }
+
+        $tag = trim($tag);
+        $this->tags = [
+            $tag,
+            ...$this->tags,
+        ];
+
+        return $this;
+    }
+
     /**
      * @param  string[]|null  $tags
      */
     public function setTags(?array $tags): self
     {
         if (! $tags) {
-            $tags = [];
+            return $this;
         }
 
-        $this->tags = $tags;
+        foreach ($tags as $tag) {
+            $this->setTag($tag);
+        }
 
         return $this;
     }

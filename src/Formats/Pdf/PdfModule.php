@@ -8,7 +8,7 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 
-class PdfMetadata extends EbookModule
+class PdfModule extends EbookModule
 {
     protected ?PdfMeta $meta = null;
 

@@ -19,9 +19,7 @@ it('can use EbookEntity', function () {
         'rating' => 10.0,
     ];
     $ebook->setPublisher('publisher');
-    $ebook->setIdentifiers([
-        new BookIdentifier('identifier', 'id'),
-    ]);
+    $ebook->setIdentifier(new BookIdentifier('identifier', 'id'));
     $ebook->setPublishDate(new DateTime('1980-01-13 21:00:00'));
     $ebook->setLanguage('fr');
     $ebook->setTags([
@@ -115,7 +113,7 @@ it('can use BookIdentifier', function (string $value, string $scheme) {
     ]);
     expect($item->__toString())->toBe("{$value} {$scheme}");
     if (str_contains($scheme, 'isbn')) {
-        expect($item->parse()->getScheme())->toBe($scheme);
+        expect($item->getScheme())->toBe($scheme);
     }
 })->with([
     [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Epub;
+namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 use DateTime;
 use DateTimeZone;
@@ -13,7 +13,7 @@ use Kiwilan\XmlReader\XmlReader;
 /**
  * Transform `.opf` file to an object.
  */
-class OpfMetadata
+class OpfItem
 {
     protected array $metadata = [];
 
@@ -482,7 +482,6 @@ class OpfMetadata
                 value: $value,
                 scheme: $scheme,
             );
-            $identifier->parse();
             $items[$identifier->getScheme()] = $identifier;
         }
 

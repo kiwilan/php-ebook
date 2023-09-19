@@ -10,7 +10,7 @@ use Kiwilan\XmlReader\XmlReader;
 /**
  * @docs https://anansi-project.github.io/docs/comicinfo/schemas/v2.0
  */
-class CbamMetadata extends CbaTemplate
+class CbamTemplate extends CbaTemplate
 {
     /** @var string[] */
     protected array $writers = [];

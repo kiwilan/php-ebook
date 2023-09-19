@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Epub;
+namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 use Kiwilan\XmlReader\XmlReader;
 
