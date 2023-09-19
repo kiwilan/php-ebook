@@ -9,7 +9,9 @@ class BookIdentifier
         protected ?string $scheme = null, // isbn10, isbn13, asin, etc.
     ) {
         $this->value = BookMeta::parse($this->value);
-        $this->scheme = $this->parseScheme();
+
+        $scheme = $this->parseScheme();
+        $this->scheme = $scheme ?? $this->scheme;
     }
 
     private function parseScheme(): ?string

@@ -59,7 +59,10 @@ define('FORMAT_MOBI', __DIR__.'/media/alice-lewis-carroll.mobi');
 define('FORMAT_PDB', __DIR__.'/media/alice-lewis-carroll.pdb');
 define('FORMAT_SNB', __DIR__.'/media/alice-lewis-carroll.snb');
 define('FORMAT_RB', __DIR__.'/media/alice-lewis-carroll.rb');
-define('FORMAT_RTF', __DIR__.'/media/rtf_sample.rtf');
+define('FORMAT_KF8', __DIR__.'/media/alice-lewis-carroll.kf8');
+define('FORMAT_PRC', __DIR__.'/media/alice-lewis-carroll.prc');
+define('FORMAT_RTF', __DIR__.'/media/sample.rtf');
+define('FORMAT_DJVU', __DIR__.'/media/sample.djvu');
 
 define('EBOOKS_ITEMS', [
     'EPUB' => EPUB,

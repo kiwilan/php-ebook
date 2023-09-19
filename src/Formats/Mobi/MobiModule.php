@@ -7,7 +7,6 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
-use Kiwilan\Ebook\Formats\Mobi\Parser\MobiReader;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\BookIdentifier;
 
@@ -19,56 +18,58 @@ class MobiModule extends EbookModule
 {
     protected ?MobiParser $parser = null;
 
-    protected ?MobiReader $reader = null;
-
     protected ?string $cover = null;
 
     public static function make(Ebook $ebook): EbookModule
     {
         $self = new self($ebook);
         $self->parser = MobiParser::make($ebook->getPath());
-        $self->reader = MobiReader::make($self->parser);
 
         return $self;
     }
 
     public function toEbook(): Ebook
     {
-        if (! $this->reader) {
+        if (! $this->parser->getReader() || empty($this->parser->getReader()->getRecords())) {
             return $this->ebook;
         }
 
-        // $authors = [];
-        // foreach ($reader->authors() as $author) {
-        //     $authors[] = new BookAuthor($author);
-        // }
+        $reader = $this->parser->getReader();
 
-        // $isbns = [];
-        // foreach ($reader->isbns() as $isbn) {
-        //     $isbns[] = new BookIdentifier($isbn);
-        // }
+        foreach ($reader->get(100, true) as $author) {
+            $this->ebook->setAuthor(new BookAuthor($author));
+        }
 
-        // $publishingDate = $reader->getPublishingDate();
-        // if ($publishingDate) {
-        //     $publishingDate = new DateTime($publishingDate);
-        // }
+        foreach ($reader->get(104, true) as $isbn) {
+            $this->ebook->setIdentifier(new BookIdentifier($isbn));
+        }
 
-        // $this->ebook->setAuthors($authors);
-        // $this->ebook->setPublisher($reader->publisher());
+        $this->ebook->setIdentifier(new BookIdentifier($reader->get(113), '113'));
+        $this->ebook->setIdentifier(new BookIdentifier($reader->get(112), '112'));
 
-        // $description = $reader->description();
-        // $this->ebook->setDescription($this->descriptionToString($description));
-        // $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
+        $publishingDate = $reader->get(106);
+        if ($publishingDate) {
+            $publishingDate = new DateTime($publishingDate);
+        }
 
-        // $this->ebook->setIdentifiers($isbns);
-        // $this->ebook->setTags($reader->subjects());
-        // $this->ebook->setPublishDate($publishingDate);
-        // $this->ebook->setTitle($reader->updatedTitle());
-        // $this->ebook->setLanguage($reader->language());
+        $this->ebook->setPublisher($reader->get(101));
 
-        // $this->ebook->setExtras([
-        //     'contributor' => $reader->contributor(),
-        // ]);
+        $description = $reader->get(103);
+        $this->ebook->setDescription($this->descriptionToString($description));
+        $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
+
+        foreach ($reader->get(105, true) as $value) {
+            $this->ebook->setTag($value);
+        }
+
+        $this->ebook->setPublishDate($publishingDate);
+        $this->ebook->setTitle($reader->get(503));
+        $this->ebook->setLanguage($reader->get(524));
+        $this->ebook->setCopyright($reader->get(108));
+
+        foreach ($reader->getRecords() as $value) {
+            $this->ebook->setExtra($value->data);
+        }
 
         return $this->ebook;
     }

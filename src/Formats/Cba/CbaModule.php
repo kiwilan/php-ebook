@@ -4,6 +4,8 @@ namespace Kiwilan\Ebook\Formats\Cba;
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
+use Kiwilan\Ebook\Formats\Cba\Parser\CbamTemplate;
+use Kiwilan\Ebook\Formats\Cba\Parser\CbaTemplate;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\ComicMeta;

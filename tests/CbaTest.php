@@ -7,7 +7,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
-use Kiwilan\Ebook\Formats\Cba\CbamTemplate;
+use Kiwilan\Ebook\Formats\Cba\Parser\CbamTemplate;
 use Kiwilan\Ebook\Tools\ComicMeta;
 use Kiwilan\XmlReader\XmlReader;
 

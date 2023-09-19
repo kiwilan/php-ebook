@@ -95,8 +95,6 @@ class Ebook
         $format = match ($self->format) {
             EbookFormatEnum::EPUB => $self->epub(),
             EbookFormatEnum::MOBI => $self->mobi(),
-            EbookFormatEnum::AZW3 => $self->mobi(),
-            EbookFormatEnum::LRF => $self->mobi(),
             EbookFormatEnum::FB2 => $self->fb2(),
             // EbookFormatEnum::RTF => $self->rtf(),
             EbookFormatEnum::CBA => $self->cba(),
@@ -167,8 +165,10 @@ class Ebook
         $self->format = match ($extension) {
             'epub' => $self->format = EbookFormatEnum::EPUB,
             'mobi' => $self->format = EbookFormatEnum::MOBI,
-            'azw3' => $self->format = EbookFormatEnum::AZW3,
-            'lrf' => $self->format = EbookFormatEnum::LRF,
+            'azw3' => $self->format = EbookFormatEnum::MOBI,
+            'lrf' => $self->format = EbookFormatEnum::MOBI,
+            'kf8' => $self->format = EbookFormatEnum::MOBI,
+            'prc' => $self->format = EbookFormatEnum::MOBI,
             // 'rtf' => $self->format = EbookFormatEnum::RTF,
             'fb2' => $self->format = EbookFormatEnum::FB2,
             'pdf' => $self->format = EbookFormatEnum::PDF,
@@ -646,7 +646,6 @@ class Ebook
 
     public function setAuthor(BookAuthor $author): self
     {
-
         $this->authors = [
             $author,
             ...$this->authors,
@@ -697,17 +696,16 @@ class Ebook
 
     public function setIdentifier(BookIdentifier $identifier): self
     {
-        if (array_key_exists($identifier->getScheme(), $this->identifiers)) {
-            $this->identifiers[] = [
-                $identifier,
-                ...$this->identifiers,
-            ];
+        $key = $identifier->getScheme() ?? uniqid();
+
+        if (array_key_exists($key, $this->identifiers)) {
+            $key = uniqid();
+            $this->identifiers[$key] = $identifier;
+
+            return $this;
         }
 
-        $this->identifiers = [
-            $identifier->getScheme() => $identifier,
-            ...$this->identifiers,
-        ];
+        $this->identifiers[$key] = $identifier;
 
         return $this;
     }
@@ -717,9 +715,7 @@ class Ebook
      */
     public function setIdentifiers(array $identifiers): self
     {
-        foreach ($identifiers as $identifier) {
-            $this->setIdentifier($identifier);
-        }
+        $this->identifiers = $identifiers;
 
         return $this;
     }
@@ -762,9 +758,7 @@ class Ebook
             return $this;
         }
 
-        foreach ($tags as $tag) {
-            $this->setTag($tag);
-        }
+        $this->tags = $tags;
 
         return $this;
     }
@@ -811,6 +805,19 @@ class Ebook
     public function setHasMetadata(bool $hasMetadata): self
     {
         $this->hasMetadata = $hasMetadata;
+
+        return $this;
+    }
+
+    public function setExtra(mixed $value, string $key = null): self
+    {
+        if (! $key) {
+            $this->extras[] = $value;
+
+            return $this;
+        }
+
+        $this->extras[$key] = $value;
 
         return $this;
     }

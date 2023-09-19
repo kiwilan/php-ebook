@@ -19,6 +19,7 @@ class MobiParser
         protected ?PalmDOCHeader $palmDOCHeader = null,
         protected ?MobiHeader $mobiHeader = null,
         protected ?ExthHeader $exthHeader = null,
+        protected ?MobiReader $reader = null,
     ) {
     }
 
@@ -28,8 +29,14 @@ class MobiParser
             stream: Stream::make($path),
         );
         $self->parse();
+        $self->reader = MobiReader::make($self);
 
         return $self;
+    }
+
+    public function getReader(): ?MobiReader
+    {
+        return $this->reader;
     }
 
     public function getError(): ?string
@@ -112,10 +119,8 @@ class MobiParser
             );
 
             $record->data = $this->stream->read($record->length - 8);
-            $this->exthHeader->records[$record->type] = $record;
+            $this->exthHeader->records[] = $record;
         }
-
-        ksort($this->exthHeader->records);
 
         $this->stream->close();
 
@@ -142,27 +147,51 @@ class MobiParser
         return $this->exthHeader;
     }
 
+    /**
+     * @return PalmRecord[]
+     */
     public function getRecords(): array
     {
         return $this->records;
     }
 
-    protected function getRecord(int $type): ?ExthRecord
+    /**
+     * @return ExthRecord[]|null
+     */
+    protected function getRecord(int $type): ?array
     {
+        if (! $this->exthHeader?->records) {
+            return null;
+        }
+
+        $records = [];
         foreach ($this->exthHeader->records as $record) {
-            if ($record->type == $type) {
-                return $record;
+            if ($record->type === $type) {
+                $records[] = $record;
             }
         }
 
-        return null;
+        if (count($records) === 0) {
+            return null;
+        }
+
+        return $records;
     }
 
-    public function getRecordData(int $type): ?string
+    /**
+     * @return string[]|null
+     */
+    public function getRecordData(int $type): ?array
     {
-        $record = $this->getRecord($type);
-        if ($record) {
-            return $record->data;
+        $records = $this->getRecord($type);
+        $data = [];
+
+        if ($records) {
+            foreach ($records as $value) {
+                $data[] = $value->data;
+            }
+
+            return $data;
         }
 
         return null;

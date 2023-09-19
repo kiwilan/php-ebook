@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Formats\Cba;
+namespace Kiwilan\Ebook\Formats\Cba\Parser;
 
 use Kiwilan\XmlReader\XmlReader;
 
