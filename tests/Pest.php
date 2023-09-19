@@ -51,17 +51,26 @@ define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
 define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
 define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');
 
-define('FORMAT_EPUB', __DIR__.'/media/alice-lewis-carroll.epub');
 define('FORMAT_AZW3', __DIR__.'/media/alice-lewis-carroll.azw3');
+define('FORMAT_DOCX', __DIR__.'/media/alice-lewis-carroll.docx');
+define('FORMAT_EPUB', __DIR__.'/media/alice-lewis-carroll.epub');
 define('FORMAT_FB2', __DIR__.'/media/alice-lewis-carroll.fb2');
+define('FORMAT_HTMLZ', __DIR__.'/media/alice-lewis-carroll.htmlz');
+define('FORMAT_KF8', __DIR__.'/media/alice-lewis-carroll.kf8');
+define('FORMAT_LIT', __DIR__.'/media/alice-lewis-carroll.lit');
 define('FORMAT_LRF', __DIR__.'/media/alice-lewis-carroll.lrf');
 define('FORMAT_MOBI', __DIR__.'/media/alice-lewis-carroll.mobi');
 define('FORMAT_PDB', __DIR__.'/media/alice-lewis-carroll.pdb');
-define('FORMAT_SNB', __DIR__.'/media/alice-lewis-carroll.snb');
-define('FORMAT_RB', __DIR__.'/media/alice-lewis-carroll.rb');
-define('FORMAT_KF8', __DIR__.'/media/alice-lewis-carroll.kf8');
+define('FORMAT_PDF', __DIR__.'/media/alice-lewis-carroll.pdf');
+define('FORMAT_PMLZ', __DIR__.'/media/alice-lewis-carroll.pmlz');
 define('FORMAT_PRC', __DIR__.'/media/alice-lewis-carroll.prc');
-define('FORMAT_RTF', __DIR__.'/media/sample.rtf');
+define('FORMAT_RB', __DIR__.'/media/alice-lewis-carroll.rb');
+define('FORMAT_RTF', __DIR__.'/media/alice-lewis-carroll.rtf');
+define('FORMAT_SNB', __DIR__.'/media/alice-lewis-carroll.snb');
+define('FORMAT_TCR', __DIR__.'/media/alice-lewis-carroll.tcr');
+define('FORMAT_TXT', __DIR__.'/media/alice-lewis-carroll.txt');
+define('FORMAT_TXTZ', __DIR__.'/media/alice-lewis-carroll.txtz');
+define('FORMAT_ZIP', __DIR__.'/media/alice-lewis-carroll.zip');
 define('FORMAT_DJVU', __DIR__.'/media/sample.djvu');
 
 define('EBOOKS_ITEMS', [

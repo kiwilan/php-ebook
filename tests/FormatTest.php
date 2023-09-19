@@ -37,18 +37,27 @@ it('can parse format', function (string $path) {
     }
 })->with([
     FORMAT_AZW3,
+    // FORMAT_DOCX,
     FORMAT_EPUB,
     FORMAT_FB2,
+    // FORMAT_HTMLZ,
     FORMAT_KF8,
+    // FORMAT_LIT,
     // FORMAT_LRF,
     FORMAT_MOBI,
     // FORMAT_PDB,
+    // FORMAT_PDF,
+    // FORMAT_PMLZ,
     // FORMAT_PRC,
     // FORMAT_RB,
+    // FORMAT_RTF,
     // FORMAT_SNB,
+    // FORMAT_TCR,
+    // FORMAT_TXT,
+    // FORMAT_TXTZ,
+    // FORMAT_ZIP,
 
     // FORMAT_DJVU,
-    // FORMAT_RTF,
 ]);
 
 it('can parse mobi images', function () {
@@ -68,18 +77,19 @@ it('can parse mobi images', function () {
     expect('tests/output/mobi/cover.jpg')->toBeReadableFile();
 });
 
-// it('can parse format', function () {
-//     recurseRmdir('tests/output/mobi');
-//     $parser = MobiParser::make(FORMAT_MOBI);
+it('can parse specific format', function () {
+    recurseRmdir('tests/output/mobi');
+    $parser = MobiParser::make(FORMAT_PDB);
+    ray($parser);
 
-//     ray($parser->getImages());
-//     foreach ($parser->getImages()->getItems() as $key => $value) {
-//         $path = "tests/output/mobi/{$key}.jpg";
-//         file_put_contents($path, $value);
-//         expect($path)->toBeReadableFile();
-//     }
+    // ray($parser->getImages());
+    // foreach ($parser->getImages()->getItems() as $key => $value) {
+    //     $path = "tests/output/mobi/{$key}.jpg";
+    //     file_put_contents($path, $value);
+    //     expect($path)->toBeReadableFile();
+    // }
 
-//     $ebook = Ebook::read(FORMAT_MOBI);
-//     ray($ebook);
-//     file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
-// });
+    // $ebook = Ebook::read(FORMAT_MOBI);
+    // ray($ebook);
+    // file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
+});

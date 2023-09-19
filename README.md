@@ -23,7 +23,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ## Requirements
 
--   **PHP version** >= _8.1_
+-   **PHP version** `>=8.1`
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
     -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
