@@ -84,7 +84,7 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 |  iBook (Apple)   |                            `.ibooks`                            |    ❌     | _proprietary_ |
 |       DjVu       |                         `.djvu`, `.djv`                         |    ❌     |               |
 | Rich Text Format |                             `.rtf`                              |    ❌     |               |
-|   FictionBook    |                             `.fb2`                              |    ❌     |               |
+|   FictionBook    |                             `.fb2`                              |    ✅     |               |
 | Broadband eBooks |                         `.lrf`, `.lrx`                          |    ❌     |               |
 |    Palm Media    |                             `.pdb`                              |    ❌     |               |
 |       CBA        |                 `.cbz`, `.cbr`, `.cb7`, `.cbt`                  |    ✅     |               |

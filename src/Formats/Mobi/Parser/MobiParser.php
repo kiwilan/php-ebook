@@ -10,38 +10,44 @@ use Kiwilan\Ebook\Utils\Stream;
 class MobiParser
 {
     /**
-     * @param  PalmRecord[]  $records
+     * @param  PalmRecord[]  $palmRecords
+     * @param  ExthRecord[]  $exthRecords
      */
     protected function __construct(
         protected Stream $stream,
         protected ?string $error = null,
-        protected array $records = [],
+        protected array $palmRecords = [],
+        protected array $exthRecords = [],
         protected ?PalmDOCHeader $palmDOCHeader = null,
         protected ?MobiHeader $mobiHeader = null,
         protected ?ExthHeader $exthHeader = null,
-        protected ?MobiReader $reader = null,
+        protected ?MobiImages $images = null,
+        protected bool $isValid = false,
     ) {
     }
 
     public static function make(string $path): ?self
     {
-        $self = new self(
-            stream: Stream::make($path),
-        );
+        $self = new self(Stream::make($path));
         $self->parse();
-        $self->reader = MobiReader::make($self);
+        $self->images = MobiImages::make($path);
 
         return $self;
     }
 
-    public function getReader(): ?MobiReader
+    public function get(int $record, bool $asArray = false): array|string|null
     {
-        return $this->reader;
-    }
+        $data = $this->getRecordData($record);
 
-    public function getError(): ?string
-    {
-        return $this->error;
+        if ($asArray) {
+            return $data;
+        }
+
+        if (count($data) === 1) {
+            return $data[0];
+        }
+
+        return implode(', ', $data);
     }
 
     private function parse(): self
@@ -71,11 +77,11 @@ class MobiParser
                 id: $this->stream->binaryToDecimal($this->stream->read(3)),
             );
 
-            $this->records[] = $record;
+            $this->palmRecords[] = $record;
         }
 
         $this->palmDOCHeader = new PalmDOCHeader();
-        $this->stream->seek($this->records[0]->offset);
+        $this->stream->seek($this->palmRecords[0]->offset);
         $this->palmDOCHeader->compression = $this->stream->binaryToDecimal($this->stream->read(2));
         $this->stream->read(2);
         $this->palmDOCHeader->textLength = $this->stream->binaryToDecimal($this->stream->read(4));
@@ -122,6 +128,9 @@ class MobiParser
             $this->exthHeader->records[] = $record;
         }
 
+        $this->exthRecords = $this->exthHeader->records;
+        $this->isValid = true;
+
         $this->stream->close();
 
         return $this;
@@ -150,15 +159,38 @@ class MobiParser
     /**
      * @return PalmRecord[]
      */
-    public function getRecords(): array
+    public function getPalmRecords(): array
     {
-        return $this->records;
+        return $this->palmRecords;
+    }
+
+    /**
+     * @return ExthRecord[]
+     */
+    public function getExthRecords(): array
+    {
+        return $this->exthRecords;
+    }
+
+    public function getError(): ?string
+    {
+        return $this->error;
+    }
+
+    public function getImages(): ?MobiImages
+    {
+        return $this->images;
+    }
+
+    public function isValid(): bool
+    {
+        return $this->isValid;
     }
 
     /**
      * @return ExthRecord[]|null
      */
-    protected function getRecord(int $type): ?array
+    private function getRecord(int $type): ?array
     {
         if (! $this->exthHeader?->records) {
             return null;
@@ -181,7 +213,7 @@ class MobiParser
     /**
      * @return string[]|null
      */
-    public function getRecordData(int $type): ?array
+    private function getRecordData(int $type): ?array
     {
         $records = $this->getRecord($type);
         $data = [];

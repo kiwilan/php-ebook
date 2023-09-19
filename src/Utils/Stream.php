@@ -21,6 +21,11 @@ class Stream
         return new self($path, $resource);
     }
 
+    public function filesize(): int
+    {
+        return filesize($this->path);
+    }
+
     public function seek(int $offset): int
     {
         return fseek($this->resource, $offset, SEEK_SET);

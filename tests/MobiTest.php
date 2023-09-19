@@ -2,6 +2,7 @@
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Formats\Mobi\Parser\ExthHeader;
+use Kiwilan\Ebook\Formats\Mobi\Parser\ExthRecord;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiHeader;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 use Kiwilan\Ebook\Formats\Mobi\Parser\PalmDOCHeader;
@@ -30,7 +31,8 @@ it('can use mobi parser', function () {
     expect($parser->getPalmDOCHeader())->toBeInstanceOf(PalmDOCHeader::class);
     expect($parser->getMobiHeader())->toBeInstanceOf(MobiHeader::class);
     expect($parser->getExthHeader())->toBeInstanceOf(ExthHeader::class);
-    expect($parser->getRecords())->toBeArray();
+    expect($parser->getExthRecords())->toBeArray();
+    expect($parser->getPalmRecords())->toBeArray();
     expect($parser->getError())->toBeNull();
 
     expect($parser->getPalmDOCHeader()->compression)->toBe(2);
@@ -47,5 +49,6 @@ it('can use mobi parser', function () {
     expect($parser->getExthHeader()->length)->toBe(915);
     expect($parser->getExthHeader()->records)->toBeArray();
 
-    expect($parser->getRecords()[0])->toBeInstanceOf(PalmRecord::class);
+    expect($parser->getExthRecords()[0])->toBeInstanceOf(ExthRecord::class);
+    expect($parser->getPalmRecords()[0])->toBeInstanceOf(PalmRecord::class);
 });

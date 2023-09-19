@@ -2,6 +2,7 @@
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
+use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 
 it('can parse format', function (string $path) {
     $ebook = Ebook::read($path);
@@ -22,7 +23,9 @@ it('can parse format', function (string $path) {
     $tags = $ebook->getTags();
     expect($tags)->toBeArray();
 
-    if ($path === FORMAT_FB2 || $path === FORMAT_EPUB) {
+    $extension = pathinfo($ebook->getPath(), PATHINFO_EXTENSION);
+    $coverCheck = ['azw3', 'epub', 'fb2', 'kf8', 'mobi'];
+    if (in_array($extension, $coverCheck)) {
         $slug = $ebook->getMetaTitle()->getUniqueFilename();
         $path = "tests/output/{$slug}-cover.jpg";
         if (file_exists($path)) {
@@ -47,3 +50,36 @@ it('can parse format', function (string $path) {
     // FORMAT_DJVU,
     // FORMAT_RTF,
 ]);
+
+it('can parse mobi images', function () {
+    recurseRmdir('tests/output/mobi');
+    $parser = MobiParser::make(FORMAT_MOBI);
+
+    expect($parser->getImages()->getItems())->toHaveCount(27);
+    foreach ($parser->getImages()->getItems() as $key => $value) {
+        $path = "tests/output/mobi/{$key}.jpg";
+        file_put_contents($path, $value);
+        expect($path)->toBeReadableFile();
+    }
+
+    $ebook = Ebook::read(FORMAT_MOBI);
+    file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
+    expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
+    expect('tests/output/mobi/cover.jpg')->toBeReadableFile();
+});
+
+// it('can parse format', function () {
+//     recurseRmdir('tests/output/mobi');
+//     $parser = MobiParser::make(FORMAT_MOBI);
+
+//     ray($parser->getImages());
+//     foreach ($parser->getImages()->getItems() as $key => $value) {
+//         $path = "tests/output/mobi/{$key}.jpg";
+//         file_put_contents($path, $value);
+//         expect($path)->toBeReadableFile();
+//     }
+
+//     $ebook = Ebook::read(FORMAT_MOBI);
+//     ray($ebook);
+//     file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
+// });

@@ -2,66 +2,139 @@
 
 namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
-/**
- * @docs https://wiki.mobileread.com/wiki/MOBI
- */
 class MobiReader
 {
-    /**
-     * @param  ExthRecord[]  $records
-     */
-    protected function __construct(
-        protected MobiParser $parser,
-        protected array $records = [],
-    ) {
-    }
+    const DRM_SERVER_ID = 1;
 
-    public static function make(MobiParser $parser): ?self
-    {
-        $self = new self($parser);
+    const DRM_COMMERCE_ID = 2;
 
-        if ($parser->getExthHeader()) {
-            foreach ($parser->getExthHeader()->records as $key => $value) {
-                $self->records[$key] = $value;
-            }
-        }
+    const DRM_EBOOKBASE_BOOK_ID = 3;
 
-        return $self;
-    }
+    const AUTHOR = 100;
 
-    public function get(int $record, bool $asArray = false): array|string|null
-    {
-        $data = $this->parser->getRecordData($record);
+    const PUBLISHER = 101;
 
-        if ($asArray) {
-            return $data;
-        }
+    const IMPRINT = 102;
 
-        if (count($data) === 1) {
-            return $data[0];
-        }
+    const DESCRIPTION = 103;
 
-        return implode(', ', $data);
-    }
+    const ISBN = 104;
 
-    /**
-     * @return ExthRecord[]
-     */
-    public function getRecords(): array
-    {
-        return $this->records;
-    }
-}
+    const SUBJECT = 105;
 
-class MobiReaderRecord
-{
-    public function __construct(
-        public ?int $offset = null,
-        public ?int $bytes = null,
-        public ?string $content = null,
-        public ?string $comments = null,
-    ) {
-    }
+    const PUBLISHINGDATE = 106;
+
+    const REVIEW = 107;
+
+    const CONTRIBUTOR = 108;
+
+    const RIGHTS = 109;
+
+    const SUBJECTCODE = 110;
+
+    const TYPE = 111;
+
+    const SOURCE = 112;
+
+    const ASIN = 113;
+
+    const VERSIONNUMBER = 114;
+
+    const SAMPLE = 115;
+
+    const STARTREADING = 116;
+
+    const ADULT = 117;
+
+    const RETAIL_PRICE = 118;
+
+    const RETAIL_PRICE_CURRENCY = 119;
+
+    const K_F8_BOUNDARY_OFFSET = 121;
+
+    const FIXED_LAYOUT = 122;
+
+    const BOOK_TYPE = 123;
+
+    const ORIENTATION_LOCK = 124;
+
+    const COUNT_OF_RESOURCES = 125;
+
+    const ORIGINAL_RESOLUTION = 126;
+
+    const ZERO_GUTTER = 127;
+
+    const ZERO_MARGIN = 128;
+
+    const METADATA_RESOURCE_URI = 129;
+
+    const UNKNOWN_131 = 131;
+
+    const UNKNOWN_132 = 132;
+
+    const DICTIONARY_SHORT_NAME = 200;
+
+    const COVEROFFSET = 201;
+
+    const THUMBOFFSET = 202;
+
+    const HASFAKECOVER = 203;
+
+    const CREATOR_SOFTWARE = 204;
+
+    const CREATOR_MAJOR_VERSION = 205;
+
+    const CREATOR_MINOR_VERSION = 206;
+
+    const CREATOR_BUILD_NUMBER = 207;
+
+    const WATERMARK = 208;
+
+    const TAMPER_PROOF_KEYS = 209;
+
+    const FONTSIGNATURE = 300;
+
+    const CLIPPINGLIMIT = 401;
+
+    const PUBLISHERLIMIT = 402;
+
+    const UNKNOWN_403 = 403;
+
+    const TTSFLAG = 404;
+
+    const UNKNOWN_RENT_BORROW_FLAG = 405;
+
+    const RENT_BORROW_EXPIRATION_DATE = 406;
+
+    const UNKNOWN_407 = 407;
+
+    const UNKNOWN_450 = 450;
+
+    const UNKNOWN_451 = 451;
+
+    const UNKNOWN_452 = 452;
+
+    const UNKNOWN_453 = 453;
+
+    const CDETYPE = 501;
+
+    const LASTUPDATETIME = 502;
+
+    const UPDATEDTITLE = 503;
+
+    const ASIN_504 = 504;
+
+    const LANGUAGE = 524;
+
+    const WRITINGMODE = 525;
+
+    const CREATOR_BUILD_NUMBER_535 = 535;
+
+    const UNKNOWN_536 = 536;
+
+    const UNKNOWN_542 = 542;
+
+    const IN_MEMORY = 547;
 
     const PAML_DOC_HEADER = [
         ['offset' => 0, 'bytes' => 2, 'content' => 'Compression', 'comments' => '1 == no compression, 2 = PalmDOC compression, 17480 = HUFF/CDIC compression'],
