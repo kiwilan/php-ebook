@@ -36,28 +36,7 @@ class Fb2Parser
 
             if (array_key_exists('title-info', $self->metadata)) {
                 $self->titleInfo = $self->metadata['title-info'];
-
-                $coverPage = $self->titleInfo['coverpage'] ?? null;
-                if ($coverPage) {
-                    $cover = $coverPage['image'] ?? null;
-                    if ($cover) {
-                        $id = $cover['@attributes']['href'] ?? null;
-                        $id = str_replace('#', '', $id);
-
-                        $binary = $xml->getContent()['binary'] ?? null;
-                        if ($binary) {
-                            foreach ($binary as $item) {
-                                $attributes = $item['@attributes'] ?? null;
-                                $binaryId = $attributes['id'] ?? null;
-                                if ($binaryId === $id) {
-                                    $cover = $item['@content'] ?? null;
-                                    $cover = str_replace("\n", '', $cover);
-                                    $self->cover = $cover;
-                                }
-                            }
-                        }
-                    }
-                }
+                $self->cover = $self->findCover();
             }
 
             if (array_key_exists('document-info', $self->metadata)) {
@@ -70,6 +49,40 @@ class Fb2Parser
         }
 
         return $self;
+    }
+
+    private function findCover(): ?string
+    {
+        $coverPage = $this->titleInfo['coverpage'] ?? null;
+        if (! $coverPage) {
+            return null;
+        }
+
+        $cover = $coverPage['image'] ?? null;
+        if (! $cover) {
+            return null;
+        }
+
+        $id = $cover['@attributes']['href'] ?? null;
+        $id = str_replace('#', '', $id);
+
+        $binary = $this->xml->getContent()['binary'] ?? null;
+        if (! $binary) {
+            return null;
+        }
+
+        foreach ($binary as $item) {
+            $attributes = $item['@attributes'] ?? null;
+            $binaryId = $attributes['id'] ?? null;
+            if ($binaryId === $id) {
+                $cover = $item['@content'] ?? null;
+                $cover = str_replace("\n", '', $cover);
+
+                return $cover;
+            }
+        }
+
+        return null;
     }
 
     public function getRoot(): ?string

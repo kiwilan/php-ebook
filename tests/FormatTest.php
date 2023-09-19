@@ -1,21 +1,13 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\EbookCover;
 
 it('can parse format', function (string $path) {
     $ebook = Ebook::read($path);
     $basename = pathinfo($path, PATHINFO_BASENAME);
 
     expect($ebook->getBasename())->toBe($basename);
-
-    $slug = $ebook->getMetaTitle()->getUniqueFilename();
-    // $path = "tests/output/{$slug}-cover.jpg";
-    // if (file_exists($path)) {
-    //     unlink($path);
-    // }
-    // file_put_contents($path, $ebook->getCover()?->getContent());
-    // expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
-    // expect($path)->toBeReadableFile();
 
     expect($ebook->getTitle())->toBe("Alice's Adventures in Wonderland");
     expect($ebook->getDescription())->toBe('With the curious, quick-witted Alice at its heart, readers will not only rediscover characters such as the charming White Rabbit, the formidable Queen of Hearts, the Mad Hatter and the grinning Cheshire Cat but will find fresh and wonderful creations of these characters by a true master of his art,; images that will live in our hearts and minds for generations to come.');
@@ -29,6 +21,17 @@ it('can parse format', function (string $path) {
 
     $tags = $ebook->getTags();
     expect($tags)->toBeArray();
+
+    if ($path === FORMAT_FB2 || $path === FORMAT_EPUB) {
+        $slug = $ebook->getMetaTitle()->getUniqueFilename();
+        $path = "tests/output/{$slug}-cover.jpg";
+        if (file_exists($path)) {
+            unlink($path);
+        }
+        file_put_contents($path, $ebook->getCover()?->getContent());
+        expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
+        expect($path)->toBeReadableFile();
+    }
 })->with([
     FORMAT_AZW3,
     FORMAT_EPUB,
