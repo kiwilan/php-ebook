@@ -45,19 +45,21 @@ define('EPUB_DESCRIPTION', __DIR__.'/media/epub-description.epub');
 define('EPUB_VOL0', __DIR__.'/media/epub-vol-0.epub');
 define('EPUB_EPEE_ET_MORT', __DIR__.'/media/epub-epee-et-mort.epub');
 
-define('STANDARD_EPUB', __DIR__.'/media/alice-lewis-carroll-1.epub');
-define('STANDARD_AZW3', __DIR__.'/media/alice-lewis-carroll-2.azw3');
-define('STANDARD_FB2', __DIR__.'/media/alice-lewis-carroll-3.fb2');
-define('STANDARD_LRF', __DIR__.'/media/alice-lewis-carroll-4.lrf');
-define('STANDARD_MOBI', __DIR__.'/media/alice-lewis-carroll-5.mobi');
-define('STANDARD_PDB', __DIR__.'/media/alice-lewis-carroll-6.pdb');
-define('STANDARD_SNB', __DIR__.'/media/alice-lewis-carroll-7.snb');
-
 define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
 define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
 define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
 define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
 define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');
+
+define('FORMAT_EPUB', __DIR__.'/media/alice-lewis-carroll.epub');
+define('FORMAT_AZW3', __DIR__.'/media/alice-lewis-carroll.azw3');
+define('FORMAT_FB2', __DIR__.'/media/alice-lewis-carroll.fb2');
+define('FORMAT_LRF', __DIR__.'/media/alice-lewis-carroll.lrf');
+define('FORMAT_MOBI', __DIR__.'/media/alice-lewis-carroll.mobi');
+define('FORMAT_PDB', __DIR__.'/media/alice-lewis-carroll.pdb');
+define('FORMAT_SNB', __DIR__.'/media/alice-lewis-carroll.snb');
+define('FORMAT_RB', __DIR__.'/media/alice-lewis-carroll.rb');
+define('FORMAT_RTF', __DIR__.'/media/rtf_sample.rtf');
 
 define('EBOOKS_ITEMS', [
     'EPUB' => EPUB,
@@ -84,16 +86,6 @@ define('AUDIOBOOK_ITEMS', [
     'AUDIOBOOK_PART_1' => AUDIOBOOK_PART_1,
     'AUDIOBOOK_PART_2' => AUDIOBOOK_PART_2,
     'AUDIOBOOK_CHAPTERS' => AUDIOBOOK_CHAPTERS,
-]);
-
-define('STANDARD', [
-    'EPUB' => STANDARD_EPUB,
-    'AZW3' => STANDARD_AZW3,
-    'FB2' => STANDARD_FB2,
-    'LRF' => STANDARD_LRF,
-    'MOBI' => STANDARD_MOBI,
-    'PDB' => STANDARD_PDB,
-    'SNB' => STANDARD_SNB,
 ]);
 
 function outputPath(?string $path): string
