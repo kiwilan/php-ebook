@@ -15,13 +15,15 @@ PHP package to read metadata and extract covers from eBooks, comics and audioboo
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
 -   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`
 
-To know more see [Supported formats](#supported-formats).
-
-_Supports Linux, macOS and Windows._
+To know more see [Supported formats](#supported-formats). _Supports Linux, macOS and Windows._
 
 > **Note**
 >
 > This package favors eBooks in open formats such as `.epub` (from [IDPF](https://en.wikipedia.org/wiki/International_Digital_Publishing_Forum)) or `.cbz` (from [CBA](https://en.wikipedia.org/wiki/Comic_book_archive)) and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
+
+> **Warning**
+>
+> For DRM (Digital Rights Management) eBooks, you have to use a software to remove DRM before using this package. For EPUB, you can use [calibre](https://calibre-ebook.com/) with [DeDRM plugin](https://github.com/noDRM/DeDRM_tools), [this guide](https://www.epubor.com/calibre-drm-removal-plugins.html) can help you.
 
 ## About
 
