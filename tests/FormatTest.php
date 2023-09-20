@@ -16,7 +16,6 @@ it('can parse format', function (string $path) {
     expect($ebook->getPublisher())->toBe('D. Appleton and Co');
     expect($ebook->getPublishDate())->toBeInstanceOf(DateTime::class);
     expect($ebook->getLanguage())->toBe('en');
-
     $isIsbn13 = str_starts_with($ebook->getIdentifiers()['isbn13']->getValue(), '978');
     expect($isIsbn13)->toBeTrue();
 

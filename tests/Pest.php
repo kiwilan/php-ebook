@@ -44,6 +44,7 @@ define('EPUB_BAD_FILE', __DIR__.'/media/epub-bad-file.epub');
 define('EPUB_DESCRIPTION', __DIR__.'/media/epub-description.epub');
 define('EPUB_VOL0', __DIR__.'/media/epub-vol-0.epub');
 define('EPUB_EPEE_ET_MORT', __DIR__.'/media/epub-epee-et-mort.epub');
+define('EPUB_DRM', __DIR__.'/media/epub-drm.epub');
 
 define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
 define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
@@ -219,4 +220,13 @@ function getAllFiles(string $path): array
     }
 
     return $files;
+}
+
+function fileIsValidImg(string $path): bool
+{
+    if (@is_array(getimagesize($path))) {
+        return true;
+    }
+
+    return false;
 }

@@ -30,6 +30,7 @@ it('can extract pdf cover', function () {
     expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeTrue();
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
 
 it('can parse empty pdf', function () {

@@ -55,12 +55,13 @@ it('can parse epub entity', function () {
 it('can get epub cover', function () {
     $ebook = Ebook::read(EPUB);
     $path = 'tests/output/cover-EPUB.jpg';
-    file_put_contents($path, $ebook->getCover());
+    file_put_contents($path, $ebook->getCover()->getContents());
 
     expect($ebook->getCover()->getPath())->toBeString();
     expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeTrue();
 });
 
 it('can get title meta', function () {
@@ -196,3 +197,35 @@ it('can parse epub with bad summary', function (string $path) {
 
     expect($ebook->getDescription())->not()->toContain("\n");
 })->with([EPUB_EPEE_ET_MORT]);
+
+it('can read DRM epub', function () {
+    $ebook = Ebook::read(EPUB_DRM);
+
+    expect($ebook->getTitle())->toBe('Alana et l’enfant vampire');
+    expect($ebook->getAuthorMain()->getName())->toBe('Cordélia');
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getAuthors()[0]->getName())->toBe('Cordélia');
+    expect($ebook->getPublisher())->toBe('Scrinéo');
+    expect($ebook->getIdentifiers()['uuid']->getValue())->toBe('urn:uuid:10225bf5-b0ec-43e7-910a-e0e208623cd9');
+    $date = new DateTime('2020-01-22 06:53:56');
+    expect($ebook->getPublishDate()->format('Y-m-d H:i:s'))->toBe($date->format('Y-m-d H:i:s'));
+    expect($ebook->getLanguage())->toBe('fr');
+    expect($ebook->getCopyright())->toBe('© 2020 Scrineo');
+
+    $cover = $ebook->getCover();
+    $path = 'tests/output/cover-EPUB-DRM.jpg';
+    file_put_contents($path, $cover->getContents());
+
+    expect($cover->getContents())->toBeString();
+    expect(file_exists($path))->toBeTrue();
+    expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeFalse();
+
+    $module = $ebook->getMetadata()->getEpub();
+
+    $html = $module->getHtml();
+    expect($html)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
+    expect(fn () => $module->getChapters())->toThrow(Exception::class);
+    expect(fn () => $module->getNcx())->toThrow(Exception::class);
+});

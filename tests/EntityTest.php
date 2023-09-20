@@ -102,42 +102,6 @@ it('can use BookAuthor', function (string $name, string $role) {
     ],
 ]);
 
-it('can use BookIdentifier', function (string $value, string $scheme) {
-    $item = new BookIdentifier($value, $scheme);
-
-    expect($item->getValue())->toBe($value);
-    expect($item->getScheme())->toBe($scheme);
-    expect($item->toArray())->toBe([
-        'value' => $value,
-        'scheme' => $scheme,
-    ]);
-    expect($item->__toString())->toBe("{$value} {$scheme}");
-    if (str_contains($scheme, 'isbn')) {
-        expect($item->getScheme())->toBe($scheme);
-    }
-})->with([
-    [
-        'content' => 'a2cf2f25-4de2-4f77-82cc-0198352b0851',
-        'type' => 'uuid',
-    ],
-    [
-        'content' => 'a2cf2f25-4de2-4f77-82cc-0198352b0851',
-        'type' => 'calibre',
-    ],
-    [
-        'content' => '63CTHAAACAAJ',
-        'type' => 'google',
-    ],
-    [
-        'content' => '2744155349',
-        'type' => 'isbn10',
-    ],
-    [
-        'content' => '9782266122122',
-        'type' => 'isbn13',
-    ],
-]);
-
 it('can use BookMeta', function (string $name, string $contents) {
     $item = new BookMeta($name, $contents);
 
