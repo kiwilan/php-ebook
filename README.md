@@ -38,7 +38,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 -   **Binaries**
-    -   [`p7zip`](https://www.7-zip.org/) (optional) binary can be used instead for `.CB7` (can handle `.CBR` too)
+    -   [`p7zip`](https://www.7-zip.org/) (optional) binarys for `.CB7` (can handle `.CBR` too)
 -   To know more about requirements, see [Supported formats](#supported-formats).
 
 > **Note**
