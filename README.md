@@ -151,6 +151,7 @@ And to test if some data exists:
 
 ```php
 $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
+$ebook->isMobi(); // bool => `true` if Mobipocket derivatives
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
 $ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
@@ -169,15 +170,20 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $metadata = $ebook->getMetadata();
 
 $metadata->getModule(); // Used into parsing can be any of `EbookModule::class`
-$metadata->getEpub(); // `EpubMetadata::class`
-$metadata->getPdf(); // `PdfMetadata::class`
-$metadata->getCba(); // `CbaMetadata::class`
-$metadata->getAudiobook(); // `AudiobookMetadata::class`
 
-$metadata->isEpub(); // bool
-$metadata->isPdf(); // bool
-$metadata->isCba(); // bool
+$metadata->getAudiobook(); // `AudiobookModule::class`
+$metadata->getCba(); // `CbaModule::class`
+$metadata->getEpub(); // `EpubModule::class`
+$metadata->getFb2(); // `Fb2Module::class`
+$metadata->getMobi(); // `MobiModule::class`
+$metadata->getPdf(); // `PdfModule::class`
+
 $metadata->isAudiobook(); // bool
+$metadata->isCba(); // bool
+$metadata->isEpub(); // bool
+$metadata->isFb2(); // bool
+$metadata->isMobi(); // bool
+$metadata->isPdf(); // bool
 ```
 
 ### MetaTitle
@@ -282,23 +288,23 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 -   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
 -   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
 
-|       Name       |               Extensions                | Supported |                                   Uses                                   |                                Support cover                                | Support series |
-| :--------------: | :-------------------------------------: | :-------: | :----------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :------------: |
-|   EPUB (IDPF)    |                 `.epub`                 |    ✅     |        Native [`zip`](https://www.php.net/manual/en/book.zip.php)        |                                     ✅                                      |       ✅       |
-| Kindle (Amazon)  |     `.azw`, `.azw3`, `.kf8`, `.kfx`     |    ✅     | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
-|    Mobipocket    |             `.mobi`, `.prc`             |    ✅     | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
-|       PDF        |                 `.pdf`                  |    ✅     |   [`smalot/pdfparser`](https://github.com/smalot/pdfparser) (included)   |      Uses [`imagick`](https://www.php.net/manual/en/book.imagick.php)       |       ❌       |
-|  iBook (Apple)   |                `.ibooks`                |    ❌     |                                                                          |                                     N/A                                     |      N/A       |
-|       DjVu       |             `.djvu`, `.djv`             |    ❌     |                                                                          |                                     N/A                                     |      N/A       |
-| Rich Text Format |                 `.rtf`                  |    ❌     |                                                                          |                                     N/A                                     |      N/A       |
-|   FictionBook    |                 `.fb2`                  |    ✅     | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                                     ✅                                      |       ✅       |
-| Broadband eBooks |             `.lrf`, `.lrx`              |    ❌     |                                                                          |                                     N/A                                     |      N/A       |
-|    Palm Media    |                 `.pdb`                  |    ❌     |                                                                          |                                     N/A                                     |      N/A       |
-|    Comics CBZ    |                 `.cbz`                  |    ✅     |                                                                          |                                     ✅                                      |       ✅       |
-|    Comics CBR    |                 `.cbr`                  |    ✅     |                                                                          |                                     ✅                                      |       ✅       |
-|    Comics CB7    |                 `.cb7`                  |    ✅     |                                                                          |                                     ✅                                      |       ✅       |
-|    Comics CBT    |                 `.cbt`                  |    ✅     |                                                                          |                                     ✅                                      |       ✅       |
-|      Audio       | `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |     See [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)      | [Depends of format](https://github.com/kiwilan/php-audio#supported-formats) |       ❌       |
+|       Name       |               Extensions                | Supported |                                                   Uses                                                   |                                Support cover                                | Support series |
+| :--------------: | :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :------------: |
+|   EPUB (IDPF)    |                 `.epub`                 |    ✅     |                        Native [`zip`](https://www.php.net/manual/en/book.zip.php)                        |                                     ✅                                      |       ✅       |
+| Kindle (Amazon)  |     `.azw`, `.azw3`, `.kf8`, `.kfx`     |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
+|    Mobipocket    |             `.mobi`, `.prc`             |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
+|       PDF        |                 `.pdf`                  |    ✅     |                   [`smalot/pdfparser`](https://github.com/smalot/pdfparser) (included)                   |      Uses [`imagick`](https://www.php.net/manual/en/book.imagick.php)       |       ❌       |
+|  iBook (Apple)   |                `.ibooks`                |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|       DjVu       |             `.djvu`, `.djv`             |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+| Rich Text Format |                 `.rtf`                  |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|   FictionBook    |                 `.fb2`                  |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                                     ✅                                      |       ✅       |
+| Broadband eBooks |             `.lrf`, `.lrx`              |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|    Palm Media    |                 `.pdb`                  |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|    Comics CBZ    |                 `.cbz`                  |    ✅     |                        Native [`zip`](https://www.php.net/manual/en/book.zip.php)                        |                                     ✅                                      |       ✅       |
+|    Comics CBR    |                 `.cbr`                  |    ✅     | [`rar`](https://github.com/cataphract/php-rar) PHP extension or [`p7zip`](https://www.7-zip.org/) binary |                                     ✅                                      |       ✅       |
+|    Comics CB7    |                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |                                     ✅                                      |       ✅       |
+|    Comics CBT    |                 `.cbt`                  |    ✅     |                       Native [`phar`](https://www.php.net/manual/en/book.phar.php)                       |                                     ✅                                      |       ✅       |
+|      Audio       | `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                     See [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)                      | [Depends of format](https://github.com/kiwilan/php-audio#supported-formats) |       ❌       |
 
 ### MOBI cover note
 
