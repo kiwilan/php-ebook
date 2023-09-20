@@ -1,6 +1,6 @@
 {
     "name": "kiwilan/php-ebook",
-    "description": "PHP package to read metadata and extract covers from eBooks (.epub, .cbz, .cbr, .cb7, .cbt, .pdf) and audiobooks (.mp3, .m4a, .m4b, .flac, .ogg).",
+    "description": "PHP package to read metadata and extract covers from eBooks, comics and audiobooks.",
     "version": "2.1.02",
     "keywords": [
         "php",
@@ -21,7 +21,12 @@
         "comicinfo",
         "comic",
         "cbam",
-        "calibre"
+        "calibre",
+        "azw",
+        "azw3",
+        "mobi",
+        "audiobook",
+        "fb2"
     ],
     "homepage": "https://github.com/kiwilan/php-ebook",
     "license": "MIT",
