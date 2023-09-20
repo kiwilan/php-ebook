@@ -72,6 +72,8 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   [ ] More formats support: `.djvu`
 -   [ ] Better `.epub` creation support
 -   [ ] Add `.epub` metadata update support
+-   [ ] Add better handling of MOBI files: [`libmobi`](https://github.com/bfabiszewski/libmobi) and [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre (fallback is available)
+-   [ ] Add support of [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre
 
 ## Installation
 
