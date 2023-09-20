@@ -227,7 +227,7 @@ $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if 
 > **Note**
 >
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
-> -   For Audiobook, cover can be extracted with `mp3` but not with other formats.
+> -   For Audiobook, cover can be extracted with [some formats](https://github.com/kiwilan/php-audio#supported-formats).
 
 ### Formats specifications
 
