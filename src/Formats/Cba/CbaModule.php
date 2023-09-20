@@ -87,7 +87,7 @@ class CbaModule extends EbookModule
 
         if (! empty($files)) {
             $ebook = $files[0];
-            $content = $this->ebook->getArchive()->getContent($ebook);
+            $content = $this->ebook->getArchive()->getContents($ebook);
 
             return EbookCover::make($ebook->getPath(), $content);
         }

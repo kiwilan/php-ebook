@@ -133,9 +133,9 @@ class EpubModule extends EbookModule
         }
 
         $file = $this->ebook->getArchive()->find($this->coverPath);
-        $content = $this->ebook->getArchive()->getContent($file);
+        $contents = $this->ebook->getArchive()->getContents($file);
 
-        return EbookCover::make($this->coverPath, $content);
+        return EbookCover::make($this->coverPath, $contents);
     }
 
     public function toCounts(): Ebook
@@ -188,7 +188,7 @@ class EpubModule extends EbookModule
             if (! $file) {
                 continue;
             }
-            $html = $this->ebook->getArchive()->getContent($file);
+            $html = $this->ebook->getArchive()->getContents($file);
             $items[] = EpubHtml::make($html, $file->getFilename());
         }
 
@@ -235,7 +235,7 @@ class EpubModule extends EbookModule
         }
 
         $item = $this->ebook->getArchive()->find($path);
-        $xml = $this->ebook->getArchive()->getContent($item);
+        $xml = $this->ebook->getArchive()->getContents($item);
 
         $ncx = NcxItem::make($xml);
 

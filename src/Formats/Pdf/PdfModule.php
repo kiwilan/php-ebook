@@ -64,7 +64,7 @@ class PdfModule extends EbookModule
         }
 
         $file = $this->ebook->getArchive()->getFirst();
-        $content = $this->ebook->getArchive()->getContent($file);
+        $content = $this->ebook->getArchive()->getContents($file);
         $path = $file->getPath();
 
         return EbookCover::make($path, $content);
