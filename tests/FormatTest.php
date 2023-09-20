@@ -69,6 +69,9 @@ it('can parse mobi images', function () {
     $parser = MobiParser::make(FORMAT_MOBI);
 
     expect($parser->getImages()->getItems())->toHaveCount(27);
+    if (! is_dir('tests/output/mobi')) {
+        mkdir('tests/output/mobi');
+    }
     foreach ($parser->getImages()->getItems() as $key => $value) {
         $path = "tests/output/mobi/{$key}.jpg";
         file_put_contents($path, $value);
