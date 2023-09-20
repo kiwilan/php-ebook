@@ -219,7 +219,7 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $cover = $ebook->getCover(); // ?EbookCover
 
 $cover->getPath(); // ?string => path to cover
-$cover->getContent(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
+$cover->getContents(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
 ```
 
 > **Note**
