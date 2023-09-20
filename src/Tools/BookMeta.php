@@ -49,7 +49,6 @@ class BookMeta
 
     public static function parse(mixed $data): ?string
     {
-        ray($data);
         if (is_string($data)) {
             return $data;
         }
