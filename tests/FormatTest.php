@@ -86,3 +86,9 @@ it('can parse mobi images', function () {
     expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
     expect('tests/output/mobi/cover.jpg')->toBeReadableFile();
 });
+
+it('can handle djvu format', function () {
+    $ebook = Ebook::read(FORMAT_DJVU);
+
+    expect($ebook->getPath())->toBe(FORMAT_DJVU);
+});

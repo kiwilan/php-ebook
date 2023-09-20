@@ -11,6 +11,7 @@ use Kiwilan\Ebook\Creator\EbookCreator;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
 use Kiwilan\Ebook\Formats\Cba\CbaModule;
+use Kiwilan\Ebook\Formats\Djvu\DjvuModule;
 use Kiwilan\Ebook\Formats\EbookMetadata;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Formats\Epub\EpubModule;
@@ -94,12 +95,13 @@ class Ebook
         $self = self::parseFile($path);
 
         $format = match ($self->format) {
-            EbookFormatEnum::EPUB => $self->epub(),
-            EbookFormatEnum::MOBI => $self->mobi(),
-            EbookFormatEnum::FB2 => $self->fb2(),
-            EbookFormatEnum::CBA => $self->cba(),
-            EbookFormatEnum::PDF => $self->pdf(),
             EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
+            EbookFormatEnum::CBA => $self->cba(),
+            EbookFormatEnum::DJVU => $self->djvu(),
+            EbookFormatEnum::EPUB => $self->epub(),
+            EbookFormatEnum::FB2 => $self->fb2(),
+            EbookFormatEnum::MOBI => $self->mobi(),
+            EbookFormatEnum::PDF => $self->pdf(),
             default => null,
         };
 
@@ -163,11 +165,15 @@ class Ebook
         $self = new self($path, $filename, $basename, $extension);
 
         $self->format = match ($extension) {
+            'azw' => $self->format = EbookFormatEnum::MOBI,
+            'azw3' => $self->format = EbookFormatEnum::MOBI,
+            'djvu' => $self->format = EbookFormatEnum::DJVU,
+            'djv' => $self->format = EbookFormatEnum::DJVU,
             'epub' => $self->format = EbookFormatEnum::EPUB,
             'mobi' => $self->format = EbookFormatEnum::MOBI,
-            'azw3' => $self->format = EbookFormatEnum::MOBI,
             'lrf' => $self->format = EbookFormatEnum::MOBI,
             'kf8' => $self->format = EbookFormatEnum::MOBI,
+            'kfx' => $self->format = EbookFormatEnum::MOBI,
             'prc' => $self->format = EbookFormatEnum::MOBI,
             // 'rtf' => $self->format = EbookFormatEnum::RTF,
             'fb2' => $self->format = EbookFormatEnum::FB2,
@@ -210,9 +216,29 @@ class Ebook
         return $self;
     }
 
+    private function audiobook(): EbookModule
+    {
+        return AudiobookModule::make($this);
+    }
+
+    private function cba(): EbookModule
+    {
+        return CbaModule::make($this);
+    }
+
+    private function djvu(): EbookModule
+    {
+        return DjvuModule::make($this);
+    }
+
     private function epub(): EbookModule
     {
         return EpubModule::make($this);
+    }
+
+    private function fb2(): EbookModule
+    {
+        return Fb2Module::make($this);
     }
 
     private function mobi(): EbookModule
@@ -222,24 +248,9 @@ class Ebook
         return MobiModule::make($this);
     }
 
-    private function fb2(): EbookModule
-    {
-        return Fb2Module::make($this);
-    }
-
-    private function cba(): EbookModule
-    {
-        return CbaModule::make($this);
-    }
-
     private function pdf(): EbookModule
     {
         return PdfModule::make($this);
-    }
-
-    private function audiobook(): EbookModule
-    {
-        return AudiobookModule::make($this);
     }
 
     private function convertEbook(): self
