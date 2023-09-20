@@ -44,14 +44,12 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ## Features
 
--   Support some formats:
--   🔎 Read metadata from **eBooks** and **audiobooks**
--   🖼️ Extract covers from **eBooks** and **audiobooks**
+-   Support multiple formats, see [Supported formats](#supported-formats)
+-   🔎 Read metadata from eBooks, comics, and audiobooks
+-   🖼️ Extract covers from eBooks, comics, and audiobooks
 -   📚 Support metadata
-    -   eBooks:
-        -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` and from [Calibre](https://calibre-ebook.com/)
-    -   Comics:
-        -   `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
+    -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives)
+    -   Comics: `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 -   🔖 Chapters extraction (`EPUB` only)
