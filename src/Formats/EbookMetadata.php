@@ -65,19 +65,9 @@ class EbookMetadata
         return $this->module;
     }
 
-    public function getEpub(): ?EpubModule
+    public function getAudiobook(): ?AudiobookModule
     {
-        return $this->epub;
-    }
-
-    public function getMobi(): ?MobiModule
-    {
-        return $this->mobi;
-    }
-
-    public function getFb2(): ?Fb2Module
-    {
-        return $this->fb2;
+        return $this->audiobook;
     }
 
     public function getCba(): ?CbaModule
@@ -85,14 +75,24 @@ class EbookMetadata
         return $this->cba;
     }
 
+    public function getEpub(): ?EpubModule
+    {
+        return $this->epub;
+    }
+
+    public function getFb2(): ?Fb2Module
+    {
+        return $this->fb2;
+    }
+
+    public function getMobi(): ?MobiModule
+    {
+        return $this->mobi;
+    }
+
     public function getPdf(): ?PdfModule
     {
         return $this->pdf;
-    }
-
-    public function getAudiobook(): ?AudiobookModule
-    {
-        return $this->audiobook;
     }
 
     public function getType(): ?string
@@ -113,6 +113,11 @@ class EbookMetadata
     public function isCba(): bool
     {
         return $this->cba !== null;
+    }
+
+    public function isFb2(): bool
+    {
+        return $this->fb2 !== null;
     }
 
     public function isPdf(): bool

@@ -78,6 +78,7 @@ class Ebook
         protected ?Audio $audio = null,
         protected bool $isArchive = false,
         protected bool $isAudio = false,
+        protected bool $isMobi = false,
         protected bool $isBadFile = false,
         protected ?EbookMetadata $metadata = null,
         protected bool $hasMetadata = false,
@@ -96,7 +97,6 @@ class Ebook
             EbookFormatEnum::EPUB => $self->epub(),
             EbookFormatEnum::MOBI => $self->mobi(),
             EbookFormatEnum::FB2 => $self->fb2(),
-            // EbookFormatEnum::RTF => $self->rtf(),
             EbookFormatEnum::CBA => $self->cba(),
             EbookFormatEnum::PDF => $self->pdf(),
             EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
@@ -217,6 +217,8 @@ class Ebook
 
     private function mobi(): EbookModule
     {
+        $this->isMobi = true;
+
         return MobiModule::make($this);
     }
 
@@ -486,6 +488,14 @@ class Ebook
     public function isAudio(): bool
     {
         return $this->isAudio;
+    }
+
+    /**
+     * Whether the ebook is a mobi.
+     */
+    public function isMobi(): bool
+    {
+        return ! $this->isAudio;
     }
 
     /**
