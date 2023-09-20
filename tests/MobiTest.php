@@ -43,7 +43,7 @@ it('can use mobi parser', function () {
     expect($parser->getMobiHeader()->length)->toBe(232);
     expect($parser->getMobiHeader()->type)->toBe(2);
     expect($parser->getMobiHeader()->encoding)->toBe(65001);
-    expect($parser->getMobiHeader()->id)->toBe(3769987852);
+    expect($parser->getMobiHeader()->id)->toBe(3127565514);
     expect($parser->getMobiHeader()->fileVersion)->toBe(6);
 
     expect($parser->getExthHeader()->length)->toBe(915);

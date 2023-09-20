@@ -184,6 +184,10 @@ function listFiles(string $dir): array
 
 function recurseRmdir(string $dir)
 {
+    if (! is_dir($dir)) {
+        return;
+    }
+
     $exclude = ['.gitignore'];
     $it = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
     $it = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
