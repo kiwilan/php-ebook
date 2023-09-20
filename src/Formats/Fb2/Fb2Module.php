@@ -23,15 +23,18 @@ class Fb2Module extends EbookModule
 
     public function toEbook(): Ebook
     {
-        $titleInfo = $this->parser->getTitleInfo();
+        $descriptionInfo = $this->parser->getDescription() ?? null;
+        if (! $descriptionInfo) {
+            return $this->ebook;
+        }
 
-        $this->ebook->setTitle($titleInfo['book-title'] ?? null);
+        $this->ebook->setTitle($descriptionInfo->title?->bookTitle);
 
-        $authors = $titleInfo['author'] ?? null;
+        $authors = $descriptionInfo->title?->author;
         if (is_array($authors)) {
             foreach ($authors as $author) {
-                $firstName = $author['first-name'] ?? null;
-                $lastName = $author['last-name'] ?? null;
+                $firstName = $author->firstName ?? null;
+                $lastName = $author->lastName ?? null;
                 $author = new BookAuthor(
                     name: "$firstName $lastName",
                 );
@@ -39,43 +42,56 @@ class Fb2Module extends EbookModule
             }
         }
 
-        $keywords = $titleInfo['keywords'] ?? null;
+        $keywords = $descriptionInfo->title?->keywords;
         if (is_string($keywords)) {
             $keywords = explode(',', $keywords);
         }
 
-        $genre = $titleInfo['genre'] ?? null;
+        $genre = $descriptionInfo->title?->genre;
         $this->ebook->setTags([
             $genre,
             ...$keywords,
         ]);
 
-        $lang = $titleInfo['lang'] ?? null;
+        $lang = $descriptionInfo->title?->lang;
         $this->ebook->setLanguage($lang);
 
-        $description = $titleInfo['annotation'] ?? null;
+        $description = $descriptionInfo->title?->annotation;
         $description = $this->arrayToHtml($description);
 
         $this->ebook->setDescription($this->descriptionToString($description));
         $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
 
-        $documentInfo = $this->parser->getDocumentInfo();
-        $uuid = $documentInfo['id'] ?? null;
-        $uuid = new BookIdentifier($uuid, 'uuid');
-        $this->ebook->setIdentifier($uuid);
+        $documentInfo = $descriptionInfo->document;
+        $uuid = $documentInfo?->id ?? null;
+        if ($uuid) {
+            $uuid = new BookIdentifier($uuid, 'uuid');
+            $this->ebook->setIdentifier($uuid);
+        }
 
-        $publishInfo = $this->parser->getPublishInfo();
-        $publisher = $publishInfo['publisher'] ?? null;
+        $publishInfo = $descriptionInfo->publish;
+        if ($publishInfo) {
+            $this->ebook->setPublisher($publishInfo?->publisher ?? null);
 
-        $this->ebook->setPublisher($publisher);
+            $year = $publishInfo->year ?? null;
+            if ($year) {
+                $year = new \DateTime($year);
+                $this->ebook->setPublishDate($year);
+            }
 
-        $year = $publishInfo['year'] ?? null;
-        $year = new \DateTime($year);
-        $this->ebook->setPublishDate($year);
+            if ($publishInfo->isbn) {
+                $isbn = new BookIdentifier($publishInfo->isbn);
+                $this->ebook->setIdentifier($isbn);
+            }
+        }
 
-        $isbn = $publishInfo['isbn'] ?? null;
-        $isbn = new BookIdentifier($isbn);
-        $this->ebook->setIdentifier($isbn);
+        if ($descriptionInfo->title?->sequence) {
+            $series = $descriptionInfo->title->sequence->name ?? null;
+            $number = $descriptionInfo->title->sequence->number ?? null;
+
+            $this->ebook->setSeries($series);
+            $this->ebook->setVolume($number);
+        }
 
         return $this->ebook;
     }

@@ -24,8 +24,7 @@ it('can parse format', function (string $path) {
     expect($tags)->toBeArray();
 
     $extension = pathinfo($ebook->getPath(), PATHINFO_EXTENSION);
-    $coverCheck = ['azw3', 'epub', 'fb2', 'kf8', 'mobi'];
-    if (in_array($extension, $coverCheck)) {
+    if (in_array($extension, ['azw3', 'epub', 'fb2', 'kf8', 'mobi'])) {
         $slug = $ebook->getMetaTitle()->getUniqueFilename();
         $path = "tests/output/{$slug}-cover.jpg";
         if (file_exists($path)) {
@@ -34,6 +33,11 @@ it('can parse format', function (string $path) {
         file_put_contents($path, $ebook->getCover()?->getContent());
         expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
         expect($path)->toBeReadableFile();
+    }
+
+    if (in_array($extension, ['epub', 'fb2'])) {
+        expect($ebook->getSeries())->toBe('Alice Series');
+        expect($ebook->getVolume())->toBe(1);
     }
 })->with([
     FORMAT_AZW3,
