@@ -7,107 +7,107 @@ namespace Kiwilan\Ebook\Formats\Mobi\Parser;
  */
 class MobiReader
 {
-    const DRM_SERVER_ID = 1;
+    const DRM_SERVER_ID_1 = 1;
 
-    const DRM_COMMERCE_ID = 2;
+    const DRM_COMMERCE_ID_2 = 2;
 
-    const DRM_EBOOKBASE_BOOK_ID = 3;
+    const DRM_EBOOKBASE_BOOK_ID_3 = 3;
 
-    const AUTHOR = 100;
+    const AUTHOR_100 = 100;
 
-    const PUBLISHER = 101;
+    const PUBLISHER_101 = 101;
 
-    const IMPRINT = 102;
+    const IMPRINT_102 = 102;
 
-    const DESCRIPTION = 103;
+    const DESCRIPTION_103 = 103;
 
-    const ISBN = 104;
+    const ISBN_104 = 104;
 
-    const SUBJECT = 105;
+    const SUBJECT_105 = 105;
 
-    const PUBLISHINGDATE = 106;
+    const PUBLISHINGDATE_106 = 106;
 
-    const REVIEW = 107;
+    const REVIEW_107 = 107;
 
-    const CONTRIBUTOR = 108;
+    const CONTRIBUTOR_108 = 108;
 
-    const RIGHTS = 109;
+    const RIGHTS_109 = 109;
 
-    const SUBJECTCODE = 110;
+    const SUBJECTCODE_110 = 110;
 
-    const TYPE = 111;
+    const TYPE_111 = 111;
 
-    const SOURCE = 112;
+    const SOURCE_112 = 112;
 
-    const ASIN = 113;
+    const ASIN_113 = 113;
 
-    const VERSIONNUMBER = 114;
+    const VERSIONNUMBER_114 = 114;
 
-    const SAMPLE = 115;
+    const SAMPLE_115 = 115;
 
-    const STARTREADING = 116;
+    const STARTREADING_116 = 116;
 
-    const ADULT = 117;
+    const ADULT_117 = 117;
 
-    const RETAIL_PRICE = 118;
+    const RETAIL_PRICE_118 = 118;
 
-    const RETAIL_PRICE_CURRENCY = 119;
+    const RETAIL_PRICE_CURRENCY_119 = 119;
 
-    const K_F8_BOUNDARY_OFFSET = 121;
+    const K_F8_BOUNDARY_OFFSET_121 = 121;
 
-    const FIXED_LAYOUT = 122;
+    const FIXED_LAYOUT_122 = 122;
 
-    const BOOK_TYPE = 123;
+    const BOOK_TYPE_123 = 123;
 
-    const ORIENTATION_LOCK = 124;
+    const ORIENTATION_LOCK_124 = 124;
 
-    const COUNT_OF_RESOURCES = 125;
+    const COUNT_OF_RESOURCES_125 = 125;
 
-    const ORIGINAL_RESOLUTION = 126;
+    const ORIGINAL_RESOLUTION_126 = 126;
 
-    const ZERO_GUTTER = 127;
+    const ZERO_GUTTER_127 = 127;
 
-    const ZERO_MARGIN = 128;
+    const ZERO_MARGIN_128 = 128;
 
-    const METADATA_RESOURCE_URI = 129;
+    const METADATA_RESOURCE_URI_129 = 129;
 
     const UNKNOWN_131 = 131;
 
     const UNKNOWN_132 = 132;
 
-    const DICTIONARY_SHORT_NAME = 200;
+    const DICTIONARY_SHORT_NAME_200 = 200;
 
-    const COVEROFFSET = 201;
+    const COVEROFFSET_201 = 201;
 
-    const THUMBOFFSET = 202;
+    const THUMBOFFSET_202 = 202;
 
-    const HASFAKECOVER = 203;
+    const HASFAKECOVER_203 = 203;
 
-    const CREATOR_SOFTWARE = 204;
+    const CREATOR_SOFTWARE_204 = 204;
 
-    const CREATOR_MAJOR_VERSION = 205;
+    const CREATOR_MAJOR_VERSION_205 = 205;
 
-    const CREATOR_MINOR_VERSION = 206;
+    const CREATOR_MINOR_VERSION_206 = 206;
 
-    const CREATOR_BUILD_NUMBER = 207;
+    const CREATOR_BUILD_NUMBER_207 = 207;
 
-    const WATERMARK = 208;
+    const WATERMARK_208 = 208;
 
-    const TAMPER_PROOF_KEYS = 209;
+    const TAMPER_PROOF_KEYS_209 = 209;
 
-    const FONTSIGNATURE = 300;
+    const FONTSIGNATURE_300 = 300;
 
-    const CLIPPINGLIMIT = 401;
+    const CLIPPINGLIMIT_401 = 401;
 
-    const PUBLISHERLIMIT = 402;
+    const PUBLISHERLIMIT_402 = 402;
 
     const UNKNOWN_403 = 403;
 
-    const TTSFLAG = 404;
+    const TTSFLAG_404 = 404;
 
-    const UNKNOWN_RENT_BORROW_FLAG = 405;
+    const UNKNOWN_RENT_BORROW_FLAG_405 = 405;
 
-    const RENT_BORROW_EXPIRATION_DATE = 406;
+    const RENT_BORROW_EXPIRATION_DATE_406 = 406;
 
     const UNKNOWN_407 = 407;
 
@@ -119,17 +119,17 @@ class MobiReader
 
     const UNKNOWN_453 = 453;
 
-    const CDETYPE = 501;
+    const CDETYPE_501 = 501;
 
-    const LASTUPDATETIME = 502;
+    const LASTUPDATETIME_502 = 502;
 
-    const UPDATEDTITLE = 503;
+    const UPDATEDTITLE_503 = 503;
 
     const ASIN_504 = 504;
 
-    const LANGUAGE = 524;
+    const LANGUAGE_524 = 524;
 
-    const WRITINGMODE = 525;
+    const WRITINGMODE_525 = 525;
 
     const CREATOR_BUILD_NUMBER_535 = 535;
 
@@ -137,7 +137,7 @@ class MobiReader
 
     const UNKNOWN_542 = 542;
 
-    const IN_MEMORY = 547;
+    const IN_MEMORY_547 = 547;
 
     const PAML_DOC_HEADER = [
         ['offset' => 0, 'bytes' => 2, 'content' => 'Compression', 'comments' => '1 == no compression, 2 = PalmDOC compression, 17480 = HUFF/CDIC compression'],
