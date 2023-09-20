@@ -25,9 +25,9 @@ it('can extract pdf cover', function () {
     $ebook = Ebook::read(PDF);
 
     $path = 'tests/output/cover-PDF.jpg';
-    file_put_contents($path, $ebook->getCover()->getContent());
+    file_put_contents($path, $ebook->getCover()->getContents());
 
-    expect($ebook->getCover()->getContent())->toBeString();
+    expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 })->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');

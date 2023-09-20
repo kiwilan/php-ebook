@@ -30,7 +30,7 @@ it('can parse format', function (string $path) {
         if (file_exists($path)) {
             unlink($path);
         }
-        file_put_contents($path, $ebook->getCover()?->getContent());
+        file_put_contents($path, $ebook->getCover()?->getContents());
         expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
         expect($path)->toBeReadableFile();
     }
@@ -83,7 +83,7 @@ it('can parse mobi images', function () {
     }
 
     $ebook = Ebook::read(FORMAT_MOBI);
-    file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
+    file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContents());
     expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
     expect('tests/output/mobi/cover.jpg')->toBeReadableFile();
 });

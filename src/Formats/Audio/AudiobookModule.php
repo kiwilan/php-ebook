@@ -98,7 +98,7 @@ class AudiobookModule extends EbookModule
     {
         $audio = $this->ebook->getAudio();
 
-        return EbookCover::make($audio->getCover()->getMimeType(), $audio->getCover()->getContent());
+        return EbookCover::make($audio->getCover()->getMimeType(), $audio->getCover()->getContents());
     }
 
     public function toCounts(): Ebook

@@ -78,7 +78,7 @@ class MobiModule extends EbookModule
             return null;
         }
 
-        return EbookCover::make(content: end($items));
+        return EbookCover::make(contents: end($items));
     }
 
     public function toCounts(): Ebook

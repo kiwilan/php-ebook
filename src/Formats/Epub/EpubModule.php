@@ -102,13 +102,13 @@ class EpubModule extends EbookModule
         if (! empty($this->opf->getMeta())) {
             foreach ($this->opf->getMeta() as $meta) {
                 if ($meta->getName() === 'calibre:series') {
-                    $this->ebook->setSeries($meta->getContent());
+                    $this->ebook->setSeries($meta->getContents());
                 }
                 if ($meta->getName() === 'calibre:series_index') {
-                    $this->ebook->setVolume((int) $meta->getContent());
+                    $this->ebook->setVolume((int) $meta->getContents());
                 }
                 if ($meta->getName() === 'calibre:rating') {
-                    $rating = (float) $meta->getContent();
+                    $rating = (float) $meta->getContents();
                 }
             }
         }

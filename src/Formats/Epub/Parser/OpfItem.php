@@ -69,7 +69,7 @@ class OpfItem
         $xml = XmlReader::make($content);
         $self = new self($xml);
 
-        $content = $xml->getContent();
+        $content = $xml->getContents();
         $self->epubVersion = $self->xml->getRootAttribute('version');
         $metadata = $content['metadata'] ?? [];
 
@@ -417,7 +417,7 @@ class OpfItem
                 $item = ['@content' => $item];
             }
             $items[] = new BookContributor(
-                content: XmlReader::parseContent($item),
+                contents: XmlReader::parseContent($item),
                 role: XmlReader::parseAttributes($item)['role'] ?? null,
             );
         }
@@ -505,7 +505,7 @@ class OpfItem
         foreach ($core as $item) {
             $items[] = new BookMeta(
                 name: $item['@attributes']['name'] ?? null,
-                content: $item['@attributes']['content'] ?? null,
+                contents: $item['@attributes']['content'] ?? null,
             );
         }
 

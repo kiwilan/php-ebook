@@ -105,7 +105,7 @@ class Fb2Module extends EbookModule
     {
         $cover = $this->parser->getCover();
 
-        return EbookCover::make(content: $cover);
+        return EbookCover::make(contents: $cover);
     }
 
     public function toCounts(): Ebook

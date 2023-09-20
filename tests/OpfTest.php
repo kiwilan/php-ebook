@@ -63,6 +63,9 @@ it('can parse epub opf alt', function () {
     expect($opf->getMeta())->toBeArray();
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
+
+    $meta = $opf->getMeta();
+    ray($meta);
 });
 
 it('can parse epub opf without tags', function () {

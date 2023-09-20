@@ -58,7 +58,7 @@ it('can get epub cover', function () {
     file_put_contents($path, $ebook->getCover());
 
     expect($ebook->getCover()->getPath())->toBeString();
-    expect($ebook->getCover()->getContent())->toBeString();
+    expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
 });

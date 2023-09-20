@@ -32,7 +32,7 @@ class Fb2Parser
         );
 
         $self->root = $xml->getRoot();
-        $self->contents = $xml->getContent();
+        $self->contents = $xml->getContents();
         $self->buildContainer();
 
         return $self;

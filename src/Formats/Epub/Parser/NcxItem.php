@@ -57,7 +57,7 @@ class NcxItem
      */
     private function setHead(): ?array
     {
-        $ncx = $this->xml->getContent();
+        $ncx = $this->xml->getContents();
 
         if (! array_key_exists('head', $ncx)) {
             return null;
@@ -175,7 +175,7 @@ class NcxItemHead
         return $this->name;
     }
 
-    public function getContent(): ?string
+    public function getContents(): ?string
     {
         return $this->content;
     }
