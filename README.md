@@ -11,7 +11,7 @@
 
 PHP package to read metadata and extract covers from eBooks, comics and audiobooks.
 
--   eBooks: `.epub`, `.pdf`
+-   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
 -   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`
 
@@ -32,7 +32,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
     -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
     -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR` ([`p7zip`](https://www.7-zip.org/) binary can be used instead)
-    -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
+    -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF` cover
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 -   To know more about requirements, see [Supported formats](#supported-formats).
