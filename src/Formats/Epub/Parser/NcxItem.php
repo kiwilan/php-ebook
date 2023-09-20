@@ -28,7 +28,11 @@ class NcxItem
 
     public static function make(string $content): self
     {
-        $xml = XmlReader::make($content);
+        try {
+            $xml = XmlReader::make($content);
+        } catch (\Throwable $th) {
+            throw new \Exception('XML can\'t be read, file could be encrypted.');
+        }
 
         $self = new self($xml);
         $self->head = $self->setHead();
