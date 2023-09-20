@@ -2,6 +2,13 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.1.02 - 2023-08-30
+
+- Better handle of PDF, parser works even if metadata are not present   
+  - Add more tests on PDF, update `kiwilan/php-archive` with patch for PDF   
+  - Thanks to @SergioMendolia for PR [https://github.com/kiwilan/php-ebook/pull/48](https://github.com/kiwilan/php-ebook/pull/48)   
+  
+
 ## v2.1.01 - 2023-08-29
 
 - avoids crashing when trying to read metadata while archive is null, by @SergioMendolia in [https://github.com/kiwilan/php-ebook/pull/45](https://github.com/kiwilan/php-ebook/pull/45)
