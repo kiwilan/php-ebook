@@ -48,14 +48,14 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   🔎 Read metadata from eBooks, comics, and audiobooks
 -   🖼️ Extract covers from eBooks, comics, and audiobooks
 -   📚 Support metadata
-    -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives)
+    -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives) | `FB2` from [FictionBook](https://en.wikipedia.org/wiki/FictionBook)
     -   Comics: `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 -   🔖 Chapters extraction (`EPUB` only)
 -   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
--   Works perfectly with [kiwilan/php-opds](https://github.com/kiwilan/php-opds): PHP package to generate OPDS feeds (not included)
+-   Works perfectly with [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds): PHP package to generate OPDS feeds (not included)
 
 ### Roadmap
 
@@ -274,17 +274,11 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 -   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
 -   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
 
-`.epub`, `.pdf`, `.mobi`, `.prc`,
-
--   Kinlde: `.azw`, `.azw3`, `.kf8`, `.kfx`
-
-`.cbz`, `.cbr`, `.cb7`, `.cbt`
-
 |       Name       |               Extensions                | Supported |     Notes     |                                   Uses                                   |                                  Has cover                                  |
 | :--------------: | :-------------------------------------: | :-------: | :-----------: | :----------------------------------------------------------------------: | :-------------------------------------------------------------------------: |
 |   EPUB (IDPF)    |                 `.epub`                 |    ✅     |               |        Native [`zip`](https://www.php.net/manual/en/book.zip.php)        |                                     ✅                                      |
 | Kindle (Amazon)  |     `.azw`, `.azw3`, `.kf8`, `.kfx`     |    ✅     | _proprietary_ | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |
-|    Mobipocket    |             `.mobi`, `.prc`             |    ✅     | _deprecated_  | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                                     ✅                                      |
+|    Mobipocket    |             `.mobi`, `.prc`             |    ✅     | _deprecated_  | Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php) |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |
 |       PDF        |                 `.pdf`                  |    ✅     |               |   [`smalot/pdfparser`](https://github.com/smalot/pdfparser) (included)   |      Uses [`imagick`](https://www.php.net/manual/en/book.imagick.php)       |
 |  iBook (Apple)   |                `.ibooks`                |    ❌     | _proprietary_ |                                                                          |                                     N/A                                     |
 |       DjVu       |             `.djvu`, `.djv`             |    ❌     |               |                                                                          |                                     N/A                                     |
@@ -300,7 +294,7 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 
 ### MOBI cover note
 
-Mobipocket files and derivatives (`.mobi`, `.prc`, `.azw`, `.azw3`, `.kf8`, `.kfx`) can have a cover image embedded in the file. With native solution of `php-ebook` cover could be extracted but resolution is not good.
+Mobipocket files and derivatives (`.mobi`, `.prc`, `.azw`, `.azw3`, `.kf8`, `.kfx`) can have a cover image embedded in the file. With native solution of `php-ebook` cover could be extracted but resolution is not good. Best solution is to convert file with [`calibre`](https://calibre-ebook.com/) and use `EPUB` format.
 
 ## Testing
 
