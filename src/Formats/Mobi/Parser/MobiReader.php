@@ -2,6 +2,9 @@
 
 namespace Kiwilan\Ebook\Formats\Mobi\Parser;
 
+/**
+ * @docs https://wiki.mobileread.com/wiki/Mobi
+ */
 class MobiReader
 {
     const DRM_SERVER_ID = 1;

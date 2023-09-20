@@ -79,7 +79,7 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 | :--------------: | :-------------------------------------------------------------: | :-------: | :-----------: |
 |   EPUB (IDPF)    |                             `.epub`                             |    ✅     |               |
 | Kindle (Amazon)  |                 `.azw`, `.azw3`, `.kf8`, `.kfx`                 |    ❌     | _proprietary_ |
-| Mobipocket (KF8) |                         `.mobi`, `.prc`                         |    ❌     | _deprecated_  |
+|    Mobipocket    |                         `.mobi`, `.prc`                         |    ❌     | _deprecated_  |
 |       PDF        |                             `.pdf`                              |    ✅     |               |
 |  iBook (Apple)   |                            `.ibooks`                            |    ❌     | _proprietary_ |
 |       DjVu       |                         `.djvu`, `.djv`                         |    ❌     |               |

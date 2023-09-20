@@ -48,7 +48,7 @@ it('can parse format', function (string $path) {
     // FORMAT_PDB,
     // FORMAT_PDF,
     // FORMAT_PMLZ,
-    // FORMAT_PRC,
+    FORMAT_PRC,
     // FORMAT_RB,
     // FORMAT_RTF,
     // FORMAT_SNB,
@@ -75,21 +75,4 @@ it('can parse mobi images', function () {
     file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
     expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
     expect('tests/output/mobi/cover.jpg')->toBeReadableFile();
-});
-
-it('can parse specific format', function () {
-    recurseRmdir('tests/output/mobi');
-    $parser = MobiParser::make(FORMAT_PDB);
-    ray($parser);
-
-    // ray($parser->getImages());
-    // foreach ($parser->getImages()->getItems() as $key => $value) {
-    //     $path = "tests/output/mobi/{$key}.jpg";
-    //     file_put_contents($path, $value);
-    //     expect($path)->toBeReadableFile();
-    // }
-
-    // $ebook = Ebook::read(FORMAT_MOBI);
-    // ray($ebook);
-    // file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
 });

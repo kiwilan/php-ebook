@@ -10,12 +10,13 @@ use Kiwilan\Ebook\Utils\Stream;
 class MobiParser
 {
     /**
+     * @param  string[]  $errors
      * @param  PalmRecord[]  $palmRecords
      * @param  ExthRecord[]  $exthRecords
      */
     protected function __construct(
         protected Stream $stream,
-        protected ?string $error = null,
+        protected ?array $errors = [],
         protected array $palmRecords = [],
         protected array $exthRecords = [],
         protected ?PalmDOCHeader $palmDOCHeader = null,
@@ -31,6 +32,10 @@ class MobiParser
         $self = new self(Stream::make($path));
         $self->parse();
         $self->images = MobiImages::make($path);
+
+        if (empty($self->errors)) {
+            $self->errors = null;
+        }
 
         return $self;
     }
@@ -56,10 +61,7 @@ class MobiParser
         $content = $this->stream->read(8);
 
         if ($content !== 'BOOKMOBI') {
-            $this->error = 'Invalid file format';
-            $this->stream->close();
-
-            return $this;
+            $this->errors[] = "File format invalid: {$content} (expected BOOKMOBI)";
         }
 
         $this->stream->seek(0);
@@ -92,9 +94,7 @@ class MobiParser
         $mobiStart = $this->stream->tell();
         $header = $this->stream->read(4);
         if ($header !== 'MOBI') {
-            $this->error = 'No MOBI header';
-
-            return $this;
+            $this->errors[] = "Header invalid: {$header} (expected MOBI)";
         }
 
         $this->mobiHeader = new MobiHeader(
@@ -108,9 +108,7 @@ class MobiParser
         $this->stream->seek($mobiStart + $this->mobiHeader->length);
         $exthHeader = $this->stream->read(4);
         if ($exthHeader !== 'EXTH') {
-            $this->error = 'No EXTH header';
-
-            return $this;
+            $this->errors[] = "EXTH header invalid: {$exthHeader} (expected EXTH)";
         }
 
         $this->exthHeader = new ExthHeader(
@@ -129,7 +127,9 @@ class MobiParser
         }
 
         $this->exthRecords = $this->exthHeader->records;
-        $this->isValid = true;
+        if (empty($this->errors)) {
+            $this->isValid = true;
+        }
 
         $this->stream->close();
 
@@ -172,9 +172,12 @@ class MobiParser
         return $this->exthRecords;
     }
 
-    public function getError(): ?string
+    /**
+     * @return string[]|null
+     */
+    public function getErrors(): ?array
     {
-        return $this->error;
+        return $this->errors;
     }
 
     public function getImages(): ?MobiImages

@@ -33,7 +33,7 @@ it('can use mobi parser', function () {
     expect($parser->getExthHeader())->toBeInstanceOf(ExthHeader::class);
     expect($parser->getExthRecords())->toBeArray();
     expect($parser->getPalmRecords())->toBeArray();
-    expect($parser->getError())->toBeNull();
+    expect($parser->getErrors())->toBeNull();
 
     expect($parser->getPalmDOCHeader()->compression)->toBe(2);
     expect($parser->getPalmDOCHeader()->textLength)->toBe(231532);
