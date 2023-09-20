@@ -71,6 +71,10 @@ it('can parse mobi images', function () {
         expect($path)->toBeReadableFile();
     }
 
+    if (! is_dir('tests/output/mobi')) {
+        mkdir('tests/output/mobi');
+    }
+
     $ebook = Ebook::read(FORMAT_MOBI);
     file_put_contents('tests/output/mobi/cover.jpg', $ebook->getCover()?->getContent());
     expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
