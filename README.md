@@ -74,6 +74,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   [ ] Add better handling of MOBI files: [`libmobi`](https://github.com/bfabiszewski/libmobi) and [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre (fallback is available)
 -   [ ] Add support of [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre
 -   [ ] Add suport for DJVU: [`djvulibre`](https://djvu.sourceforge.net/)
+-   [ ] Support FB2 archive
 
 ## Installation
 
