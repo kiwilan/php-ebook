@@ -287,7 +287,7 @@ class Ebook
         }
 
         $ebook = $this->archive->find($path);
-        $content = $this->archive->getContent($ebook);
+        $content = $this->archive->getContents($ebook);
 
         return $content;
     }

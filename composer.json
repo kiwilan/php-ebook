@@ -39,7 +39,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "kiwilan/php-archive": "^2.1.01",
+        "kiwilan/php-archive": "^2.1.02",
         "kiwilan/php-audio": "^3.0.01",
         "kiwilan/php-xml-reader": "^1.0.11"
     },
