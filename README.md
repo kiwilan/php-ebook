@@ -27,10 +27,6 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ## Requirements
 
-> **Note**
->
-> You have to install requirements only if you want to read metadata for these formats, e.g. if you want to read metadata from `.cbr` files, you have to install [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary. So all requirements for PHP extensions and binaries are optional.
-
 -   **PHP version** `>=8.1`
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
@@ -40,12 +36,16 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 -   **Binaries**
-    -   [`p7zip`](https://www.7-zip.org/) binary can be used instead for `.CB7` (can handle `.CBR` too)
+    -   [`p7zip`](https://www.7-zip.org/) (optional) binary can be used instead for `.CB7` (can handle `.CBR` too)
 -   To know more about requirements, see [Supported formats](#supported-formats).
+
+> **Note**
+>
+> You have to install requirements only if you want to read metadata for these formats, e.g. if you want to read metadata from `.cbr` files, you have to install [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary. So all requirements for PHP extensions and binaries are optional.
 
 > **Warning**
 >
-> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
+> Archives are handle with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
 > Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
