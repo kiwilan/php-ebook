@@ -63,7 +63,7 @@
     "scripts": {
         "test": "vendor/bin/pest",
         "test-filter": "vendor/bin/pest --filter",
-        "test-parallel": "vendor/bin/pest --parallel",
+        "test-parallel": "vendor/bin/pest --parallel --coverage",
         "test-coverage": "vendor/bin/pest --coverage --min=90",
         "test-coverage-parallel": "vendor/bin/pest --parallel --coverage",
         "analyse": "vendor/bin/phpstan analyse",

@@ -3,7 +3,7 @@
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
 use Kiwilan\Ebook\Formats\Cba\CbaModule;
-use Kiwilan\Ebook\Formats\EbookMetadata;
+use Kiwilan\Ebook\Formats\EbookParser;
 use Kiwilan\Ebook\Formats\Epub\EpubModule;
 use Kiwilan\Ebook\Formats\Pdf\PdfModule;
 
@@ -39,21 +39,23 @@ it('can parse ebooks', function (string $path) {
 it('can parse metadata', function (string $path) {
     $ebook = Ebook::read($path);
 
-    $metadata = $ebook->getMetadata();
-    expect($metadata)->toBeInstanceOf(EbookMetadata::class);
+    $parser = $ebook->getParser();
+    expect($parser)->toBeInstanceOf(EbookParser::class);
+    expect($ebook->getMetadata())->toBeInstanceOf(EbookParser::class);
+
     expect($ebook->getMetaTitle()->getUniqueFilename())->toBeString();
 
-    if ($metadata->isEpub()) {
-        expect($metadata->getEpub())->toBeInstanceOf(EpubModule::class);
+    if ($parser->isEpub()) {
+        expect($parser->getEpub())->toBeInstanceOf(EpubModule::class);
     }
-    if ($metadata->isCba()) {
-        expect($metadata->getCba())->toBeInstanceOf(CbaModule::class);
+    if ($parser->isCba()) {
+        expect($parser->getCba())->toBeInstanceOf(CbaModule::class);
     }
-    if ($metadata->isPdf()) {
-        expect($metadata->getPdf())->toBeInstanceOf(PdfModule::class);
+    if ($parser->isPdf()) {
+        expect($parser->getPdf())->toBeInstanceOf(PdfModule::class);
     }
-    if ($metadata->isAudiobook()) {
-        expect($metadata->getAudiobook())->toBeInstanceOf(AudiobookModule::class);
+    if ($parser->isAudiobook()) {
+        expect($parser->getAudiobook())->toBeInstanceOf(AudiobookModule::class);
     }
 })->with([EPUB, CBZ, PDF, AUDIOBOOK]);
 

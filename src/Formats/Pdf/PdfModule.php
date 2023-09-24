@@ -52,7 +52,7 @@ class PdfModule extends EbookModule
         $this->ebook->setTags($this->meta?->getKeywords());
         $this->ebook->setPublishDate($this->meta?->getCreationDate());
 
-        $this->ebook->setHasMetadata(true);
+        $this->ebook->setHasParser(true);
 
         return $this->ebook;
     }

@@ -57,7 +57,7 @@ class EpubModule extends EbookModule
             return $this;
         }
 
-        $this->ebook->setHasMetadata(true);
+        $this->ebook->setHasParser(true);
         $this->opf = OpfItem::make($xml, $this->ebook->getFilename());
         $this->coverPath = $this->opf->getCoverPath();
         $this->files = $this->opf->getContentFiles();

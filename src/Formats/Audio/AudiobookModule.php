@@ -89,7 +89,7 @@ class AudiobookModule extends EbookModule
             'duration' => $audio->getDuration(),
         ]);
 
-        $this->ebook->setHasMetadata(true);
+        $this->ebook->setHasParser(true);
 
         return $this->ebook;
     }

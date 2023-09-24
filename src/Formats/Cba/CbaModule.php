@@ -47,7 +47,7 @@ class CbaModule extends EbookModule
         }
 
         if ($self->type === 'cbam') {
-            $self->ebook->setHasMetadata(true);
+            $self->ebook->setHasParser(true);
             $self->cbam = CbamTemplate::make($reader);
         }
 
@@ -178,7 +178,7 @@ class CbaModule extends EbookModule
             'comicMeta' => $comicMeta,
         ]);
 
-        $this->ebook->setHasMetadata(true);
+        $this->ebook->setHasParser(true);
 
         return $this->ebook;
     }

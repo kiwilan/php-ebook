@@ -2,6 +2,8 @@
 
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
+use Kiwilan\Ebook\Formats\Djvu\DjvuModule;
+use Kiwilan\Ebook\Formats\Djvu\Parser\DjvuParser;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 
 it('can parse format', function (string $path) {
@@ -91,4 +93,10 @@ it('can handle djvu format', function () {
     $ebook = Ebook::read(FORMAT_DJVU);
 
     expect($ebook->getPath())->toBe(FORMAT_DJVU);
+    $module = $ebook->getParser()->getDjvu();
+
+    expect($module)->toBeInstanceOf(DjvuModule::class);
+
+    $parser = $module->getParser();
+    expect($parser)->toBeInstanceOf(DjvuParser::class);
 });
