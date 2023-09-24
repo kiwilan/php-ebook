@@ -2,6 +2,27 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.2.0 - 2023-09-24
+
+### Breaking changes
+
+- All `Metadata` internal classes have been renamed to `Module`
+- Some internal parser classes, have been moved into `Parser` namespace
+- All `getContent()` methods have been renamed to `getContents()` (old methods are deprecated)
+
+### New features
+
+- MOBI and derivatives support (`.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`) with cover
+- FB2 support (`.fb2`) with cover and series
+- Improve BookIdentifier scheme detection
+
+### Misc
+
+- Fixing EPUB volume `0` issue
+- Add more tests with samples
+- Update dependencies
+- Improve documentation
+
 ## v2.1.02 - 2023-08-30
 
 - Better handle of PDF, parser works even if metadata are not present   
