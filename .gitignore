@@ -10,3 +10,5 @@ psalm.xml
 vendor
 .php-cs-fixer.cache
 .DS_Store
+CHANGELOG-draft.md
+node_modules

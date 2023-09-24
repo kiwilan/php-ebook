@@ -20,5 +20,11 @@ enum EbookFormatEnum: string
 
     case DJVU = 'djvu';
 
+    case LRF = 'lrf';
+
+    case FB2 = 'fb2';
+
+    case RTF = 'rtf';
+
     case AUDIOBOOK = 'audiobook';
 }

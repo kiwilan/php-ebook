@@ -61,6 +61,20 @@ abstract class EbookModule
         return $html;
     }
 
+    protected function toHtml(?string $html): ?string
+    {
+        $html = $this->sanitizeHtml($html);
+        if (! $html) {
+            return null;
+        }
+
+        if ($html === strip_tags($html)) {
+            return "<div>$html</div>";
+        }
+
+        return $html;
+    }
+
     /**
      * Clean string, remove tabs, new lines, carriage returns, and multiple spaces.
      */
@@ -82,6 +96,50 @@ abstract class EbookModule
         }
 
         return $text;
+    }
+
+    protected function descriptionToString(?string $description): ?string
+    {
+        if (! $description) {
+            return null;
+        }
+
+        $description = $this->htmlToString($description);
+
+        return $description;
+    }
+
+    protected function descriptionToHtml(?string $description): ?string
+    {
+        if (! $description) {
+            return null;
+        }
+
+        $description = $this->toHtml($description);
+
+        if ($description === strip_tags($description)) {
+            $description = "<div>$description</div>";
+        }
+
+        return $description;
+    }
+
+    protected function arrayToHtml(?array $array): ?string
+    {
+        if (! $array) {
+            return null;
+        }
+
+        $html = '';
+        foreach ($array as $tag => $item) {
+            if (is_array($item)) {
+                $html .= $this->arrayToHtml($item);
+            } else {
+                $html .= "<$tag>$item</$tag>";
+            }
+        }
+
+        return $html;
     }
 
     public function toJson(): string

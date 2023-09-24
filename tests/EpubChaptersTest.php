@@ -1,7 +1,7 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Formats\Epub\EpubChapter;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubChapter;
 
 it('can parse epub chapters', function () {
     $ebook = Ebook::read(EPUB);

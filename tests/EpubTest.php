@@ -1,11 +1,11 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Formats\Epub\EpubChapter;
-use Kiwilan\Ebook\Formats\Epub\EpubContainer;
-use Kiwilan\Ebook\Formats\Epub\EpubHtml;
-use Kiwilan\Ebook\Formats\Epub\NcxMetadata;
-use Kiwilan\Ebook\Formats\Epub\OpfMetadata;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubChapter;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
+use Kiwilan\Ebook\Formats\Epub\Parser\EpubHtml;
+use Kiwilan\Ebook\Formats\Epub\Parser\NcxItem;
+use Kiwilan\Ebook\Formats\Epub\Parser\OpfItem;
 
 it('can parse epub entity', function () {
     $ebook = Ebook::read(EPUB);
@@ -55,12 +55,13 @@ it('can parse epub entity', function () {
 it('can get epub cover', function () {
     $ebook = Ebook::read(EPUB);
     $path = 'tests/output/cover-EPUB.jpg';
-    file_put_contents($path, $ebook->getCover());
+    file_put_contents($path, $ebook->getCover()->getContents());
 
     expect($ebook->getCover()->getPath())->toBeString();
-    expect($ebook->getCover()->getContent())->toBeString();
+    expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeTrue();
 });
 
 it('can get title meta', function () {
@@ -98,8 +99,8 @@ it('can read epub metadata', function () {
     $pagesCount = $epub->getPagesCount();
 
     expect($container)->toBeInstanceOf(EpubContainer::class);
-    expect($opf)->toBeInstanceOf(OpfMetadata::class);
-    expect($ncx)->toBeInstanceOf(NcxMetadata::class);
+    expect($opf)->toBeInstanceOf(OpfItem::class);
+    expect($ncx)->toBeInstanceOf(NcxItem::class);
     expect($chapters)->toBeArray()
         ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubChapter::class));
     expect($files)->toBeArray()
@@ -184,3 +185,47 @@ it('can parse description', function (string $path) {
     expect($ebook->getDescription())->toBe("1re vague : Extinction des feux. 2e vague : Déferlante. 3e vague : Pandémie. 4e vague : Silence. À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper... Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés. Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend... Ils connaissent notre manière de penser. Ils savent commentr nous exterminer. Ils nous ont enlevé toute raison de vivre. Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.");
     expect($ebook->getDescriptionHtml())->toBe("<div><p>1re vague : Extinction des feux.<br>2e vague : Déferlante.<br>3e vague : Pandémie.<br>4e vague : Silence.<br><br>À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper... Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés.<br><br>Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend...</p><p>Ils connaissent notre manière de penser.</p><p>Ils savent commentr nous exterminer.</p><p>Ils nous ont enlevé toute raison de vivre.</p><p>Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.</p></div>");
 })->with([EPUB_DESCRIPTION]);
+
+it('can parse epub with series but empty volume', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getVolume())->toBe(0);
+})->with([EPUB_VOL0]);
+
+it('can parse epub with bad summary', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getDescription())->not()->toContain("\n");
+})->with([EPUB_EPEE_ET_MORT]);
+
+it('can read DRM epub', function () {
+    $ebook = Ebook::read(EPUB_DRM);
+
+    expect($ebook->getTitle())->toBe('Alana et l’enfant vampire');
+    expect($ebook->getAuthorMain()->getName())->toBe('Cordélia');
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getAuthors()[0]->getName())->toBe('Cordélia');
+    expect($ebook->getPublisher())->toBe('Scrinéo');
+    expect($ebook->getIdentifiers()['uuid']->getValue())->toBe('urn:uuid:10225bf5-b0ec-43e7-910a-e0e208623cd9');
+    $date = new DateTime('2020-01-22 06:53:56');
+    expect($ebook->getPublishDate()->format('Y-m-d H:i:s'))->toBe($date->format('Y-m-d H:i:s'));
+    expect($ebook->getLanguage())->toBe('fr');
+    expect($ebook->getCopyright())->toBe('© 2020 Scrineo');
+
+    $cover = $ebook->getCover();
+    $path = 'tests/output/cover-EPUB-DRM.jpg';
+    file_put_contents($path, $cover->getContents());
+
+    expect($cover->getContents())->toBeString();
+    expect(file_exists($path))->toBeTrue();
+    expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeFalse();
+
+    $module = $ebook->getMetadata()->getEpub();
+
+    $html = $module->getHtml();
+    expect($html)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
+    expect(fn () => $module->getChapters())->toThrow(Exception::class);
+    expect(fn () => $module->getNcx())->toThrow(Exception::class);
+});

@@ -5,18 +5,18 @@ namespace Kiwilan\Ebook\Tools;
 class BookContributor
 {
     public function __construct(
-        protected mixed $content = null,
+        protected mixed $contents = null,
         protected ?string $role = null,
     ) {
-        $this->content = BookMeta::parse($this->content);
+        $this->contents = BookMeta::parse($this->contents);
     }
 
-    public function content(): ?string
+    public function getContents(): ?string
     {
-        return $this->content;
+        return $this->contents;
     }
 
-    public function role(): ?string
+    public function getRole(): ?string
     {
         return $this->role;
     }
@@ -24,13 +24,13 @@ class BookContributor
     public function toArray(): array
     {
         return [
-            'content' => $this->content,
+            'contents' => $this->contents,
             'role' => $this->role,
         ];
     }
 
     public function __toString(): string
     {
-        return $this->content;
+        return $this->contents;
     }
 }

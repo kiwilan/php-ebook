@@ -19,9 +19,7 @@ it('can use EbookEntity', function () {
         'rating' => 10.0,
     ];
     $ebook->setPublisher('publisher');
-    $ebook->setIdentifiers([
-        new BookIdentifier('identifier', 'id'),
-    ]);
+    $ebook->setIdentifier(new BookIdentifier('identifier', 'id'));
     $ebook->setPublishDate(new DateTime('1980-01-13 21:00:00'));
     $ebook->setLanguage('fr');
     $ebook->setTags([
@@ -65,20 +63,20 @@ it('can use EbookEntity', function () {
 it('can use BookContributor', function (string $content, string $role) {
     $item = new BookContributor($content, $role);
 
-    expect($item->content())->toBe($content);
-    expect($item->role())->toBe($role);
+    expect($item->getContents())->toBe($content);
+    expect($item->getRole())->toBe($role);
     expect($item->toArray())->toBe([
-        'content' => $content,
+        'contents' => $content,
         'role' => $role,
     ]);
     expect($item->__toString())->toBe($content);
 })->with([
     [
-        'content' => 'calibre',
+        'contents' => 'calibre',
         'role' => 'bkp',
     ],
     [
-        'content' => 'epbu2',
+        'contents' => 'epbu2',
         'role' => 'bkp',
     ],
 ]);
@@ -95,80 +93,100 @@ it('can use BookAuthor', function (string $name, string $role) {
     expect($item->__toString())->toBe($name);
 })->with([
     [
-        'content' => 'Jean M. Auel',
+        'contents' => 'Jean M. Auel',
         'role' => 'aut',
     ],
     [
-        'content' => 'Terry Pratchett',
+        'contents' => 'Terry Pratchett',
         'role' => 'aut',
     ],
 ]);
 
-it('can use BookIdentifier', function (string $value, string $scheme) {
-    $item = new BookIdentifier($value, $scheme);
-
-    expect($item->getValue())->toBe($value);
-    expect($item->getScheme())->toBe($scheme);
-    expect($item->toArray())->toBe([
-        'value' => $value,
-        'scheme' => $scheme,
-    ]);
-    expect($item->__toString())->toBe("{$value} {$scheme}");
-    if (str_contains($scheme, 'isbn')) {
-        expect($item->parse()->getScheme())->toBe($scheme);
-    }
-})->with([
-    [
-        'content' => 'a2cf2f25-4de2-4f77-82cc-0198352b0851',
-        'type' => 'uuid',
-    ],
-    [
-        'content' => 'a2cf2f25-4de2-4f77-82cc-0198352b0851',
-        'type' => 'calibre',
-    ],
-    [
-        'content' => '63CTHAAACAAJ',
-        'type' => 'google',
-    ],
-    [
-        'content' => '2744155349',
-        'type' => 'isbn10',
-    ],
-    [
-        'content' => '9782266122122',
-        'type' => 'isbn13',
-    ],
-]);
-
-it('can use BookMeta', function (string $name, string $content) {
-    $item = new BookMeta($name, $content);
+it('can use BookMeta', function (string $name, string $contents) {
+    $item = new BookMeta($name, $contents);
 
     expect($item->getName())->toBe($name);
-    expect($item->getContent())->toBe($content);
+    expect($item->getContent())->toBe($contents);
+    expect($item->getContents())->toBe($contents);
     expect($item->toArray())->toBe([
         'name' => $name,
-        'content' => $content,
+        'contents' => $contents,
     ]);
-    expect($item->__toString())->toBe("{$name} {$content}");
+    expect($item->__toString())->toBe("{$name} {$contents}");
 })->with([
     [
+        'name' => 'calibre:title_sort',
+        'contents' => "clan de l'ours des cavernes, Le",
+    ],
+    [
+        'name' => 'calibre:series',
+        'contents' => 'Les Enfants de la Terre',
+    ],
+    [
+        'name' => 'calibre:series_index',
+        'contents' => '1.0',
+    ],
+    [
+        'name' => 'calibre:timestamp',
+        'contents' => '2023-03-25T10:32:21+00:00',
+    ],
+    [
+        'name' => 'calibre:rating',
+        'contents' => '10.0',
+    ],
+]);
+
+it('can parse with BookMeta', function (mixed $data) {
+    $meta = BookMeta::parse($data);
+
+    expect($meta)->toBeString();
+})->with([
+    'calibre:title_sort',
+    1,
+    true,
+    [
+        [
+            '@attributes' => [
+                'scheme' => 'calibre',
+            ],
+        ],
+    ],
+    [
+        [
+            '@attributes' => [
+                'content' => "clan de l'ours des cavernes, Le",
+            ],
+        ],
+    ],
+    [
+        [
+            '@attributes' => [
+                'contents' => "clan de l'ours des cavernes, Le",
+            ],
+        ],
+    ],
+    [
+        [
+            '@attributes' => [
+                'role' => 'bkp',
+            ],
+        ],
+    ],
+    [
+        [
+            '@attributes' => [
+                'title' => "clan de l'ours des cavernes, Le",
+            ],
+        ],
+    ],
+    (object) [
         'name' => 'calibre:title_sort',
         'content' => "clan de l'ours des cavernes, Le",
     ],
     [
-        'name' => 'calibre:series',
-        'content' => 'Les Enfants de la Terre',
-    ],
-    [
-        'name' => 'calibre:series_index',
-        'content' => '1.0',
-    ],
-    [
-        'name' => 'calibre:timestamp',
-        'content' => '2023-03-25T10:32:21+00:00',
-    ],
-    [
-        'name' => 'calibre:rating',
-        'content' => '10.0',
+        [
+            'name' => 'calibre:title_sort',
+            'content' => "clan de l'ours des cavernes, Le",
+        ],
     ],
 ]);

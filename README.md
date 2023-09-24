@@ -9,13 +9,21 @@
 [![tests][tests-src]][tests-href]
 [![codecov][codecov-src]][codecov-href]
 
-PHP package to read metadata and extract covers from eBooks (`.epub`, `.cbz`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) and audiobooks (`.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`).
+PHP package to read metadata and extract covers from eBooks, comics and audiobooks.
 
-_Supports Linux, macOS and Windows._
+-   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`
+-   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
+-   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`
+
+To know more see [Supported formats](#supported-formats). _Supports Linux, macOS and Windows._
 
 > **Note**
 >
 > This package favors eBooks in open formats such as `.epub` (from [IDPF](https://en.wikipedia.org/wiki/International_Digital_Publishing_Forum)) or `.cbz` (from [CBA](https://en.wikipedia.org/wiki/Comic_book_archive)) and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
+
+> **Warning**
+>
+> For DRM (Digital Rights Management) eBooks, in some cases you could read metadata but not contents (like HTML files for EPUB). To use all features, you have to use a software to remove DRM before using this package. For EPUB, you can use [calibre](https://calibre-ebook.com/) with [DeDRM plugin](https://github.com/noDRM/DeDRM_tools), [this guide](https://www.epubor.com/calibre-drm-removal-plugins.html) can help you.
 
 ## About
 
@@ -23,70 +31,50 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 
 ## Requirements
 
--   **PHP version** >= _8.1_
+-   **PHP version** `>=8.1`
 -   **PHP extensions**:
     -   [`zip`](https://www.php.net/manual/en/book.zip.php) (native, optional) for `.EPUB`, `.CBZ`
     -   [`phar`](https://www.php.net/manual/en/book.phar.php) (native, optional) for `.CBT`
-    -   [`rar`](https://www.php.net/manual/en/book.rar.php) (optional) for `.CBR`
-    -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF`
+    -   [`rar`](https://github.com/cataphract/php-rar) (optional) for `.CBR` ([`p7zip`](https://www.7-zip.org/) binary can be used instead)
+    -   [`imagick`](https://www.php.net/manual/en/book.imagick.php) (optional) for `.PDF` cover
     -   [`intl`](https://www.php.net/manual/en/book.intl.php) (native, optional) for `Transliterator` for better slugify
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
+-   **Binaries**
+    -   [`p7zip`](https://www.7-zip.org/) (optional) binarys for `.CB7` (can handle `.CBR` too)
+-   To know more about requirements, see [Supported formats](#supported-formats).
 
-|                  Type                   | Supported |                                               Requirement                                                |              Uses              |
-| :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :----------------------------: |
-|             `.epub`, `.cbz`             |    ✅     |                                                   N/A                                                    |      `zip` PHP extension       |
-|                 `.cbt`                  |    ✅     |                                                   N/A                                                    |      `phar` PHP extension      |
-|                 `.cbr`                  |    ✅     | [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary |      PHP `rar` or `p7zip`      |
-|                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |         `p7zip` binary         |
-|                 `.pdf`                  |    ✅     |         Optional (for extraction) [`imagick` PHP extension](https://github.com/Imagick/imagick)          | `smalot/pdfparser` (included)  |
-| `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                                                   N/A                                                    | `kiwilan/php-audio` (included) |
+> **Note**
+>
+> You have to install requirements only if you want to read metadata for these formats, e.g. if you want to read metadata from `.cbr` files, you have to install [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary. So all requirements for PHP extensions and binaries are optional.
 
 > **Warning**
 >
-> Works with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
+> Archives are handle with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
 > Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
 
 ## Features
 
--   🔎 Read metadata from **eBooks** and **audiobooks**
--   🖼️ Extract covers from **eBooks** and **audiobooks**
+-   Support multiple formats, see [Supported formats](#supported-formats)
+-   🔎 Read metadata from eBooks, comics, and audiobooks
+-   🖼️ Extract covers from eBooks, comics, and audiobooks
 -   📚 Support metadata
-    -   eBooks:
-        -   `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` and from [Calibre](https://calibre-ebook.com/)
-    -   Comics:
-        -   `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
+    -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives) | `FB2` from [FictionBook](https://en.wikipedia.org/wiki/FictionBook)
+    -   Comics: `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
     -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
 -   🔖 Chapters extraction (`EPUB` only)
 -   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
+-   Works perfectly with [`kiwilan/php-opds`](https://github.com/kiwilan/php-opds): PHP package to generate OPDS feeds (not included)
 
 ### Roadmap
 
--   [ ] More formats support: `.mobi`, `.azw`, `.azw3`, `.djvu`, `.fb2`
 -   [ ] Better `.epub` creation support
 -   [ ] Add `.epub` metadata update support
-
-### Formats
-
-There is a lot of different formats for eBooks and comics, if you want to know more about:
-
--   [Comparison of e-book formats](https://en.wikipedia.org/wiki/Comparison_of_e-book_formats) for eBooks
--   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
--   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
-
-|       Name       |           Extensions            | Supported |     Notes     |
-| :--------------: | :-----------------------------: | :-------: | :-----------: |
-|   EPUB (IDPF)    |             `.epub`             |    ✅     |               |
-| Kindle (Amazon)  | `.azw`, `.azw3`, `.kf8`, `.kfx` |    ❌     | _proprietary_ |
-| Mobipocket (KF8) |         `.mobi`, `.prc`         |    ❌     | _deprecated_  |
-|       PDF        |             `.pdf`              |    ✅     |               |
-|  iBook (Apple)   |            `.ibooks`            |    ❌     | _proprietary_ |
-|       DjVu       |         `.djvu`, `.djv`         |    ❌     |               |
-| Rich Text Format |             `.rtf`              |    ❌     |               |
-|   FictionBook    |             `.fb2`              |    ❌     |               |
-| Broadband eBooks |         `.lrf`, `.lrx`          |    ❌     |               |
-|    Palm Media    |             `.pdb`              |    ❌     |               |
+-   [ ] Add better handling of MOBI files: [`libmobi`](https://github.com/bfabiszewski/libmobi) and [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre (fallback is available)
+-   [ ] Add support of [`ebook-convert`](https://manual.calibre-ebook.com/generated/en/ebook-convert.html) from Calibre
+-   [ ] Add suport for DJVU: [`djvulibre`](https://djvu.sourceforge.net/)
+-   [ ] Support FB2 archive
 
 ## Installation
 
@@ -98,7 +86,7 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files (`.epub`, `.cbz`, `.cba`, `.cbr`, `.cb7`, `.cbt`, `.pdf`) or audiobook files (`mp3`, `m4a`, `m4b`, `flac`, `ogg`).
+With eBook files or audiobook files (to know more about formats, see [Supported formats](#supported-formats)).
 
 ```php
 use Kiwilan\Ebook\Ebook;
@@ -168,6 +156,7 @@ And to test if some data exists:
 
 ```php
 $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
+$ebook->isMobi(); // bool => `true` if Mobipocket derivatives
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
 $ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
@@ -186,15 +175,20 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $metadata = $ebook->getMetadata();
 
 $metadata->getModule(); // Used into parsing can be any of `EbookModule::class`
-$metadata->getEpub(); // `EpubMetadata::class`
-$metadata->getPdf(); // `PdfMetadata::class`
-$metadata->getCba(); // `CbaMetadata::class`
-$metadata->getAudiobook(); // `AudiobookMetadata::class`
 
-$metadata->isEpub(); // bool
-$metadata->isPdf(); // bool
-$metadata->isCba(); // bool
+$metadata->getAudiobook(); // `AudiobookModule::class`
+$metadata->getCba(); // `CbaModule::class`
+$metadata->getEpub(); // `EpubModule::class`
+$metadata->getFb2(); // `Fb2Module::class`
+$metadata->getMobi(); // `MobiModule::class`
+$metadata->getPdf(); // `PdfModule::class`
+
 $metadata->isAudiobook(); // bool
+$metadata->isCba(); // bool
+$metadata->isEpub(); // bool
+$metadata->isFb2(); // bool
+$metadata->isMobi(); // bool
+$metadata->isPdf(); // bool
 ```
 
 ### MetaTitle
@@ -230,13 +224,13 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $cover = $ebook->getCover(); // ?EbookCover
 
 $cover->getPath(); // ?string => path to cover
-$cover->getContent(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
+$cover->getContents(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
 ```
 
 > **Note**
 >
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
-> -   For Audiobook, cover can be extracted with `mp3` but not with other formats.
+> -   For Audiobook, cover can be extracted with [some formats](https://github.com/kiwilan/php-audio#supported-formats).
 
 ### Formats specifications
 
@@ -252,8 +246,8 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $epub = $ebook->getMetadata()?->getEpub();
 
 $epub->getContainer(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
-$epub->getOpf(); // ?OpfMetadata => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
-$epub->getNcx(); // ?NcxMetadata => {`head`: NcxMetadataHead[]|null, `docTitle`: ?string, `navPoints`: NcxMetadataNavPoint[]|null, `version`: ?string, `lang`: ?string}
+$epub->getOpf(); // ?OpfItem => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
+$epub->getNcx(); // ?NcxItem => {`head`: NcxItemHead[]|null, `docTitle`: ?string, `navPoints`: NcxItemNavPoint[]|null, `version`: ?string, `lang`: ?string}
 $epub->getChapters(); // EpubChapter[] => {`label`: string, `source`: string, `content`: string}[]
 $epub->getHtml(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`: ?string}[]
 $epub->getFiles(); // string[] => all files in EPUB
@@ -291,9 +285,35 @@ $creator->addDirectory('./', 'path/to/directory')
     ->save();
 ```
 
-## More
+## Supported formats
 
--   [kiwilan/php-opds](https://github.com/kiwilan/php-opds): PHP package to generate OPDS feeds
+There is a lot of different formats for eBooks and comics, if you want to know more about:
+
+-   [Comparison of e-book formats](https://en.wikipedia.org/wiki/Comparison_of_e-book_formats) for eBooks
+-   [Comic book archive](https://en.wikipedia.org/wiki/Comic_book_archive) for comics
+-   Amazing [MobileRead wiki](https://wiki.mobileread.com/wiki/Category:Formats)
+
+|       Name       |               Extensions                | Supported |                                                   Uses                                                   |                                Support cover                                | Support series |
+| :--------------: | :-------------------------------------: | :-------: | :------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------: | :------------: |
+|   EPUB (IDPF)    |                 `.epub`                 |    ✅     |                        Native [`zip`](https://www.php.net/manual/en/book.zip.php)                        |                                     ✅                                      |       ✅       |
+| Kindle (Amazon)  |     `.azw`, `.azw3`, `.kf8`, `.kfx`     |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
+|    Mobipocket    |             `.mobi`, `.prc`             |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                ✅ (See [MOBI cover note](#mobi-cover-note))                 |       ❌       |
+|       PDF        |                 `.pdf`                  |    ✅     |                   [`smalot/pdfparser`](https://github.com/smalot/pdfparser) (included)                   |      Uses [`imagick`](https://www.php.net/manual/en/book.imagick.php)       |       ❌       |
+|  iBook (Apple)   |                `.ibooks`                |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|       DjVu       |             `.djvu`, `.djv`             |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+| Rich Text Format |                 `.rtf`                  |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|   FictionBook    |                 `.fb2`                  |    ✅     |                 Native [`filesystem`](https://www.php.net/manual/en/book.filesystem.php)                 |                                     ✅                                      |       ✅       |
+| Broadband eBooks |             `.lrf`, `.lrx`              |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|    Palm Media    |                 `.pdb`                  |    ❌     |                                                                                                          |                                     N/A                                     |      N/A       |
+|    Comics CBZ    |                 `.cbz`                  |    ✅     |                        Native [`zip`](https://www.php.net/manual/en/book.zip.php)                        |                                     ✅                                      |       ✅       |
+|    Comics CBR    |                 `.cbr`                  |    ✅     | [`rar`](https://github.com/cataphract/php-rar) PHP extension or [`p7zip`](https://www.7-zip.org/) binary |                                     ✅                                      |       ✅       |
+|    Comics CB7    |                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |                                     ✅                                      |       ✅       |
+|    Comics CBT    |                 `.cbt`                  |    ✅     |                       Native [`phar`](https://www.php.net/manual/en/book.phar.php)                       |                                     ✅                                      |       ✅       |
+|      Audio       | `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                     See [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)                      | [Depends of format](https://github.com/kiwilan/php-audio#supported-formats) |       ❌       |
+
+### MOBI cover note
+
+Mobipocket files and derivatives (`.mobi`, `.prc`, `.azw`, `.azw3`, `.kf8`, `.kfx`) can have a cover image embedded in the file. With native solution of `php-ebook` cover could be extracted but resolution is not good. Best solution is to convert file with [`calibre`](https://calibre-ebook.com/) and use `EPUB` format.
 
 ## Testing
 

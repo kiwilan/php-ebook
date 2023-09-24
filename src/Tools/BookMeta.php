@@ -6,31 +6,45 @@ class BookMeta
 {
     public function __construct(
         protected ?string $name = null,
-        protected ?string $content = null,
+        protected ?string $contents = null,
     ) {
     }
 
+    /**
+     * Get the meta name.
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * @deprecated Use getContents() instead
+     */
     public function getContent(): ?string
     {
-        return $this->content;
+        return $this->contents;
+    }
+
+    /**
+     * Get the meta contents.
+     */
+    public function getContents(): ?string
+    {
+        return $this->contents;
     }
 
     public function toArray(): array
     {
         return [
             'name' => $this->name,
-            'content' => $this->content,
+            'contents' => $this->contents,
         ];
     }
 
     public function __toString(): string
     {
-        return "{$this->name} {$this->content}";
+        return "{$this->name} {$this->contents}";
     }
 
     public static function parse(mixed $data): ?string
@@ -51,6 +65,10 @@ class BookMeta
 
                 if (array_key_exists('content', $data['@attributes'])) {
                     return $data['@attributes']['content'] ?? null;
+                }
+
+                if (array_key_exists('contents', $data['@attributes'])) {
+                    return $data['@attributes']['contents'] ?? null;
                 }
 
                 if (array_key_exists('role', $data['@attributes'])) {

@@ -7,7 +7,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
-use Kiwilan\Ebook\Formats\Cba\CbamMetadata;
+use Kiwilan\Ebook\Formats\Cba\Parser\CbamTemplate;
 use Kiwilan\Ebook\Tools\ComicMeta;
 use Kiwilan\XmlReader\XmlReader;
 
@@ -27,7 +27,7 @@ it('can parse no metadata', function () {
 
 it('can parse ComicInfo basic', function () {
     $metadata = XmlReader::make(file_get_contents(COMIC_INFO_BASIC));
-    $cba = CbamMetadata::make($metadata);
+    $cba = CbamTemplate::make($metadata);
 
     expect($cba->getTitle())->toBe('Grise Bouille, Tome I');
     expect($cba->getSeries())->toBe('Grise Bouille');
@@ -56,11 +56,12 @@ it('can extract cba cover', function (string $path) {
     $ebook = Ebook::read($path);
 
     $path = 'tests/output/cover-cba.jpg';
-    file_put_contents($path, $ebook->getCover());
+    file_put_contents($path, $ebook->getCover()->getContents());
 
-    expect($ebook->getCover()->getContent())->toBeString();
+    expect($ebook->getCover()->getContents())->toBeString();
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
+    expect(fileIsValidImg($path))->toBeTrue();
 })->with([...CBA_ITEMS, CBZ_CBAM]);
 
 it('can parse ComicMeta', function (string $path) {
@@ -113,7 +114,7 @@ it('can parse ComicMeta', function (string $path) {
     expect($comicMeta->storyArcNumber())->toBeNull();
 })->with([CBZ_CBAM]);
 
-it('can parse CbamMetadata', function (string $path) {
+it('can parse CbamTemplate', function (string $path) {
     $ebook = Ebook::read($path);
     $cbam = $ebook->getMetadata()->getCba()?->getCbam();
 
@@ -121,7 +122,7 @@ it('can parse CbamMetadata', function (string $path) {
         throw new Exception('CBAM is null');
     }
 
-    expect($cbam)->toBeInstanceOf(CbamMetadata::class);
+    expect($cbam)->toBeInstanceOf(CbamTemplate::class);
     expect($cbam->getTitle())->toBe('You Had One Job');
     expect($cbam->getSeries())->toBe('Fantastic Four');
     expect($cbam->getNumber())->toBe(22);
