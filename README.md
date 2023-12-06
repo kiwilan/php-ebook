@@ -11,7 +11,7 @@
 
 PHP package to read metadata and extract covers from eBooks, comics and audiobooks.
 
--   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`
+-   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`, `.fb2`
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
 -   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`
 
@@ -140,7 +140,7 @@ $isValid = Ebook::isValid('path/to/ebook.epub');
 To get additional data, you can use these methods:
 
 ```php
-$ebook->getMetadata(); // ?EbookMetadata => metadata with parsers
+$ebook->getParser(); // ?EbookParser => Parser with modules
 $ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
@@ -172,23 +172,23 @@ use Kiwilan\Ebook\Ebook;
 
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$metadata = $ebook->getMetadata();
+$parser = $ebook->getParser();
 
-$metadata->getModule(); // Used into parsing can be any of `EbookModule::class`
+$parser->getModule(); // Used into parsing can be any of `EbookModule::class`
 
-$metadata->getAudiobook(); // `AudiobookModule::class`
-$metadata->getCba(); // `CbaModule::class`
-$metadata->getEpub(); // `EpubModule::class`
-$metadata->getFb2(); // `Fb2Module::class`
-$metadata->getMobi(); // `MobiModule::class`
-$metadata->getPdf(); // `PdfModule::class`
+$parser->getAudiobook(); // `AudiobookModule::class`
+$parser->getCba(); // `CbaModule::class`
+$parser->getEpub(); // `EpubModule::class`
+$parser->getFb2(); // `Fb2Module::class`
+$parser->getMobi(); // `MobiModule::class`
+$parser->getPdf(); // `PdfModule::class`
 
-$metadata->isAudiobook(); // bool
-$metadata->isCba(); // bool
-$metadata->isEpub(); // bool
-$metadata->isFb2(); // bool
-$metadata->isMobi(); // bool
-$metadata->isPdf(); // bool
+$parser->isAudiobook(); // bool
+$parser->isCba(); // bool
+$parser->isEpub(); // bool
+$parser->isFb2(); // bool
+$parser->isMobi(); // bool
+$parser->isPdf(); // bool
 ```
 
 ### MetaTitle
@@ -243,7 +243,7 @@ use Kiwilan\Ebook\Ebook;
 
 $ebook = Ebook::read('path/to/ebook.epub');
 
-$epub = $ebook->getMetadata()?->getEpub();
+$epub = $ebook->getParser()?->getEpub();
 
 $epub->getContainer(); // ?EpubContainer => {`opfPath`: ?string, `version`: ?string, `xml`: array}
 $epub->getOpf(); // ?OpfItem => {`metadata`: array, `manifest`: array, `spine`: array, `guide`: array, `epubVersion`: ?int, `filename`: ?string, `dcTitle`: ?string, `dcCreators`: BookAuthor[], `dcContributors`: BookContributor[], `dcDescription`: ?string, `dcPublisher`: ?string, `dcIdentifiers`: BookIdentifier[], `dcDate`: ?DateTime, `dcSubject`: string[], `dcLanguage`: ?string, `dcRights`: array, `meta`: BookMeta[], `coverPath`: ?string, `contentFile`: string[]}
