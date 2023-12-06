@@ -41,7 +41,7 @@ it('can parse metadata', function (string $path) {
 
     $parser = $ebook->getParser();
     expect($parser)->toBeInstanceOf(EbookParser::class);
-    expect($ebook->getMetadata())->toBeInstanceOf(EbookParser::class);
+    expect($ebook->getParser())->toBeInstanceOf(EbookParser::class);
 
     expect($ebook->getMetaTitle()->getUniqueFilename())->toBeString();
 

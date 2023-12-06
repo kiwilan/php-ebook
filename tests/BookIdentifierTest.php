@@ -73,3 +73,23 @@ it('can use advanced features', function (string $scheme, string $value) {
         'value' => 'customkey',
     ],
 ]);
+
+it('can use without autoDetect', function (?string $scheme, ?string $value) {
+    $item = new BookIdentifier($value, $scheme, autoDetect: false);
+
+    expect($item->getValue())->toBe($value);
+    expect($item->getScheme())->toBe($scheme);
+})->with([
+    [
+        'scheme' => 'isbn13',
+        'value' => '9788075836663',
+    ],
+    [
+        'scheme' => null,
+        'value' => 'ASvHBAAAQBAJ',
+    ],
+    [
+        'scheme' => 'custom',
+        'value' => null,
+    ],
+]);

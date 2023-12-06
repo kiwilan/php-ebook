@@ -16,7 +16,7 @@ it('can parse epub entity', function () {
     expect($ebook->getpath())->toBe(EPUB);
     expect($ebook->getFilename())->toBe($filename);
     expect($ebook->getBasename())->toBe($basename);
-    expect($ebook->hasMetadata())->toBeTrue();
+    expect($ebook->hasParser())->toBeTrue();
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
     expect($ebook->getTitle())->toBe('The Clan of the Cave Bear');
@@ -46,7 +46,7 @@ it('can parse epub entity', function () {
     expect($ebook->getExtra('contributor'))->toBeString();
     expect($ebook->getExtra('contributora'))->toBeNull();
 
-    $metadata = $ebook->getMetadata();
+    $metadata = $ebook->getParser();
     expect($metadata->toArray())->toBeArray();
     expect($metadata->toJson())->toBeString();
     expect(Ebook::isValid(EPUB))->toBeTrue();
@@ -87,7 +87,7 @@ it('can extract alt metadata', function () {
 });
 
 it('can read epub metadata', function () {
-    $epub = Ebook::read(EPUB)->getMetadata()?->getEpub();
+    $epub = Ebook::read(EPUB)->getParser()?->getEpub();
 
     $container = $epub->getContainer();
     $opf = $epub->getOpf();
@@ -112,7 +112,7 @@ it('can read epub metadata', function () {
 });
 
 it('can read content', function () {
-    $html = Ebook::read(EPUB)->getMetadata()?->getEpub()?->getHtml();
+    $html = Ebook::read(EPUB)->getParser()?->getEpub()?->getHtml();
 
     foreach ($html as $value) {
         expect($value)->toBeInstanceOf(EpubHtml::class);
@@ -128,7 +128,7 @@ it('can read content', function () {
 
 it('can read ncx', function () {
     $ebook = Ebook::read(EPUB);
-    $toc = $ebook->getMetadata()?->getEpub()?->getNcx();
+    $toc = $ebook->getParser()?->getEpub()?->getNcx();
 
     if ($toc) {
         expect($toc->getHead())->toBeArray();
@@ -143,7 +143,7 @@ it('can read ncx', function () {
 
 it('can build EPUB render', function () {
     $ebook = Ebook::read(EPUB);
-    $chapters = $ebook->getMetadata()->getEpub()->getChapters();
+    $chapters = $ebook->getParser()->getEpub()->getChapters();
 
     expect($chapters)->toBeArray();
 });
@@ -165,7 +165,7 @@ it('can handle bad file', function () {
     $ebook = Ebook::read(EPUB_BAD_FILE);
 
     expect(Ebook::isValid(EPUB_BAD_FILE))->toBeFalse();
-    expect($ebook->hasMetadata())->toBeFalse();
+    expect($ebook->hasParser())->toBeFalse();
     expect($ebook->isBadFile())->toBeTrue();
     expect(fn () => $ebook->getArchive()->filter('opf'))->not()->toThrow(Exception::class);
 });
@@ -173,7 +173,7 @@ it('can handle bad file', function () {
 it('can handle bad epub', function (string $epub) {
     $ebook = Ebook::read($epub);
 
-    expect($ebook->hasMetadata())->toBeFalse();
+    expect($ebook->hasParser())->toBeFalse();
 })->with([
     EPUB_NO_CONTAINER,
     EPUB_NO_OPF,
@@ -221,7 +221,7 @@ it('can read DRM epub', function () {
     expect($path)->toBeReadableFile();
     expect(fileIsValidImg($path))->toBeFalse();
 
-    $module = $ebook->getMetadata()->getEpub();
+    $module = $ebook->getParser()->getEpub();
 
     $html = $module->getHtml();
     expect($html)->toBeArray()
