@@ -9,7 +9,7 @@ it('can parse audiobook', function (string $path) {
 
     expect($ebook->getpath())->toBe($path);
 
-    $metadata = $ebook->getMetadata();
+    $metadata = $ebook->getParser();
     expect($metadata->getAudiobook()->getAudio())->toBeArray();
     expect($metadata->getAudiobook()->toArray())->toBeArray();
     expect($metadata->getAudiobook()->toJson())->toBeString();

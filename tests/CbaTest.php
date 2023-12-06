@@ -22,7 +22,7 @@ it('can parse cba', function (string $path) {
 it('can parse no metadata', function () {
     $ebook = Ebook::read(CBZ_NO_METADATA);
 
-    expect($ebook->hasMetadata())->toBeFalse();
+    expect($ebook->hasParser())->toBeFalse();
 });
 
 it('can parse ComicInfo basic', function () {
@@ -70,7 +70,7 @@ it('can parse ComicMeta', function (string $path) {
     expect($ebook)->toBeInstanceOf(Ebook::class);
     expect($ebook->getFormat())->toBe(EbookFormatEnum::CBA);
     expect($ebook->getpath())->toBe($path);
-    expect($ebook->hasMetadata())->toBeTrue();
+    expect($ebook->hasParser())->toBeTrue();
 
     expect($ebook->getTitle())->toBe('You Had One Job');
     expect($ebook->getSeries())->toBe('Fantastic Four');
@@ -116,7 +116,7 @@ it('can parse ComicMeta', function (string $path) {
 
 it('can parse CbamTemplate', function (string $path) {
     $ebook = Ebook::read($path);
-    $cbam = $ebook->getMetadata()->getCba()?->getCbam();
+    $cbam = $ebook->getParser()->getCba()?->getCbam();
 
     if (! $cbam) {
         throw new Exception('CBAM is null');

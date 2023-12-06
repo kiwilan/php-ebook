@@ -106,7 +106,6 @@ it('can use BookMeta', function (string $name, string $contents) {
     $item = new BookMeta($name, $contents);
 
     expect($item->getName())->toBe($name);
-    expect($item->getContent())->toBe($contents);
     expect($item->getContents())->toBe($contents);
     expect($item->toArray())->toBe([
         'name' => $name,
