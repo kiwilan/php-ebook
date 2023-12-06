@@ -348,7 +348,7 @@ class Ebook
      *
      * @param  int|null  $limit  Limit the length of the description.
      */
-    public function getDescription(int $limit = null): ?string
+    public function getDescription(?int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->description, $limit);
@@ -432,7 +432,7 @@ class Ebook
     /**
      * Copyright of the book.
      */
-    public function getCopyright(int $limit = null): ?string
+    public function getCopyright(?int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->copyright, $limit);
@@ -850,7 +850,7 @@ class Ebook
         return $this;
     }
 
-    public function setExtra(mixed $value, string $key = null): self
+    public function setExtra(mixed $value, ?string $key = null): self
     {
         if (! $key) {
             $this->extras[] = $value;

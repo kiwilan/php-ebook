@@ -18,7 +18,7 @@ class BookIdentifier
         }
     }
 
-    private function parseScheme(string $scheme = null): string
+    private function parseScheme(?string $scheme = null): string
     {
         $isValidInt = is_int($this->value) || ctype_digit($this->value);
         $isValidIsbn = false;
