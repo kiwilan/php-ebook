@@ -2,6 +2,16 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.2.01 - 2023-12-06
+
+Update dependencies (drop symfony/process dependency)
+
+- `EbookMetadata` is now `EbookParser` for consistency
+    - Method `getMetadata` is now `getParser`
+    - Method `hasMetadata` is now `hasParser`
+    
+- `BookIdentifier` can use now `autoDetect` to detect identifier `scheme` from `value`, you can disable this feature by passing `false` as third argument
+
 ## v2.2.0 - 2023-09-24
 
 ### Breaking changes
@@ -25,9 +35,9 @@ All notable changes to `php-ebook` will be documented in this file.
 
 ## v2.1.02 - 2023-08-30
 
-- Better handle of PDF, parser works even if metadata are not present   
-  - Add more tests on PDF, update `kiwilan/php-archive` with patch for PDF   
-  - Thanks to @SergioMendolia for PR [https://github.com/kiwilan/php-ebook/pull/48](https://github.com/kiwilan/php-ebook/pull/48)   
+- Better handle of PDF, parser works even if metadata are not present
+  - Add more tests on PDF, update `kiwilan/php-archive` with patch for PDF
+  - Thanks to @SergioMendolia for PR [https://github.com/kiwilan/php-ebook/pull/48](https://github.com/kiwilan/php-ebook/pull/48)
   
 
 ## v2.1.01 - 2023-08-29
@@ -37,8 +47,8 @@ All notable changes to `php-ebook` will be documented in this file.
 ## v2.1.0 - 2023-08-28
 
 - Add some improvements for `description` parsing (remove extra spaces, remove newlines, etc.)
-- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance   
-  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`   
+- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance
+  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`
   
 
 ## v2.0.20 - 2023-08-28
