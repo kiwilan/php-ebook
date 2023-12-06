@@ -12,8 +12,8 @@ use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
 use Kiwilan\Ebook\Formats\Cba\CbaModule;
 use Kiwilan\Ebook\Formats\Djvu\DjvuModule;
-use Kiwilan\Ebook\Formats\EbookMetadata;
 use Kiwilan\Ebook\Formats\EbookModule;
+use Kiwilan\Ebook\Formats\EbookParser;
 use Kiwilan\Ebook\Formats\Epub\EpubModule;
 use Kiwilan\Ebook\Formats\Fb2\Fb2Module;
 use Kiwilan\Ebook\Formats\Mobi\MobiModule;
@@ -81,8 +81,8 @@ class Ebook
         protected bool $isAudio = false,
         protected bool $isMobi = false,
         protected bool $isBadFile = false,
-        protected ?EbookMetadata $metadata = null,
-        protected bool $hasMetadata = false,
+        protected ?EbookParser $parser = null,
+        protected bool $hasParser = false,
     ) {
     }
 
@@ -109,9 +109,9 @@ class Ebook
             return null;
         }
 
-        $self->metadata = EbookMetadata::make($format);
+        $self->parser = EbookParser::make($format);
         $self->convertEbook();
-        $self->cover = $self->metadata->getModule()->toCover();
+        $self->cover = $self->parser->getModule()->toCover();
         $self->metaTitle = MetaTitle::make($self);
 
         $time = microtime(true) - $start;
@@ -255,7 +255,7 @@ class Ebook
 
     private function convertEbook(): self
     {
-        $ebook = $this->metadata->getModule()->toEbook();
+        $ebook = $this->parser->getModule()->toEbook();
 
         $this->title = $ebook->getTitle();
         $this->metaTitle = $ebook->getMetaTitle();
@@ -278,7 +278,7 @@ class Ebook
     private function convertCounts(): self
     {
         $this->countsParsed = true;
-        $counts = $this->metadata->getModule()->toCounts();
+        $counts = $this->parser->getModule()->toCounts();
 
         $this->wordsCount = $counts->getWordsCount();
         $this->pagesCount = $counts->getPagesCount();
@@ -348,7 +348,7 @@ class Ebook
      *
      * @param  int|null  $limit  Limit the length of the description.
      */
-    public function getDescription(int $limit = null): ?string
+    public function getDescription(?int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->description, $limit);
@@ -432,7 +432,7 @@ class Ebook
     /**
      * Copyright of the book.
      */
-    public function getCopyright(int $limit = null): ?string
+    public function getCopyright(?int $limit = null): ?string
     {
         if ($limit) {
             return $this->limitLength($this->copyright, $limit);
@@ -526,11 +526,21 @@ class Ebook
     }
 
     /**
-     * Whether the ebook has metadata.
+     * Whether the ebook has parser.
+     *
+     * @deprecated Use `hasParser()` instead.
      */
     public function hasMetadata(): bool
     {
-        return $this->hasMetadata;
+        return $this->hasParser;
+    }
+
+    /**
+     * Whether the ebook has parser.
+     */
+    public function hasParser(): bool
+    {
+        return $this->hasParser;
     }
 
     /**
@@ -542,11 +552,21 @@ class Ebook
     }
 
     /**
-     * Metadata of the ebook.
+     * Parser of the ebook.
+     *
+     * @deprecated Use `getParser()` instead.
      */
-    public function getMetadata(): ?EbookMetadata
+    public function getMetadata(): ?EbookParser
     {
-        return $this->metadata;
+        return $this->parser;
+    }
+
+    /**
+     * Parser of the ebook.
+     */
+    public function getParser(): ?EbookParser
+    {
+        return $this->parser;
     }
 
     /**
@@ -823,14 +843,14 @@ class Ebook
         return $this;
     }
 
-    public function setHasMetadata(bool $hasMetadata): self
+    public function setHasParser(bool $hasParser): self
     {
-        $this->hasMetadata = $hasMetadata;
+        $this->hasParser = $hasParser;
 
         return $this;
     }
 
-    public function setExtra(mixed $value, string $key = null): self
+    public function setExtra(mixed $value, ?string $key = null): self
     {
         if (! $key) {
             $this->extras[] = $value;
@@ -875,7 +895,7 @@ class Ebook
             'basename' => $this->basename,
             'extension' => $this->extension,
             'format' => $this->format,
-            'metadata' => $this->metadata?->toArray(),
+            'parser' => $this->parser?->toArray(),
             'cover' => $this->cover?->toArray(),
         ];
     }

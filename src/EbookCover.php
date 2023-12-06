@@ -10,7 +10,7 @@ class EbookCover
     ) {
     }
 
-    public static function make(string $path = null, string $contents = null): ?self
+    public static function make(?string $path = null, ?string $contents = null): ?self
     {
         if ($contents === null) {
             return null;

@@ -4,15 +4,21 @@ namespace Kiwilan\Ebook\Tools;
 
 class BookIdentifier
 {
+    /**
+     * @param  bool  $autoDetect Try to auto detect scheme, even if provided (default: `true`)
+     */
     public function __construct(
         protected mixed $value = null,
         protected ?string $scheme = null, // isbn10, isbn13, asin, etc.
+        protected bool $autoDetect = true,
     ) {
         $this->value = BookMeta::parse($this->value);
-        $this->scheme = $this->parseScheme($this->scheme);
+        if ($this->autoDetect) {
+            $this->scheme = $this->parseScheme($this->scheme);
+        }
     }
 
-    private function parseScheme(string $scheme = null): string
+    private function parseScheme(?string $scheme = null): string
     {
         $isValidInt = is_int($this->value) || ctype_digit($this->value);
         $isValidIsbn = false;
