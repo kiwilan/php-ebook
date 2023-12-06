@@ -108,7 +108,7 @@ class CbaModule extends EbookModule
         ];
     }
 
-    private function arrayableToBookAuthor(array $core, string $role = null): array
+    private function arrayableToBookAuthor(array $core, ?string $role = null): array
     {
         if (empty($core)) {
             return [];
