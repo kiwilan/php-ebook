@@ -13,7 +13,7 @@ PHP package to read metadata and extract covers from eBooks, comics and audioboo
 
 -   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`, `.fb2`
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
--   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) **MUST** be installed
+-   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) **MUST** be installed separately
 
 To know more see [Supported formats](#supported-formats). _Supports Linux, macOS and Windows._
 
