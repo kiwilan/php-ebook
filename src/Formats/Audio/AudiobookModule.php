@@ -15,6 +15,10 @@ class AudiobookModule extends EbookModule
 
     public static function make(Ebook $ebook): self
     {
+        if (! \Composer\InstalledVersions::isInstalled('kiwilan/php-audio')) {
+            throw new \Exception('To handle audiobooks, you have to install `kiwilan/php-audio`, see https://github.com/kiwilan/php-audio');
+        }
+
         $self = new self($ebook);
         $self->create();
 

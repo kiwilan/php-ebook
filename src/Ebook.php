@@ -6,7 +6,6 @@ use DateTime;
 use Kiwilan\Archive\Archive;
 use Kiwilan\Archive\ArchiveZipCreate;
 use Kiwilan\Archive\Readers\BaseArchive;
-use Kiwilan\Audio\Audio;
 use Kiwilan\Ebook\Creator\EbookCreator;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Formats\Audio\AudiobookModule;
@@ -76,7 +75,7 @@ class Ebook
         protected string $basename,
         protected string $extension,
         protected ?BaseArchive $archive = null,
-        protected ?Audio $audio = null,
+        protected ?\Kiwilan\Audio\Audio $audio = null,
         protected bool $isArchive = false,
         protected bool $isAudio = false,
         protected bool $isMobi = false,
@@ -210,7 +209,7 @@ class Ebook
         }
 
         if ($self->isAudio) {
-            $self->audio = Audio::get($path);
+            $self->audio = \Kiwilan\Audio\Audio::get($path);
         }
 
         return $self;
@@ -485,10 +484,11 @@ class Ebook
 
     /**
      * Audio reader, from `kiwilan/php-audio`.
+     * You have to install `kiwilan/php-audio` to use this feature.
      *
      * @docs https://github.com/kiwilan/php-audio
      */
-    public function getAudio(): ?Audio
+    public function getAudio(): ?\Kiwilan\Audio\Audio
     {
         return $this->audio;
     }

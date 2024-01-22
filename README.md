@@ -13,7 +13,7 @@ PHP package to read metadata and extract covers from eBooks, comics and audioboo
 
 -   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`, `.fb2`
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
--   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg`
+-   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) **MUST** be installed
 
 To know more see [Supported formats](#supported-formats). _Supports Linux, macOS and Windows._
 
@@ -41,7 +41,9 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`fileinfo`](https://www.php.net/manual/en/book.fileinfo.php) (native, optional) for better detection of file type
 -   **Binaries**
     -   [`p7zip`](https://www.7-zip.org/) (optional) binarys for `.CB7` (can handle `.CBR` too)
--   To know more about requirements, see [Supported formats](#supported-formats).
+-   **Audiobooks**
+    -   [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) (optional) for `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` (see [Supported formats](#supported-formats)
+-   To know more about requirements, see [Supported formats](#supported-formats)
 
 > [!NOTE]
 >
@@ -57,11 +59,12 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
 -   Support multiple formats, see [Supported formats](#supported-formats)
 -   🔎 Read metadata from eBooks, comics, and audiobooks
 -   🖼️ Extract covers from eBooks, comics, and audiobooks
+-   🎵 Works with audiobooks if [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) is installed
 -   📚 Support metadata
     -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives) | `FB2` from [FictionBook](https://en.wikipedia.org/wiki/FictionBook)
     -   Comics: `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
-    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)
+    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) (not included)
 -   🔖 Chapters extraction (`EPUB` only)
 -   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
@@ -86,7 +89,9 @@ composer require kiwilan/php-ebook
 
 ## Usage
 
-With eBook files or audiobook files (to know more about formats, see [Supported formats](#supported-formats)).
+With eBook files or audiobook\* files (to know more about formats, see [Supported formats](#supported-formats)).
+
+\*: should be installed separately, see [Requirements](#requirements).
 
 ```php
 use Kiwilan\Ebook\Ebook;
@@ -234,6 +239,10 @@ $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if 
 
 ### Formats specifications
 
+#### Audiobooks
+
+For audiobooks, you have to install seperately [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio).
+
 #### EPUB
 
 With `EPUB`, metadata are extracted from `OPF` file, `META-INF/container.xml` files, you could access to these metatada but you can also get chapters from `NCX` file. And with `chapters()` method you can merge `NCX` and `HTML` chapters to get full book chapters with `label`, `source` and `content`.
@@ -309,7 +318,7 @@ There is a lot of different formats for eBooks and comics, if you want to know m
 |    Comics CBR    |                 `.cbr`                  |    ✅     | [`rar`](https://github.com/cataphract/php-rar) PHP extension or [`p7zip`](https://www.7-zip.org/) binary |                                     ✅                                      |       ✅       |
 |    Comics CB7    |                 `.cb7`                  |    ✅     |                                 [`p7zip`](https://www.7-zip.org/) binary                                 |                                     ✅                                      |       ✅       |
 |    Comics CBT    |                 `.cbt`                  |    ✅     |                       Native [`phar`](https://www.php.net/manual/en/book.phar.php)                       |                                     ✅                                      |       ✅       |
-|      Audio       | `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |                     See [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio)                      | [Depends of format](https://github.com/kiwilan/php-audio#supported-formats) |       ❌       |
+|      Audio       | `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` |    ✅     |               If [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) is installed                | [Depends of format](https://github.com/kiwilan/php-audio#supported-formats) |       ❌       |
 
 ### MOBI cover note
 
