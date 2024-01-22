@@ -15,10 +15,19 @@ class AudiobookModule extends EbookModule
 
     public static function make(Ebook $ebook): self
     {
+        AudiobookModule::checkPackage();
+
         $self = new self($ebook);
         $self->create();
 
         return $self;
+    }
+
+    public static function checkPackage(): void
+    {
+        if (! \Composer\InstalledVersions::isInstalled('kiwilan/php-audio')) {
+            throw new \Exception('To handle audiobooks, you have to install `kiwilan/php-audio`, see https://github.com/kiwilan/php-audio');
+        }
     }
 
     private function create(): self

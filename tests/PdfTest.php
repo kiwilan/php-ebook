@@ -31,7 +31,7 @@ it('can extract pdf cover', function () {
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
     expect(fileIsValidImg($path))->toBeTrue();
-})->skip(PHP_OS_FAMILY === 'Windows' || PHP_VERSION > '8.2', 'Skip on Windows');
+})->skip(PHP_OS_FAMILY === 'Windows' || PHP_VERSION >= '8.3', 'Skip on Windows or PHP >= 8.3');
 
 it('can parse empty pdf', function () {
     $ebook = Ebook::read(PDF_EMPTY);
