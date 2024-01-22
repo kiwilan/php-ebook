@@ -5,7 +5,7 @@ namespace Kiwilan\Ebook\Tools;
 class BookIdentifier
 {
     /**
-     * @param  bool  $autoDetect Try to auto detect scheme, even if provided (default: `true`)
+     * @param  bool  $autoDetect  Try to auto detect scheme, even if provided (default: `true`)
      */
     public function __construct(
         protected mixed $value = null,

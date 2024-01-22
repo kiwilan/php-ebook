@@ -47,7 +47,7 @@ class EbookCover
     /**
      * Get the cover contents.
      *
-     * @param  bool  $toBase64 If true, the contents will be returned in base64 format.
+     * @param  bool  $toBase64  If true, the contents will be returned in base64 format.
      */
     public function getContents(bool $toBase64 = false): ?string
     {
