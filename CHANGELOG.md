@@ -2,15 +2,24 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.0 - 2024-01-22
+
+Drop `kiwilan/php-audio` dependency.
+
+Audiobooks are cool, but I suppose many users don't need it. So I think it's better to drop `kiwilan/php-audio` dependency, you have to install `kiwilan/php-audio` manually.
+If you scan audiobooks without `kiwilan/php-audio` installed, you will get an error message.
+
 ## v2.2.01 - 2023-12-06
 
 Update dependencies (drop symfony/process dependency)
 
 - `EbookMetadata` is now `EbookParser` for consistency
-    - Method `getMetadata` is now `getParser`
-    - Method `hasMetadata` is now `hasParser`
-    
+  
+  - Method `getMetadata` is now `getParser`
+  - Method `hasMetadata` is now `hasParser`
+  
 - `BookIdentifier` can use now `autoDetect` to detect identifier `scheme` from `value`, you can disable this feature by passing `false` as third argument
+  
 
 ## v2.2.0 - 2023-09-24
 
