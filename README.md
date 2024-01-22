@@ -17,11 +17,11 @@ PHP package to read metadata and extract covers from eBooks, comics and audioboo
 
 To know more see [Supported formats](#supported-formats). _Supports Linux, macOS and Windows._
 
-> **Note**
+> [!NOTE]
 >
 > This package favors eBooks in open formats such as `.epub` (from [IDPF](https://en.wikipedia.org/wiki/International_Digital_Publishing_Forum)) or `.cbz` (from [CBA](https://en.wikipedia.org/wiki/Comic_book_archive)) and which be parsed with native PHP, so for the best possible experience we recommend converting the eBooks you use. If you want to know more about eBook ecosystem, you can read [documentation](https://github.com/kiwilan/php-ebook/blob/main/docs/README.md).
 
-> **Warning**
+> [!WARNING]
 >
 > For DRM (Digital Rights Management) eBooks, in some cases you could read metadata but not contents (like HTML files for EPUB). To use all features, you have to use a software to remove DRM before using this package. For EPUB, you can use [calibre](https://calibre-ebook.com/) with [DeDRM plugin](https://github.com/noDRM/DeDRM_tools), [this guide](https://www.epubor.com/calibre-drm-removal-plugins.html) can help you.
 
@@ -43,11 +43,11 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   [`p7zip`](https://www.7-zip.org/) (optional) binarys for `.CB7` (can handle `.CBR` too)
 -   To know more about requirements, see [Supported formats](#supported-formats).
 
-> **Note**
+> [!NOTE]
 >
 > You have to install requirements only if you want to read metadata for these formats, e.g. if you want to read metadata from `.cbr` files, you have to install [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary. So all requirements for PHP extensions and binaries are optional.
 
-> **Warning**
+> [!WARNING]
 >
 > Archives are handle with [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive), for some formats (`.cbr` and `.cb7`) [`rar` PHP extension](https://github.com/cataphract/php-rar) or [`p7zip`](https://www.7-zip.org/) binary could be necessary.
 > Some guides to install these requirements are available on [`kiwilan/php-archive`](https://github.com/kiwilan/php-archive#requirements).
@@ -118,7 +118,7 @@ $ebook->getPagesCount(); // ?int => estimated pages count (250 words by page) in
 $ebook->getWordsCount(); // ?int => words count in `EPUB`
 ```
 
-> **Note**
+> [!NOTE]
 >
 > For performance reasons, with `EPUB`, `pagesCount` and `wordsCount` are only available on demand. If you use `var_dump` to check eBook, these properties will be `null`.
 
@@ -227,7 +227,7 @@ $cover->getPath(); // ?string => path to cover
 $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if `$toBase64` is true, return base64 encoded content
 ```
 
-> **Note**
+> [!NOTE]
 >
 > -   For `PDF`, cover can only be extracted if [`imagick` PHP extension](https://www.php.net/manual/en/book.imagick.php).
 > -   For Audiobook, cover can be extracted with [some formats](https://github.com/kiwilan/php-audio#supported-formats).
@@ -253,7 +253,7 @@ $epub->getHtml(); // EpubHtml[] => {`filename`: string, `head`: ?string, `body`:
 $epub->getFiles(); // string[] => all files in EPUB
 ```
 
-> **Note**
+> [!NOTE]
 >
 > For performance reasons, with `ncx`, `html` and `chapters` are only available on demand. If you use `var_dump` to check metadata, these properties will be `null`.
 
@@ -261,7 +261,7 @@ $epub->getFiles(); // string[] => all files in EPUB
 
 You can create an EPUB or CBZ file with `create()` static method.
 
-> **Note**
+> [!NOTE]
 >
 > Only `EPUB` and `CBZ` are supported for creation.
 
