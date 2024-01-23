@@ -83,7 +83,6 @@ class AudiobookModule extends EbookModule
         $this->ebook->setPublisher($audio->getAlbumArtist());
         $this->ebook->setDescription($description);
         $this->ebook->setTags([$audio->getGenre()]);
-        // $this->ebook->setLanguage($audio->getLanguage());
         $this->ebook->setSeries($audio->getAlbum());
         $this->ebook->setVolume($audio->getTrackNumber());
         $this->ebook->setPublishDate($date);
