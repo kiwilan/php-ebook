@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.11 - 2024-01-27
+
+In `MetaTitle`, move year after author.
+
 ## v2.3.1 - 2024-01-27
 
 Deprecated some `MetaTitle` methods `getSlugSort()`, `getSlugUnique()`, `getSerieSlug()`, `getSerieSlugSort()`, `getSerieSlugUnique()`, `getSlugSortWithSerie()`, `getUniqueFilename()`. Now only `getSlug()`, `getSlugSimple()`, `getSeriesSlug()`, `getSeriesSlugSimple()` are available.
