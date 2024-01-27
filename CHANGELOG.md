@@ -2,6 +2,20 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.1 - 2024-01-27
+
+Deprecated some `MetaTitle` methods `getSlugSort()`, `getSlugUnique()`, `getSerieSlug()`, `getSerieSlugSort()`, `getSerieSlugUnique()`, `getSlugSortWithSerie()`, `getUniqueFilename()`. Now only `getSlug()`, `getSlugSimple()`, `getSeriesSlug()`, `getSeriesSlugSimple()` are available.
+
+Slug have to be unique, so default slug take some metadata to be unique, like in this example:
+
+An EPUB with title `La pâle lumière des ténèbres` with main author `Pierre Bottero`, series `A comme Association`, volume `1`, language `fr` and published in `1980` will have the slug `pale-lumiere-des-tenebres-a-comme-association-01-1980-pierre-bottero-epub-fr`.
+
+You can use `getSlugSimple()` to have a simple slug, like `pale-lumiere-des-tenebres`.
+
+For series, you can use `getSeriesSlug()` to have a slug with series name, like `a-comme-association-1980-pierre-bottero-epub-fr`.
+
+And `getSeriesSlugSimple()` to have a simple slug with series name, like `a-comme-association`.
+
 ## v2.3.0 - 2024-01-22
 
 Drop `kiwilan/php-audio` dependency.
