@@ -69,8 +69,8 @@ class MetaTitle
             $titleDeterminer,
             $series,
             $volume,
-            $year,
             $author,
+            $year,
             $extension,
             $language,
         ]);
@@ -84,8 +84,8 @@ class MetaTitle
 
         $this->seriesSlug = $this->generateSlug([
             $seriesDeterminer,
-            $year,
             $author,
+            $year,
             $extension,
             $language,
         ]);
@@ -95,7 +95,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title with addional metadata, like `pale-lumiere-des-tenebres-a-comme-association-01-pierre-bottero-epub-fr`.
+     * Get slug of book title with addional metadata, like `pale-lumiere-des-tenebres-a-comme-association-01-pierre-bottero-1980-epub-fr`.
      *
      * - Remove determiners, here `la`
      * - Add serie title, here `A comme Association`
@@ -118,7 +118,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title, like `a-comme-association-pierre-bottero-epub-fr`.
+     * Get slug of serie title, like `a-comme-association-pierre-bottero-1980-epub-fr`.
      *
      * - Remove determiners
      * - Add author name
