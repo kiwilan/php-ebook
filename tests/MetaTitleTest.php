@@ -1,6 +1,7 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Tools\BookAuthor;
 use Kiwilan\Ebook\Tools\MetaTitle;
 
 it('can be slugify', function () {
@@ -10,14 +11,12 @@ it('can be slugify', function () {
     $ebook->setVolume(1);
     $ebook->setSeries('A comme Association');
     $ebook->setLanguage('fr');
+    $ebook->setAuthorMain(new BookAuthor('Pierre Bottero'));
     $meta = MetaTitle::make($ebook);
 
-    expect($meta->getSlug())->toBe('la-pale-lumiere-des-tenebres');
-    expect($meta->getSlugSort())->toBe('pale-lumiere-des-tenebres');
-    expect($meta->getSlugLang())->toBe('la-pale-lumiere-des-tenebres-epub-fr');
-    expect($meta->getSerieSlug())->toBe('a-comme-association');
-    expect($meta->getSerieSlugSort())->toBe('a-comme-association');
-    expect($meta->getSerieSlugLang())->toBe('a-comme-association-epub-fr');
-    expect($meta->getSlugSortWithSerie())->toBe('a-comme-association-01_pale-lumiere-des-tenebres');
-    expect($meta->getUniqueFilename())->toBe('fr-a-comme-association-01-la-pale-lumiere-des-tenebres-jean-m-auel-epub');
+    expect($meta->getSlug())->toBe('pale-lumiere-des-tenebres-a-comme-association-01-1980-pierre-bottero-epub-fr');
+    expect($meta->getSlugSimple())->toBe('la-pale-lumiere-des-tenebres');
+
+    expect($meta->getSeriesSlug())->toBe('a-comme-association-1980-pierre-bottero-epub-fr');
+    expect($meta->getSeriesSlugSimple())->toBe('a-comme-association');
 });

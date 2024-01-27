@@ -12,15 +12,9 @@ class MetaTitle
 
     protected function __construct(
         protected ?string $slug = null,
-        protected ?string $slugSort = null,
-        protected ?string $slugLang = null,
-
-        protected ?string $serieSlug = null,
-        protected ?string $serieSlugSort = null,
-        protected ?string $serieSlugLang = null,
-
-        protected ?string $slugSortWithSerie = null,
-        protected ?string $uniqueFilename = null,
+        protected ?string $slugSimple = null,
+        protected ?string $seriesSlug = null,
+        protected ?string $seriesSlugSimple = null,
     ) {
     }
 
@@ -50,42 +44,65 @@ class MetaTitle
         $self = new self();
 
         $self->determiners = $determiners;
-        $self->setMetaTitle($ebook);
+        $self->parse($ebook);
 
         return $self;
     }
 
-    private function setMetaTitle(Ebook $ebook): static
+    private function parse(Ebook $ebook): static
     {
-        $title = $ebook->getTitle();
-        $language = $ebook->getLanguage();
-        $series = $ebook->getSeries();
-        $volume = $ebook->getVolume();
+        $title = $this->generateSlug($ebook->getTitle());
+        $language = $ebook->getLanguage() ? $this->generateSlug($ebook->getLanguage()) : null;
+        $series = $ebook->getSeries() ? $this->generateSlug($ebook->getSeries()) : null;
+        $volume = $ebook->getVolume() ? str_pad((string) $ebook->getVolume(), 2, '0', STR_PAD_LEFT) : null;
+        $author = $ebook->getAuthorMain()?->getName() ? $this->generateSlug($ebook->getAuthorMain()->getName()) : null;
+        $year = $ebook->getPublishDate()?->format('Y') ? $this->generateSlug($ebook->getPublishDate()->format('Y')) : null;
+        $extension = strtolower($ebook->getExtension());
+
+        $titleDeterminer = $this->removeDeterminers($ebook->getTitle(), $ebook->getLanguage());
 
         if (! $title) {
             return $this;
         }
 
-        $this->slug = $this->setSlug($title);
-        $this->slugSort = $this->generateSortTitle($title, $language);
-        $this->slugLang = $this->generateSlug($title, $ebook->getExtension(), $language);
+        $this->slug = $this->generateSlug([
+            $titleDeterminer,
+            $series,
+            $volume,
+            $year,
+            $author,
+            $extension,
+            $language,
+        ]);
+        $this->slugSimple = $this->generateSlug([$title]);
 
-        $this->slugSortWithSerie = $this->generateSortSerie($title, $series, $volume, $language);
-        $this->uniqueFilename = $this->generateUniqueFilename($ebook);
-
-        if (! $series) {
+        if (! $ebook->getSeries()) {
             return $this;
         }
 
-        $this->serieSlug = $this->setSlug($series);
-        $this->serieSlugSort = $this->generateSortTitle($series, $language);
-        $this->serieSlugLang = $this->generateSlug($series, $ebook->getExtension(), $language);
+        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
+
+        $this->seriesSlug = $this->generateSlug([
+            $seriesDeterminer,
+            $year,
+            $author,
+            $extension,
+            $language,
+        ]);
+        $this->seriesSlugSimple = $this->generateSlug([$seriesDeterminer]);
 
         return $this;
     }
 
     /**
-     * Get slug of book title, like `the-clan-of-the-cave-bear`.
+     * Get slug of book title with addional metadata, like `pale-lumiere-des-tenebres-a-comme-association-01-pierre-bottero-epub-fr`.
+     *
+     * - Remove determiners, here `la`
+     * - Add serie title, here `A comme Association`
+     * - Add volume, here `1`
+     * - Add author name, here `Pierre Bottero`
+     * - Add extension, here `epub`
+     * - Add language, here `fr`
      */
     public function getSlug(): string
     {
@@ -93,73 +110,96 @@ class MetaTitle
     }
 
     /**
-     * Get slug of book title without determiners, like `clan-of-the-cave-bear`.
+     * Get simple slug of book title, like `la-pale-lumiere-des-tenebres`.
+     */
+    public function getSlugSimple(): string
+    {
+        return $this->slugSimple;
+    }
+
+    /**
+     * Get slug of serie title, like `a-comme-association-pierre-bottero-epub-fr`.
+     *
+     * - Remove determiners
+     * - Add author name
+     * - Add extension
+     * - Add language
+     */
+    public function getSeriesSlug(): ?string
+    {
+        return $this->seriesSlug;
+    }
+
+    /**
+     * Get simple slug of serie title, like `a-comme-association`.
+     */
+    public function getSeriesSlugSimple(): ?string
+    {
+        return $this->seriesSlugSimple;
+    }
+
+    /**
+     * @deprecated Use `getSlug()` instead.
      */
     public function getSlugSort(): string
     {
-        return $this->slugSort;
+        return $this->slug;
     }
 
     /**
-     * Get slug of book title with language and with type, like `the-clan-of-the-cave-bear-epub-en`.
+     * @deprecated Use `getSlug()` instead.
      */
-    public function getSlugLang(): string
+    public function getSlugUnique(): string
     {
-        return $this->slugLang;
+        return $this->slug;
     }
 
     /**
-     * Get slug of serie title, like `earths-children`.
+     * @deprecated Use `getSeriesSlugSimple()` instead.
      */
     public function getSerieSlug(): ?string
     {
-        return $this->serieSlug;
+        return $this->seriesSlugSimple;
     }
 
     /**
-     * Get slug of serie title without determiners, like `earths-children`.
+     * @deprecated Use `getSeriesSlug()` instead.
      */
     public function getSerieSlugSort(): ?string
     {
-        return $this->serieSlugSort;
+        return $this->seriesSlug;
     }
 
     /**
-     * Get slug of serie title with language and with type, like `earths-children-epub-en`.
+     * @deprecated Use `getSeriesSlug()` instead.
      */
-    public function getSerieSlugLang(): ?string
+    public function getSerieSlugUnique(): ?string
     {
-        return $this->serieSlugLang;
+        return $this->seriesSlug;
     }
 
     /**
-     * Get slug of book title with serie title, like `earths-children-01_clan-of-the-cave-bear`.
-     * If series is null, book's title will be used like `clan-of-the-cave-bear`.
+     * @deprecated Use `getSlug()` instead.
      */
     public function getSlugSortWithSerie(): string
     {
-        return $this->slugSortWithSerie;
+        return $this->slug;
     }
 
     /**
-     * Get unique filename, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`.
+     * @deprecated Use `getSlug()` instead.
      */
     public function getUniqueFilename(): string
     {
-        return $this->uniqueFilename;
+        return $this->slug;
     }
 
-    /**
-     * Try to get sort title.
-     * Example: `collier-de-la-reine` from `Le Collier de la Reine`.
-     */
-    private function generateSortTitle(?string $title, ?string $language): ?string
+    private function removeDeterminers(?string $string, ?string $language): ?string
     {
-        if (! $title) {
+        if (! $string) {
             return null;
         }
 
-        $slugSort = $title;
         $articles = $this->determiners;
 
         $articlesLang = $articles['en'];
@@ -169,93 +209,49 @@ class MetaTitle
         }
 
         foreach ($articlesLang as $key => $value) {
-            $slugSort = preg_replace('/^'.preg_quote($value, '/').'/i', '', $slugSort);
+            $string = preg_replace('/^'.preg_quote($value, '/').'/i', '', $string);
         }
 
-        $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
-        $slugSort = $transliterator->transliterate($slugSort);
-        $slugSort = strtolower($slugSort);
-
-        return $this->setSlug(mb_convert_encoding($slugSort, 'UTF-8'));
+        return $string;
     }
 
     /**
-     * Generate full title sort.
-     * Example: `miserables-01_fantine` from `Les Misérables, volume 01 : Fantine`.
+     * Generate `slug` with params.
+     *
+     * @param  string[]|null[]|string  $strings
      */
-    private function generateSortSerie(string $title, ?string $serieTitle, ?int $volume, ?string $language): string
+    private function generateSlug(array|string $strings): ?string
     {
-        $serie = null;
-
-        if ($serieTitle) {
-            $volume = (string) $volume;
-            $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
-            $serie = $serieTitle.' '.$volume;
-            $serie = $this->setSlug($this->generateSortTitle($serie, $language)).'_';
+        if (! is_array($strings)) {
+            $strings = [$strings];
         }
-        $title = $this->setSlug($this->generateSortTitle($title, $language));
 
-        return "{$serie}{$title}";
-    }
+        $items = [];
 
-    /**
-     * Generate `slug` with `title`, `type` and `language`.
-     */
-    private function generateSlug(string $title, ?string $type, ?string $language): string
-    {
-        $title = $this->setSlug($title);
-        $type = $this->setSlug($type);
-        $language = $this->setSlug($language);
+        foreach ($strings as $string) {
+            if (! $string) {
+                continue;
+            }
 
-        return $this->setSlug($title.' '.$type.' '.$language);
-    }
-
-    /**
-     * Generate unique filename.
-     */
-    private function generateUniqueFilename(Ebook $ebook): string
-    {
-        $language = $this->setSlug($ebook->getLanguage());
-        $filename = "{$language}";
-        if ($ebook->getSeries()) {
-            $series = $this->setSlug($ebook->getSeries());
-            $filename .= "-{$series}";
+            $items[] = $this->slugifier($string);
         }
-        if ($ebook->getVolume()) {
-            $volume = (string) $ebook->getVolume();
-            $volume = $volume = strlen($volume) < 2 ? '0'.$volume : $volume;
-            $filename .= "-{$volume}";
-        }
-        $title = $this->setSlug($ebook->getTitle());
-        $filename .= "-{$title}";
-        $author = $this->setSlug($ebook->getAuthorMain());
-        $filename .= "-{$author}";
-        $format = $this->setSlug($ebook->getExtension());
-        $filename .= "-{$format}";
 
-        $filename = $this->setSlug($filename);
-
-        return $filename;
+        return $this->slugifier(implode('-', $items));
     }
 
     public function toArray(): array
     {
         return [
             'slug' => $this->slug,
-            'slugSort' => $this->slugSort,
-            'slugLang' => $this->slugLang,
-
-            'serieSlug' => $this->serieSlug,
-            'serieSlugSort' => $this->serieSlugSort,
-            'serieSlugLang' => $this->serieSlugLang,
-
-            'slugSortWithSerie' => $this->slugSortWithSerie,
+            'slugSimple' => $this->slugSimple,
+            'seriesSlug' => $this->seriesSlug,
+            'seriesSlugSimple' => $this->seriesSlugSimple,
         ];
     }
 
     public function __toString(): string
     {
-        return "{$this->slug} {$this->slugSort}";
+        return "{$this->slug}";
     }
 
     /**
@@ -264,14 +260,14 @@ class MetaTitle
      *
      * @param  array<string, string>  $dictionary
      */
-    private function setSlug(?string $title, string $separator = '-', array $dictionary = ['@' => 'at']): ?string
+    private function slugifier(?string $title, string $separator = '-', array $dictionary = ['@' => 'at']): ?string
     {
         if (! $title) {
             return null;
         }
 
         if (! extension_loaded('intl')) {
-            return $this->setSlugNoIntl($title, $separator);
+            return $this->slugifierNative($title, $separator);
         }
 
         $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
@@ -298,7 +294,7 @@ class MetaTitle
         return trim($title, $separator);
     }
 
-    private function setSlugNoIntl(?string $text, string $divider = '-'): ?string
+    private function slugifierNative(?string $text, string $divider = '-'): ?string
     {
         if (! $text) {
             return null;
