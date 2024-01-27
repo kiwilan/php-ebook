@@ -60,7 +60,6 @@ class MetaTitle
         $extension = strtolower($ebook->getExtension());
 
         $titleDeterminer = $this->removeDeterminers($ebook->getTitle(), $ebook->getLanguage());
-        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
 
         if (! $title) {
             return $this;
@@ -76,6 +75,12 @@ class MetaTitle
             $language,
         ]);
         $this->slugSimple = $this->generateSlug([$title]);
+
+        if (! $ebook->getSeries()) {
+            return $this;
+        }
+
+        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
 
         $this->seriesSlug = $this->generateSlug([
             $seriesDeterminer,

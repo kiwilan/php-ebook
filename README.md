@@ -146,7 +146,7 @@ To get additional data, you can use these methods:
 
 ```php
 $ebook->getParser(); // ?EbookParser => Parser with modules
-$ebook->getMetaTitle(); // ?MetaTitle, with slug and sort properties for `title` and `series`
+$ebook->getMetaTitle(); // ?MetaTitle, with slug for `title` and `series`
 $ebook->getFormat(); // ?EbookFormatEnum => `epub`, `pdf`, `cba`
 $ebook->getCover(); // ?EbookCover => cover of book
 ```
@@ -206,16 +206,10 @@ use Kiwilan\Ebook\Ebook;
 $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
-$metaTitle->getSlug(); // string => slugify title, like `the-clan-of-the-cave-bear`
-$metaTitle->getSlugSort(); // string => slugify title without determiners, like `clan-of-the-cave-bear`
-$metaTitle->getSlugLang(); // string => slugify title with language and type, like `the-clan-of-the-cave-bear-epub-en`
-
-$metaTitle->getSerieSlug(); // ?string => slugify series title, like `earths-children`
-$metaTitle->getSerieSort(); // ?string => slugify series title without determiners, like `earths-children`
-$metaTitle->getSerieLang(); // ?string => slugify series title with language and type, like `earths-children-epub-en`
-
-$metaTitle->getSlugSortWithSerie(); // string => slugify title with series title and volume, like `earths-children-01_clan-of-the-cave-bear`
-$metaTitle->getUniqueFilename(); // string => unique filename for storage, like `jean-m-auel-earths-children-01-clan-of-the-cave-bear-en-epub`
+$metaTitle->getSlug(); // string => slug title, like `pale-lumiere-des-tenebres-a-comme-association-01-1980-pierre-bottero-epub-fr`
+$metaTitle->getSlugSimple(); // string => slug title simple, like `la-pale-lumiere-des-tenebres`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `a-comme-association-1980-pierre-bottero-epub-fr`
+$metaTitle->getSeriesSlugSimple(); // ?string => slug series title simple, like `a-comme-association`
 ```
 
 ### Cover
@@ -338,6 +332,7 @@ Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed re
 
 -   [`spatie`](https://github.com/spatie) for `spatie/package-skeleton-php`
 -   [`kiwilan`](https://github.com/kiwilan) for `kiwilan/php-archive`, `kiwilan/php-audio`, `kiwilan/php-xml-reader`
+-   [Ewilan Rivière](https://github.com/ewilan-riviere) author of this package
 -   [All Contributors](../../contributors)
 
 ## License
