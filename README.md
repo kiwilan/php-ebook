@@ -206,9 +206,9 @@ use Kiwilan\Ebook\Ebook;
 $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
-$metaTitle->getSlug(); // string => slug title, like `pale-lumiere-des-tenebres-a-comme-association-01-1980-pierre-bottero-epub-fr`
+$metaTitle->getSlug(); // string => slug title, like `pale-lumiere-des-tenebres-a-comme-association-01-pierre-bottero-1980-epub-fr`
 $metaTitle->getSlugSimple(); // string => slug title simple, like `la-pale-lumiere-des-tenebres`
-$metaTitle->getSeriesSlug(); // ?string => slug series title, like `a-comme-association-1980-pierre-bottero-epub-fr`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `a-comme-association-pierre-bottero-1980-epub-fr`
 $metaTitle->getSeriesSlugSimple(); // ?string => slug series title simple, like `a-comme-association`
 ```
 
