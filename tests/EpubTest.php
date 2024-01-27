@@ -68,8 +68,8 @@ it('can get title meta', function () {
     $ebook = Ebook::read(EPUB);
     $meta = $ebook->getMetaTitle();
 
-    expect($meta->getSlug())->toBe('clan-of-the-cave-bear-earths-children-01-1980-jean-m-auel-epub-en');
-    expect($meta->getSeriesSlug())->toBe('earths-children-1980-jean-m-auel-epub-en');
+    expect($meta->getSlug())->toBe('earths-children-01-clan-of-the-cave-bear-jean-m-auel-1980-epub-en');
+    expect($meta->getSeriesSlug())->toBe('earths-children-jean-m-auel-1980-epub-en');
 
     expect($meta->toArray())->toBeArray();
     expect($meta->__toString())->toBeString();

@@ -60,15 +60,16 @@ class MetaTitle
         $extension = strtolower($ebook->getExtension());
 
         $titleDeterminer = $this->removeDeterminers($ebook->getTitle(), $ebook->getLanguage());
+        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
 
         if (! $title) {
             return $this;
         }
 
         $this->slug = $this->generateSlug([
-            $titleDeterminer,
-            $series,
+            $seriesDeterminer,
             $volume,
+            $titleDeterminer,
             $author,
             $year,
             $extension,
@@ -80,8 +81,6 @@ class MetaTitle
             return $this;
         }
 
-        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
-
         $this->seriesSlug = $this->generateSlug([
             $seriesDeterminer,
             $author,
@@ -89,20 +88,20 @@ class MetaTitle
             $extension,
             $language,
         ]);
-        $this->seriesSlugSimple = $this->generateSlug([$seriesDeterminer]);
+        $this->seriesSlugSimple = $this->generateSlug([$series]);
 
         return $this;
     }
 
     /**
-     * Get slug of book title with addional metadata, like `pale-lumiere-des-tenebres-a-comme-association-01-pierre-bottero-1980-epub-fr`.
+     * Get slug of book title with addional metadata, like `lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`.
      *
-     * - Remove determiners, here `la`
-     * - Add serie title, here `A comme Association`
+     * - Remove determiners, here `The`
+     * - Add serie title, here `Lord of the Rings`
      * - Add volume, here `1`
-     * - Add author name, here `Pierre Bottero`
+     * - Add author name, here `J. R. R. Tolkien`
      * - Add extension, here `epub`
-     * - Add language, here `fr`
+     * - Add language, here `en`
      */
     public function getSlug(): string
     {
@@ -110,7 +109,7 @@ class MetaTitle
     }
 
     /**
-     * Get simple slug of book title, like `la-pale-lumiere-des-tenebres`.
+     * Get simple slug of book title, like `the-fellowship-of-the-ring`.
      */
     public function getSlugSimple(): string
     {
@@ -118,7 +117,7 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title, like `a-comme-association-pierre-bottero-1980-epub-fr`.
+     * Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`.
      *
      * - Remove determiners
      * - Add author name
@@ -131,7 +130,7 @@ class MetaTitle
     }
 
     /**
-     * Get simple slug of serie title, like `a-comme-association`.
+     * Get simple slug of serie title, like `the-lord-of-the-rings`.
      */
     public function getSeriesSlugSimple(): ?string
     {
