@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.2 - 2024-01-27
+
+Fix version.
+
 ## v2.3.12 - 2024-01-27
 
 In `MetaTitle`, add series before title for `getSlug()`.
