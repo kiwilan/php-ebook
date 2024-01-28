@@ -1,8 +1,8 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\MetaTitle;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\MetaTitle;
 
 it('can be slugify', function () {
     $ebook = Ebook::read(EPUB);

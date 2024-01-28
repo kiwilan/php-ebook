@@ -4,10 +4,10 @@ namespace Kiwilan\Ebook\Formats\Epub\Parser;
 
 use DateTime;
 use DateTimeZone;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\BookContributor;
-use Kiwilan\Ebook\Tools\BookIdentifier;
-use Kiwilan\Ebook\Tools\BookMeta;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\BookContributor;
+use Kiwilan\Ebook\Models\BookIdentifier;
+use Kiwilan\Ebook\Models\BookMeta;
 use Kiwilan\XmlReader\XmlReader;
 
 /**

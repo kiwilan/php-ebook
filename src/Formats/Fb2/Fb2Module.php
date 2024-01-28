@@ -6,8 +6,8 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Formats\Fb2\Parser\Fb2Parser;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\BookIdentifier;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\BookIdentifier;
 
 class Fb2Module extends EbookModule
 {

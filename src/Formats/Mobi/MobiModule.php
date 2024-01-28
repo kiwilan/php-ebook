@@ -8,8 +8,8 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiReader;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\BookIdentifier;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\BookIdentifier;
 
 /**
  * @docs https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
