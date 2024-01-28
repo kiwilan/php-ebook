@@ -10,7 +10,7 @@ use Transliterator;
  *
  * @method string getSlug() Get slug of book title with addional metadata, like `lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`.
  * @method string getSlugSimple() Get simple slug of book title, like `the-fellowship-of-the-ring`.
- * @method string getSeriesSlug() Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`.
+ * @method string getSeriesSlug() Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-epub-en`.
  * @method string getSeriesSlugSimple() Get simple slug of serie title, like `the-lord-of-the-rings`.
  */
 class MetaTitle
@@ -376,11 +376,10 @@ class MetaTitle
     }
 
     /**
-     * Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`.
+     * Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-epub-en`.
      *
      * - Remove determiners, here `The`
      * - Add author name, here `J. R. R. Tolkien`
-     * - Add year, here `1954`
      * - Add extension, here `epub`
      * - Add language, here `en`
      */

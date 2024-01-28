@@ -208,7 +208,7 @@ $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
 $metaTitle->getSlug(); // string => slug title, like `lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`
 $metaTitle->getSlugSimple(); // string => slug title simple, like `the-fellowship-of-the-ring`
-$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-j-r-r-tolkien-epub-en`
 $metaTitle->getSeriesSlugSimple(); // ?string => slug series title simple, like `the-lord-of-the-rings`
 ```
 
