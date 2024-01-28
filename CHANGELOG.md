@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.3 - 2024-01-28
+
+Refactor determiners for `MetaTitle`.
+
 ## v2.3.2 - 2024-01-27
 
 Fix version.
