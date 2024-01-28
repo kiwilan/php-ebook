@@ -26,6 +26,11 @@ class MetaTitle
     ) {
     }
 
+    /**
+     * Create a new MetaTitle instance.
+     *
+     * @param  string[][]  $determiners  List of determiners by language.
+     */
     public static function make(
         Ebook $ebook,
         array $determiners = [
