@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.4 - 2024-01-28
+
+- Remove year from `MetaTitle` `getSeriesSlug()` to avoid duplicate series.
+- Move namespace `Tools` to `Models`
+
 ## v2.3.3 - 2024-01-28
 
 Refactor determiners for `MetaTitle`.
