@@ -1,7 +1,7 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Tools\BookAuthor;
+use Kiwilan\Ebook\Models\BookAuthor;
 use Pest\Expectation;
 
 it('can parse audiobook', function (string $path) {

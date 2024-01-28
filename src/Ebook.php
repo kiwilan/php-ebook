@@ -17,9 +17,9 @@ use Kiwilan\Ebook\Formats\Epub\EpubModule;
 use Kiwilan\Ebook\Formats\Fb2\Fb2Module;
 use Kiwilan\Ebook\Formats\Mobi\MobiModule;
 use Kiwilan\Ebook\Formats\Pdf\PdfModule;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\BookIdentifier;
-use Kiwilan\Ebook\Tools\MetaTitle;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\BookIdentifier;
+use Kiwilan\Ebook\Models\MetaTitle;
 
 class Ebook
 {

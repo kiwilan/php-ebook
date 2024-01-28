@@ -7,8 +7,8 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\Cba\Parser\CbamTemplate;
 use Kiwilan\Ebook\Formats\Cba\Parser\CbaTemplate;
 use Kiwilan\Ebook\Formats\EbookModule;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\ComicMeta;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\ComicMeta;
 use Kiwilan\XmlReader\XmlReader;
 
 class CbaModule extends EbookModule

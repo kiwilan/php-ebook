@@ -6,7 +6,7 @@ use Kiwilan\Archive\Models\PdfMeta;
 use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
-use Kiwilan\Ebook\Tools\BookAuthor;
+use Kiwilan\Ebook\Models\BookAuthor;
 
 class PdfModule extends EbookModule
 {

@@ -8,7 +8,7 @@ use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\EbookFormatEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
 use Kiwilan\Ebook\Formats\Cba\Parser\CbamTemplate;
-use Kiwilan\Ebook\Tools\ComicMeta;
+use Kiwilan\Ebook\Models\ComicMeta;
 use Kiwilan\XmlReader\XmlReader;
 
 it('can parse cba', function (string $path) {

@@ -1,8 +1,8 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
-use Kiwilan\Ebook\Tools\BookAuthor;
-use Kiwilan\Ebook\Tools\MetaTitle;
+use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\MetaTitle;
 
 it('can be slugify', function () {
     $ebook = Ebook::read(EPUB);
@@ -16,7 +16,7 @@ it('can be slugify', function () {
 
     expect($meta->getSlug())->toBe('a-comme-association-01-pale-lumiere-des-tenebres-pierre-bottero-1980-epub-fr');
     expect($meta->getSlugSimple())->toBe('la-pale-lumiere-des-tenebres');
-    expect($meta->getSeriesSlug())->toBe('a-comme-association-pierre-bottero-1980-epub-fr');
+    expect($meta->getSeriesSlug())->toBe('a-comme-association-pierre-bottero-epub-fr');
     expect($meta->getSeriesSlugSimple())->toBe('a-comme-association');
 
     $ebook->setTitle('The Fellowship of the Ring');
@@ -28,7 +28,7 @@ it('can be slugify', function () {
 
     expect($meta->getSlug())->toBe('lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1980-epub-en');
     expect($meta->getSlugSimple())->toBe('the-fellowship-of-the-ring');
-    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-j-r-r-tolkien-1980-epub-en');
+    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-j-r-r-tolkien-epub-en');
     expect($meta->getSeriesSlugSimple())->toBe('the-lord-of-the-rings');
 
     $ebook->setTitle('Artemis');

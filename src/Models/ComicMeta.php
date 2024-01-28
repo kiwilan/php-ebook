@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Tools;
+namespace Kiwilan\Ebook\Models;
 
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;

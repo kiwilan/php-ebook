@@ -1,6 +1,6 @@
 <?php
 
-use Kiwilan\Ebook\Tools\BookIdentifier;
+use Kiwilan\Ebook\Models\BookIdentifier;
 
 it('can use BookIdentifier', function (string $value, string $scheme) {
     $item = new BookIdentifier($value, $scheme);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kiwilan\Ebook\Tools;
+namespace Kiwilan\Ebook\Models;
 
 class BookIdentifier
 {
