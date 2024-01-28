@@ -5,10 +5,283 @@ namespace Kiwilan\Ebook\Tools;
 use Kiwilan\Ebook\Ebook;
 use Transliterator;
 
+/**
+ * Convert eBook title and metadata to a slug.
+ *
+ * @method string getSlug() Get slug of book title with addional metadata, like `lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`.
+ * @method string getSlugSimple() Get simple slug of book title, like `the-fellowship-of-the-ring`.
+ * @method string getSeriesSlug() Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`.
+ * @method string getSeriesSlugSimple() Get simple slug of serie title, like `the-lord-of-the-rings`.
+ */
 class MetaTitle
 {
-    /** @var string[][] */
-    protected array $determiners = [];
+    /**
+     * @var string[][]
+     */
+    public const DETERMINERS = [
+        'en' => [
+            'the ',
+            'a ',
+            'an ',
+            'some ',
+            'any ',
+            'this ',
+            'that ',
+            'my ',
+            'your ',
+            'his ',
+            'her ',
+            'its ',
+            'our ',
+            'their ',
+            'all ',
+            'both ',
+            'each ',
+        ],
+        'fr' => [
+            'les ',
+            'l\' ',
+            'le ',
+            'la ',
+            'du ',
+            'de ',
+            'une ',
+            'au ',
+            'des ',
+            'ce ',
+            'cet ',
+            'cette ',
+            'ces ',
+            'mon ',
+            'ton ',
+            'son ',
+            'notre ',
+            'votre ',
+            'leur ',
+            'tous ',
+            'toutes ',
+            'chaque ',
+        ],
+        'es' => [
+            'el ',
+            'la ',
+            'los ',
+            'las ',
+            'un ',
+            'una ',
+            'este ',
+            'esta ',
+            'estos ',
+            'estas ',
+            'mi ',
+            'tu ',
+            'su ',
+            'nuestro ',
+            'vuestro ',
+            'sus ',
+            'mío ',
+            'tuyo ',
+            'suyo ',
+            'algunos ',
+            'algunas ',
+            'todo ',
+            'toda ',
+            'todos ',
+            'todas ',
+            'otro ',
+            'otra ',
+        ],
+        'it' => [
+            'il ',
+            'la ',
+            'i ',
+            'gli ',
+            'le ',
+            'un ',
+            'uno ',
+            'una ',
+            'alcuni ',
+            'alcune ',
+            'questo ',
+            'questa ',
+            'questi ',
+            'queste ',
+            'quel ',
+            'quella ',
+            'quelli ',
+            'quelle ',
+            'mia ',
+            'tua ',
+            'sua ',
+            'nostra ',
+            'vostra ',
+            'loro ',
+            'ogni ',
+            'tutti ',
+            'tutte ',
+            'alcuni ',
+            'alcune ',
+            'qualche ',
+        ],
+        'de' => [
+            'der ',
+            'die ',
+            'das ',
+            'ein ',
+            'eine ',
+            'mein ',
+            'dein ',
+            'sein ',
+            'ihr ',
+            'unser ',
+            'euer ',
+            'ihr ',
+            'jeder ',
+            'jede ',
+            'jedes ',
+            'alle ',
+            'viel ',
+            'einige ',
+            'ein paar ',
+            'manche ',
+            'welcher ',
+            'welche ',
+            'welches ',
+        ],
+        'pl' => [
+            'ten ',
+            'ta ',
+            'to ',
+            'te ',
+            'tamten ',
+            'tamta ',
+            'tamto ',
+            'jaki ',
+            'jaka ',
+            'jakie ',
+            'każdy ',
+            'każda ',
+            'każde ',
+            'wszystki ',
+            'wszystko ',
+            'wszyscy ',
+            'wszystkie ',
+            'który ',
+            'która ',
+            'które ',
+            'którzy ',
+            'której ',
+            'którego ',
+            'którym ',
+        ],
+        'ru' => [
+            'этот ',
+            'эта ',
+            'это ',
+            'эти ',
+            'тот ',
+            'та ',
+            'то ',
+            'те ',
+            'весь ',
+            'вся ',
+            'всё ',
+            'все ',
+            'каждый ',
+            'каждая ',
+            'каждое ',
+            'каждые ',
+            'мой ',
+            'моя ',
+            'моё ',
+            'мои ',
+            'твой ',
+            'твоя ',
+            'твоё ',
+            'твои ',
+            'свой ',
+            'своя ',
+            'своё ',
+            'свои ',
+            'наш ',
+            'наша ',
+            'наше ',
+            'наши ',
+            'ваш ',
+            'ваша ',
+            'ваше ',
+            'ваши ',
+            'их ',
+            'их ',
+            'некоторые ',
+            'всякий ',
+            'любой ',
+            'каждый ',
+        ],
+        'zh' => [
+            '这 ',
+            '那 ',
+            '一个 ',
+            '这些 ',
+            '那些 ',
+        ],
+        'ja' => [
+            'これ ',
+            'それ ',
+            'あれ ',
+            'この ',
+            'その ',
+            'あの ',
+        ],
+        'ko' => [
+            '이 ',
+            '그 ',
+            '저 ',
+            '이것 ',
+            '그것 ',
+            '저것 ',
+        ],
+        'ar' => [
+            'هذا ',
+            'هذه ',
+            'ذلك ',
+            'تلك ',
+            'هؤلاء ',
+            'تلكم ',
+        ],
+        'pt' => [
+            'o ',
+            'a ',
+            'os ',
+            'as ',
+            'um ',
+            'uma ',
+        ],
+        'nl' => [
+            'de ',
+            'het ',
+            'een ',
+            'deze ',
+            'dit ',
+            'die ',
+        ],
+        'sv' => [
+            'den ',
+            'det ',
+            'en ',
+            'ett ',
+            'dessa ',
+            'dessa ',
+        ],
+        'tr' => [
+            'bu ',
+            'şu ',
+            'o ',
+            'bir ',
+            'bu ',
+            'şu ',
+        ],
+    ];
 
     protected function __construct(
         protected ?string $slug = null,
@@ -18,32 +291,17 @@ class MetaTitle
     ) {
     }
 
-    public static function make(
-        Ebook $ebook,
-        array $determiners = [
-            'en' => [
-                'the ',
-                'a ',
-            ],
-            'fr' => [
-                'les ',
-                "l'",
-                'le ',
-                'la ',
-                "d'un",
-                "d'",
-                'une ',
-                'au ',
-            ],
-        ],
-    ): ?self {
+    /**
+     * Create a new MetaTitle instance.
+     */
+    public static function make(Ebook $ebook): ?self
+    {
         if (! $ebook->getTitle()) {
             return null;
         }
 
         $self = new self();
 
-        $self->determiners = $determiners;
         $self->parse($ebook);
 
         return $self;
@@ -100,6 +358,7 @@ class MetaTitle
      * - Add serie title, here `Lord of the Rings`
      * - Add volume, here `1`
      * - Add author name, here `J. R. R. Tolkien`
+     * - Add year, here `1954`
      * - Add extension, here `epub`
      * - Add language, here `en`
      */
@@ -119,10 +378,11 @@ class MetaTitle
     /**
      * Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-1954-epub-en`.
      *
-     * - Remove determiners
-     * - Add author name
-     * - Add extension
-     * - Add language
+     * - Remove determiners, here `The`
+     * - Add author name, here `J. R. R. Tolkien`
+     * - Add year, here `1954`
+     * - Add extension, here `epub`
+     * - Add language, here `en`
      */
     public function getSeriesSlug(): ?string
     {
@@ -199,7 +459,7 @@ class MetaTitle
             return null;
         }
 
-        $articles = $this->determiners;
+        $articles = MetaTitle::DETERMINERS;
 
         $articlesLang = $articles['en'];
 
