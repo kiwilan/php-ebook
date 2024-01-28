@@ -342,7 +342,6 @@ class MetaTitle
         $this->seriesSlug = $this->generateSlug([
             $seriesDeterminer,
             $author,
-            $year,
             $extension,
             $language,
         ]);

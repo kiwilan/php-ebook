@@ -16,7 +16,7 @@ it('can be slugify', function () {
 
     expect($meta->getSlug())->toBe('a-comme-association-01-pale-lumiere-des-tenebres-pierre-bottero-1980-epub-fr');
     expect($meta->getSlugSimple())->toBe('la-pale-lumiere-des-tenebres');
-    expect($meta->getSeriesSlug())->toBe('a-comme-association-pierre-bottero-1980-epub-fr');
+    expect($meta->getSeriesSlug())->toBe('a-comme-association-pierre-bottero-epub-fr');
     expect($meta->getSeriesSlugSimple())->toBe('a-comme-association');
 
     $ebook->setTitle('The Fellowship of the Ring');
