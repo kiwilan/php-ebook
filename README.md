@@ -115,6 +115,8 @@ $ebook->getTags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres`
 $ebook->getSeries(); // ?string => `calibre:series` in EPUB, `series` in CBA
 $ebook->getVolume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
 $ebook->getCreatedAt(); // ?DateTime => file modified date
+$ebook->getSize(); // int => file size in bytes
+$ebook->getSizeHumanReadable(); // string => file size in human readable format
 ```
 
 For pages count, you can use these methods:
