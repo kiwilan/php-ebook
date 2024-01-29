@@ -51,7 +51,6 @@ class PdfModule extends EbookModule
         $this->ebook->setPublisher($this->meta?->getCreator());
         $this->ebook->setTags($this->meta?->getKeywords());
         $this->ebook->setPublishDate($this->meta?->getCreationDate());
-        $this->generateCreatedAt();
 
         $this->ebook->setHasParser(true);
 

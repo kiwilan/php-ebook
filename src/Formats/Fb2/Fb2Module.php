@@ -61,7 +61,6 @@ class Fb2Module extends EbookModule
 
         $this->ebook->setDescription($this->descriptionToString($description));
         $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
-        $this->generateCreatedAt();
 
         $documentInfo = $descriptionInfo->document;
         $uuid = $documentInfo?->id ?? null;

@@ -142,19 +142,6 @@ abstract class EbookModule
         return $html;
     }
 
-    /**
-     * Generate `created_at` from file modified time.
-     */
-    protected function generateCreatedAt(): void
-    {
-        $file = new \SplFileInfo($this->ebook->getpath());
-        if ($file->getMTime()) {
-            $ts = gmdate("Y-m-d\TH:i:s\Z", $file->getMTime());
-            $dt = new \DateTime($ts);
-            $this->ebook->setCreatedAt($dt);
-        }
-    }
-
     public function toJson(): string
     {
         return json_encode($this->toArray(), JSON_PRETTY_PRINT);

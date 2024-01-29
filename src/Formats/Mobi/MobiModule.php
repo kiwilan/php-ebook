@@ -63,7 +63,6 @@ class MobiModule extends EbookModule
         $this->ebook->setTitle($this->parser->get(MobiReader::UPDATEDTITLE_503));
         $this->ebook->setLanguage($this->parser->get(MobiReader::LANGUAGE_524));
         $this->ebook->setCopyright($this->parser->get(MobiReader::CONTRIBUTOR_108));
-        $this->generateCreatedAt();
 
         foreach ($this->parser->getExthRecords() as $value) {
             $this->ebook->setExtra($value->data);

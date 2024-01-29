@@ -86,7 +86,6 @@ class AudiobookModule extends EbookModule
         $this->ebook->setVolume($audio->getTrackNumber());
         $this->ebook->setPublishDate($date);
         $this->ebook->setCopyright($audio->getEncodingBy());
-        $this->generateCreatedAt();
         $this->ebook->setExtras([
             'title' => $audio->getTitle(),
             'artist' => $audio->getArtist(),
