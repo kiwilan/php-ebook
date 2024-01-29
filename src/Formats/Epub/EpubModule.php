@@ -87,6 +87,7 @@ class EpubModule extends EbookModule
         $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
         $this->ebook->setPublishDate($this->opf->getDcDate());
         $this->ebook->setLanguage($this->opf->getDcLanguage());
+        $this->generateCreatedAt();
 
         $tags = [];
         if (! empty($this->opf->getDcSubject())) {

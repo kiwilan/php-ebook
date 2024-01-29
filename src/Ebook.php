@@ -54,6 +54,8 @@ class Ebook
 
     protected ?string $copyright = null;
 
+    protected ?DateTime $createdAt = null;
+
     protected ?EbookFormatEnum $format = null;
 
     protected ?EbookCover $cover = null;
@@ -271,6 +273,7 @@ class Ebook
         $this->series = $ebook->getSeries();
         $this->volume = $ebook->getVolume();
         $this->copyright = $ebook->getCopyright();
+        $this->createdAt = $ebook->getCreatedAt();
 
         return $this;
     }
@@ -442,6 +445,14 @@ class Ebook
     }
 
     /**
+     * Creation date of the ebook.
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
      * Physical path to the ebook.
      */
     public function getPath(): string
@@ -524,6 +535,14 @@ class Ebook
     public function isArchive(): bool
     {
         return $this->isArchive;
+    }
+
+    /**
+     * Whether the ebook has series.
+     */
+    public function hasSeries(): bool
+    {
+        return $this->series !== null;
     }
 
     /**
@@ -830,6 +849,13 @@ class Ebook
         return $this;
     }
 
+    public function setCreatedAt(?DateTime $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
     public function setWordsCount(?int $wordsCount): self
     {
         $this->wordsCount = $wordsCount;
@@ -884,7 +910,7 @@ class Ebook
             'descriptionHtml' => $this->descriptionHtml,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
-            'date' => $this->publishDate?->format('Y-m-d H:i:s'),
+            'publishDate' => $this->publishDate?->format('Y-m-d H:i:s'),
             'language' => $this->language,
             'tags' => $this->tags,
             'series' => $this->series,
@@ -896,6 +922,8 @@ class Ebook
             'basename' => $this->basename,
             'extension' => $this->extension,
             'format' => $this->format,
+            'extras' => $this->extras,
+            'metaTitle' => $this->metaTitle?->toArray(),
             'parser' => $this->parser?->toArray(),
             'cover' => $this->cover?->toArray(),
         ];
