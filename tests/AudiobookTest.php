@@ -11,6 +11,7 @@ it('can parse audiobook', function (string $path) {
 
     $metadata = $ebook->getParser();
     expect($metadata->getAudiobook()->getAudio())->toBeArray();
+    expect($ebook->getExtras())->toBeArray();
     expect($metadata->getAudiobook()->toArray())->toBeArray();
     expect($metadata->getAudiobook()->toJson())->toBeString();
     expect($metadata->getAudiobook()->__toString())->toBeString();
@@ -27,7 +28,7 @@ it('can parse audiobook (basic)', function (string $path) {
         );
     // expect($ebook->getLanguage())->toBe('en');
     expect($ebook->getPublisher())->toBe('P1PDD & Mr Piouf');
-    expect($ebook->getDescription())->toBe('http://www.p1pdd.com');
+    expect($ebook->getExtra('comment'))->toBe('http://www.p1pdd.com');
     expect($ebook->getSeries())->toBe('P1PDD Le conclave de Troie');
     expect($ebook->getVolume())->toBe(1);
     expect($ebook->getPagesCount())->toBe(11);
@@ -43,7 +44,8 @@ it('can parse audiobook (advanced)', function (string $path) {
             ->toBeInstanceOf(BookAuthor::class)
         );
     expect($ebook->getPublisher())->toBe('Ewilan');
-    expect($ebook->getDescription())->toBe('Epic story about audiobooks. Do you want to extract an audiobook?');
+    expect($ebook->getDescription())->toBe('Epic story about audiobooks.');
+    expect($ebook->getExtra('comment'))->toBe('Do you want to extract an audiobook?');
     expect($ebook->getSeries())->toBe('Audiobook Test');
     expect($ebook->getVolume())->toBe(1);
     expect($ebook->getCopyright())->toBe('Ewilan Rivière');

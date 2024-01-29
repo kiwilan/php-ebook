@@ -74,6 +74,8 @@ class Ebook
         protected string $filename,
         protected string $basename,
         protected string $extension,
+        protected int $size = 0,
+        protected ?DateTime $createdAt = null,
         protected ?BaseArchive $archive = null,
         protected ?\Kiwilan\Audio\Audio $audio = null,
         protected bool $isArchive = false,
@@ -271,8 +273,26 @@ class Ebook
         $this->series = $ebook->getSeries();
         $this->volume = $ebook->getVolume();
         $this->copyright = $ebook->getCopyright();
+        $this->generateFileMetadata();
 
         return $this;
+    }
+
+    /**
+     * Generate file metadata.
+     */
+    private function generateFileMetadata(): void
+    {
+        $file = new \SplFileInfo($this->getpath());
+        if ($file->getMTime()) {
+            $ts = gmdate("Y-m-d\TH:i:s\Z", $file->getMTime());
+            $dt = new \DateTime($ts);
+            $this->createdAt = $dt;
+        }
+
+        if ($file->getSize()) {
+            $this->size = $file->getSize();
+        }
     }
 
     private function convertCounts(): self
@@ -474,6 +494,43 @@ class Ebook
     }
 
     /**
+     * Size of the ebook, in bytes.
+     *
+     * You can use `getSizeHumanReadable()` to get the size in human readable format.
+     */
+    public function getSize(): int
+    {
+        return $this->size;
+    }
+
+    /**
+     * Size of the ebook in human readable format, e.g. `1.23 MB`.
+     */
+    public function getSizeHumanReadable(): string
+    {
+        $bytes = $this->size;
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+
+        foreach ($units as $unit) {
+            if ($bytes < 1024) {
+                break;
+            }
+
+            $bytes /= 1024;
+        }
+
+        return round($bytes, 2).' '.$unit;
+    }
+
+    /**
+     * Creation date of the ebook.
+     */
+    public function getCreatedAt(): ?DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
      * Archive reader, from `kiwilan/php-archive`.
      *
      * @docs https://github.com/kiwilan/php-archive
@@ -524,6 +581,14 @@ class Ebook
     public function isArchive(): bool
     {
         return $this->isArchive;
+    }
+
+    /**
+     * Whether the ebook has series.
+     */
+    public function hasSeries(): bool
+    {
+        return $this->series !== null;
     }
 
     /**
@@ -884,7 +949,7 @@ class Ebook
             'descriptionHtml' => $this->descriptionHtml,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
-            'date' => $this->publishDate?->format('Y-m-d H:i:s'),
+            'publishDate' => $this->publishDate?->format('Y-m-d H:i:s'),
             'language' => $this->language,
             'tags' => $this->tags,
             'series' => $this->series,
@@ -896,6 +961,8 @@ class Ebook
             'basename' => $this->basename,
             'extension' => $this->extension,
             'format' => $this->format,
+            'extras' => $this->extras,
+            'metaTitle' => $this->metaTitle?->toArray(),
             'parser' => $this->parser?->toArray(),
             'cover' => $this->cover?->toArray(),
         ];

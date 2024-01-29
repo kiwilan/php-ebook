@@ -26,6 +26,9 @@ it('can parse epub entity', function () {
     expect($ebook->getDescription(1500))->toBeString();
     expect($ebook->getCopyright(255))->toBe('Copyright © 1980 by Jean M. Auel');
     expect($ebook->getCopyright(10))->toBe('Copyright…');
+    expect($ebook->getCreatedAt())->toBeInstanceOf(DateTime::class);
+    expect($ebook->getSize())->toBe(555895);
+    expect($ebook->getSizeHumanReadable())->toBe('542.87 KB');
     expect($ebook->getPublisher())->toBe('Hodder & Stoughton');
     expect($ebook->getIdentifiers())->toBeArray();
     expect($ebook->getIdentifiers()['google']->getValue())->toBe('ASvHBAAAQBAJ');

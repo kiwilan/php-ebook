@@ -11,6 +11,7 @@ it('can create an instance of Ebook', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook)->toBeInstanceOf(Ebook::class);
+    expect($ebook->getCreatedAt() instanceof DateTime)->toBeTrue();
     expect($ebook->getpath())->toBe($path);
     expect($ebook->toArray())->toBeArray();
     expect($ebook->toJson())->toBeString();
@@ -43,7 +44,7 @@ it('can parse metadata', function (string $path) {
     expect($parser)->toBeInstanceOf(EbookParser::class);
     expect($ebook->getParser())->toBeInstanceOf(EbookParser::class);
 
-    expect($ebook->getMetaTitle()->getUniqueFilename())->toBeString();
+    expect($ebook->getMetaTitle()->getSlug())->toBeString();
 
     if ($parser->isEpub()) {
         expect($parser->getEpub())->toBeInstanceOf(EpubModule::class);

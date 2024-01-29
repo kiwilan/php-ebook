@@ -114,6 +114,9 @@ $ebook->getLanguage(); // ?string
 $ebook->getTags(); // string[] => `subject` in EPUB, `keywords` in PDF, `genres` in CBA
 $ebook->getSeries(); // ?string => `calibre:series` in EPUB, `series` in CBA
 $ebook->getVolume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
+$ebook->getCreatedAt(); // ?DateTime => file modified date
+$ebook->getSize(); // int => file size in bytes
+$ebook->getSizeHumanReadable(); // string => file size in human readable format
 ```
 
 For pages count, you can use these methods:
@@ -133,6 +136,10 @@ Some metadata can be stored into `extras()` method, without typing, directly fro
 $ebook->getExtras(); // array<string, mixed> => additional data for book
 $ebook->getExtra(string $key); // mixed => safely extract data from `extras` array
 ```
+
+> [!NOTE]
+>
+> For audiobooks, all metadata are stored into `extras` array, you will find duplicate with `Ebook::class` properties. See [Formats specifications](#formats-specifications) for more informations.
 
 To know if eBook is valid, you can use `isValid()` static method, before `read()`.
 
@@ -163,8 +170,9 @@ And to test if some data exists:
 $ebook->isArchive(); // bool => `true` if `EPUB`, `CBA`
 $ebook->isMobi(); // bool => `true` if Mobipocket derivatives
 $ebook->isAudio(); // bool => `true` if `mp3`, `m4a`, `m4b`, `flac`, `ogg`
-$ebook->hasMetadata(); // bool => `true` if metadata exists
 $ebook->hasCover(); // bool => `true` if cover exists
+$ebook->hasMetadata(); // bool => `true` if metadata exists
+$ebook->hasSeries(); // bool => `true` if series exists
 $ebook->isBadFile(); // bool => `true` if file is not readable
 ```
 
@@ -236,6 +244,22 @@ $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if 
 #### Audiobooks
 
 For audiobooks, you have to install seperately [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio).
+
+Properties of `Audio::class` are:
+
+| **Ebook**   | **Audio**    |
+| ----------- | ------------ |
+| title       | title        |
+| author      | artist       |
+| description | description  |
+| tags        | artist       |
+| series      | album        |
+| volume      | trackNumber  |
+| publishDate | artist       |
+| copyright   | creationDate |
+| author      | encodingBy   |
+
+You can find all metadata into `getExtras()` array of `Ebook::class`.
 
 #### EPUB
 

@@ -75,8 +75,7 @@ class AudiobookModule extends EbookModule
             $date = new DateTime("{$audio->getYear()}-01-01");
         }
 
-        $description = "{$audio->getDescription()} {$audio->getComment()}";
-        $description = trim($description);
+        $description = trim($audio->getDescription() ?? '');
 
         $this->ebook->setTitle($audio->getTitle());
         $this->ebook->setAuthors([$author]);
@@ -88,6 +87,16 @@ class AudiobookModule extends EbookModule
         $this->ebook->setPublishDate($date);
         $this->ebook->setCopyright($audio->getEncodingBy());
         $this->ebook->setExtras([
+            'title' => $audio->getTitle(),
+            'artist' => $audio->getArtist(),
+            'albumArtist' => $audio->getAlbumArtist(),
+            'album' => $audio->getAlbum(),
+            'genre' => $audio->getGenre(),
+            'year' => $audio->getYear(),
+            'trackNumber' => $audio->getTrackNumber(),
+            'description' => $audio->getDescription(),
+            'comment' => $audio->getComment(),
+            'creationDate' => $audio->getCreationDate(),
             'composer' => $audio->getComposer(),
             'discNumber' => $audio->getDiscNumber(),
             'isCompilation' => $audio->isCompilation(),
