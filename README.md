@@ -137,19 +137,7 @@ $ebook->getExtra(string $key); // mixed => safely extract data from `extras` arr
 
 > [!NOTE]
 >
-> For audiobooks, all metadata are stored into `extras` array, you will find duplicate
->
-> | Ebook       | Audio        |
-> | ----------- | ------------ |
-> | title       | title        |
-> | author      | artist       |
-> | description | description  |
-> | tags        | artist       |
-> | series      | album        |
-> | volume      | trackNumber  |
-> | publishDate | artist       |
-> | copyright   | creationDate |
-> | author      | encodingBy   |
+> For audiobooks, all metadata are stored into `extras` array, you will find duplicate with `Ebook::class` properties. See [Formats specifications](#formats-specifications) for more informations.
 
 To know if eBook is valid, you can use `isValid()` static method, before `read()`.
 
@@ -254,6 +242,22 @@ $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if 
 #### Audiobooks
 
 For audiobooks, you have to install seperately [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio).
+
+Properties of `Audio::class` are:
+
+| **Ebook**   | **Audio**    |
+| ----------- | ------------ |
+| title       | title        |
+| author      | artist       |
+| description | description  |
+| tags        | artist       |
+| series      | album        |
+| volume      | trackNumber  |
+| publishDate | artist       |
+| copyright   | creationDate |
+| author      | encodingBy   |
+
+You can find all metadata into `getExtras()` array of `Ebook::class`.
 
 #### EPUB
 
