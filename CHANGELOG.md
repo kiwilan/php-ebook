@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.5 - 2024-01-29
+
+- `Ebook` class: add `getCreatedAt()` method to get the file modified date, add `getSize()` method to get the file size and `getSizeHumanReadable()` method to get the file size in human readable format
+- `AudiobookModule`: add all audio metadata to `getExtras()` method, remove `comment` from `getDescription()` method (now available into `getExtras()` method)
+
 ## v2.3.4 - 2024-01-28
 
 - Remove year from `MetaTitle` `getSeriesSlug()` to avoid duplicate series.
