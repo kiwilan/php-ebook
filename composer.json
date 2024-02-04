@@ -1,7 +1,7 @@
 {
     "name": "kiwilan/php-ebook",
     "description": "PHP package to read metadata and extract covers from eBooks, comics and audiobooks.",
-    "version": "2.3.5",
+    "version": "2.3.6",
     "keywords": [
         "php",
         "ebook",
@@ -43,7 +43,7 @@
         "kiwilan/php-xml-reader": "^1.0.11"
     },
     "require-dev": {
-        "kiwilan/php-audio": "^3.0.01",
+        "kiwilan/php-audio": "^3.0.06",
         "laravel/pint": "^1.7",
         "pestphp/pest": "^1.20",
         "pestphp/pest-plugin-parallel": "^1.2",

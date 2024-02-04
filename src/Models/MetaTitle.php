@@ -324,15 +324,25 @@ class MetaTitle
             return $this;
         }
 
-        $this->slug = $this->generateSlug([
-            $seriesDeterminer,
-            $volume,
-            $titleDeterminer,
-            $author,
-            $year,
-            $extension,
-            $language,
-        ]);
+        if ($ebook->getSeries()) {
+            $this->slug = $this->generateSlug([
+                $seriesDeterminer,
+                $language,
+                $volume,
+                $titleDeterminer,
+                $author,
+                $year,
+                $extension,
+            ]);
+        } else {
+            $this->slug = $this->generateSlug([
+                $titleDeterminer,
+                $language,
+                $author,
+                $year,
+                $extension,
+            ]);
+        }
         $this->slugSimple = $this->generateSlug([$title]);
 
         if (! $ebook->getSeries()) {
@@ -341,9 +351,9 @@ class MetaTitle
 
         $this->seriesSlug = $this->generateSlug([
             $seriesDeterminer,
+            $language,
             $author,
             $extension,
-            $language,
         ]);
         $this->seriesSlugSimple = $this->generateSlug([$series]);
 

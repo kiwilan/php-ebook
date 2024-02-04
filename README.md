@@ -214,9 +214,9 @@ use Kiwilan\Ebook\Ebook;
 $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
-$metaTitle->getSlug(); // string => slug title, like `lord-of-the-rings-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`
+$metaTitle->getSlug(); // string => slug title, like `lord-of-the-rings-en-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub`
 $metaTitle->getSlugSimple(); // string => slug title simple, like `the-fellowship-of-the-ring`
-$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-j-r-r-tolkien-epub-en`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-en-j-r-r-tolkien-epub`
 $metaTitle->getSeriesSlugSimple(); // ?string => slug series title simple, like `the-lord-of-the-rings`
 ```
 
@@ -247,17 +247,19 @@ For audiobooks, you have to install seperately [`kiwilan/php-audio`](https://git
 
 Properties of `Audio::class` are:
 
-| **Ebook**   | **Audio**    |
-| ----------- | ------------ |
-| title       | title        |
-| author      | artist       |
-| description | description  |
-| tags        | artist       |
-| series      | album        |
-| volume      | trackNumber  |
-| publishDate | artist       |
-| copyright   | creationDate |
-| author      | encodingBy   |
+| **Ebook**     | **Audio**                |
+| ------------- | ------------------------ |
+| `title`       | `title`                  |
+| `author`      | `artist`                 |
+| `description` | `description`            |
+| `publisher`   | `albumArtist`            |
+| `series`      | `album`                  |
+| `volume`      | `trackNumber`            |
+| `publishDate` | `artist`                 |
+| `copyright`   | `year` or `creationDate` |
+| `copyright`   | `encodingBy`             |
+| `tags`        | `genre`                  |
+| `language`    | `language`               |
 
 You can find all metadata into `getExtras()` array of `Ebook::class`.
 
