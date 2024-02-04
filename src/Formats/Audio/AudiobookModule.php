@@ -81,11 +81,23 @@ class AudiobookModule extends EbookModule
         $this->ebook->setAuthors([$author]);
         $this->ebook->setPublisher($audio->getAlbumArtist());
         $this->ebook->setDescription($description);
-        $this->ebook->setTags([$audio->getGenre()]);
+
+        $tags = $audio->getGenre();
+        if (str_contains($tags, ';') || str_contains($tags, ',')) {
+            $tags = preg_split('/[;,]/', $tags);
+        } else {
+            $tags = [$tags];
+        }
+
+        $tags = array_map('trim', $tags);
+        $tags = array_map('ucfirst', $tags);
+        $this->ebook->setTags($tags);
+
         $this->ebook->setSeries($audio->getAlbum());
         $this->ebook->setVolume($audio->getTrackNumber());
         $this->ebook->setPublishDate($date);
         $this->ebook->setCopyright($audio->getEncodingBy());
+        $this->ebook->setLanguage($audio->getLanguage());
         $this->ebook->setExtras([
             'title' => $audio->getTitle(),
             'artist' => $audio->getArtist(),
@@ -101,6 +113,8 @@ class AudiobookModule extends EbookModule
             'discNumber' => $audio->getDiscNumber(),
             'isCompilation' => $audio->isCompilation(),
             'encoding' => $audio->getEncoding(),
+            'podcastDescription' => $audio->getPodcastDescription(),
+            'language' => $audio->getLanguage(),
             'lyrics' => $audio->getLyrics(),
             'stik' => $audio->getStik(),
             'duration' => $audio->getDuration(),
@@ -131,6 +145,7 @@ class AudiobookModule extends EbookModule
     {
         return [
             'audio' => $this->audio,
+            'tags' => $this->ebook->getAudio()->getTags(),
         ];
     }
 
