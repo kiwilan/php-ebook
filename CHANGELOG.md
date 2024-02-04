@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.6 - 2024-02-04
+
+- Audiobook: add `language`, `tags` will be splitted by `;` or `,`
+- MetaTitle: now `language` slug will be added just after series if series exists, and before author if not to help for sorting with series in different languages
+
 ## v2.3.5 - 2024-01-29
 
 - `Ebook` class: add `getCreatedAt()` method to get the file modified date, add `getSize()` method to get the file size and `getSizeHumanReadable()` method to get the file size in human readable format
