@@ -113,7 +113,7 @@ class Ebook
         $self->parser = EbookParser::make($format);
         $self->convertEbook();
         $self->cover = $self->parser->getModule()->toCover();
-        $self->metaTitle = MetaTitle::make($self);
+        $self->metaTitle = MetaTitle::fromEbook($self);
 
         $time = microtime(true) - $start;
         $self->execTime = (float) number_format((float) $time, 5, '.', '');
@@ -739,7 +739,7 @@ class Ebook
             return $this;
         }
 
-        $this->metaTitle = MetaTitle::make($ebook);
+        $this->metaTitle = MetaTitle::fromEbook($ebook);
 
         return $this;
     }

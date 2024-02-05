@@ -284,6 +284,14 @@ class MetaTitle
     ];
 
     protected function __construct(
+        protected ?string $title = null,
+        protected ?string $language = null,
+        protected ?string $series = null,
+        protected ?string $volume = null,
+        protected ?string $author = null,
+        protected ?string $year = null,
+        protected ?string $extension = null,
+
         protected ?string $slug = null,
         protected ?string $slugSimple = null,
         protected ?string $seriesSlug = null,
@@ -292,39 +300,72 @@ class MetaTitle
     }
 
     /**
-     * Create a new MetaTitle instance.
+     * Create a new MetaTitle instance from an Ebook.
      */
-    public static function make(Ebook $ebook): ?self
+    public static function fromEbook(Ebook $ebook): ?self
     {
         if (! $ebook->getTitle()) {
             return null;
         }
 
-        $self = new self();
-
-        $self->parse($ebook);
+        $self = new self(
+            title: $ebook->getTitle(),
+            language: $ebook->getLanguage(),
+            series: $ebook->getSeries(),
+            volume: (string) $ebook->getVolume(),
+            author: $ebook->getAuthorMain()?->getName(),
+            year: $ebook->getPublishDate()?->format('Y'),
+            extension: $ebook->getExtension(),
+        );
+        $self->parse();
 
         return $self;
     }
 
-    private function parse(Ebook $ebook): static
-    {
-        $title = $this->generateSlug($ebook->getTitle());
-        $language = $ebook->getLanguage() ? $this->generateSlug($ebook->getLanguage()) : null;
-        $series = $ebook->getSeries() ? $this->generateSlug($ebook->getSeries()) : null;
-        $volume = $ebook->getVolume() ? str_pad((string) $ebook->getVolume(), 2, '0', STR_PAD_LEFT) : null;
-        $author = $ebook->getAuthorMain()?->getName() ? $this->generateSlug($ebook->getAuthorMain()->getName()) : null;
-        $year = $ebook->getPublishDate()?->format('Y') ? $this->generateSlug($ebook->getPublishDate()->format('Y')) : null;
-        $extension = strtolower($ebook->getExtension());
+    /**
+     * Create a new MetaTitle instance from data.
+     */
+    public static function fromData(
+        string $title,
+        ?string $language = null,
+        ?string $series = null,
+        string|int|null $volume = null,
+        ?string $author = null,
+        string|int|null $year = null,
+        ?string $extension = null,
+    ): self {
+        $self = new self(
+            title: $title,
+            language: $language,
+            series: $series,
+            volume: (string) $volume,
+            author: $author,
+            year: (string) $year,
+            extension: $extension,
+        );
+        $self->parse();
 
-        $titleDeterminer = $this->removeDeterminers($ebook->getTitle(), $ebook->getLanguage());
-        $seriesDeterminer = $this->removeDeterminers($ebook->getSeries(), $ebook->getLanguage());
+        return $self;
+    }
+
+    private function parse(): static
+    {
+        $title = $this->generateSlug($this->title);
+        $language = $this->language ? $this->generateSlug($this->language) : null;
+        $series = $this->series ? $this->generateSlug($this->series) : null;
+        $volume = $this->volume ? str_pad((string) $this->volume, 2, '0', STR_PAD_LEFT) : null;
+        $author = $this->author ? $this->generateSlug($this->author) : null;
+        $year = $this->year ? $this->generateSlug($this->year) : null;
+        $extension = strtolower($this->extension);
+
+        $titleDeterminer = $this->removeDeterminers($this->title, $this->language);
+        $seriesDeterminer = $this->removeDeterminers($this->series, $this->language);
 
         if (! $title) {
             return $this;
         }
 
-        if ($ebook->getSeries()) {
+        if ($this->series) {
             $this->slug = $this->generateSlug([
                 $seriesDeterminer,
                 $language,
@@ -345,7 +386,7 @@ class MetaTitle
         }
         $this->slugSimple = $this->generateSlug([$title]);
 
-        if (! $ebook->getSeries()) {
+        if (! $this->series) {
             return $this;
         }
 
