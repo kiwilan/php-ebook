@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.7 - 2024-02-05
+
+`MetaTitle::class`: add `fromData()` static method to generate a `MetaTitle` object from a raw data and rename `make()` to `fromEbook()`.
+
 ## v2.3.6 - 2024-02-04
 
 - Audiobook: add `language`, `tags` will be splitted by `;` or `,`
