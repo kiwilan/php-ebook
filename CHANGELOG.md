@@ -2,6 +2,12 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.3.8 - 2024-03-06
+
+- `OpfItem::class` method `getMeta()` is now deprecated. Use `getMetaItems()` instead.
+- `OpfItem::class` method `getMetaItems()` will now return an array of `BookMeta::class` objects.
+- `OpfItem::class` method `getMetaItem(string $key)` will now return `BookMeta::class` object or null.
+
 ## v2.3.7 - 2024-02-05
 
 `MetaTitle::class`: add `fromData()` static method to generate a `MetaTitle` object from a raw data and rename `make()` to `fromEbook()`.
