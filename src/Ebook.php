@@ -114,6 +114,7 @@ class Ebook
         $self->convertEbook();
         $self->cover = $self->parser->getModule()->toCover();
         $self->metaTitle = MetaTitle::fromEbook($self);
+        $self->clean();
 
         $time = microtime(true) - $start;
         $self->execTime = (float) number_format((float) $time, 5, '.', '');
@@ -253,6 +254,30 @@ class Ebook
     private function pdf(): EbookModule
     {
         return PdfModule::make($this);
+    }
+
+    private function clean(): self
+    {
+        $authors = [];
+        foreach ($this->authors as $author) {
+            if (! $author->getName()) {
+                continue;
+            }
+
+            $authors[] = $author;
+        }
+
+        $this->authors = $authors;
+
+        if ($this->authorMain && ! $this->authorMain->getName()) {
+            $this->authorMain = null;
+
+            if (count($this->authors) > 0) {
+                $this->authorMain = reset($this->authors);
+            }
+        }
+
+        return $this;
     }
 
     private function convertEbook(): self

@@ -298,11 +298,33 @@ class OpfItem
     }
 
     /**
+     * @deprecated Use `getMetaItems` instead.
+     *
      * @return BookMeta[]
      */
     public function getMeta(): array
     {
-        return $this->meta;
+        return $this->getMetaItems();
+    }
+
+    /**
+     * @return BookMeta[]
+     */
+    public function getMetaItems(): array
+    {
+        $items = [];
+        foreach ($this->meta as $item) {
+            $items[$item->getName()] = $item;
+        }
+
+        return $items;
+    }
+
+    public function getMetaItem(string $key): ?BookMeta
+    {
+        $meta = array_filter($this->meta, fn (BookMeta $item) => $item->getName() === $key);
+
+        return array_shift($meta);
     }
 
     public function getCoverPath(): ?string
