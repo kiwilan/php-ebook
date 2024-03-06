@@ -2,6 +2,7 @@
 
 use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
 use Kiwilan\Ebook\Formats\Epub\Parser\OpfItem;
+use Kiwilan\Ebook\Models\BookMeta;
 use Kiwilan\XmlReader\XmlReader;
 
 it('can parse epub container', function (string $path) {
@@ -38,10 +39,55 @@ it('can parse epub opf', function (string $path) {
     expect($opf->getDcIdentifiers())->toBeArray();
     expect($opf->getDcSubject())->toBeArray();
     expect($opf->getDcLanguage())->toBeString();
-    expect($opf->getMeta())->toBeArray();
+    expect($opf->getMetaItems())->toBeArray();
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 })->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3, EPUB_OPF_INSURGENT, EPUB_OPF_LAGUERREETERNELLE, EPUB_OPF_EPEEETMORT, EPUB_OPF_NOT_FORMATTED]);
+
+it('can parse epub opf meta items', function () {
+    $opf = OpfItem::make(file_get_contents(EPUB_OPF_EPUB2), EPUB_OPF_EPUB2);
+
+    $meta = $opf->getMetaItems();
+
+    // calibre:title_sort
+    // calibre:series
+    // calibre:series_index
+    // calibre:timestamp
+    // calibre:rating
+    // cover
+    // calibre:author_link_map
+
+    $title_sort = $opf->getMetaItem('calibre:title_sort');
+    $series = $opf->getMetaItem('calibre:series');
+    $series_index = $opf->getMetaItem('calibre:series_index');
+    $timestamp = $opf->getMetaItem('calibre:timestamp');
+    $rating = $opf->getMetaItem('calibre:rating');
+    $cover = $opf->getMetaItem('cover');
+    $author_link_map = $opf->getMetaItem('calibre:author_link_map');
+    $not_exist = $opf->getMetaItem('not_exist');
+
+    expect($meta)->toBeArray();
+    expect(get_class($title_sort))->toBe(BookMeta::class);
+    expect(get_class($series))->toBe(BookMeta::class);
+    expect(get_class($series_index))->toBe(BookMeta::class);
+    expect(get_class($timestamp))->toBe(BookMeta::class);
+    expect(get_class($rating))->toBe(BookMeta::class);
+    expect(get_class($cover))->toBe(BookMeta::class);
+    expect(get_class($author_link_map))->toBe(BookMeta::class);
+    expect($not_exist)->toBeNull();
+
+    expect($title_sort->getContents())->toBeString();
+    expect($series->getContents())->toBeString();
+    expect($series_index->getContents())->toBeString();
+    expect($timestamp->getContents())->toBeString();
+    expect($rating->getContents())->toBeString();
+    expect($cover->getContents())->toBeString();
+    expect($author_link_map->getContents())->toBeString();
+
+    expect($series->getContents())->toBe('Les Enfants de la Terre');
+    expect($series_index->getContents())->toBe('1.0');
+    expect($timestamp->getContents())->toBe('2023-03-25T10:32:21+00:00');
+});
 
 it('can parse epub opf alt', function () {
     $opf = OpfItem::make(file_get_contents(EPUB_OPF_EPUB3_ALT), EPUB_OPF_EPUB3_ALT);
@@ -60,7 +106,7 @@ it('can parse epub opf alt', function () {
     expect($opf->getDcDate())->toBeNull();
     expect($opf->getDcSubject())->toBeArray();
     expect($opf->getDcLanguage())->toBeString();
-    expect($opf->getMeta())->toBeArray();
+    expect($opf->getMetaItems())->toBeArray();
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 });
@@ -79,7 +125,7 @@ it('can parse epub opf without tags', function () {
     expect($opf->getDcIdentifiers())->toBeArray();
     expect($opf->getDcSubject())->toBeArray();
     expect($opf->getDcLanguage())->toBeString();
-    expect($opf->getMeta())->toBeArray();
+    expect($opf->getMetaItems())->toBeArray();
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
 });

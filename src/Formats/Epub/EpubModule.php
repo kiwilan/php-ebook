@@ -99,8 +99,8 @@ class EpubModule extends EbookModule
         $this->ebook->setTags($tags);
 
         $rating = null;
-        if (! empty($this->opf->getMeta())) {
-            foreach ($this->opf->getMeta() as $meta) {
+        if (! empty($this->opf->getMetaItems())) {
+            foreach ($this->opf->getMetaItems() as $meta) {
                 if ($meta->getName() === 'calibre:series') {
                     $this->ebook->setSeries($meta->getContents());
                 }
