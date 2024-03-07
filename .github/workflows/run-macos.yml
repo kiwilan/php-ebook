@@ -21,7 +21,8 @@ jobs:
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew update
-          brew install p7zip rar ghostscript imagemagick@7.1.1-29
+          brew install p7zip rar ghostscript
+          brew install imagemagick
         shell: bash
 
       - name: Add rar extension
