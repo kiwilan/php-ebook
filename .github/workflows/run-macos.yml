@@ -7,13 +7,6 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Install
-        run: |
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-          brew update
-          brew install p7zip rar ghostscript imagemagick
-        shell: bash
-
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -23,6 +16,13 @@ jobs:
           php-version: 8.1
           extensions: imagick, zip, fileinfo, intl
           coverage: pcov
+
+      - name: Install
+        run: |
+          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+          brew update
+          brew install p7zip rar ghostscript imagemagick
+        shell: bash
 
       - name: Add rar extension
         run: |
