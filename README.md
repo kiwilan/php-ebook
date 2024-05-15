@@ -64,7 +64,7 @@ This package was built for [`bookshelves-project/bookshelves`](https://github.co
     -   eBooks: `EPUB` v2 and v3 from [IDPF](https://idpf.org/) with `calibre:series` from [Calibre](https://calibre-ebook.com/) | `MOBI` from Mobipocket (and derivatives) | `FB2` from [FictionBook](https://en.wikipedia.org/wiki/FictionBook)
     -   Comics: `CBAM` (Comic Book Archive Metadata) : `ComicInfo.xml` format from _ComicRack_ and maintained by [`anansi-project`](https://github.com/anansi-project/comicinfo)
     -   `PDF` with [`smalot/pdfparser`](https://github.com/smalot/pdfparser)
-    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) (not included)
+    -   Audiobooks: `ID3`, `vorbis` and `flac` tags with [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) (not included), based on [audiobookshelf specifications](https://www.audiobookshelf.org/docs#book-audio-metadata)
 -   🔖 Chapters extraction (`EPUB` only)
 -   📦 `EPUB` and `CBZ` creation supported
 <!-- -   📝 `EPUB` and `CBZ` metadata update supported -->
@@ -244,21 +244,29 @@ $cover->getContents(bool $toBase64 = false); // ?string => content of cover, if 
 
 For audiobooks, you have to install seperately [`kiwilan/php-audio`](https://github.com/kiwilan/php-audio).
 
+Specifications are based on [audiobookshelf](https://www.audiobookshelf.org/docs#book-audio-metadata) and [ID3](https://id3.org/ID3v2.4.0) tags. Metadata on audio files will be mapped as follows (second tag after "/" is a fallback):
+
 Properties of `Audio::class` are:
 
-| **Ebook**     | **Audio**                |
-| ------------- | ------------------------ |
-| `title`       | `title`                  |
-| `author`      | `artist`                 |
-| `description` | `description`            |
-| `publisher`   | `albumArtist`            |
-| `series`      | `album`                  |
-| `volume`      | `trackNumber`            |
-| `publishDate` | `artist`                 |
-| `copyright`   | `year` or `creationDate` |
-| `copyright`   | `encodingBy`             |
-| `tags`        | `genre`                  |
-| `language`    | `language`               |
+| **ID3 Tag (case-insensitive) ** | **eBook**                  |
+| ------------------------------- | -------------------------- |
+| `artist` / `album-artist`       | Authors\*                  |
+| `album` / `title`               | Title                      |
+| `subtitle`                      | Extra property `subtitle`  |
+| `publisher`                     | Publisher                  |
+| `year`                          | Publish Year               |
+| `composer`                      | Extra property `narrators` |
+| `description`                   | Description                |
+| `genre`                         | Tags\*\*                   |
+| `series` / `mvnm`               | Series                     |
+| `series-part` / `mvin`          | Volume                     |
+| `language` / `lang`             | Language                   |
+| `isbn`                          | Identifiers `isbn`         |
+| `asin` / `audible_asin`         | Identifiers `asin`         |
+| Overdrive MediaMarkers          | Extra property `chapters`  |
+
+-   \* Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
+-   \*\* Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
 
 You can find all metadata into `getExtras()` array of `Ebook::class`.
 

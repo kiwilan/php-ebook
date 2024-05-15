@@ -48,6 +48,7 @@ define('EPUB_DRM', __DIR__.'/media/epub-drm.epub');
 
 define('AUDIOBOOK', __DIR__.'/media/audiobook.mp3');
 define('AUDIOBOOK_M4B', __DIR__.'/media/audiobook.m4b');
+define('AUDIOBOOK_EWILAN', __DIR__.'/media/audiobook-ewilan.m4b');
 define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
 define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
 define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');

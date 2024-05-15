@@ -21,17 +21,17 @@ it('can parse audiobook', function (string $path) {
 it('can parse audiobook (basic)', function (string $path) {
     $ebook = Ebook::read($path);
 
-    expect($ebook->getTitle())->toBe('Introduction');
+    expect($ebook->getTitle())->toBe('P1PDD Le conclave de Troie');
     expect($ebook->getAuthors())->toBeArray();
     expect($ebook->getAuthors())
         ->each(fn (Expectation $expectation) => expect($expectation->value)
             ->toBeInstanceOf(BookAuthor::class)
         );
     expect($ebook->getLanguage())->toBe('Language');
-    expect($ebook->getPublisher())->toBe('P1PDD & Mr Piouf');
+    expect($ebook->getPublisher())->toBeNull();
     expect($ebook->getExtra('comment'))->toBe('http://www.p1pdd.com');
-    expect($ebook->getSeries())->toBe('P1PDD Le conclave de Troie');
-    expect($ebook->getVolume())->toBe(1);
+    expect($ebook->getSeries())->toBeNull();
+    expect($ebook->getVolume())->toBeNull();
     expect($ebook->getPagesCount())->toBe(11);
 })->with([AUDIOBOOK, AUDIOBOOK_M4B, AUDIOBOOK_PART_1, AUDIOBOOK_PART_2]);
 
@@ -44,11 +44,48 @@ it('can parse audiobook (advanced)', function (string $path) {
         ->each(fn (Expectation $expectation) => expect($expectation->value)
             ->toBeInstanceOf(BookAuthor::class)
         );
-    expect($ebook->getPublisher())->toBe('Ewilan');
+    expect($ebook->getPublisher())->toBe('Ewilan Rivi&#232;re');
     expect($ebook->getDescription())->toBe('Description');
     expect($ebook->getExtra('comment'))->toBe('Do you want to extract an audiobook?');
-    expect($ebook->getSeries())->toBe('Audiobook Test');
-    expect($ebook->getVolume())->toBe(1);
-    expect($ebook->getCopyright())->toBe('Ewilan Rivière');
+    expect($ebook->getSeries())->toBeNull();
+    expect($ebook->getVolume())->toBeNull();
+    expect($ebook->getCopyright())->toBe('Copyright');
     expect($ebook->getPagesCount())->toBe(22);
 })->with([AUDIOBOOK_CHAPTERS]);
+
+it('can parse audiobook with series', function () {
+    $ebook = Ebook::read(AUDIOBOOK_EWILAN);
+
+    expect($ebook->getTitle())->toBe("La Quête d'Ewilan #01 : D'un monde à l'autre");
+    expect($ebook->getAuthors())->toBeArray();
+    expect($ebook->getAuthorMain()->getName())->toBe('Pierre Bottero');
+    expect($ebook->getDescription())->toBeString();
+    expect($ebook->getPublisher())->toBe('Rageot');
+    expect($ebook->getIdentifiers()['isbn']->getValue())->toBe('9782253164692');
+    expect($ebook->getSeries())->toBe("La Quête d'Ewilan");
+    expect($ebook->getVolume())->toBe(1);
+    expect($ebook->getPublishDate()->format('Y/m/d'))->toBe((new DateTime('2017-03-22 00:00:00'))->format('Y/m/d'));
+    expect($ebook->getLanguage())->toBe('Français');
+    expect($ebook->getTags())->toBeArray();
+    expect($ebook->getTags())->toBe(['Fantasy', 'Épique']);
+
+    expect($ebook->getExtra('subtitle'))->toBe('128 kbit/s');
+    expect($ebook->getExtra('publish_year'))->toBe(2017);
+    expect($ebook->getExtra('authors'))->toBeArray();
+    expect($ebook->getExtra('narrators'))->toBeArray();
+    expect($ebook->getExtra('lyrics'))->toBe("La Quête d'Ewilan #01");
+    expect($ebook->getExtra('comment'))->toBe('French');
+    expect($ebook->getExtra('synopsis'))->toBeString();
+    expect($ebook->getExtra('chapters'))->toBeArray();
+    expect($ebook->getExtra('chapters')[1])->toBe(['timestamp' => 11, 'title' => "D'un monde à l'autre"]);
+    expect($ebook->getExtra('is_compilation'))->toBeFalse();
+    expect($ebook->getExtra('encoding'))->toBe('Audiobook Builder');
+    expect($ebook->getExtra('track_number'))->toBe('1/1');
+    expect($ebook->getExtra('disc_number'))->toBeNull();
+    expect($ebook->getExtra('stik'))->toBe('Audiobook');
+    expect($ebook->getExtra('duration'))->toBe(33.0);
+    expect($ebook->getExtra('audio_title'))->toBe('D\'un monde à l\'autre');
+    expect($ebook->getExtra('audio_artist'))->toBeNull();
+    expect($ebook->getExtra('audio_album'))->toBe("La Quête d'Ewilan #01 : D'un monde à l'autre");
+    expect($ebook->getExtra('audio_album_artist'))->toBe('Pierre Bottero, Kelly Marot');
+});
