@@ -248,22 +248,22 @@ Specifications are based on [audiobookshelf](https://www.audiobookshelf.org/docs
 
 Properties of `Audio::class` are:
 
-| **ID3 Tag (case-insensitive) ** | **eBook**                  |
-| ------------------------------- | -------------------------- |
-| `artist` / `album-artist`       | Authors\*                  |
-| `album` / `title`               | Title                      |
-| `subtitle`                      | Extra property `subtitle`  |
-| `publisher`                     | Publisher                  |
-| `year`                          | Publish Year               |
-| `composer`                      | Extra property `narrators` |
-| `description`                   | Description                |
-| `genre`                         | Tags\*\*                   |
-| `series` / `mvnm`               | Series                     |
-| `series-part` / `mvin`          | Volume                     |
-| `language` / `lang`             | Language                   |
-| `isbn`                          | Identifiers `isbn`         |
-| `asin` / `audible_asin`         | Identifiers `asin`         |
-| Overdrive MediaMarkers          | Extra property `chapters`  |
+| **ID3 Tag (case-insensitive)** | **eBook**                  |
+| ------------------------------ | -------------------------- |
+| `artist` / `album-artist`      | Authors\*                  |
+| `album` / `title`              | Title                      |
+| `subtitle`                     | Extra property `subtitle`  |
+| `publisher`                    | Publisher                  |
+| `year`                         | Publish Year               |
+| `composer`                     | Extra property `narrators` |
+| `description`                  | Description                |
+| `genre`                        | Tags\*\*                   |
+| `series` / `mvnm`              | Series                     |
+| `series-part` / `mvin`         | Volume                     |
+| `language` / `lang`            | Language                   |
+| `isbn`                         | Identifiers `isbn`         |
+| `asin` / `audible_asin`        | Identifiers `asin`         |
+| Overdrive MediaMarkers         | Extra property `chapters`  |
 
 -   \* Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
 -   \*\* Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
