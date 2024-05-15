@@ -2,6 +2,30 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.4.8 - 2024-05-15
+
+For audiobooks, specifications are now based on [audiobookshelf](https://www.audiobookshelf.org/docs#book-audio-metadata) specifications.
+
+| **ID3 Tag (case-insensitive) ** | **eBook**                  |
+| ------------------------------- | -------------------------- |
+| `artist` / `album-artist`       | Authors*                  |
+| `album` / `title`               | Title                      |
+| `subtitle`                      | Extra property `subtitle`  |
+| `publisher`                     | Publisher                  |
+| `year`                          | Publish Year               |
+| `composer`                      | Extra property `narrators` |
+| `description`                   | Description                |
+| `genre`                         | Tags**                   |
+| `series` / `mvnm`               | Series                     |
+| `series-part` / `mvin`          | Volume                     |
+| `language` / `lang`             | Language                   |
+| `isbn`                          | Identifiers `isbn`         |
+| `asin` / `audible_asin`         | Identifiers `asin`         |
+| Overdrive MediaMarkers          | Extra property `chapters`  |
+
+- * Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
+- ** Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
+
 ## v2.3.8 - 2024-03-06
 
 - `OpfItem::class` method `getMeta()` is now deprecated. Use `getMetaItems()` instead.
