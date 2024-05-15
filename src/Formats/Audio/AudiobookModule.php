@@ -79,6 +79,7 @@ class AudiobookModule extends EbookModule
             'audio_artist' => $audio->getArtist(),
             'audio_album' => $audio->getAlbum(),
             'audio_album_artist' => $audio->getAlbumArtist(),
+            'audio_composer' => $audio->getComposer(),
         ];
 
         return $this;
@@ -142,6 +143,7 @@ class AudiobookModule extends EbookModule
             'audio_artist' => $this->audio['audio_artist'],
             'audio_album' => $this->audio['audio_album'],
             'audio_album_artist' => $this->audio['audio_album_artist'],
+            'audio_composer' => $this->audio['audio_composer'],
         ]);
 
         $this->ebook->setHasParser(true);
