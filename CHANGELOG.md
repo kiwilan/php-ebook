@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.5.0 - 2024-05-22
+
+- `MetaTitle::class`: `fromData()` method `volume` parameter is now `string|int|float|null` instead of `string|int|null`.
+
 ## v2.4.9 - 2024-05-22
 
 New feature with volume numbers as floats.
@@ -33,6 +37,7 @@ For audiobooks, specifications are now based on [audiobookshelf](https://www.aud
 - * Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
   
 - ** Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
+  
 
 ## v2.3.8 - 2024-03-06
 
