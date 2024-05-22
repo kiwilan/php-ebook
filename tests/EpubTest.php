@@ -184,11 +184,17 @@ it('can parse description', function (string $path) {
     expect($ebook->getDescriptionHtml())->toBe("<div><p>1re vague : Extinction des feux.<br>2e vague : Déferlante.<br>3e vague : Pandémie.<br>4e vague : Silence.<br><br>À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper... Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés.<br><br>Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend...</p><p>Ils connaissent notre manière de penser.</p><p>Ils savent commentr nous exterminer.</p><p>Ils nous ont enlevé toute raison de vivre.</p><p>Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.</p></div>");
 })->with([EPUB_DESCRIPTION]);
 
-it('can parse epub with series but empty volume', function (string $path) {
+it('can parse epub with series and zero volume', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook->getVolume())->toBe(0);
-})->with([EPUB_VOL0]);
+})->with([EPUB_VOLZERO]);
+
+it('can parse epub with series and float volume', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getVolume())->toBe(1.5);
+})->with([EPUB_VOLFLOAT]);
 
 it('can parse epub with bad summary', function (string $path) {
     $ebook = Ebook::read($path);
@@ -209,6 +215,7 @@ it('can read DRM epub', function () {
     expect($ebook->getPublishDate()->format('Y-m-d H:i:s'))->toBe($date->format('Y-m-d H:i:s'));
     expect($ebook->getLanguage())->toBe('fr');
     expect($ebook->getCopyright())->toBe('© 2020 Scrineo');
+    expect($ebook->getVolume())->toBeNull();
 
     $cover = $ebook->getCover();
     $path = 'tests/output/cover-EPUB-DRM.jpg';

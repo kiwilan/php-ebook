@@ -105,7 +105,7 @@ class EpubModule extends EbookModule
                     $this->ebook->setSeries($meta->getContents());
                 }
                 if ($meta->getName() === 'calibre:series_index') {
-                    $this->ebook->setVolume((int) $meta->getContents());
+                    $this->ebook->setVolume($meta->getContents());
                 }
                 if ($meta->getName() === 'calibre:rating') {
                     $rating = (float) $meta->getContents();

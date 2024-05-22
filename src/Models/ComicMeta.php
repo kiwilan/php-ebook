@@ -24,9 +24,10 @@ class ComicMeta
         protected ?int $alternateNumber = null,
         protected ?string $alternateCount = null,
         protected ?int $count = null,
-        protected ?int $volume = null,
+        protected int|float|null $volume = null,
+        protected int|float|null $number = null,
         protected ?string $storyArc = null,
-        protected ?int $storyArcNumber = null,
+        protected int|float|null $storyArcNumber = null,
         protected ?string $seriesGroup = null,
         protected ?string $imprint = null,
         protected ?string $scanInformation = null,
@@ -86,9 +87,14 @@ class ComicMeta
         return $this->count;
     }
 
-    public function volume(): ?int
+    public function volume(): int|float|null
     {
         return $this->volume;
+    }
+
+    public function number(): int|float|null
+    {
+        return $this->number;
     }
 
     public function storyArc(): ?string
@@ -96,7 +102,7 @@ class ComicMeta
         return $this->storyArc;
     }
 
-    public function storyArcNumber(): ?int
+    public function storyArcNumber(): int|float|null
     {
         return $this->storyArcNumber;
     }

@@ -20,6 +20,7 @@ use Kiwilan\Ebook\Formats\Pdf\PdfModule;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\Ebook\Models\BookIdentifier;
 use Kiwilan\Ebook\Models\MetaTitle;
+use Kiwilan\Ebook\Utils\EbookUtils;
 
 class Ebook
 {
@@ -50,7 +51,7 @@ class Ebook
 
     protected ?string $series = null;
 
-    protected ?int $volume = null;
+    protected int|float|null $volume = null;
 
     protected ?string $copyright = null;
 
@@ -469,7 +470,7 @@ class Ebook
     /**
      * Volume of the book.
      */
-    public function getVolume(): ?int
+    public function getVolume(): int|float|null
     {
         return $this->volume;
     }
@@ -902,13 +903,9 @@ class Ebook
         return $this;
     }
 
-    public function setVolume(int|string|null $volume): self
+    public function setVolume(int|string|float|null $volume): self
     {
-        if (is_string($volume)) {
-            $volume = intval($volume);
-        }
-
-        $this->volume = $volume;
+        $this->volume = EbookUtils::parseNumber($volume);
 
         return $this;
     }

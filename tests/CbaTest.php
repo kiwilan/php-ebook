@@ -240,3 +240,13 @@ it('can use ComicMeta', function () {
     expect($meta->mainCharacterOrTeam())->toBe('main character or team');
     expect($meta->format())->toBe('format');
 });
+
+it('can parse cba with alt volume', function () {
+    $ebook = Ebook::read(CBZ_CBAM_VOLUME);
+
+    expect($ebook->getVolume())->toBe(22.5);
+    $comicMeta = $ebook->getExtras()['comicMeta'];
+    expect($comicMeta->volume())->toBe(1.5);
+    expect($comicMeta->number())->toBe(22.5);
+    expect($comicMeta->storyArcNumber())->toBe(2.5);
+});

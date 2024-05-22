@@ -14,6 +14,7 @@ define('CB7', __DIR__.'/media/cba.cb7');
 define('CBZ_CBAM', __DIR__.'/media/cba-cbam.cbz');
 define('CBZ_CBML', __DIR__.'/media/cba-cbml.cbz');
 define('CBZ_CRM', __DIR__.'/media/cba-crm.cbz');
+define('CBZ_CBAM_VOLUME', __DIR__.'/media/cba-cbam-volume.cbz');
 
 define('COMIC_INFO_BASIC', __DIR__.'/media/ComicInfoBasic.xml');
 
@@ -23,6 +24,7 @@ define('EPUB_CONTAINER_EPUB2_EMPTY', __DIR__.'/media/container-epub2-empty.xml')
 define('EPUB_CONTAINER_EPUB3', __DIR__.'/media/container-epub3.xml');
 
 define('EPUB_OPF_EPUB2', __DIR__.'/media/opf-epub2.opf');
+define('EPUB_OPF_EPUB2_VOLUME_FLOAT', __DIR__.'/media/opf-epub-volume-float.opf');
 define('EPUB_OPF_EPUB2_NO_TAGS', __DIR__.'/media/opf-epub2-no-tags.opf');
 define('EPUB_OPF_EPUB3', __DIR__.'/media/opf-epub3.opf');
 define('EPUB_OPF_EPUB3_ALT', __DIR__.'/media/opf-epub3-alt.opf');
@@ -42,7 +44,8 @@ define('EPUB_NO_CONTAINER', __DIR__.'/media/epub-no-container.epub');
 define('EPUB_NO_OPF', __DIR__.'/media/epub-no-opf.epub');
 define('EPUB_BAD_FILE', __DIR__.'/media/epub-bad-file.epub');
 define('EPUB_DESCRIPTION', __DIR__.'/media/epub-description.epub');
-define('EPUB_VOL0', __DIR__.'/media/epub-vol-0.epub');
+define('EPUB_VOLZERO', __DIR__.'/media/epub-volume-zero.epub');
+define('EPUB_VOLFLOAT', __DIR__.'/media/epub-volume-float.epub');
 define('EPUB_EPEE_ET_MORT', __DIR__.'/media/epub-epee-et-mort.epub');
 define('EPUB_DRM', __DIR__.'/media/epub-drm.epub');
 
@@ -52,6 +55,7 @@ define('AUDIOBOOK_EWILAN', __DIR__.'/media/audiobook-ewilan.m4b');
 define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
 define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
 define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');
+define('AUDIOBOOK_EWILAN_VOLUME', __DIR__.'/media/audiobook-ewilan-volume.m4b');
 
 define('FORMAT_AZW3', __DIR__.'/media/alice-lewis-carroll.azw3');
 define('FORMAT_DOCX', __DIR__.'/media/alice-lewis-carroll.docx');
