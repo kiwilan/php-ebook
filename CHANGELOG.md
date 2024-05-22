@@ -2,6 +2,13 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.4.9 - 2024-05-22
+
+New feature with volume numbers as floats.
+
+- `Ebook::class`: now `getVolume()` returns `int|float|null` instead of `int|null`
+- `ComicMeta::class`: new property `number` (`int|float|null`), `volume` and `storyArcNumber` are now `int|float|null` instead of `int|null`
+
 ## v2.4.8 - 2024-05-15
 
 For audiobooks, specifications are now based on [audiobookshelf](https://www.audiobookshelf.org/docs#book-audio-metadata) specifications.
@@ -24,6 +31,7 @@ For audiobooks, specifications are now based on [audiobookshelf](https://www.aud
 | Overdrive MediaMarkers          | Extra property `chapters`  |
 
 - * Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
+  
 - ** Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
 
 ## v2.3.8 - 2024-03-06
