@@ -329,7 +329,7 @@ class MetaTitle
         string $title,
         ?string $language = null,
         ?string $series = null,
-        string|int|null $volume = null,
+        string|int|float|null $volume = null,
         ?string $author = null,
         string|int|null $year = null,
         ?string $extension = null,
