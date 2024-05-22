@@ -89,3 +89,9 @@ it('can parse audiobook with series', function () {
     expect($ebook->getExtra('audio_album'))->toBe("La Quête d'Ewilan #01 : D'un monde à l'autre");
     expect($ebook->getExtra('audio_album_artist'))->toBe('Pierre Bottero, Kelly Marot');
 });
+
+it('can parse audiobook with alt volume', function () {
+    $ebook = Ebook::read(AUDIOBOOK_EWILAN_VOLUME);
+
+    expect($ebook->getVolume())->toBe(1.1);
+});

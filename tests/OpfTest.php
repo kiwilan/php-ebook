@@ -135,3 +135,8 @@ it('can parse epub opf with empty dc:creator', function (string $path) {
 
     expect($opf->getDcCreators())->toBeEmpty();
 })->with([EPUB_OPF_EMPTY_CREATOR]);
+
+it('can use float volume', function () {
+    $opf = OpfItem::make(file_get_contents(EPUB_OPF_EPUB2_VOLUME_FLOAT), EPUB_OPF_EPUB2_VOLUME_FLOAT);
+    expect($opf->getMetaItem('calibre:series_index')->getContents())->toBe('1.5');
+});

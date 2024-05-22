@@ -154,6 +154,7 @@ class CbaModule extends EbookModule
             alternateCount: $this->cbam->getAlternateCount(),
             count: $this->cbam->getCount(),
             volume: $this->cbam->getVolume(),
+            number: $this->cbam->getNumber(),
             storyArc: $this->cbam->getStoryArc(),
             storyArcNumber: $this->cbam->getStoryArcNumber(),
             seriesGroup: $this->cbam->getSeriesGroup(),

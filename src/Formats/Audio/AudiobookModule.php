@@ -8,6 +8,7 @@ use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\Ebook\Models\BookIdentifier;
+use Kiwilan\Ebook\Utils\EbookUtils;
 
 class AudiobookModule extends EbookModule
 {
@@ -62,7 +63,7 @@ class AudiobookModule extends EbookModule
             'synopsis' => $this->parseTag($audio->getTag('description_long')),
             'genres' => $genres,
             'series' => $this->parseTag($series),
-            'series_sequence' => $series_part ? intval($series_part) : null,
+            'series_sequence' => $series_part ? EbookUtils::parseNumber($series_part) : null,
             'language' => $this->parseTag($language),
             'isbn' => $this->parseTag($audio->getTag('isbn')),
             'asin' => $this->parseTag($audio->getTag('asin') ?? $audio->getTag('audible_asin')),

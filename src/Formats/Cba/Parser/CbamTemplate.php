@@ -5,6 +5,7 @@ namespace Kiwilan\Ebook\Formats\Cba\Parser;
 use DateTime;
 use Kiwilan\Ebook\Enums\AgeRatingEnum;
 use Kiwilan\Ebook\Enums\MangaEnum;
+use Kiwilan\Ebook\Utils\EbookUtils;
 use Kiwilan\XmlReader\XmlReader;
 
 /**
@@ -55,7 +56,7 @@ class CbamTemplate extends CbaTemplate
 
     protected ?string $series = null;
 
-    protected ?int $number = null; // Number of the book in the series
+    protected int|float|null $number = null; // Number of the book in the series
 
     protected ?string $summary = null;
 
@@ -92,11 +93,11 @@ class CbamTemplate extends CbaTemplate
 
     protected ?int $count = null; // The total number of books in the series
 
-    protected ?int $volume = null; // Volume containing the book. Only US Comics
+    protected int|float|null $volume = null; // Volume containing the book. Only US Comics
 
     protected ?string $storyArc = null;
 
-    protected ?int $storyArcNumber = null;
+    protected int|float|null $storyArcNumber = null;
 
     protected ?string $seriesGroup = null;
 
@@ -127,9 +128,9 @@ class CbamTemplate extends CbaTemplate
     {
         $this->title = $this->extract('Title');
         $this->series = $this->extract('Series');
-        $this->number = $this->extractInt('Number');
+        $this->number = $this->extractFloat('Number');
         $this->count = $this->extractInt('Count');
-        $this->volume = $this->extractInt('Volume');
+        $this->volume = $this->extractFloat('Volume');
         $this->alternateSeries = $this->extract('AlternateSeries');
         $this->alternateNumber = $this->extractInt('AlternateNumber');
         $this->alternateCount = $this->extract('AlternateCount');
@@ -173,7 +174,7 @@ class CbamTemplate extends CbaTemplate
         $this->locations = $this->arrayable($this->extract('Locations'));
         $this->scanInformation = $this->extract('ScanInformation');
         $this->storyArc = $this->extract('StoryArc');
-        $this->storyArcNumber = $this->extractInt('StoryArcNumber');
+        $this->storyArcNumber = $this->extractFloat('StoryArcNumber');
         $this->seriesGroup = $this->extract('SeriesGroup');
 
         $ageRating = $this->extract('AgeRating');
@@ -220,6 +221,15 @@ class CbamTemplate extends CbaTemplate
     {
         if ($this->extract($key)) {
             return (int) $this->extract($key);
+        }
+
+        return null;
+    }
+
+    private function extractFloat(string $key): int|float|null
+    {
+        if ($this->extract($key)) {
+            return EbookUtils::parseNumber($this->extract($key));
         }
 
         return null;
@@ -352,7 +362,7 @@ class CbamTemplate extends CbaTemplate
         return $this->series;
     }
 
-    public function getNumber(): ?int
+    public function getNumber(): int|float|null
     {
         return $this->number;
     }
@@ -445,7 +455,7 @@ class CbamTemplate extends CbaTemplate
         return $this->count;
     }
 
-    public function getVolume(): ?int
+    public function getVolume(): int|float|null
     {
         return $this->volume;
     }
@@ -455,7 +465,7 @@ class CbamTemplate extends CbaTemplate
         return $this->storyArc;
     }
 
-    public function getStoryArcNumber(): ?int
+    public function getStoryArcNumber(): int|float|null
     {
         return $this->storyArcNumber;
     }
