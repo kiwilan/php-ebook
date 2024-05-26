@@ -4,6 +4,42 @@ namespace Kiwilan\Ebook\Utils;
 
 class EbookUtils
 {
+    /**
+     * @return string[]|null|string|int
+     */
+    public static function parseStringWithSeperator(mixed $content): mixed
+    {
+        if (! $content) {
+            return null;
+        }
+
+        if (! is_string($content)) {
+            return $content;
+        }
+
+        if (str_contains($content, ',')) {
+            $content = explode(',', $content);
+        } elseif (str_contains($content, ';')) {
+            $content = explode(';', $content);
+        } elseif (str_contains($content, '&')) {
+            $content = explode('&', $content);
+        } elseif (str_contains($content, 'and')) {
+            $content = explode('and', $content);
+        } elseif (str_contains($content, '/')) {
+            $content = explode('/', $content);
+        } elseif (str_contains($content, '//')) {
+            $content = explode('//', $content);
+        } else {
+            $content = [$content];
+        }
+
+        if (is_array($content)) {
+            $content = array_map('trim', $content);
+        }
+
+        return $content;
+    }
+
     public static function parseNumber(mixed $number): int|float|null
     {
         if (EbookUtils::isFloat($number)) {

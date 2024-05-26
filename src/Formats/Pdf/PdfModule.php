@@ -7,6 +7,7 @@ use Kiwilan\Ebook\Ebook;
 use Kiwilan\Ebook\EbookCover;
 use Kiwilan\Ebook\Formats\EbookModule;
 use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Utils\EbookUtils;
 
 class PdfModule extends EbookModule
 {
@@ -27,16 +28,7 @@ class PdfModule extends EbookModule
         $author = $this->meta?->getAuthor();
 
         if ($author !== null) {
-            $authors = [];
-            if (str_contains($author, ',')) {
-                $authors = explode(',', $author);
-            } elseif (str_contains($author, '&')) {
-                $authors = explode(',', $author);
-            } elseif (str_contains($author, 'and')) {
-                $authors = explode(',', $author);
-            } else {
-                $authors[] = $author;
-            }
+            $authors = EbookUtils::parseStringWithSeperator($author);
 
             $creators = [];
             foreach ($authors as $author) {
@@ -49,9 +41,9 @@ class PdfModule extends EbookModule
         }
         $this->ebook->setDescription($this->meta?->getSubject());
         $this->ebook->setPublisher($this->meta?->getCreator());
-        $this->ebook->setTags($this->meta?->getKeywords());
+        $keywords = EbookUtils::parseStringWithSeperator($this->meta?->getKeywords());
+        $this->ebook->setTags($keywords);
         $this->ebook->setPublishDate($this->meta?->getCreationDate());
-
         $this->ebook->setHasParser(true);
 
         return $this->ebook;

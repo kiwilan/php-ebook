@@ -37,7 +37,10 @@ class AudiobookModule extends EbookModule
         $audio = $this->ebook->getAudio();
 
         $authors = $audio->getArtist() ?? $audio->getAlbumArtist();
-        $genres = $this->parseGenres($audio->getGenre());
+
+        $genres = EbookUtils::parseStringWithSeperator($audio->getGenre());
+        $genres = array_map('ucfirst', $genres);
+
         $series = $audio->getTag('series') ?? $audio->getTag('mvnm');
         $series_part = $audio->getTag('series-part') ?? $audio->getTag('mvin');
         $series_part = $this->parseTag($series_part);
@@ -51,12 +54,12 @@ class AudiobookModule extends EbookModule
         }
 
         $this->audio = [
-            'authors' => $this->parseAuthors($authors),
+            'authors' => EbookUtils::parseStringWithSeperator($authors),
             'title' => $audio->getAlbum() ?? $audio->getTitle(),
             'subtitle' => $this->parseTag($audio->getTag('subtitle'), false),
             'publisher' => $audio->getTag('encoded_by'),
             'publish_year' => $audio->getYear(),
-            'narrators' => $this->parseAuthors($narrators),
+            'narrators' => EbookUtils::parseStringWithSeperator($narrators),
             'description' => $this->parseTag($audio->getDescription(), false),
             'lyrics' => $this->parseTag($audio->getLyrics()),
             'comment' => $this->parseTag($audio->getComment()),
@@ -184,59 +187,6 @@ class AudiobookModule extends EbookModule
     public function __toString(): string
     {
         return $this->toJson();
-    }
-
-    /**
-     * @return string[]
-     */
-    private function parseGenres(?string $genres): array
-    {
-        if (! $genres) {
-            return [];
-        }
-
-        $items = [];
-        if (str_contains($genres, ';')) {
-            $items = explode(';', $genres);
-        } elseif (str_contains($genres, '/')) {
-            $items = explode('/', $genres);
-        } elseif (str_contains($genres, '//')) {
-            $items = explode('//', $genres);
-        } elseif (str_contains($genres, ',')) {
-            $items = explode(',', $genres);
-        } else {
-            $items = [$genres];
-        }
-
-        $items = array_map('trim', $items);
-        $items = array_map('ucfirst', $items);
-
-        return $items;
-    }
-
-    /**
-     * @return string[]
-     */
-    private function parseAuthors(?string $authors): array
-    {
-        if (! $authors) {
-            return [];
-        }
-
-        $items = [];
-        if (str_contains($authors, ',')) {
-            $items = explode(',', $authors);
-        } elseif (str_contains($authors, ';')) {
-            $items = explode(';', $authors);
-        } elseif (str_contains($authors, '&')) {
-            $items = explode('&', $authors);
-        } elseif (str_contains($authors, 'and')) {
-            $items = explode('and', $authors);
-        } else {
-            $items = [$authors];
-        }
-
-        return array_map('trim', $items);
     }
 
     private function parseTag(?string $tag, bool $flat = true): ?string

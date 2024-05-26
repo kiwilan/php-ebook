@@ -40,7 +40,7 @@ class MetaTitle
         ],
         'fr' => [
             'les ',
-            'l\' ',
+            'l\'',
             'le ',
             'la ',
             'du ',
@@ -296,13 +296,17 @@ class MetaTitle
         protected ?string $slugSimple = null,
         protected ?string $seriesSlug = null,
         protected ?string $seriesSlugSimple = null,
+
+        protected bool $useIntl = true,
     ) {
     }
 
     /**
      * Create a new MetaTitle instance from an Ebook.
+     *
+     * @param  bool  $useIntl  Use intl extension for slugify.
      */
-    public static function fromEbook(Ebook $ebook): ?self
+    public static function fromEbook(Ebook $ebook, bool $useIntl = true): ?self
     {
         if (! $ebook->getTitle()) {
             return null;
@@ -317,6 +321,7 @@ class MetaTitle
             year: $ebook->getPublishDate()?->format('Y'),
             extension: $ebook->getExtension(),
         );
+        $self->useIntl = $useIntl;
         $self->parse();
 
         return $self;
@@ -324,6 +329,8 @@ class MetaTitle
 
     /**
      * Create a new MetaTitle instance from data.
+     *
+     * @param  bool  $useIntl  Use intl extension for slugify.
      */
     public static function fromData(
         string $title,
@@ -333,6 +340,7 @@ class MetaTitle
         ?string $author = null,
         string|int|null $year = null,
         ?string $extension = null,
+        bool $useIntl = true,
     ): self {
         $self = new self(
             title: $title,
@@ -343,6 +351,7 @@ class MetaTitle
             year: (string) $year,
             extension: $extension,
         );
+        $self->useIntl = $useIntl;
         $self->parse();
 
         return $self;
@@ -353,17 +362,23 @@ class MetaTitle
         $title = $this->generateSlug($this->title);
         $language = $this->language ? $this->generateSlug($this->language) : null;
         $series = $this->series ? $this->generateSlug($this->series) : null;
-        $volume = $this->volume ? str_pad((string) $this->volume, 2, '0', STR_PAD_LEFT) : null;
+        $volume = $this->parseVolume($this->volume);
         $author = $this->author ? $this->generateSlug($this->author) : null;
         $year = $this->year ? $this->generateSlug($this->year) : null;
-        $extension = strtolower($this->extension);
-
-        $titleDeterminer = $this->removeDeterminers($this->title, $this->language);
-        $seriesDeterminer = $this->removeDeterminers($this->series, $this->language);
+        $extension = $this->extension ? strtolower($this->extension) : null;
 
         if (! $title) {
             return $this;
         }
+
+        $title = $this->removeDots($title);
+        $language = $this->removeDots($language);
+        $series = $this->removeDots($series);
+        $author = $this->removeDots($author);
+        $year = $this->removeDots($year);
+
+        $titleDeterminer = $this->removeDeterminers($this->title, $this->language);
+        $seriesDeterminer = $this->removeDeterminers($this->series, $this->language);
 
         if ($this->series) {
             $this->slug = $this->generateSlug([
@@ -502,6 +517,40 @@ class MetaTitle
         return $this->slug;
     }
 
+    private function parseVolume(?string $volume): ?string
+    {
+        if ($volume === null) {
+            return null;
+        }
+
+        if ($volume == '0') {
+            return '000';
+        }
+
+        $decimals = null;
+
+        if (str_contains($volume, '.')) {
+            $explode = explode('.', $volume);
+            $volume = $explode[0];
+            $decimals = $explode[1];
+        }
+
+        if (str_contains($volume, ',')) {
+            $explode = explode(',', $volume);
+            $volume = $explode[0];
+            $decimals = $explode[1];
+        }
+
+        // add `0` before volume number to get `000` format
+        $volume = str_pad($volume, 3, '0', STR_PAD_LEFT);
+
+        if ($decimals) {
+            $volume .= '.'.$decimals;
+        }
+
+        return $volume;
+    }
+
     private function removeDeterminers(?string $string, ?string $language): ?string
     {
         if (! $string) {
@@ -515,6 +564,10 @@ class MetaTitle
         if ($language && array_key_exists($language, $articles)) {
             $articlesLang = $articles[$language];
         }
+
+        $uppercaseArticles = array_map('ucfirst', $articlesLang);
+        $lowercaseArticles = array_map('lcfirst', $articlesLang);
+        $articlesLang = array_merge($uppercaseArticles, $lowercaseArticles);
 
         foreach ($articlesLang as $key => $value) {
             $string = preg_replace('/^'.preg_quote($value, '/').'/i', '', $string);
@@ -574,32 +627,41 @@ class MetaTitle
             return null;
         }
 
-        if (! extension_loaded('intl')) {
-            return $this->slugifierNative($title, $separator);
+        if (extension_loaded('intl') && $this->useIntl) {
+            return $this->slugifierIntl($title, $separator, $dictionary);
+        }
+
+        return $this->slugifierNative($title, $separator);
+    }
+
+    private function slugifierIntl(?string $text, string $divider = '-', array $dictionary = ['@' => 'at']): ?string
+    {
+        if (! $text) {
+            return null;
         }
 
         $transliterator = Transliterator::createFromRules(':: Any-Latin; :: Latin-ASCII; :: NFD; :: [:Nonspacing Mark:] Remove; :: Lower(); :: NFC;', Transliterator::FORWARD);
-        $title = $transliterator->transliterate($title);
+        $text = $transliterator->transliterate($text);
 
         // Convert all dashes/underscores into separator
-        $flip = $separator === '-' ? '_' : '-';
+        $flip = $divider === '-' ? '_' : '-';
 
-        $title = preg_replace('!['.preg_quote($flip).']+!u', $separator, $title);
+        $text = preg_replace('!['.preg_quote($flip).']+!u', $divider, $text);
 
         // Replace dictionary words
         foreach ($dictionary as $key => $value) {
-            $dictionary[$key] = $separator.$value.$separator;
+            $dictionary[$key] = $divider.$value.$divider;
         }
 
-        $title = str_replace(array_keys($dictionary), array_values($dictionary), $title);
+        $text = str_replace(array_keys($dictionary), array_values($dictionary), $text);
 
         // Remove all characters that are not the separator, letters, numbers, or whitespace
-        $title = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', strtolower($title));
+        $text = preg_replace('![^'.preg_quote($divider).'\pL\pN\s\.]+!u', '', strtolower($text));
 
         // Replace all separator characters and whitespace by a single separator
-        $title = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $title);
+        $text = preg_replace('!['.preg_quote($divider).'\s]+!u', $divider, $text);
 
-        return trim($title, $separator);
+        return trim($text, $divider);
     }
 
     private function slugifierNative(?string $text, string $divider = '-'): ?string
@@ -608,14 +670,17 @@ class MetaTitle
             return null;
         }
 
+        // remove `'` and `"` characters
+        $text = str_replace(["'"], '', $text);
+
         // replace non letter or digits by divider
-        $text = preg_replace('~[^\pL\d]+~u', $divider, $text);
+        $text = preg_replace('~[^\pL\d.]+~u', $divider, $text);
 
         // transliterate
-        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        $text = $this->removeAccents($text);
 
         // remove unwanted characters
-        $text = preg_replace('~[^-\w]+~', '', $text);
+        $text = preg_replace('~[^-\w.]+~', '', $text);
 
         // trim
         $text = trim($text, $divider);
@@ -631,5 +696,26 @@ class MetaTitle
         }
 
         return $text;
+    }
+
+    private function removeDots(?string $string): ?string
+    {
+        if (! $string) {
+            return null;
+        }
+
+        return str_replace('.', ' ', $string);
+    }
+
+    public function removeAccents(?string $string): ?string
+    {
+        if (! $string) {
+            return null;
+        }
+
+        $string = htmlentities($string, ENT_COMPAT, 'UTF-8');
+        $string = preg_replace('/&([a-zA-Z])(uml|acute|grave|circ|tilde|ring);/', '$1', $string);
+
+        return html_entity_decode($string);
     }
 }
