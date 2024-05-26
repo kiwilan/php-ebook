@@ -2,6 +2,11 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.5.10 - 2024-05-26
+
+- `MetaTitle::class` : now native slugifier is fixed, float volume works now, volume use `000` padding.
+- Allow authors with `,`, `;` and `&` in the name for `.opf`, `.pdf`, `.mobi` and audiobooks.
+
 ## v2.5.0 - 2024-05-22
 
 - `MetaTitle::class`: `fromData()` method `volume` parameter is now `string|int|float|null` instead of `string|int|null`.
