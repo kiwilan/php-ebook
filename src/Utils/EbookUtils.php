@@ -17,13 +17,13 @@ class EbookUtils
             return $content;
         }
 
-        if (str_contains($content, ',')) {
+        if (str_contains($content, ', ')) {
             $content = explode(',', $content);
         } elseif (str_contains($content, ';')) {
             $content = explode(';', $content);
-        } elseif (str_contains($content, '&')) {
+        } elseif (str_contains($content, ' & ')) {
             $content = explode('&', $content);
-        } elseif (str_contains($content, 'and')) {
+        } elseif (str_contains($content, ' and ')) {
             $content = explode('and', $content);
         } elseif (str_contains($content, '/')) {
             $content = explode('/', $content);
