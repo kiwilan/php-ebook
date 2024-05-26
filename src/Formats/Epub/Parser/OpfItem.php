@@ -8,6 +8,7 @@ use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\Ebook\Models\BookContributor;
 use Kiwilan\Ebook\Models\BookIdentifier;
 use Kiwilan\Ebook\Models\BookMeta;
+use Kiwilan\Ebook\Utils\EbookUtils;
 use Kiwilan\XmlReader\XmlReader;
 
 /**
@@ -64,7 +65,7 @@ class OpfItem
     ) {
     }
 
-    public static function make(string $content, string $filename): self
+    public static function make(string $content, ?string $filename = null): self
     {
         $xml = XmlReader::make($content);
         $self = new self($xml);
@@ -364,6 +365,8 @@ class OpfItem
             $items = $core;
         }
 
+        $items = EbookUtils::parseStringWithSeperator($items);
+
         return $items;
     }
 
@@ -411,6 +414,10 @@ class OpfItem
                 continue;
             }
             $attributes = XmlReader::parseAttributes($item);
+            // remove `\n` and `\r` from the name
+            $name = preg_replace('/\s+/', ' ', $name);
+            $name = trim($name);
+
             $items[$name] = new BookAuthor(
                 name: $name,
                 role: $attributes['role'] ?? null,
@@ -549,10 +556,7 @@ class OpfItem
             $attr = XmlReader::parseAttributes($items);
 
             // Check if bad multiple creators `Jean M. Auel, Philippe Rouard` exists
-            if (is_string($content) && str_contains($content, ',')) {
-                $content = explode(',', $content);
-                $content = array_map('trim', $content);
-            }
+            $content = EbookUtils::parseStringWithSeperator($content);
 
             $temp = [];
             // If bad multiple creators exists

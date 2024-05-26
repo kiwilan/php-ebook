@@ -34,6 +34,8 @@ define('EPUB_OPF_EPEEETMORT', __DIR__.'/media/opf-content-epee-et-mort.opf');
 define('EPUB_OPF_NOT_FORMATTED', __DIR__.'/media/opf-not-formatted.opf');
 define('EPUB_OPF_EMPTY_CREATOR', __DIR__.'/media/opf-epub2-empty-creator.opf');
 define('EPUB_OPF_LA5EVAGUE', __DIR__.'/media/opf-content-la-5e-vague.opf');
+define('EPUB_OPF_MULTIPLE_AUTHORS', __DIR__.'/media/opf-epub2-multiple-authors.opf');
+define('EPUB_OPF_MULTIPLE_AUTHORS_MERGE', __DIR__.'/media/opf-epub2-multiple-authors-merge.opf');
 
 define('EPUB', __DIR__.'/media/test-epub.epub');
 define('EPUB_ONE_TAG', __DIR__.'/media/epub-one-tag.epub');

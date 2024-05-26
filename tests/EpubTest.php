@@ -71,7 +71,7 @@ it('can get title meta', function () {
     $ebook = Ebook::read(EPUB);
     $meta = $ebook->getMetaTitle();
 
-    expect($meta->getSlug())->toBe('earths-children-en-01-clan-of-the-cave-bear-jean-m-auel-1980-epub');
+    expect($meta->getSlug())->toBe('earths-children-en-001-clan-of-the-cave-bear-jean-m-auel-1980-epub');
     expect($meta->getSeriesSlug())->toBe('earths-children-en-jean-m-auel-epub');
 
     expect($meta->toArray())->toBeArray();
@@ -194,6 +194,7 @@ it('can parse epub with series and float volume', function (string $path) {
     $ebook = Ebook::read($path);
 
     expect($ebook->getVolume())->toBe(1.5);
+    expect($ebook->getMetaTitle()?->getSlug())->toBe('enfants-de-la-terre-fr-001.5-clan-de-lours-des-cavernes-jean-m-auel-1980-epub');
 })->with([EPUB_VOLFLOAT]);
 
 it('can parse epub with bad summary', function (string $path) {

@@ -10,6 +10,7 @@ use Kiwilan\Ebook\Formats\Mobi\Parser\MobiParser;
 use Kiwilan\Ebook\Formats\Mobi\Parser\MobiReader;
 use Kiwilan\Ebook\Models\BookAuthor;
 use Kiwilan\Ebook\Models\BookIdentifier;
+use Kiwilan\Ebook\Utils\EbookUtils;
 
 /**
  * @docs https://stackoverflow.com/questions/11817047/php-library-to-parse-mobi
@@ -33,7 +34,13 @@ class MobiModule extends EbookModule
             return $this->ebook;
         }
 
+        $authors = [];
         foreach ($this->parser->get(MobiReader::AUTHOR_100, true) as $author) {
+            $authors[] = $author;
+        }
+
+        $authors = EbookUtils::parseStringWithSeperator($authors);
+        foreach ($authors as $author) {
             $this->ebook->setAuthor(new BookAuthor($author));
         }
 
