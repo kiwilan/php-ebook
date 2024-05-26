@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.5.11 - 2024-05-26
+
+`EbookUtils::class` fix `parseStringWithSeperator()` method.
+
 ## v2.5.10 - 2024-05-26
 
 - `MetaTitle::class` : now native slugifier is fixed, float volume works now, volume use `000` padding.
