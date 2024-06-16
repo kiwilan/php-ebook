@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.5.13 - 2024-06-16
+
+- `AudiobookModule::class`: fix parsing of audiobook with volume 0.
+
 ## v2.5.12 - 2024-06-01
 
 `MetaTitle::class`: clear docs
