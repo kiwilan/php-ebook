@@ -95,3 +95,9 @@ it('can parse audiobook with alt volume', function () {
 
     expect($ebook->getVolume())->toBe(1.1);
 });
+
+it('can parse audiobook with alt volume at zero', function () {
+    $ebook = Ebook::read(AUDIOBOOK_EWILAN_VOLUME_ZERO);
+
+    expect($ebook->getVolume())->toBe(0);
+});

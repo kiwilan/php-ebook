@@ -100,7 +100,6 @@ it('can use determiner title', function () {
     $meta = MetaTitle::fromEbook($ebook);
 
     expect($meta->getSlug())->toBe('assassin-royal-fr-000-prince-batard-robin-hobb-1980-epub');
-    ray($ebook->toArray());
 
     $ebook->setTitle("L'apprenti assassin");
     $ebook->setVolume(50);
