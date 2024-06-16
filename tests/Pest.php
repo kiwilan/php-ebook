@@ -58,6 +58,7 @@ define('AUDIOBOOK_PART_1', __DIR__.'/media/audiobook-test-1.mp3');
 define('AUDIOBOOK_PART_2', __DIR__.'/media/audiobook-test-2.mp3');
 define('AUDIOBOOK_CHAPTERS', __DIR__.'/media/audiobook-test.m4b');
 define('AUDIOBOOK_EWILAN_VOLUME', __DIR__.'/media/audiobook-ewilan-volume.m4b');
+define('AUDIOBOOK_EWILAN_VOLUME_ZERO', __DIR__.'/media/audiobook-ewilan-volume-0.m4b');
 
 define('FORMAT_AZW3', __DIR__.'/media/alice-lewis-carroll.azw3');
 define('FORMAT_DOCX', __DIR__.'/media/alice-lewis-carroll.docx');

@@ -43,7 +43,6 @@ class AudiobookModule extends EbookModule
 
         $series = $audio->getTag('series') ?? $audio->getTag('mvnm');
         $series_part = $audio->getTag('series-part') ?? $audio->getTag('mvin');
-        $series_part = $this->parseTag($series_part);
         $language = $audio->getTag('language') ?? $audio->getTag('lang');
         $narrators = $audio->getComposer();
 
@@ -66,7 +65,7 @@ class AudiobookModule extends EbookModule
             'synopsis' => $this->parseTag($audio->getTag('description_long')),
             'genres' => $genres,
             'series' => $this->parseTag($series),
-            'series_sequence' => $series_part ? EbookUtils::parseNumber($series_part) : null,
+            'series_sequence' => $series_part !== null ? EbookUtils::parseNumber($series_part) : null,
             'language' => $this->parseTag($language),
             'isbn' => $this->parseTag($audio->getTag('isbn')),
             'asin' => $this->parseTag($audio->getTag('asin') ?? $audio->getTag('audible_asin')),
