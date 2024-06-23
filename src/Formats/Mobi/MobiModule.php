@@ -59,8 +59,7 @@ class MobiModule extends EbookModule
         $this->ebook->setPublisher($this->parser->get(MobiReader::PUBLISHER_101));
 
         $description = $this->parser->get(MobiReader::DESCRIPTION_103);
-        $this->ebook->setDescription($this->descriptionToString($description));
-        $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
+        $this->ebook->setDescription($description);
 
         foreach ($this->parser->get(MobiReader::SUBJECT_105, true) as $value) {
             $this->ebook->setTag($value);

@@ -80,13 +80,12 @@ class EpubModule extends EbookModule
 
         $authors = array_values($this->opf->getDcCreators());
         $this->ebook->setAuthors($authors);
-        $this->ebook->setDescription($this->descriptionToString($this->opf->getDcDescription()));
-        $this->ebook->setDescriptionHtml($this->descriptionToHtml($this->opf->getDcDescription()));
         $this->ebook->setCopyright(! empty($this->opf->getDcRights()) ? implode(', ', $this->opf->getDcRights()) : null);
         $this->ebook->setPublisher($this->opf->getDcPublisher());
         $this->ebook->setIdentifiers($this->opf->getDcIdentifiers());
         $this->ebook->setPublishDate($this->opf->getDcDate());
         $this->ebook->setLanguage($this->opf->getDcLanguage());
+        $this->ebook->setDescription($this->opf->getDcDescription());
 
         $tags = [];
         if (! empty($this->opf->getDcSubject())) {
