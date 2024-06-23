@@ -49,14 +49,6 @@ it('can parse epub opf meta items', function () {
 
     $meta = $opf->getMetaItems();
 
-    // calibre:title_sort
-    // calibre:series
-    // calibre:series_index
-    // calibre:timestamp
-    // calibre:rating
-    // cover
-    // calibre:author_link_map
-
     $title_sort = $opf->getMetaItem('calibre:title_sort');
     $series = $opf->getMetaItem('calibre:series');
     $series_index = $opf->getMetaItem('calibre:series_index');

@@ -13,8 +13,7 @@ it('can parse format', function (string $path) {
     expect($ebook->getBasename())->toBe($basename);
 
     expect($ebook->getTitle())->toBe("Alice's Adventures in Wonderland");
-    expect($ebook->getDescription())->toBe('With the curious, quick-witted Alice at its heart, readers will not only rediscover characters such as the charming White Rabbit, the formidable Queen of Hearts, the Mad Hatter and the grinning Cheshire Cat but will find fresh and wonderful creations of these characters by a true master of his art,; images that will live in our hearts and minds for generations to come.');
-    expect($ebook->getDescriptionHtml())->toBeString();
+    expect($ebook->getDescriptionAdvanced()->toString())->toBe('With the curious, quick-witted Alice at its heart, readers will not only rediscover characters such as the charming White Rabbit, the formidable Queen of Hearts, the Mad Hatter and the grinning Cheshire Cat but will find fresh and wonderful creations of these characters by a true master of his art,; images that will live in our hearts and minds for generations to come.');
     expect($ebook->getPublisher())->toBe('D. Appleton and Co');
     expect($ebook->getPublishDate())->toBeInstanceOf(DateTime::class);
     expect($ebook->getLanguage())->toBe('en');
@@ -26,7 +25,7 @@ it('can parse format', function (string $path) {
 
     $extension = pathinfo($ebook->getPath(), PATHINFO_EXTENSION);
     if (in_array($extension, ['azw3', 'epub', 'fb2', 'kf8', 'mobi'])) {
-        $slug = $ebook->getMetaTitle()->getUniqueFilename();
+        $slug = $ebook->getMetaTitle()->getSlug();
         $path = "tests/output/{$slug}-cover.jpg";
         if (file_exists($path)) {
             unlink($path);
