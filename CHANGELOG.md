@@ -2,6 +2,34 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.0 - 2024-06-23
+
+**BREAKING CHANGES**
+
+- Remove `getDescriptionHtml()` method from `Ebook` class.
+- Remove `limit` parameter from `getDescription()` method in `Ebook` class.
+- `getDescription()` method in `Ebook` class now returns raw description without any formatting.
+
+**FEATURES**
+
+To access to advanced book description, you can use `getDescriptionAdvanced()` method with `BookDescription` class.
+
+- `getDescription()` method now returns raw description without any formatting.
+- `toHtml()` method formats the description to HTML.
+- `toString()` method formats the description to plain text.
+- `toStringMultiline()` method formats the description to plain text with new lines.
+
+All methods have `limit` parameter to limit the length of the description.
+
+**BUGFIXES**
+
+- Improve audiobook parsing with safe array extraction.
+
+**MISC**
+
+- Remove many utilities method from `EbookModule` class, now `BookDescription` class is responsible for parsing book description.
+- `limitLength()` method is now into `EbookUtils` class.
+
 ## v2.5.13 - 2024-06-16
 
 - `AudiobookModule::class`: fix parsing of audiobook with volume 0.
