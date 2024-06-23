@@ -293,8 +293,7 @@ class MetaTitle
         protected ?string $seriesSlugSimple = null,
 
         protected bool $useIntl = true,
-    ) {
-    }
+    ) {}
 
     /**
      * Create a new MetaTitle instance from an Ebook.

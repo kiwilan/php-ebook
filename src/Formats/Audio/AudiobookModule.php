@@ -93,60 +93,66 @@ class AudiobookModule extends EbookModule
         return $this->audio;
     }
 
+    private function getAudioValue(string $key): mixed
+    {
+        return $this->audio[$key] ?? null;
+    }
+
     public function toEbook(): Ebook
     {
         $authors = [];
-        foreach ($this->audio['authors'] as $author) {
-            $authors[] = new BookAuthor($author, 'author');
+        if ($this->getAudioValue('authors')) {
+            foreach ($this->getAudioValue('authors') as $author) {
+                $authors[] = new BookAuthor($author, 'author');
+            }
         }
 
         $identifiers = [];
-        if ($this->audio['isbn']) {
-            $identifiers[] = ['type' => 'isbn', 'value' => $this->audio['isbn']];
+        if ($this->getAudioValue('isbn')) {
+            $identifiers[] = ['type' => 'isbn', 'value' => $this->getAudioValue('isbn')];
         }
 
-        $date = $this->audio['date'] ? new DateTime(str_replace('/', '-', $this->audio['date'])) : null;
+        $date = $this->getAudioValue('date') ? new DateTime(str_replace('/', '-', $this->getAudioValue('date'))) : null;
 
         $this->ebook->setAuthors($authors);
-        $this->ebook->setTitle($this->audio['title']);
-        $this->ebook->setPublisher($this->audio['publisher']);
-        $this->ebook->setDescription($this->audio['description']);
-        $this->ebook->setDescriptionHtml("<p>{$this->audio['description']}</p>");
-        $this->ebook->setTags($this->audio['genres']);
-        $this->ebook->setSeries($this->audio['series']);
-        $this->ebook->setVolume($this->audio['series_sequence']);
-        $this->ebook->setLanguage($this->audio['language']);
-        if ($this->audio['isbn']) {
-            $this->ebook->setIdentifier(new BookIdentifier($this->audio['isbn'], 'isbn', false));
+        $this->ebook->setTitle($this->getAudioValue('title'));
+        $this->ebook->setPublisher($this->getAudioValue('publisher'));
+        $this->ebook->setDescription($this->getAudioValue('description'));
+        $this->ebook->setTags($this->getAudioValue('genres'));
+        $this->ebook->setSeries($this->getAudioValue('series'));
+        $this->ebook->setVolume($this->getAudioValue('series_sequence'));
+        $this->ebook->setLanguage($this->getAudioValue('language'));
+        if ($this->getAudioValue('isbn')) {
+            $this->ebook->setIdentifier(new BookIdentifier($this->getAudioValue('isbn'), 'isbn', false));
         }
-        if ($this->audio['asin']) {
-            $this->ebook->setIdentifier(new BookIdentifier($this->audio['asin'], 'asin', false));
+        if ($this->getAudioValue('asin')) {
+            $this->ebook->setIdentifier(new BookIdentifier($this->getAudioValue('asin'), 'asin', false));
         }
         if ($date instanceof DateTime) {
             $this->ebook->setPublishDate($date);
         }
-        $this->ebook->setCopyright($this->audio['copyright']);
+        $this->ebook->setCopyright($this->getAudioValue('copyright'));
 
         $this->ebook->setExtras([
-            'subtitle' => $this->audio['subtitle'],
-            'publish_year' => $this->audio['publish_year'],
-            'authors' => $this->audio['authors'],
-            'narrators' => $this->audio['narrators'],
-            'lyrics' => $this->audio['lyrics'],
-            'comment' => $this->audio['comment'],
-            'synopsis' => $this->audio['synopsis'],
-            'chapters' => $this->audio['chapters'],
-            'is_compilation' => $this->audio['is_compilation'],
-            'encoding' => $this->audio['encoding'],
-            'track_number' => $this->audio['track_number'],
-            'disc_number' => $this->audio['disc_number'],
-            'stik' => $this->audio['stik'],
-            'duration' => $this->audio['duration'],
-            'audio_title' => $this->audio['audio_title'],
-            'audio_artist' => $this->audio['audio_artist'],
-            'audio_album' => $this->audio['audio_album'],
-            'audio_album_artist' => $this->audio['audio_album_artist'],
-            'audio_composer' => $this->audio['audio_composer'],
+            'subtitle' => $this->getAudioValue('subtitle'),
+            'publish_year' => $this->getAudioValue('publish_year'),
+            'authors' => $this->getAudioValue('authors'),
+            'narrators' => $this->getAudioValue('narrators'),
+            'lyrics' => $this->getAudioValue('lyrics'),
+            'comment' => $this->getAudioValue('comment'),
+            'synopsis' => $this->getAudioValue('synopsis'),
+            'chapters' => $this->getAudioValue('chapters'),
+            'is_compilation' => $this->getAudioValue('is_compilation'),
+            'encoding' => $this->getAudioValue('encoding'),
+            'track_number' => $this->getAudioValue('track_number'),
+            'disc_number' => $this->getAudioValue('disc_number'),
+            'stik' => $this->getAudioValue('stik'),
+            'duration' => $this->getAudioValue('duration'),
+            'audio_title' => $this->getAudioValue('audio_title'),
+            'audio_artist' => $this->getAudioValue('audio_artist'),
+            'audio_album' => $this->getAudioValue('audio_album'),
+            'audio_album_artist' => $this->getAudioValue('audio_album_artist'),
+            'audio_composer' => $this->getAudioValue('audio_composer'),
         ]);
 
         $this->ebook->setHasParser(true);

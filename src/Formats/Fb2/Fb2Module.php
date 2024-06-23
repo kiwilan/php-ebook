@@ -59,8 +59,7 @@ class Fb2Module extends EbookModule
         $description = $descriptionInfo->title?->annotation;
         $description = $this->arrayToHtml($description);
 
-        $this->ebook->setDescription($this->descriptionToString($description));
-        $this->ebook->setDescriptionHtml($this->descriptionToHtml($description));
+        $this->ebook->setDescription($description);
 
         $documentInfo = $descriptionInfo->document;
         $uuid = $documentInfo?->id ?? null;

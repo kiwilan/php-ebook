@@ -36,7 +36,6 @@ it('can create epub', function () {
     expect($original->getTitle())->toBe($new->getTitle());
     expect($original->getAuthorMain()->getName())->toBe($new->getAuthorMain()->getName());
     expect($original->getDescription())->toBe($new->getDescription());
-    expect($original->getDescriptionHtml())->toBe($new->getDescriptionHtml());
     expect($original->getCopyright())->toBe($new->getCopyright());
     expect($original->getPublisher())->toBe($new->getPublisher());
     expect($original->getIdentifiers()['uuid']->getValue())->toBe($new->getIdentifiers()['uuid']->getValue());

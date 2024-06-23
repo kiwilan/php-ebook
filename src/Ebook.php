@@ -18,6 +18,7 @@ use Kiwilan\Ebook\Formats\Fb2\Fb2Module;
 use Kiwilan\Ebook\Formats\Mobi\MobiModule;
 use Kiwilan\Ebook\Formats\Pdf\PdfModule;
 use Kiwilan\Ebook\Models\BookAuthor;
+use Kiwilan\Ebook\Models\BookDescription;
 use Kiwilan\Ebook\Models\BookIdentifier;
 use Kiwilan\Ebook\Models\MetaTitle;
 use Kiwilan\Ebook\Utils\EbookUtils;
@@ -34,8 +35,6 @@ class Ebook
     protected array $authors = [];
 
     protected ?string $description = null;
-
-    protected ?string $descriptionHtml = null;
 
     protected ?string $publisher = null;
 
@@ -85,8 +84,7 @@ class Ebook
         protected bool $isBadFile = false,
         protected ?EbookParser $parser = null,
         protected bool $hasParser = false,
-    ) {
-    }
+    ) {}
 
     /**
      * Read an ebook file.
@@ -290,7 +288,6 @@ class Ebook
         $this->authorMain = $ebook->getAuthorMain();
         $this->authors = $ebook->getAuthors();
         $this->description = $ebook->getDescription();
-        $this->descriptionHtml = $ebook->getDescriptionHtml();
         $this->publisher = $ebook->getPublisher();
         $this->identifiers = $ebook->getIdentifiers();
         $this->publishDate = $ebook->getPublishDate();
@@ -387,30 +384,19 @@ class Ebook
     }
 
     /**
-     * Description of the book, without HTML.
-     *
-     * If original description has HTML, all HTML will be removed and text will be trimmed.
-     * You can use `getDescriptionHtml()` to get the original description sanitized.
-     *
-     * @param  int|null  $limit  Limit the length of the description.
+     * Raw description of the book.
      */
-    public function getDescription(?int $limit = null): ?string
+    public function getDescription(): ?string
     {
-        if ($limit) {
-            return $this->limitLength($this->description, $limit);
-        }
-
         return $this->description;
     }
 
     /**
-     * Description of the book with HTML sanitized.
-     *
-     * If original description doesn't have HTML, it will be the same as `getDescription()`.
+     * Advanced description with multi-options for the book.
      */
-    public function getDescriptionHtml(): ?string
+    public function getDescriptionAdvanced(): BookDescription
     {
-        return $this->descriptionHtml;
+        return BookDescription::make($this->description);
     }
 
     /**
@@ -481,7 +467,7 @@ class Ebook
     public function getCopyright(?int $limit = null): ?string
     {
         if ($limit) {
-            return $this->limitLength($this->copyright, $limit);
+            return EbookUtils::limitLength($this->copyright, $limit);
         }
 
         return $this->copyright;
@@ -739,19 +725,6 @@ class Ebook
         return $this->cover !== null;
     }
 
-    private function limitLength(?string $string, int $length): ?string
-    {
-        if (! $string) {
-            return null;
-        }
-
-        if (mb_strlen($string) <= $length) {
-            return $string;
-        }
-
-        return mb_substr($string, 0, $length - 1).'…';
-    }
-
     public function setTitle(?string $title): self
     {
         $this->title = $title;
@@ -806,16 +779,13 @@ class Ebook
         return $this;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string|array|null $description): self
     {
+        if (is_array($description)) {
+            $description = implode("\n", $description);
+        }
+
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function setDescriptionHtml(?string $descriptionHtml): self
-    {
-        $this->descriptionHtml = $descriptionHtml;
 
         return $this;
     }
@@ -968,7 +938,6 @@ class Ebook
             'authorMain' => $this->authorMain?->getName(),
             'authors' => array_map(fn (BookAuthor $author) => $author->getName(), $this->authors),
             'description' => $this->description,
-            'descriptionHtml' => $this->descriptionHtml,
             'publisher' => $this->publisher,
             'identifiers' => array_map(fn (BookIdentifier $identifier) => $identifier->toArray(), $this->identifiers),
             'publishDate' => $this->publishDate?->format('Y-m-d H:i:s'),

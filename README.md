@@ -104,7 +104,6 @@ $ebook->getTitle(); // string
 $ebook->getAuthors(); // BookAuthor[] (`name`: string, `role`: string)
 $ebook->getAuthorMain(); // ?BookAuthor => First BookAuthor (`name`: string, `role`: string)
 $ebook->getDescription(); // ?string
-$ebook->getDescriptionHtml(); // ?string
 $ebook->getCopyright(); // ?string
 $ebook->getPublisher(); // ?string
 $ebook->getIdentifiers(); // BookIdentifier[] (`value`: string, `scheme`: string)
@@ -116,6 +115,21 @@ $ebook->getVolume(); // ?int => `calibre:series_index` in EPUB, `number` in CBA
 $ebook->getCreatedAt(); // ?DateTime => file modified date
 $ebook->getSize(); // int => file size in bytes
 $ebook->getSizeHumanReadable(); // string => file size in human readable format
+```
+
+For advanced description parsing, you can use `getDescriptionAdvanced()` method with `BookDescription` class.
+
+```php
+use Kiwilan\Ebook\Ebook;
+
+$ebook = Ebook::read('path/to/ebook.epub');
+
+$description = $ebook->getDescriptionAdvanced(); // BookDescription
+
+$description->getDescription(); // string => raw description
+$description->toHtml(?int $limit = null); // string => description formatted to HTML
+$description->toString(?int $limit = null); // string => description formatted to plain text
+$description->toStringMultiline(?int $limit = null); // string => description formatted to plain text with new lines
 ```
 
 For pages count, you can use these methods:

@@ -10,8 +10,7 @@ class EbookCreator
     public function __construct(
         protected string $path,
         protected ArchiveZipCreate $archive,
-    ) {
-    }
+    ) {}
 
     public static function create(string $path): ArchiveZipCreate
     {

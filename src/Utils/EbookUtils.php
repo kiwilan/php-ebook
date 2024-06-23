@@ -76,4 +76,17 @@ class EbookUtils
 
         return false;
     }
+
+    public static function limitLength(?string $string, int $length): ?string
+    {
+        if (! $string) {
+            return null;
+        }
+
+        if (mb_strlen($string) <= $length) {
+            return $string;
+        }
+
+        return mb_substr($string, 0, $length - 3).'…';
+    }
 }
