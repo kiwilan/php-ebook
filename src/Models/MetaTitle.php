@@ -279,6 +279,9 @@ class MetaTitle
     ];
 
     protected function __construct(
+        protected ?string $originalTitle = null,
+        protected ?string $originalSeries = null,
+
         protected ?string $title = null,
         protected ?string $language = null,
         protected ?string $series = null,
@@ -286,14 +289,12 @@ class MetaTitle
         protected ?string $author = null,
         protected ?string $year = null,
         protected ?string $extension = null,
-
-        protected ?string $slug = null,
-        protected ?string $slugSimple = null,
-        protected ?string $seriesSlug = null,
-        protected ?string $seriesSlugSimple = null,
+        protected ?string $titleDeterminer = null,
+        protected ?string $seriesDeterminer = null,
 
         protected bool $useIntl = true,
-    ) {}
+    ) {
+    }
 
     /**
      * Create a new MetaTitle instance from an Ebook.
@@ -307,6 +308,8 @@ class MetaTitle
         }
 
         $self = new self(
+            originalTitle: $ebook->getTitle(),
+            originalSeries: $ebook->getSeries(),
             title: $ebook->getTitle(),
             language: $ebook->getLanguage(),
             series: $ebook->getSeries(),
@@ -314,8 +317,8 @@ class MetaTitle
             author: $ebook->getAuthorMain()?->getName(),
             year: $ebook->getPublishDate()?->format('Y'),
             extension: $ebook->getExtension(),
+            useIntl: $useIntl,
         );
-        $self->useIntl = $useIntl;
         $self->parse();
 
         return $self;
@@ -337,6 +340,8 @@ class MetaTitle
         bool $useIntl = true,
     ): self {
         $self = new self(
+            originalTitle: $title,
+            originalSeries: $series,
             title: $title,
             language: $language,
             series: $series,
@@ -353,106 +358,187 @@ class MetaTitle
 
     private function parse(): static
     {
-        $title = $this->generateSlug($this->title);
-        $language = $this->language ? $this->generateSlug($this->language) : null;
-        $series = $this->series ? $this->generateSlug($this->series) : null;
-        $volume = $this->parseVolume($this->volume);
-        $author = $this->author ? $this->generateSlug($this->author) : null;
-        $year = $this->year ? $this->generateSlug($this->year) : null;
-        $extension = $this->extension ? strtolower($this->extension) : null;
+        $this->title = $this->generateSlug($this->title);
+        $this->language = $this->language ? $this->generateSlug($this->language) : null;
+        $this->series = $this->series ? $this->generateSlug($this->series) : null;
+        $this->volume = $this->parseVolume($this->volume);
+        $this->author = $this->author ? $this->generateSlug($this->author) : null;
+        $this->year = $this->year ? $this->generateSlug($this->year) : null;
+        $this->extension = $this->extension ? strtolower($this->extension) : null;
 
-        if (! $title) {
+        if (! $this->title) {
             return $this;
         }
 
-        $title = $this->removeDots($title);
-        $language = $this->removeDots($language);
-        $series = $this->removeDots($series);
-        $author = $this->removeDots($author);
-        $year = $this->removeDots($year);
+        $this->title = $this->removeDots($this->title);
+        $this->language = $this->removeDots($this->language);
+        $this->series = $this->removeDots($this->series);
+        $this->author = $this->removeDots($this->author);
+        $this->year = $this->removeDots($this->year);
 
-        $titleDeterminer = $this->removeDeterminers($this->title, $this->language);
-        $seriesDeterminer = $this->removeDeterminers($this->series, $this->language);
-
-        if ($this->series) {
-            $this->slug = $this->generateSlug([
-                $seriesDeterminer,
-                $language,
-                $volume,
-                $titleDeterminer,
-                $author,
-                $year,
-                $extension,
-            ]);
-        } else {
-            $this->slug = $this->generateSlug([
-                $titleDeterminer,
-                $language,
-                $author,
-                $year,
-                $extension,
-            ]);
-        }
-        $this->slugSimple = $this->generateSlug([$title]);
-
-        if (! $this->series) {
-            return $this;
-        }
-
-        $this->seriesSlug = $this->generateSlug([
-            $seriesDeterminer,
-            $language,
-            $author,
-            $extension,
-        ]);
-        $this->seriesSlugSimple = $this->generateSlug([$series]);
+        $this->titleDeterminer = $this->removeDeterminers($this->originalTitle, $this->language);
+        $this->seriesDeterminer = $this->removeDeterminers($this->originalSeries, $this->language);
 
         return $this;
     }
 
     /**
-     * Get slug of book title with addional metadata, like `lord-of-the-rings-001-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en`.
+     * Get slug of book title with addional metadata, like `lord-of-the-rings-001-fellowship-of-the-ring-j-r-r-tolkien-1954-epub-en` with default values.
      *
-     * - Remove determiners, here `The`
-     * - Add serie title, here `Lord of the Rings`
-     * - Add volume, here `1`
-     * - Add author name, here `J. R. R. Tolkien`
-     * - Add year, here `1954`
-     * - Add extension, here `epub`
-     * - Add language, here `en`
+     * @param  bool  $removeDeterminers  Remove determiners, here `The`
+     * @param  bool  $addSeries  Add serie title, here `Lord of the Rings` (if book has series)
+     * @param  bool  $addVolume  Add volume, here `1`
+     * @param  bool  $addAuthor  Add author name, here `J. R. R. Tolkien`
+     * @param  bool  $addYear  Add year, here `1954`
+     * @param  bool  $addExtension  Add extension, here `epub`
+     * @param  bool  $addLanguage  Add language, here `en`
      */
-    public function getSlug(): string
-    {
-        return $this->slug;
+    public function getSlug(
+        bool $removeDeterminers = true,
+        bool $addSeries = true,
+        bool $addVolume = true,
+        bool $addAuthor = true,
+        bool $addYear = true,
+        bool $addExtension = true,
+        bool $addLanguage = true,
+    ): string {
+        $params = [];
+
+        if ($this->series) {
+            if ($addSeries) {
+                if ($removeDeterminers) {
+                    $params[] = $this->seriesDeterminer;
+                } else {
+                    $params[] = $this->series;
+                }
+            }
+
+            if ($addLanguage) {
+                $params[] = $this->language;
+            }
+
+            if ($addVolume) {
+                $params[] = $this->volume;
+            }
+
+            if ($removeDeterminers) {
+                $params[] = $this->titleDeterminer;
+            } else {
+                $params[] = $this->title;
+            }
+
+            if ($addAuthor) {
+                $params[] = $this->author;
+            }
+
+            if ($addYear) {
+                $params[] = $this->year;
+            }
+
+            if ($addExtension) {
+                $params[] = $this->extension;
+            }
+
+            return $this->generateSlug($params);
+        }
+
+        if ($removeDeterminers) {
+            $params[] = $this->titleDeterminer;
+        } else {
+            $params[] = $this->title;
+        }
+
+        if ($addLanguage) {
+            $params[] = $this->language;
+        }
+
+        if ($addAuthor) {
+            $params[] = $this->author;
+        }
+
+        if ($addYear) {
+            $params[] = $this->year;
+        }
+
+        if ($addExtension) {
+            $params[] = $this->extension;
+        }
+
+        return $this->generateSlug($params);
     }
 
     /**
+     * @deprecated Use `getSlug()` with parameters instead.
+     *
      * Get simple slug of book title, like `the-fellowship-of-the-ring`.
      */
     public function getSlugSimple(): string
     {
-        return $this->slugSimple;
+        return $this->getSlug(
+            removeDeterminers: false,
+            addSeries: false,
+            addVolume: false,
+            addAuthor: false,
+            addYear: false,
+            addExtension: false,
+            addLanguage: false,
+        );
     }
 
     /**
      * Get slug of serie title, like `lord-of-the-rings-j-r-r-tolkien-epub-en`.
      *
-     * - Remove determiners, here `The`
-     * - Add author name, here `J. R. R. Tolkien`
-     * - Add extension, here `epub`
-     * - Add language, here `en`
+     * @param  bool  $removeDeterminers,  here `The`
+     * @param  bool  $addAuthor  name, here `J. R. R. Tolkien`, default `false`
+     * @param  bool  $addExtension,  here `epub`
+     * @param  bool  $addLanguage,  here `en`
      */
-    public function getSeriesSlug(): ?string
-    {
-        return $this->seriesSlug;
+    public function getSeriesSlug(
+        bool $removeDeterminers = true,
+        bool $addAuthor = false,
+        bool $addExtension = true,
+        bool $addLanguage = true,
+    ): ?string {
+        if (! $this->series) {
+            return null;
+        }
+
+        $params = [];
+
+        if ($removeDeterminers) {
+            $params[] = $this->seriesDeterminer;
+        } else {
+            $params[] = $this->series;
+        }
+
+        if ($addLanguage) {
+            $params[] = $this->language;
+        }
+
+        if ($addAuthor) {
+            $params[] = $this->author;
+        }
+
+        if ($addExtension) {
+            $params[] = $this->extension;
+        }
+
+        return $this->generateSlug($params);
     }
 
     /**
+     * @deprecated Use `getSeriesSlug()` instead.
+     *
      * Get simple slug of serie title, like `the-lord-of-the-rings`.
      */
     public function getSeriesSlugSimple(): ?string
     {
-        return $this->seriesSlugSimple;
+        return $this->getSeriesSlug(
+            removeDeterminers: false,
+            addAuthor: false,
+            addExtension: false,
+            addLanguage: false,
+        );
     }
 
     /**
@@ -460,7 +546,7 @@ class MetaTitle
      */
     public function getSlugSort(): string
     {
-        return $this->slug;
+        return $this->getSlug();
     }
 
     /**
@@ -468,7 +554,7 @@ class MetaTitle
      */
     public function getSlugUnique(): string
     {
-        return $this->slug;
+        return $this->getSlug();
     }
 
     /**
@@ -476,7 +562,7 @@ class MetaTitle
      */
     public function getSerieSlug(): ?string
     {
-        return $this->seriesSlugSimple;
+        return $this->getSeriesSlugSimple();
     }
 
     /**
@@ -484,7 +570,7 @@ class MetaTitle
      */
     public function getSerieSlugSort(): ?string
     {
-        return $this->seriesSlug;
+        return $this->getSeriesSlug();
     }
 
     /**
@@ -492,7 +578,7 @@ class MetaTitle
      */
     public function getSerieSlugUnique(): ?string
     {
-        return $this->seriesSlug;
+        return $this->getSeriesSlug();
     }
 
     /**
@@ -500,7 +586,7 @@ class MetaTitle
      */
     public function getSlugSortWithSerie(): string
     {
-        return $this->slug;
+        return $this->getSlug();
     }
 
     /**
@@ -508,7 +594,7 @@ class MetaTitle
      */
     public function getUniqueFilename(): string
     {
-        return $this->slug;
+        return $this->getSlug();
     }
 
     private function parseVolume(?string $volume): ?string
@@ -563,8 +649,8 @@ class MetaTitle
         $lowercaseArticles = array_map('lcfirst', $articlesLang);
         $articlesLang = array_merge($uppercaseArticles, $lowercaseArticles);
 
-        foreach ($articlesLang as $key => $value) {
-            $string = preg_replace('/^'.preg_quote($value, '/').'/i', '', $string);
+        foreach ($articlesLang as $articleLang) {
+            $string = preg_replace('/^'.preg_quote($articleLang, '/').'/i', '', $string);
         }
 
         return $string;
@@ -597,16 +683,16 @@ class MetaTitle
     public function toArray(): array
     {
         return [
-            'slug' => $this->slug,
-            'slugSimple' => $this->slugSimple,
-            'seriesSlug' => $this->seriesSlug,
-            'seriesSlugSimple' => $this->seriesSlugSimple,
+            'slug' => $this->getSlug(),
+            'slugSimple' => $this->getSlugSimple(),
+            'seriesSlug' => $this->getSeriesSlug(),
+            'seriesSlugSimple' => $this->getSeriesSlugSimple(),
         ];
     }
 
     public function __toString(): string
     {
-        return "{$this->slug}";
+        return $this->getSlug();
     }
 
     /**
