@@ -11,6 +11,8 @@
 
 PHP package to read metadata and extract covers from eBooks, comics and audiobooks.
 
+> Because metadata are the key against chaos.
+
 -   eBooks: `.epub`, `.pdf`, `.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`, `.fb2`
 -   Comics: `.cbz`, `.cbr`, `.cb7`, `.cbt` (metadata from [github.com/anansi-project](https://github.com/anansi-project))
 -   Audiobooks: `.mp3`, `.m4a`, `.m4b`, `.flac`, `.ogg` with external package[`kiwilan/php-audio`](https://github.com/kiwilan/php-audio) (**MUST** be installed separately)
@@ -228,9 +230,14 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
 $metaTitle->getSlug(); // string => slug title, like `lord-of-the-rings-en-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub`
-$metaTitle->getSlugSimple(); // string => slug title simple, like `the-fellowship-of-the-ring`
-$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-en-j-r-r-tolkien-epub`
-$metaTitle->getSeriesSlugSimple(); // ?string => slug series title simple, like `the-lord-of-the-rings`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-en-epub`
+```
+
+You can customize slug with `MetaTitle::class`:
+
+```php
+$meta->getSlug(removeDeterminers: true, addSeries: true, addVolume: true, addAuthor: true, addYear: true, addExtension: true, addLanguage: true);
+$meta->getSeriesSlug(removeDeterminers: true, addAuthor: false, addExtension: true, addLanguage: true);
 ```
 
 ### Cover
