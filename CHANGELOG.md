@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.1 - 2024-07-10
+
+Refactor `MetaTitle::class`
+
+- `getSeriesSlugSimple()`, `getSlugSimple()` are deprecated
+- `getSlug()` have now multiple parameters to customize the slug: `removeDeterminers`, `addSeries`, `addVolume`, `addAuthor`, `addYear`, `addExtension`, `addLanguage` (all are `true` by default)
+- `getSeriesSlug()` have now multiple parameters to customize the slug: `removeDeterminers`, `addAuthor`, `addExtension`, `addLanguage` (`removeDeterminers`, `addExtension`, `addLanguage` are `true` by default, `addAuthor` is `false` by default)
+
 ## v2.6.0 - 2024-06-23
 
 **BREAKING CHANGES**
