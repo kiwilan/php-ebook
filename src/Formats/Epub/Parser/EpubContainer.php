@@ -15,7 +15,8 @@ class EpubContainer
 
     protected function __construct(
         protected XmlReader $xml,
-    ) {}
+    ) {
+    }
 
     public static function make(string $content): self
     {

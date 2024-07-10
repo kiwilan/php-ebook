@@ -7,7 +7,8 @@ class BookMeta
     public function __construct(
         protected ?string $name = null,
         protected ?string $contents = null,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the meta name.
