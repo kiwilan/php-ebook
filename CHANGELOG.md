@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.3 - 2024-07-10
+
+Fix version
+
 ## v2.6.20 - 2024-07-10
 
 Now CBAM (ComicInfo.xml) with a `Series` but without `Number` will have default `Number` as `0`.
