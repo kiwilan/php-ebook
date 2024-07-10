@@ -128,6 +128,11 @@ class CbamTemplate extends CbaTemplate
         $this->title = $this->extract('Title');
         $this->series = $this->extract('Series');
         $this->number = $this->extractFloat('Number');
+
+        if ($this->series && ! $this->number) {
+            $this->number = 0;
+        }
+
         $this->count = $this->extractInt('Count');
         $this->volume = $this->extractFloat('Volume');
         $this->alternateSeries = $this->extract('AlternateSeries');

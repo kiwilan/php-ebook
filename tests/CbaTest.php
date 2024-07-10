@@ -250,3 +250,10 @@ it('can parse cba with alt volume', function () {
     expect($comicMeta->number())->toBe(22.5);
     expect($comicMeta->storyArcNumber())->toBe(2.5);
 });
+
+it('can parse series without volume', function () {
+    $metadata = XmlReader::make(file_get_contents(COMIC_INFO_SERIES_WITHOUT_VOLUME));
+    $cba = CbamTemplate::make($metadata);
+
+    expect($cba->getNumber())->toBe(0);
+});
