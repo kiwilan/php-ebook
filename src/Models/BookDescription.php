@@ -11,8 +11,7 @@ class BookDescription
 {
     protected function __construct(
         protected ?string $rawDescription = null,
-    ) {
-    }
+    ) {}
 
     public static function make(?string $description): self
     {
