@@ -189,7 +189,7 @@ it('can parse description', function (string $path) {
 <p>Ils nous ont enlevé toute raison de vivre.</p>
 <p>Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.</p></div>");
     expect($ebook->getDescriptionAdvanced()->toString())->toBe("1re vague : Extinction des feux. 2e vague : Déferlante. 3e vague : Pandémie. 4e vague : Silence. À l'aube de la 5e vague, sur une autoroute désertée, Cassie tente de Leur échapper...  Eux, ces êtres qui ressemblent trait pour trait aux humains et qui écument la campagne, exécutant quiconque a le malheur de croiser Leur chemin. Eux, qui ont balayé les dernières poches de résistance et dispersé les quelques rescapés. Pour Cassie, rester en vie signifie rester seule. Elle se raccroche à cette règle jusqu'à ce qu'elle rencontre Evan Walker. Mystérieux et envoûtant, ce garçon pourrait bien être son ultime espoir de sauver son petit frère. Du moins si Evan est bien celui qu'il prétend... Ils connaissent notre manière de penser. Ils savent commentr nous exterminer. Ils nous ont enlevé toute raison de vivre. Ils viennent nous arracher ce pour quoi nous sommes prêts à mourir.");
-})->with([EPUB_DESCRIPTION]);
+})->with([EPUB_DESCRIPTION])->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
 
 it('can parse epub with series and zero volume', function (string $path) {
     $ebook = Ebook::read($path);

@@ -124,4 +124,4 @@ it('can have description with HTML', function (string $path) {
     expect(strlen($limited))->toBe(100);
     expect($limited)->toBe('A natural disaster leaves the young girl wandering alone in an unfamiliar and
       dangerous lan…');
-})->with([EPUB]);
+})->with([EPUB])->skip(PHP_OS_FAMILY === 'Windows', 'Skip on Windows');
