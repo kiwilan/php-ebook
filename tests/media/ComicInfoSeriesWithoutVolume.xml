@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ComicInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Title>You Had One Job</Title>
+  <Series>Fantastic Four</Series>
+  <Writer>Dan Slott</Writer>
+  <Penciller>Paco Medina, Sean Izaakse</Penciller>
+  <Inker>Paco Medina, Sean Izaakse</Inker>
+  <Colorist>Jesus Aburtov, Marcio Menyz</Colorist>
+  <Summary>THE RETURN OF THE NEW FANTASTIC FOUR?! The events of EMPYRE threaten all life on Earth
+    and the future balance of power throughout the cosmos! And the secret mission that the FF have
+    placed into Valeria and Franklin’s hands requires some big-league help!</Summary>
+  <Year>2020</Year>
+  <Month>10</Month>
+  <Day>1</Day>
+  <PageCount>24</PageCount>
+  <Publisher>Marvel</Publisher>
+  <Imprint>Vertigo</Imprint>
+  <LanguageISO>en</LanguageISO>
+  <Format>CBZ</Format>
+  <Manga>No</Manga>
+  <Characters>Alicia Masters, Captain Marvel, Franklin Richards, Human Torch, Invisible Woman,
+    Jo-Venn, Mr. Fantastic, N'kalla, Sky, Spider-Man, Thing, Valeria Richards, Wolverine</Characters>
+  <Teams>Cotati, Fantastic Four, Kree, New Fantastic Four, Skrulls</Teams>
+  <Locations>Earth, New York City, New York, United States of America, Skrull Empire, Skrull
+    Homeworld, Skrull Space, Skrull Starship, Skrull World, Wakanda</Locations>
+  <Web>https://comicvine.gamespot.com/fantastic-four-22-you-had-one-job/4000-787351/</Web>
+  <Notes>Tagged with the ninjas.walk.alone fork of ComicTagger 1.3.3 using info from Comic Vine on
+    2020-08-06 11:23:02. [CVDB787351] Scraped metadata from Comixology [CMXDB844632]</Notes>
+  <AlternateSeries>Empyre</AlternateSeries>
+  <SeriesGroup>Fantastic Four</SeriesGroup>
+  <Letterer>Joe Caramagna</Letterer>
+  <CoverArtist>Espen Grundetjern, Iban Coello, John Rauch, Nick Bradshaw</CoverArtist>
+  <Editor>Alanna Smith, Martin Biro, Tom Brevoort</Editor>
+  <Genre>Superhero</Genre>
+  <AgeRating>Teen</AgeRating>
+  <ScanInformation>Zone-Empire</ScanInformation>
+  <Pages>
+    <Page Image="0" ImageSize="1833151" ImageWidth="1988" ImageHeight="3056" Type="FrontCover" />
+    <Page Image="1" ImageSize="759685" />
+    <Page Image="2" ImageSize="1512273" />
+    <Page Image="3" ImageSize="1744159" />
+    <Page Image="4" ImageSize="2231538" />
+    <Page Image="5" ImageSize="1368429" />
+    <Page Image="6" ImageSize="2192419" />
+    <Page Image="7" ImageSize="1896222" />
+    <Page Image="8" ImageSize="1920578" />
+    <Page Image="9" ImageSize="1790033" />
+    <Page Image="10" ImageSize="1883198" />
+    <Page Image="11" ImageSize="2125301" />
+    <Page Image="12" ImageSize="2057496" />
+    <Page Image="13" ImageSize="1487550" />
+    <Page Image="14" ImageSize="3230017" />
+    <Page Image="15" ImageSize="3913563" />
+    <Page Image="16" ImageSize="1392762" />
+    <Page Image="17" ImageSize="1361652" />
+    <Page Image="18" ImageSize="1491465" />
+    <Page Image="19" ImageSize="3472903" />
+    <Page Image="20" ImageSize="1492856" />
+    <Page Image="21" ImageSize="2104835" />
+    <Page Image="22" ImageSize="2697168" />
+    <Page Image="23" ImageSize="750766" />
+  </Pages>
+</ComicInfo>
