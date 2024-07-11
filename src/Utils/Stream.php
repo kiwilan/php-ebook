@@ -7,7 +7,8 @@ class Stream
     protected function __construct(
         protected $path,
         protected $resource,
-    ) {}
+    ) {
+    }
 
     /**
      * Creates a new instance of Stream.

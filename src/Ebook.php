@@ -84,7 +84,8 @@ class Ebook
         protected bool $isBadFile = false,
         protected ?EbookParser $parser = null,
         protected bool $hasParser = false,
-    ) {}
+    ) {
+    }
 
     /**
      * Read an ebook file.

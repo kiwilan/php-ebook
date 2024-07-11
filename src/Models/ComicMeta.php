@@ -40,7 +40,8 @@ class ComicMeta
         protected ?MangaEnum $manga = null,
         protected ?string $mainCharacterOrTeam = null,
         protected ?string $format = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @return string[]

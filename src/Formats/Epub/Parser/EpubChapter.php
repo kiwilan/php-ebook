@@ -11,7 +11,8 @@ class EpubChapter
         protected ?string $label = null,
         protected ?string $source = null,
         protected ?string $content = null,
-    ) {}
+    ) {
+    }
 
     /**
      * @param  EpubHtml[]  $html
