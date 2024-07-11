@@ -2,11 +2,204 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.3 - 2024-07-10
+
+Fix version
+
+## v2.6.20 - 2024-07-10
+
+Now CBAM (ComicInfo.xml) with a `Series` but without `Number` will have default `Number` as `0`.
+
+## v2.6.1 - 2024-07-10
+
+Refactor `MetaTitle::class`
+
+- `getSeriesSlugSimple()`, `getSlugSimple()` are deprecated
+- `getSlug()` have now multiple parameters to customize the slug: `removeDeterminers`, `addSeries`, `addVolume`, `addAuthor`, `addYear`, `addExtension`, `addLanguage` (all are `true` by default)
+- `getSeriesSlug()` have now multiple parameters to customize the slug: `removeDeterminers`, `addAuthor`, `addExtension`, `addLanguage` (`removeDeterminers`, `addExtension`, `addLanguage` are `true` by default, `addAuthor` is `false` by default)
+
+## v2.6.0 - 2024-06-23
+
+**BREAKING CHANGES**
+
+- Remove `getDescriptionHtml()` method from `Ebook` class.
+- Remove `limit` parameter from `getDescription()` method in `Ebook` class.
+- `getDescription()` method in `Ebook` class now returns raw description without any formatting.
+
+**FEATURES**
+
+To access to advanced book description, you can use `getDescriptionAdvanced()` method with `BookDescription` class.
+
+- `getDescription()` method now returns raw description without any formatting.
+- `toHtml()` method formats the description to HTML.
+- `toString()` method formats the description to plain text.
+- `toStringMultiline()` method formats the description to plain text with new lines.
+
+All methods have `limit` parameter to limit the length of the description.
+
+**BUGFIXES**
+
+- Improve audiobook parsing with safe array extraction.
+
+**MISC**
+
+- Remove many utilities method from `EbookModule` class, now `BookDescription` class is responsible for parsing book description.
+- `limitLength()` method is now into `EbookUtils` class.
+
+## v2.5.13 - 2024-06-16
+
+- `AudiobookModule::class`: fix parsing of audiobook with volume 0.
+
+## v2.5.12 - 2024-06-01
+
+`MetaTitle::class`: clear docs
+
+## v2.5.11 - 2024-05-26
+
+`EbookUtils::class` fix `parseStringWithSeperator()` method.
+
+## v2.5.10 - 2024-05-26
+
+- `MetaTitle::class` : now native slugifier is fixed, float volume works now, volume use `000` padding.
+- Allow authors with `,`, `;` and `&` in the name for `.opf`, `.pdf`, `.mobi` and audiobooks.
+
+## v2.5.0 - 2024-05-22
+
+- `MetaTitle::class`: `fromData()` method `volume` parameter is now `string|int|float|null` instead of `string|int|null`.
+
+## v2.4.9 - 2024-05-22
+
+New feature with volume numbers as floats.
+
+- `Ebook::class`: now `getVolume()` returns `int|float|null` instead of `int|null`
+- `ComicMeta::class`: new property `number` (`int|float|null`), `volume` and `storyArcNumber` are now `int|float|null` instead of `int|null`
+
+## v2.4.8 - 2024-05-15
+
+For audiobooks, specifications are now based on [audiobookshelf](https://www.audiobookshelf.org/docs#book-audio-metadata) specifications.
+
+| **ID3 Tag (case-insensitive) ** | **eBook**                  |
+| ------------------------------- | -------------------------- |
+| `artist` / `album-artist`       | Authors*                  |
+| `album` / `title`               | Title                      |
+| `subtitle`                      | Extra property `subtitle`  |
+| `publisher`                     | Publisher                  |
+| `year`                          | Publish Year               |
+| `composer`                      | Extra property `narrators` |
+| `description`                   | Description                |
+| `genre`                         | Tags**                   |
+| `series` / `mvnm`               | Series                     |
+| `series-part` / `mvin`          | Volume                     |
+| `language` / `lang`             | Language                   |
+| `isbn`                          | Identifiers `isbn`         |
+| `asin` / `audible_asin`         | Identifiers `asin`         |
+| Overdrive MediaMarkers          | Extra property `chapters`  |
+
+- * Authors naming as well as multiple authors separated by `,`, `;`, `&` or `and`.
+  
+- ** Tags can include multiple tags separated by `/`, `//`, or `;`. e.g. "Science Fiction/Fiction/Fantasy"
+  
+
+## v2.3.8 - 2024-03-06
+
+- `OpfItem::class` method `getMeta()` is now deprecated. Use `getMetaItems()` instead.
+- `OpfItem::class` method `getMetaItems()` will now return an array of `BookMeta::class` objects.
+- `OpfItem::class` method `getMetaItem(string $key)` will now return `BookMeta::class` object or null.
+
+## v2.3.7 - 2024-02-05
+
+`MetaTitle::class`: add `fromData()` static method to generate a `MetaTitle` object from a raw data and rename `make()` to `fromEbook()`.
+
+## v2.3.6 - 2024-02-04
+
+- Audiobook: add `language`, `tags` will be splitted by `;` or `,`
+- MetaTitle: now `language` slug will be added just after series if series exists, and before author if not to help for sorting with series in different languages
+
+## v2.3.5 - 2024-01-29
+
+- `Ebook` class: add `getCreatedAt()` method to get the file modified date, add `getSize()` method to get the file size and `getSizeHumanReadable()` method to get the file size in human readable format
+- `AudiobookModule`: add all audio metadata to `getExtras()` method, remove `comment` from `getDescription()` method (now available into `getExtras()` method)
+
+## v2.3.4 - 2024-01-28
+
+- Remove year from `MetaTitle` `getSeriesSlug()` to avoid duplicate series.
+- Move namespace `Tools` to `Models`
+
+## v2.3.3 - 2024-01-28
+
+Refactor determiners for `MetaTitle`.
+
+## v2.3.2 - 2024-01-27
+
+Fix version.
+
+## v2.3.12 - 2024-01-27
+
+In `MetaTitle`, add series before title for `getSlug()`.
+
+## v2.3.11 - 2024-01-27
+
+In `MetaTitle`, move year after author.
+
+## v2.3.1 - 2024-01-27
+
+Deprecated some `MetaTitle` methods `getSlugSort()`, `getSlugUnique()`, `getSerieSlug()`, `getSerieSlugSort()`, `getSerieSlugUnique()`, `getSlugSortWithSerie()`, `getUniqueFilename()`. Now only `getSlug()`, `getSlugSimple()`, `getSeriesSlug()`, `getSeriesSlugSimple()` are available.
+
+Slug have to be unique, so default slug take some metadata to be unique, like in this example:
+
+An EPUB with title `La pâle lumière des ténèbres` with main author `Pierre Bottero`, series `A comme Association`, volume `1`, language `fr` and published in `1980` will have the slug `pale-lumiere-des-tenebres-a-comme-association-01-1980-pierre-bottero-epub-fr`.
+
+You can use `getSlugSimple()` to have a simple slug, like `pale-lumiere-des-tenebres`.
+
+For series, you can use `getSeriesSlug()` to have a slug with series name, like `a-comme-association-1980-pierre-bottero-epub-fr`.
+
+And `getSeriesSlugSimple()` to have a simple slug with series name, like `a-comme-association`.
+
+## v2.3.0 - 2024-01-22
+
+Drop `kiwilan/php-audio` dependency.
+
+Audiobooks are cool, but I suppose many users don't need it. So I think it's better to drop `kiwilan/php-audio` dependency, you have to install `kiwilan/php-audio` manually.
+If you scan audiobooks without `kiwilan/php-audio` installed, you will get an error message.
+
+## v2.2.01 - 2023-12-06
+
+Update dependencies (drop symfony/process dependency)
+
+- `EbookMetadata` is now `EbookParser` for consistency
+  
+  - Method `getMetadata` is now `getParser`
+  - Method `hasMetadata` is now `hasParser`
+  
+- `BookIdentifier` can use now `autoDetect` to detect identifier `scheme` from `value`, you can disable this feature by passing `false` as third argument
+  
+
+## v2.2.0 - 2023-09-24
+
+### Breaking changes
+
+- All `Metadata` internal classes have been renamed to `Module`
+- Some internal parser classes, have been moved into `Parser` namespace
+- All `getContent()` methods have been renamed to `getContents()` (old methods are deprecated)
+
+### New features
+
+- MOBI and derivatives support (`.azw`, `.azw3`, `.kf8`, `.kfx`, `.mobi`, `.prc`) with cover
+- FB2 support (`.fb2`) with cover and series
+- Improve BookIdentifier scheme detection
+
+### Misc
+
+- Fixing EPUB volume `0` issue
+- Add more tests with samples
+- Update dependencies
+- Improve documentation
+
 ## v2.1.02 - 2023-08-30
 
-- Better handle of PDF, parser works even if metadata are not present   
-  - Add more tests on PDF, update `kiwilan/php-archive` with patch for PDF   
-  - Thanks to @SergioMendolia for PR [https://github.com/kiwilan/php-ebook/pull/48](https://github.com/kiwilan/php-ebook/pull/48)   
+- Better handle of PDF, parser works even if metadata are not present
+  - Add more tests on PDF, update `kiwilan/php-archive` with patch for PDF
+  - Thanks to @SergioMendolia for PR [https://github.com/kiwilan/php-ebook/pull/48](https://github.com/kiwilan/php-ebook/pull/48)
   
 
 ## v2.1.01 - 2023-08-29
@@ -16,8 +209,8 @@ All notable changes to `php-ebook` will be documented in this file.
 ## v2.1.0 - 2023-08-28
 
 - Add some improvements for `description` parsing (remove extra spaces, remove newlines, etc.)
-- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance   
-  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`   
+- Add `EbookCreator::class` with `create()` method into `Ebook::class` that allows to create ebook from `Ebook` instance
+  - Some methods allow to set content to ebook: `addFromString()`, `addFile()`, `addDirectory()`
   
 
 ## v2.0.20 - 2023-08-28
