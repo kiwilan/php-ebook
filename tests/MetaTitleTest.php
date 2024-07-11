@@ -15,7 +15,7 @@ it('can be slugify', function () {
     $meta = MetaTitle::fromEbook($ebook);
 
     expect($meta->getSlug())->toBe('a-comme-association-fr-001-pale-lumiere-des-tenebres-pierre-bottero-1980-epub');
-    expect($meta->getSeriesSlug())->toBe('a-comme-association-fr-epub');
+    expect($meta->getSeriesSlug())->toBe('a-comme-association-fr');
     // deprecated
     expect($meta->getSlugSimple())->toBe('la-pale-lumiere-des-tenebres');
     expect($meta->getSeriesSlugSimple())->toBe('a-comme-association');
@@ -32,7 +32,7 @@ it('can use setters', function () {
     $meta = MetaTitle::fromEbook($ebook);
 
     expect($meta->getSlug())->toBe('lord-of-the-rings-en-001-fellowship-of-the-ring-j-r-r-tolkien-1980-epub');
-    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-en-epub');
+    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-en');
     // deprecated
     expect($meta->getSlugSimple())->toBe('the-fellowship-of-the-ring');
     expect($meta->getSeriesSlugSimple())->toBe('the-lord-of-the-rings');
@@ -63,7 +63,7 @@ it('can use from data', function () {
     );
 
     expect($meta->getSlug())->toBe('lord-of-the-rings-en-001-fellowship-of-the-ring-j-r-r-tolkien-1980-epub');
-    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-en-epub');
+    expect($meta->getSeriesSlug())->toBe('lord-of-the-rings-en');
     // deprecated
     expect($meta->getSlugSimple())->toBe('the-fellowship-of-the-ring');
     expect($meta->getSeriesSlugSimple())->toBe('the-lord-of-the-rings');
@@ -81,7 +81,7 @@ it('can slug without intl', function () {
     );
 
     expect($meta->getSlug())->toBe('a-comme-association-fr-001.5-pale-lumiere-des-tenebres-pierre-bottero-epub');
-    expect($meta->getSeriesSlug())->toBe('a-comme-association-fr-epub');
+    expect($meta->getSeriesSlug())->toBe('a-comme-association-fr');
     // deprecated
     expect($meta->getSlugSimple())->toBe('la-pale-lumiere-des-tenebres');
     expect($meta->getSeriesSlugSimple())->toBe('a-comme-association');

@@ -113,7 +113,8 @@ class CbamTemplate extends CbaTemplate
 
     protected function __construct(
         protected XmlReader $xml,
-    ) {}
+    ) {
+    }
 
     public static function make(XmlReader $xml): self
     {

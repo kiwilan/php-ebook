@@ -22,7 +22,8 @@ class EbookParser
         protected ?Fb2Module $fb2 = null,
         protected ?PdfModule $pdf = null,
         protected ?string $type = null,
-    ) {}
+    ) {
+    }
 
     public static function make(EbookModule $module): self
     {

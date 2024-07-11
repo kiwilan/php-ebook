@@ -9,7 +9,8 @@ class MobiImages
     protected function __construct(
         protected Stream $stream,
         protected array $items = [],
-    ) {}
+    ) {
+    }
 
     public static function make(string $path): ?self
     {

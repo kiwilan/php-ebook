@@ -293,7 +293,8 @@ class MetaTitle
         protected ?string $seriesDeterminer = null,
 
         protected bool $useIntl = true,
-    ) {}
+    ) {
+    }
 
     /**
      * Create a new MetaTitle instance from an Ebook.
@@ -489,13 +490,13 @@ class MetaTitle
      *
      * @param  bool  $removeDeterminers,  here `The`
      * @param  bool  $addAuthor  name, here `J. R. R. Tolkien`, default `false`
-     * @param  bool  $addExtension,  here `epub`
+     * @param  bool  $addExtension,  here `epub`, default `false`
      * @param  bool  $addLanguage,  here `en`
      */
     public function getSeriesSlug(
         bool $removeDeterminers = true,
         bool $addAuthor = false,
-        bool $addExtension = true,
+        bool $addExtension = false,
         bool $addLanguage = true,
     ): ?string {
         if (! $this->series) {
