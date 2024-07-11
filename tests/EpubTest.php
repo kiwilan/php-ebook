@@ -73,7 +73,7 @@ it('can get title meta', function () {
     $meta = $ebook->getMetaTitle();
 
     expect($meta->getSlug())->toBe('earths-children-en-001-clan-of-the-cave-bear-jean-m-auel-1980-epub');
-    expect($meta->getSeriesSlug())->toBe('earths-children-en-epub');
+    expect($meta->getSeriesSlug())->toBe('earths-children-en');
 
     expect($meta->toArray())->toBeArray();
     expect($meta->__toString())->toBeString();
