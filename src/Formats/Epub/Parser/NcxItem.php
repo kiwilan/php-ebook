@@ -23,8 +23,7 @@ class NcxItem
 
     protected function __construct(
         protected XmlReader $xml,
-    ) {
-    }
+    ) {}
 
     public static function make(string $content): self
     {
@@ -162,8 +161,7 @@ class NcxItemHead
     protected function __construct(
         protected ?string $name = null,
         protected ?string $content = null,
-    ) {
-    }
+    ) {}
 
     public static function make(array $xml): self
     {
@@ -201,8 +199,7 @@ class NcxItemNavPoint
         protected ?string $label = null,
         protected ?string $src = null,
         protected ?string $class = null,
-    ) {
-    }
+    ) {}
 
     public static function make(array $xml): self
     {

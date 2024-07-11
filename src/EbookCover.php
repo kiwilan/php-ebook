@@ -7,8 +7,7 @@ class EbookCover
     protected function __construct(
         protected ?string $path = null,
         protected ?string $contents = null,
-    ) {
-    }
+    ) {}
 
     public static function make(?string $path = null, ?string $contents = null): ?self
     {
