@@ -230,14 +230,14 @@ $ebook = Ebook::read('path/to/ebook.epub');
 $metaTitle = $ebook->getMetaTitle(); // ?MetaTitle
 
 $metaTitle->getSlug(); // string => slug title, like `lord-of-the-rings-en-01-fellowship-of-the-ring-j-r-r-tolkien-1954-epub`
-$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-en-epub`
+$metaTitle->getSeriesSlug(); // ?string => slug series title, like `lord-of-the-rings-en`
 ```
 
 You can customize slug with `MetaTitle::class`:
 
 ```php
 $meta->getSlug(removeDeterminers: true, addSeries: true, addVolume: true, addAuthor: true, addYear: true, addExtension: true, addLanguage: true);
-$meta->getSeriesSlug(removeDeterminers: true, addAuthor: false, addExtension: true, addLanguage: true);
+$meta->getSeriesSlug(removeDeterminers: true, addAuthor: false, addExtension: false, addLanguage: true);
 ```
 
 ### Cover

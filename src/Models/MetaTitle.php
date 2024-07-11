@@ -293,7 +293,8 @@ class MetaTitle
         protected ?string $seriesDeterminer = null,
 
         protected bool $useIntl = true,
-    ) {}
+    ) {
+    }
 
     /**
      * Create a new MetaTitle instance from an Ebook.
