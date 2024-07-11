@@ -7,8 +7,7 @@ class BookAuthor
     public function __construct(
         protected ?string $name = null,
         protected ?string $role = null,
-    ) {
-    }
+    ) {}
 
     public function getName(): ?string
     {

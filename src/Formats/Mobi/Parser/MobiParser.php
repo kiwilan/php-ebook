@@ -24,8 +24,7 @@ class MobiParser
         protected ?ExthHeader $exthHeader = null,
         protected ?MobiImages $images = null,
         protected bool $isValid = false,
-    ) {
-    }
+    ) {}
 
     public static function make(string $path): ?self
     {
@@ -240,8 +239,7 @@ class PalmDOCHeader
         public int $textLength = 0,
         public int $records = 0,
         public int $recordSize = 0,
-    ) {
-    }
+    ) {}
 }
 
 class PalmRecord
@@ -250,8 +248,7 @@ class PalmRecord
         public int $offset = 0,
         public int $attributes = 0,
         public int $id = 0
-    ) {
-    }
+    ) {}
 }
 
 class MobiHeader
@@ -262,8 +259,7 @@ class MobiHeader
         public int $encoding = 0,
         public int $id = 0,
         public int $fileVersion = 0,
-    ) {
-    }
+    ) {}
 }
 
 class ExthHeader
@@ -274,8 +270,7 @@ class ExthHeader
     public function __construct(
         public int $length = 0,
         public array $records = [],
-    ) {
-    }
+    ) {}
 }
 
 class ExthRecord
@@ -284,6 +279,5 @@ class ExthRecord
         public int $type = 0,
         public int $length = 0,
         public ?string $data = null,
-    ) {
-    }
+    ) {}
 }
