@@ -18,8 +18,7 @@ class Fb2Parser
         protected ?array $body = null,
         protected ?array $binary = null,
         protected ?string $cover = null,
-    ) {
-    }
+    ) {}
 
     public static function make(string $path): self
     {
@@ -279,8 +278,7 @@ class Fb2MetaDescription
         public ?Fb2MetaDescriptionTitle $title = null,
         public ?Fb2MetaDescriptionDocument $document = null,
         public ?Fb2MetaDescriptionPublish $publish = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaDescriptionTitle
@@ -297,8 +295,7 @@ class Fb2MetaDescriptionTitle
         public ?string $keywords = null,
         public ?Fb2MetaSequence $sequence = null,
         public ?array $annotation = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaDescriptionDocument
@@ -312,8 +309,7 @@ class Fb2MetaDescriptionDocument
         public ?string $date = null,
         public ?string $id = null,
         public ?string $version = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaDescriptionPublish
@@ -322,8 +318,7 @@ class Fb2MetaDescriptionPublish
         public ?string $publisher = null,
         public ?string $year = null,
         public ?string $isbn = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaBinaryItem
@@ -331,8 +326,7 @@ class Fb2MetaBinaryItem
     public function __construct(
         public ?array $attributes = null,
         public ?string $content = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaAuthor
@@ -340,8 +334,7 @@ class Fb2MetaAuthor
     public function __construct(
         public ?string $firstName = null,
         public ?string $lastName = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaSequence
@@ -349,14 +342,12 @@ class Fb2MetaSequence
     public function __construct(
         public ?string $name = null,
         public ?string $number = null,
-    ) {
-    }
+    ) {}
 }
 
 class Fb2MetaCoverpage
 {
     public function __construct(
         public ?string $href = null,
-    ) {
-    }
+    ) {}
 }

@@ -9,8 +9,7 @@ abstract class EbookModule
 {
     protected function __construct(
         protected Ebook $ebook,
-    ) {
-    }
+    ) {}
 
     abstract public static function make(Ebook $ebook): self;
 
