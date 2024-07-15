@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.5 - 2024-07-15
+
+Fix issue #71 with PR #89 by @basitcodeenv, thanks!
+
 ## v2.6.4 - 2024-07-11
 
 `MetaTitle::class` with `getSeriesSlug()`, `addExtension` parameter is now as `false` by default, to avoid split series between `.cbz` and `.cbr` or `.m4b` and `.mp3` files.
