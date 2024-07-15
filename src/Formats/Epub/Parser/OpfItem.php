@@ -71,11 +71,9 @@ class OpfItem
 
         $content = $xml->getContents();
         $self->epubVersion = $self->xml->getRootAttribute('version');
-        $metadata = $content['metadata'] ?? [];
+        $metadata = $content['metadata'] ?? $content['opf:metadata'] ?? [];
+        $manifest = $content['manifest'] ?? $content['opf:manifest'] ?? [];
 
-        if (array_key_exists('opf:metadata', $content)) {
-            $metadata = $content['opf:metadata'] ?? [];
-        }
         $manifest = $content['manifest'] ?? [];
         $spine = $content['spine'] ?? [];
         $guide = $content['guide'] ?? [];
@@ -196,7 +194,7 @@ class OpfItem
             return [];
         }
 
-        $core = $this->manifest['item'] ?? null;
+        $core = $this->manifest['item'] ?? $this->manifest['opf:item'] ?? null;
 
         if (empty($core)) {
             return [];

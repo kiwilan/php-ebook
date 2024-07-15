@@ -47,7 +47,7 @@ class EpubChapter
     private static function findByFilename(array $html, string $filename)
     {
         foreach ($html as $item) {
-            if ($filename == $item->getFilename()) {
+            if (str_contains($item->getFilename(), $filename)) {
                 return $item;
             }
         }
