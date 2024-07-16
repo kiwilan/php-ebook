@@ -257,3 +257,14 @@ it('can parse series without volume', function () {
 
     expect($cba->getNumber())->toBe(0);
 });
+
+it('can parse comics pages', function (string $path) {
+    $ebook = Ebook::read($path);
+
+    expect($ebook->getPagesCount())->toBeInt();
+})->with([
+    CBZ_CBAM,
+    CBZ_CRM,
+    CBZ_CBAM_VOLUME,
+    CBZ_CBAM_NO_PAGES,
+]);
