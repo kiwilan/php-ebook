@@ -74,7 +74,6 @@ class OpfItem
         $metadata = $content['metadata'] ?? $content['opf:metadata'] ?? [];
         $manifest = $content['manifest'] ?? $content['opf:manifest'] ?? [];
 
-        $manifest = $content['manifest'] ?? [];
         $spine = $content['spine'] ?? [];
         $guide = $content['guide'] ?? [];
 
