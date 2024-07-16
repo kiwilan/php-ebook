@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.7 - 2024-07-16
+
+Fix `CbamTemplate::class` pages count, if `PageCount` is not set, then use `getArchive()->getCount()` from `Ebook::class`.
+
 ## v2.6.6 - 2024-07-16
 
 Hotfix PR #91 for issue #71 by @basitcodeenv, thanks!
