@@ -146,7 +146,12 @@ class CbaModule extends EbookModule
         $this->ebook->setTags($this->cbam->getGenres());
         $this->ebook->setSeries($this->cbam->getSeries());
         $this->ebook->setVolume($this->cbam->getNumber());
-        $this->ebook->setPagesCount($this->cbam->getPageCount());
+
+        $count = $this->cbam->getPageCount();
+        if (! $count) {
+            $count = $this->ebook->getArchive()->getCount();
+        }
+        $this->ebook->setPagesCount($count);
 
         $comicMeta = new ComicMeta(
             alternateSeries: $this->cbam->getAlternateSeries(),

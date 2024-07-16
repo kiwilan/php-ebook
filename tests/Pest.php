@@ -15,6 +15,9 @@ define('CBZ_CBAM', __DIR__.'/media/cba-cbam.cbz');
 define('CBZ_CBML', __DIR__.'/media/cba-cbml.cbz');
 define('CBZ_CRM', __DIR__.'/media/cba-crm.cbz');
 define('CBZ_CBAM_VOLUME', __DIR__.'/media/cba-cbam-volume.cbz');
+define('CBZ_CBAM_NO_PAGES', __DIR__.'/media/cba-cbam-no-pages.cbz');
+
+define('TEST_CBZ', __DIR__.'/media/v-pour-vendetta-fr-alan-moore-2022-cbz-alan-moore-comics.cbz');
 
 define('COMIC_INFO_BASIC', __DIR__.'/media/ComicInfoBasic.xml');
 define('COMIC_INFO_SERIES_WITHOUT_VOLUME', __DIR__.'/media/ComicInfoSeriesWithoutVolume.xml');
