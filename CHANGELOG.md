@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.6 - 2024-07-16
+
+Hotfix PR #91 for issue #71 by @basitcodeenv, thanks!
+
 ## v2.6.5 - 2024-07-15
 
 Fix issue #71 with PR #89 by @basitcodeenv, thanks!
