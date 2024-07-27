@@ -101,3 +101,9 @@ it('can parse audiobook with alt volume at zero', function () {
 
     expect($ebook->getVolume())->toBe(0);
 });
+
+it('can parse audiobook without genres', function () {
+    $ebook = Ebook::read(AUDIOBOOK_EWILAN_NO_GENRES);
+
+    expect($ebook->getTags())->toBeEmpty();
+});
