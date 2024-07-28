@@ -2,6 +2,12 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v2.6.9 - 2024-07-28
+
+Add `duration_human_readable` for `getExtras()` method for audiobooks.
+
+Works with `kiwilan/php-audio` v3.0.08.
+
 ## v2.6.8 - 2024-07-28
 
 Fix missing genres crash for audiobooks.
