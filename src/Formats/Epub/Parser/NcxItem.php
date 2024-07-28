@@ -165,7 +165,7 @@ class NcxItemHead
 
     public static function make(array $xml): self
     {
-        $self = new self();
+        $self = new self;
         $self->name = $xml['name'] ?? null;
         $self->content = $xml['content'] ?? null;
 
@@ -203,7 +203,7 @@ class NcxItemNavPoint
 
     public static function make(array $xml): self
     {
-        $self = new self();
+        $self = new self;
 
         $self->label = $xml['navLabel']['text'] ?? null;
         $self->src = $xml['content']['@attributes']['src'] ?? null;

@@ -22,22 +22,23 @@ jobs:
         run: |
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
           brew update
+          brew upgrade
           brew install p7zip rar ghostscript
           brew install imagemagick
         shell: bash
 
-      - name: Add rar extension
-        run: |
-          git clone https://github.com/cataphract/php-rar
-          cd php-rar
-          phpize
-          ./configure
-          sudo make
-          sudo make install
-          pecl_path=$(pecl config-get ext_dir)
-          phpini_path=$(php -i | grep /.+/php.ini -oE)
-          sudo cp ./modules/rar.so $pecl_path
-          sudo echo "extension=rar.so" > $phpini_path
+      # - name: Add rar extension
+      #   run: |
+      #     git clone https://github.com/cataphract/php-rar
+      #     cd php-rar
+      #     phpize
+      #     ./configure
+      #     sudo make
+      #     sudo make install
+      #     pecl_path=$(pecl config-get ext_dir)
+      #     phpini_path=$(php -i | grep /.+/php.ini -oE)
+      #     sudo cp ./modules/rar.so $pecl_path
+      #     sudo echo "extension=rar.so" > $phpini_path
 
       - name: Setup problem matchers
         run: |
@@ -47,8 +48,8 @@ jobs:
       - name: Install dependencies
         run: composer update --prefer-dist --no-interaction
 
-      - name: Check extension rar
-        run: php -m | grep rar
+      # - name: Check extension rar
+      #   run: php -m | grep rar
 
       - name: Check extension imagick
         run: php -m | grep imagick

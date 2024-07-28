@@ -39,7 +39,11 @@ class AudiobookModule extends EbookModule
         $authors = $audio->getArtist() ?? $audio->getAlbumArtist();
 
         $genres = EbookUtils::parseStringWithSeperator($audio->getGenre());
-        $genres = array_map('ucfirst', $genres);
+        if (! is_array($genres)) {
+            $genres = null;
+        } else {
+            $genres = array_map('ucfirst', $genres);
+        }
 
         $series = $audio->getTag('series') ?? $audio->getTag('mvnm');
         $series_part = $audio->getTag('series-part') ?? $audio->getTag('mvin');
