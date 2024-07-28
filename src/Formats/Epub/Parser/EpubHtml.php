@@ -15,7 +15,7 @@ class EpubHtml
 
     public static function make(?string $html, ?string $filename): self
     {
-        $self = new self();
+        $self = new self;
 
         if (! $html || ! $filename) {
             return $self;

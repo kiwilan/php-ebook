@@ -81,7 +81,7 @@ class MobiParser
             $this->palmRecords[] = $record;
         }
 
-        $this->palmDOCHeader = new PalmDOCHeader();
+        $this->palmDOCHeader = new PalmDOCHeader;
         $this->stream->seek($this->palmRecords[0]->offset);
         $this->palmDOCHeader->compression = $this->stream->binaryToDecimal($this->stream->read(2));
         $this->stream->read(2);
