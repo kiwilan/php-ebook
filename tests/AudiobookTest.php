@@ -107,3 +107,12 @@ it('can parse audiobook without genres', function () {
 
     expect($ebook->getTags())->toBeEmpty();
 });
+
+it('can parse audiobook emma', function () {
+    $ebook = Ebook::read(AUDIOBOOK_EWILAN);
+    $duration = $ebook->getExtra('duration');
+    $duration_human_readable = $ebook->getExtra('duration_human_readable');
+
+    expect($duration)->toBe(33.0);
+    expect($duration_human_readable)->toBe('00:00:33');
+});
