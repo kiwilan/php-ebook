@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.01 - 2024-10-03
+
+**BREAKING CHANGES**
+
+Latest version of `kiwilan/php-audio` v4.*.* is required to use audiobooks.
+
+Update dependencies: `kiwilan/php-xml-reader`, `pestphp/pest` and `kiwilan/php-audio`.
+
 ## v3.0.0 - 2024-10-03
 
 **BREAKING CHANGES**
