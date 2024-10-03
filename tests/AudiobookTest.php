@@ -44,7 +44,7 @@ it('can parse audiobook (advanced)', function (string $path) {
         ->each(fn (Expectation $expectation) => expect($expectation->value)
             ->toBeInstanceOf(BookAuthor::class)
         );
-    expect($ebook->getPublisher())->toBe('Ewilan Rivi&#232;re');
+    expect($ebook->getPublisher())->toBe('Ewilan Rivière');
     expect($ebook->getDescription())->toBe('Description');
     expect($ebook->getExtra('comment'))->toBe('Do you want to extract an audiobook?');
     expect($ebook->getSeries())->toBeNull();

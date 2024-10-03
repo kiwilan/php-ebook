@@ -45,44 +45,38 @@ class AudiobookModule extends EbookModule
             $genres = array_map('ucfirst', $genres);
         }
 
-        $series = $audio->getTag('series') ?? $audio->getTag('mvnm');
-        $series_part = $audio->getTag('series-part') ?? $audio->getTag('mvin');
-        $language = $audio->getTag('language') ?? $audio->getTag('lang');
+        $series = $audio->getRawKey('series') ?? $audio->getRawKey('mvnm');
+        $series_part = $audio->getRawKey('series-part') ?? $audio->getRawKey('mvin');
+        $language = $audio->getRawKey('language') ?? $audio->getRawKey('lang');
         $narrators = $audio->getComposer();
-
-        $chapters = [];
-        $quicktime = $audio->toArray()['quicktime'] ?? [];
-        if (array_key_exists('chapters', $quicktime)) {
-            $chapters = $quicktime['chapters'];
-        }
 
         $this->audio = [
             'authors' => EbookUtils::parseStringWithSeperator($authors),
             'title' => $audio->getAlbum() ?? $audio->getTitle(),
-            'subtitle' => $this->parseTag($audio->getTag('subtitle'), false),
-            'publisher' => $audio->getTag('encoded_by'),
+            'subtitle' => $this->parseTag($audio->getRawKey('subtitle'), false),
+            'publisher' => $audio->getRawKey('encoded_by'),
             'publish_year' => $audio->getYear(),
             'narrators' => EbookUtils::parseStringWithSeperator($narrators),
             'description' => $this->parseTag($audio->getDescription(), false),
             'lyrics' => $this->parseTag($audio->getLyrics()),
             'comment' => $this->parseTag($audio->getComment()),
-            'synopsis' => $this->parseTag($audio->getTag('description_long')),
+            'synopsis' => $this->parseTag($audio->getRawKey('description_long')),
             'genres' => $genres,
             'series' => $this->parseTag($series),
             'series_sequence' => $series_part !== null ? EbookUtils::parseNumber($series_part) : null,
             'language' => $this->parseTag($language),
-            'isbn' => $this->parseTag($audio->getTag('isbn')),
-            'asin' => $this->parseTag($audio->getTag('asin') ?? $audio->getTag('audible_asin')),
-            'chapters' => $chapters,
-            'date' => $audio->getCreationDate() ?? $audio->getTag('origyear'),
+            'isbn' => $this->parseTag($audio->getRawKey('isbn')),
+            'asin' => $this->parseTag($audio->getRawKey('asin') ?? $audio->getRawKey('audible_asin')),
+            'chapters' => $audio->getMetadata()?->getQuicktime()?->getChapters(),
+            'date' => $audio->getCreationDate() ?? $audio->getRawKey('origyear'),
             'is_compilation' => $audio->isCompilation(),
             'encoding' => $audio->getEncoding(),
             'track_number' => $audio->getTrackNumber(),
             'disc_number' => $audio->getDiscNumber(),
-            'copyright' => $this->parseTag($audio->getTag('copyright')),
-            'stik' => $audio->getStik(),
+            'copyright' => $this->parseTag($audio->getRawKey('copyright')),
+            'stik' => $audio->getRawKey('stik'),
             'duration' => $audio->getDuration(),
-            'duration_human_readable' => $audio->getDurationHumanReadable(),
+            'duration_human_readable' => $audio->getDurationHuman(),
             'audio_title' => $audio->getTitle(),
             'audio_artist' => $audio->getArtist(),
             'audio_album' => $audio->getAlbum(),
@@ -138,6 +132,17 @@ class AudiobookModule extends EbookModule
         }
         $this->ebook->setCopyright($this->getAudioValue('copyright'));
 
+        $chapters = [];
+        $quicktime = $this->ebook->getAudio()?->getMetadata()?->getQuicktime();
+        if ($quicktime && $quicktime->getChapters()) {
+            foreach ($quicktime->getChapters() as $chapter) {
+                $chapters[] = [
+                    'timestamp' => $chapter->getTimestamp(),
+                    'title' => $chapter->getTitle(),
+                ];
+            }
+        }
+
         $this->ebook->setExtras([
             'subtitle' => $this->getAudioValue('subtitle'),
             'publish_year' => $this->getAudioValue('publish_year'),
@@ -146,7 +151,7 @@ class AudiobookModule extends EbookModule
             'lyrics' => $this->getAudioValue('lyrics'),
             'comment' => $this->getAudioValue('comment'),
             'synopsis' => $this->getAudioValue('synopsis'),
-            'chapters' => $this->getAudioValue('chapters'),
+            'chapters' => $chapters,
             'is_compilation' => $this->getAudioValue('is_compilation'),
             'encoding' => $this->getAudioValue('encoding'),
             'track_number' => $this->getAudioValue('track_number'),
@@ -186,7 +191,7 @@ class AudiobookModule extends EbookModule
     {
         return [
             'audio' => $this->audio,
-            'tags' => $this->ebook->getAudio()->getTags(),
+            'tags' => $this->ebook->getAudio()->getRaw(),
         ];
     }
 

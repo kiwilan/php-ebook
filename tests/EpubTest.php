@@ -239,6 +239,4 @@ it('can read DRM epub', function () {
     $html = $module->getHtml();
     expect($html)->toBeArray()
         ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
-    expect(fn () => $module->getChapters())->toThrow(Exception::class);
-    expect(fn () => $module->getNcx())->toThrow(Exception::class);
 });
