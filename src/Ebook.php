@@ -212,7 +212,7 @@ class Ebook
 
         if ($self->isAudio) {
             AudiobookModule::checkPackage();
-            $self->audio = \Kiwilan\Audio\Audio::get($path);
+            $self->audio = \Kiwilan\Audio\Audio::read($path);
         }
 
         return $self;

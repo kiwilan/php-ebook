@@ -12,3 +12,4 @@ vendor
 .DS_Store
 CHANGELOG-draft.md
 node_modules
+.phpunit.cache
