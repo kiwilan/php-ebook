@@ -12,5 +12,5 @@ jobs:
       - uses: php-actions/phpstan@v3
         with:
           path: src/
-          version: "composer"
+          version: composer
           php_version: 8.3
