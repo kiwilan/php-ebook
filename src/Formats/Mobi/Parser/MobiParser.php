@@ -43,7 +43,7 @@ class MobiParser
     {
         $data = $this->getRecordData($record);
 
-        if ($asArray) {
+        if ($asArray || $data === null) {
             return $data;
         }
 
