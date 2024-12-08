@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.02 - 2024-12-08
+
+Fix Mobi file error "Prevent counting on null", with #100 by @SergioMendolia
+
 ## v3.0.01 - 2024-10-03
 
 **BREAKING CHANGES**
