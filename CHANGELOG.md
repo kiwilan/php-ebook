@@ -2,6 +2,40 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.01 - 2024-10-03
+
+**BREAKING CHANGES**
+
+Latest version of `kiwilan/php-audio` v4.*.* is required to use audiobooks.
+
+Update dependencies: `kiwilan/php-xml-reader`, `pestphp/pest` and `kiwilan/php-audio`.
+
+## v3.0.0 - 2024-10-03
+
+**BREAKING CHANGES**
+
+Latest version of `kiwilan/php-audio` v4.*.* is required to use audiobooks.
+
+Update dependencies: `kiwilan/php-xml-reader`, `pestphp/pest` and `kiwilan/php-audio`.
+
+## v2.6.9 - 2024-07-28
+
+Add `duration_human_readable` for `getExtras()` method for audiobooks.
+
+Works with `kiwilan/php-audio` v3.0.08.
+
+## v2.6.8 - 2024-07-28
+
+Fix missing genres crash for audiobooks.
+
+## v2.6.7 - 2024-07-16
+
+Fix `CbamTemplate::class` pages count, if `PageCount` is not set, then use `getArchive()->getCount()` from `Ebook::class`.
+
+## v2.6.6 - 2024-07-16
+
+Hotfix PR #91 for issue #71 by @basitcodeenv, thanks!
+
 ## v2.6.5 - 2024-07-15
 
 Fix issue #71 with PR #89 by @basitcodeenv, thanks!
