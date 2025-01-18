@@ -27,7 +27,7 @@ class PdfModule extends EbookModule
 
         $author = $this->meta?->getAuthor();
 
-        if ($author !== null) {
+        if ($author !== null && $author !== '') {
             $authors = EbookUtils::parseStringWithSeperator($author);
 
             $creators = [];
