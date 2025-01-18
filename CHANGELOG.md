@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.03 - 2025-01-18
+
+Merge PR #102 by @onigoetz : The PDF Author can sometimes be an empty string
+
+Update [kiwilan/php-archive](https://github.com/kiwilan/php-archive) to v2.3.01.
+
+Thanks to @onigoetz for the PR.
+
 ## v3.0.02 - 2024-12-08
 
 Fix Mobi file error "Prevent counting on null", with #100 by @SergioMendolia
