@@ -6,7 +6,7 @@ use Kiwilan\Ebook\Models\BookContributor;
 use Kiwilan\Ebook\Models\BookIdentifier;
 use Kiwilan\Ebook\Models\BookMeta;
 
-it('can use EbookEntity', function () {
+it('can use ebook entity', function () {
     $ebook = Ebook::read(EPUB);
     $ebook->setTitle('title');
     $ebook->setAuthors([
@@ -60,7 +60,7 @@ it('can use EbookEntity', function () {
     expect($ebook->__toString())->toBeString();
 });
 
-it('can use BookContributor', function (string $content, string $role) {
+it('can use book contributor', function (string $content, string $role) {
     $item = new BookContributor($content, $role);
 
     expect($item->getContents())->toBe($content);
@@ -72,16 +72,16 @@ it('can use BookContributor', function (string $content, string $role) {
     expect($item->__toString())->toBe($content);
 })->with([
     [
-        'contents' => 'calibre',
-        'role' => 'bkp',
+        'calibre',
+        'bkp',
     ],
     [
-        'contents' => 'epbu2',
-        'role' => 'bkp',
+        'epbu2',
+        'bkp',
     ],
 ]);
 
-it('can use BookAuthor', function (string $name, string $role) {
+it('can use book author', function (string $name, string $role) {
     $item = new BookAuthor($name, $role);
 
     expect($item->getName())->toBe($name);
@@ -93,16 +93,16 @@ it('can use BookAuthor', function (string $name, string $role) {
     expect($item->__toString())->toBe($name);
 })->with([
     [
-        'contents' => 'Jean M. Auel',
-        'role' => 'aut',
+        'Jean M. Auel',
+        'aut',
     ],
     [
-        'contents' => 'Terry Pratchett',
-        'role' => 'aut',
+        'Terry Pratchett',
+        'aut',
     ],
 ]);
 
-it('can use BookMeta', function (string $name, string $contents) {
+it('can use book meta', function (string $name, string $contents) {
     $item = new BookMeta($name, $contents);
 
     expect($item->getName())->toBe($name);
@@ -114,28 +114,28 @@ it('can use BookMeta', function (string $name, string $contents) {
     expect($item->__toString())->toBe("{$name} {$contents}");
 })->with([
     [
-        'name' => 'calibre:title_sort',
-        'contents' => "clan de l'ours des cavernes, Le",
+        'calibre:title_sort',
+        "clan de l'ours des cavernes, Le",
     ],
     [
-        'name' => 'calibre:series',
-        'contents' => 'Les Enfants de la Terre',
+        'calibre:series',
+        'Les Enfants de la Terre',
     ],
     [
-        'name' => 'calibre:series_index',
-        'contents' => '1.0',
+        'calibre:series_index',
+        '1.0',
     ],
     [
-        'name' => 'calibre:timestamp',
-        'contents' => '2023-03-25T10:32:21+00:00',
+        'calibre:timestamp',
+        '2023-03-25T10:32:21+00:00',
     ],
     [
-        'name' => 'calibre:rating',
-        'contents' => '10.0',
+        'calibre:rating',
+        '10.0',
     ],
 ]);
 
-it('can parse with BookMeta', function (mixed $data) {
+it('can parse with book meta', function (mixed $data) {
     $meta = BookMeta::parse($data);
 
     expect($meta)->toBeString();

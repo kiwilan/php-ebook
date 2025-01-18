@@ -13,3 +13,4 @@ vendor
 CHANGELOG-draft.md
 node_modules
 .phpunit.cache
+docker-compose.yml
