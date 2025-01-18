@@ -140,7 +140,7 @@ class CbaModule extends EbookModule
         ]);
         $this->ebook->setDescription($this->cbam->getSummary());
         $this->ebook->setPublisher($this->cbam->getPublisher());
-        //$this->ebook->setIdentifiers();
+        // $this->ebook->setIdentifiers();
         $this->ebook->setPublishDate($this->cbam->getDate());
         $this->ebook->setLanguage($this->cbam->getLanguage());
         $this->ebook->setTags($this->cbam->getGenres());
