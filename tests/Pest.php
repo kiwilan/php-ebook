@@ -16,6 +16,7 @@ define('CBZ_CBML', __DIR__.'/media/cba-cbml.cbz');
 define('CBZ_CRM', __DIR__.'/media/cba-crm.cbz');
 define('CBZ_CBAM_VOLUME', __DIR__.'/media/cba-cbam-volume.cbz');
 define('CBZ_CBAM_NO_PAGES', __DIR__.'/media/cba-cbam-no-pages.cbz');
+define('CBZ_CBAM_WEBP', __DIR__.'/media/cba-cbam-webp.cbz');
 
 define('COMIC_INFO_BASIC', __DIR__.'/media/ComicInfoBasic.xml');
 define('COMIC_INFO_SERIES_WITHOUT_VOLUME', __DIR__.'/media/ComicInfoSeriesWithoutVolume.xml');

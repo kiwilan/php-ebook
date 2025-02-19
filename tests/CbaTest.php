@@ -62,7 +62,7 @@ it('can extract cba cover', function (string $path) {
     expect(file_exists($path))->toBeTrue();
     expect($path)->toBeReadableFile();
     expect(fileIsValidImg($path))->toBeTrue();
-})->with([...CBA_ITEMS, CBZ_CBAM]);
+})->with([...CBA_ITEMS, CBZ_CBAM, CBZ_CBAM_WEBP]);
 
 it('can parse ComicMeta', function (string $path) {
     $ebook = Ebook::read($path);
