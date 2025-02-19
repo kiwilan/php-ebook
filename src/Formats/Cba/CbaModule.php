@@ -84,6 +84,9 @@ class CbaModule extends EbookModule
         if (empty($files)) {
             $files = $this->ebook->getArchive()->filter('jpeg');
         }
+        if (empty($files)) {
+            $files = $this->ebook->getArchive()->filter('webp');
+        }
 
         if (! empty($files)) {
             $ebook = $files[0];
