@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.04 - 2025-02-19
+
+Add support for WEBP images in CBA module and tests
+
 ## v3.0.03 - 2025-01-18
 
 Merge PR #102 by @onigoetz : The PDF Author can sometimes be an empty string
