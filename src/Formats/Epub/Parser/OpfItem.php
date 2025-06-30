@@ -235,11 +235,17 @@ class OpfItem
         return $this->guide;
     }
 
+    /**
+     * Get the EPUB version as `int`, e.g. `2`.
+     */
     public function getEpubVersion(): ?int
     {
         return $this->epubVersion;
     }
 
+    /**
+     * Get the EPUB version as `string`, e.g. `2.0`.
+     */
     public function getEpubVersionString(): ?string
     {
         return $this->epubVersionString;
