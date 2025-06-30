@@ -1,6 +1,7 @@
 <?php
 
 use Kiwilan\Ebook\Ebook;
+use Kiwilan\Ebook\Formats\Epub\EpubModule;
 use Kiwilan\Ebook\Formats\Epub\Parser\EpubChapter;
 use Kiwilan\Ebook\Formats\Epub\Parser\EpubContainer;
 use Kiwilan\Ebook\Formats\Epub\Parser\EpubHtml;
@@ -239,4 +240,19 @@ it('can read DRM epub', function () {
     $html = $module->getHtml();
     expect($html)->toBeArray()
         ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
+});
+
+it('can get epub chapters', function () {
+    $ebook = Ebook::read(EPUB);
+
+    $epub = $ebook->getParser()->getEpub();
+    expect($epub)->toBeInstanceOf(EpubModule::class);
+    $chapters = $epub->getChapters();
+    expect($chapters)->toBeArray()
+        ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubChapter::class));
+
+    $firstChapter = $chapters[0];
+    expect($firstChapter->getLabel())->toBe('Cover');
+    expect($firstChapter->getSource())->toBe('titlepage.xhtml');
+    expect($firstChapter->getContent())->toBeString();
 });

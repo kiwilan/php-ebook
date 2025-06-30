@@ -10,7 +10,7 @@ it('can parse epub chapters', function () {
     expect($chapters)->toBeArray();
     expect($chapters)->toHaveCount(41);
     expect($chapters[0])->toBeInstanceOf(EpubChapter::class);
-    expect($chapters[0]->label())->toBe('Cover');
-    expect($chapters[0]->source())->toBe('titlepage.xhtml');
-    expect($chapters[0]->content())->toBeString();
+    expect($chapters[0]->getLabel())->toBe('Cover');
+    expect($chapters[0]->getSource())->toBe('titlepage.xhtml');
+    expect($chapters[0]->getContent())->toBeString();
 });

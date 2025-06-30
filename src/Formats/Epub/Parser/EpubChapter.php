@@ -55,16 +55,49 @@ class EpubChapter
         return false;
     }
 
+    /**
+     * Get the chapter label, e.g. `Chapter 1`
+     */
+    public function getLabel(): string
+    {
+        return $this->label;
+    }
+
+    /**
+     * Get the source file name, e.g. `OEBPS/epub_c01_r1.htm`
+     */
+    public function getSource(): string
+    {
+        return $this->source;
+    }
+
+    /**
+     * Get the chapter content, e.g. `<h1>Chapter 1</h1><p>Content...</p>`
+     */
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @deprecated Use `getLabel()` instead.
+     */
     public function label(): string
     {
         return $this->label;
     }
 
+    /**
+     * @deprecated Use `getSource()` instead.
+     */
     public function source(): string
     {
         return $this->source;
     }
 
+    /**
+     * @deprecated Use `getContent()` instead.
+     */
     public function content(): string
     {
         return $this->content;
