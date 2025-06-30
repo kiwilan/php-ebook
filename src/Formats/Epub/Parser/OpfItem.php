@@ -25,6 +25,7 @@ class OpfItem
     protected array $guide = [];
 
     protected ?int $epubVersion = null;
+
     protected ?string $epubVersionString = null;
 
     protected ?string $filename = null;
