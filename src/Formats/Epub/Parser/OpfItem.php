@@ -25,6 +25,7 @@ class OpfItem
     protected array $guide = [];
 
     protected ?int $epubVersion = null;
+    protected ?string $epubVersionString = null;
 
     protected ?string $filename = null;
 
@@ -71,6 +72,7 @@ class OpfItem
 
         $content = $xml->getContents();
         $self->epubVersion = $self->xml->getRootAttribute('version');
+        $self->epubVersionString = $self->xml->getRootAttribute('version');
         $metadata = $content['metadata'] ?? $content['opf:metadata'] ?? [];
         $manifest = $content['manifest'] ?? $content['opf:manifest'] ?? [];
 
@@ -235,6 +237,11 @@ class OpfItem
     public function getEpubVersion(): ?int
     {
         return $this->epubVersion;
+    }
+
+    public function getEpubVersionString(): ?string
+    {
+        return $this->epubVersionString;
     }
 
     public function getDcTitle(): ?string
