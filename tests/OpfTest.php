@@ -42,6 +42,8 @@ it('can parse epub opf', function (string $path) {
     expect($opf->getMetaItems())->toBeArray();
     expect($opf->getCoverPath())->toBeString();
     expect($opf->getEpubVersion())->toBeGreaterThanOrEqual(2);
+    expect($opf->getEpubVersionString())->toBeString();
+    expect($opf->getEpubVersionString())->toMatch('/^[2-3]\.\d*/');
 })->with([EPUB_OPF_EPUB2, EPUB_OPF_EPUB3, EPUB_OPF_INSURGENT, EPUB_OPF_LAGUERREETERNELLE, EPUB_OPF_EPEEETMORT, EPUB_OPF_NOT_FORMATTED]);
 
 it('can parse epub opf meta items', function () {
