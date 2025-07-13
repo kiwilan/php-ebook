@@ -123,6 +123,7 @@ class MobiParser
 
             if ($record->length <= 8) {
                 $this->errors[] = "EXTH record length invalid: {$record->length} (expected > 8)";
+
                 continue;
             }
 
