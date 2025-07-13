@@ -44,7 +44,7 @@ class MobiModule extends EbookModule
             $this->ebook->setAuthor(new BookAuthor($author));
         }
 
-        foreach ($this->parser->get(MobiReader::ISBN_104, true) as $isbn) {
+        foreach ($this->parser->get(MobiReader::ISBN_104, true) ?? [] as $isbn) {
             $this->ebook->setIdentifier(new BookIdentifier($isbn));
         }
 
