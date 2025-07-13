@@ -61,7 +61,7 @@ class MobiModule extends EbookModule
         $description = $this->parser->get(MobiReader::DESCRIPTION_103);
         $this->ebook->setDescription($description);
 
-        foreach ($this->parser->get(MobiReader::SUBJECT_105, true) as $value) {
+        foreach ($this->parser->get(MobiReader::SUBJECT_105, true) ?? [] as $value) {
             $this->ebook->setTag($value);
         }
 
