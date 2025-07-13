@@ -12,11 +12,9 @@ class BookIdentifier
         protected ?string $scheme = null, // isbn10, isbn13, asin, etc.
         protected bool $autoDetect = true,
     ) {
-        if ($this->value === null) {
-            $this->value = BookMeta::parse($this->value);
-            if ($this->autoDetect) {
-                $this->scheme = $this->parseScheme($this->scheme);
-            }
+        $this->value = BookMeta::parse($this->value);
+        if ($this->autoDetect) {
+            $this->scheme = $this->parseScheme($this->scheme);
         }
     }
 
