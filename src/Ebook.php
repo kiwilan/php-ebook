@@ -89,10 +89,10 @@ class Ebook
     /**
      * Read an ebook file.
      */
-    public static function read(string $path): ?self
+    public static function read(string $path, ?string $format = null): ?self
     {
         $start = microtime(true);
-        $self = self::parseFile($path);
+        $self = self::parseFile($path, $format);
 
         $format = match ($self->format) {
             EbookFormatEnum::AUDIOBOOK => $self->audiobook(),
@@ -142,11 +142,11 @@ class Ebook
     /**
      * Parse an ebook file.
      */
-    private static function parseFile(string $path): Ebook
+    private static function parseFile(string $path, ?string $format = null): Ebook
     {
         $basename = pathinfo($path, PATHINFO_BASENAME);
         $filename = pathinfo($path, PATHINFO_FILENAME);
-        $extension = pathinfo($path, PATHINFO_EXTENSION);
+        $extension = $format ?? pathinfo($path, PATHINFO_EXTENSION);
 
         $cbaExtensions = ['cbz', 'cbr', 'cb7', 'cbt'];
         $archiveExtensions = ['epub', 'pdf', ...$cbaExtensions];
