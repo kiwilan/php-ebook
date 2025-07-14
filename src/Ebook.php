@@ -160,7 +160,9 @@ class Ebook
         }
 
         if ($extension && ! in_array($extension, $allowExtensions)) {
-            throw new \Exception("Unknown archive type: {$extension}");
+            throw new \Exception("Unknown file type extension: {$extension}");
+        } elseif (! $extension) {
+            throw new \Exception("File has no extension: {$path}");
         }
 
         $self = new self($path, $filename, $basename, $extension);
