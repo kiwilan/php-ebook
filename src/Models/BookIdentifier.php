@@ -20,7 +20,7 @@ class BookIdentifier
 
     private function parseScheme(?string $scheme = null): string
     {
-        $isValidInt = is_int($this->value) || ctype_digit($this->value);
+        $isValidInt = $this->value !== null && (is_int($this->value) || ctype_digit($this->value));
         $isValidIsbn = false;
         if ($isValidInt && $this->isIsbn()) {
             $scheme = $this->parseIsbn();
@@ -50,7 +50,7 @@ class BookIdentifier
     private function isIsbn(): bool
     {
         $regex = '/^(?=(?:\D*\d){10}(?:(?:\D*\d){3})?$)[\d-]+$/';
-        if (preg_match($regex, $this->value, $matches)) {
+        if ($this->value !== null && preg_match($regex, $this->value, $matches)) {
             return true;
         }
 
@@ -60,7 +60,7 @@ class BookIdentifier
     private function isDoi(): bool
     {
         $regex = '/^10.\d{4,9}\/[-._;()\/:A-Z0-9]+$/i';
-        if (preg_match($regex, $this->value, $matches)) {
+        if ($this->value !== null && preg_match($regex, $this->value, $matches)) {
             return true;
         }
 
@@ -70,12 +70,12 @@ class BookIdentifier
     private function isUuid(): bool
     {
         $regex = '/^urn:uuid:([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12})$/i';
-        if (preg_match($regex, $this->value, $matches)) {
+        if ($this->value !== null && preg_match($regex, $this->value, $matches)) {
             return true;
         }
 
         $regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i';
-        if (preg_match($regex, $this->value, $matches)) {
+        if ($this->value !== null && preg_match($regex, $this->value, $matches)) {
             return true;
         }
 

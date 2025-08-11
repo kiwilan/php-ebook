@@ -121,6 +121,12 @@ class MobiParser
                 length: $this->stream->binaryToDecimal($this->stream->read(4)),
             );
 
+            if ($record->length <= 8) {
+                $this->errors[] = "EXTH record length invalid: {$record->length} (expected > 8)";
+
+                continue;
+            }
+
             $record->data = $this->stream->read($record->length - 8);
             $this->exthHeader->records[] = $record;
         }

@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.06 - 2025-07-13
+
+Add validation for EXTH record length in MobiParser #114 by @baseciq
+
+## v3.0.05 - 2025-06-30
+
+- Add new method `getEpubVersionString()` to `OpfItem` class to return EPUB version as a string (e.g. `2.0`) by [@lasselehtinen](https://github.com/kiwilan/php-ebook/pull/110)
+
 ## v3.0.04 - 2025-02-19
 
 Add support for WEBP images in CBA module and tests
