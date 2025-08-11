@@ -372,7 +372,7 @@ class OpfItem
         if (is_string($core)) {
             $items = [$core];
         } else {
-            $items = $core;
+            $items = array_filter($core);
         }
 
         $items = EbookUtils::parseStringWithSeperator($items);
