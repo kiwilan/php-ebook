@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="2.0" unique-identifier="uuid_id">
+  <metadata xmlns:opf="http://www.idpf.org/2007/opf" xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:calibre="http://calibre.kovidgoyal.net/2009/metadata">
+    <dc:title>Le clan de l'ours des cavernes</dc:title>
+    <dc:creator opf:role="aut" opf:file-as="Auel, Jean M.">Jean M. Auel</dc:creator>
+    <dc:contributor opf:role="bkp">calibre (6.12.0) [https://calibre-ebook.com]</dc:contributor>
+    <dc:description>&lt;div&gt;
+      &lt;p&gt;Quelque part en Europe, 35 000 ans avant notre ère. Petite fille Cro-Magnon de cinq
+      ans, Ayla est séparée de ses parents à la suite d'un violent tremblement de terre. Elle est
+      recueillie par le clan de l'ours des cavernes, une tribu Neandertal qui l'adopte, non sans
+      réticence, ayant reconnu en elle la représentante d'une autre espèce, plus évoluée.
+      &lt;br&gt;&lt;br&gt;Iza, la guérisseuse, Brun, le chef et Creb, le magicien lui enseignent les
+      règles de la vie communautaire, leurs rites, leurs peurs, leurs audaces. Mais Ayla, la
+      fillette blonde aux yeux bleus les surprend par sa puissance de raisonnement qui lui permet de
+      s'adapter, de réagir rapidement et de ne pas être totalement dépendante de son environnement.
+      Une différence qui ne tarde pas à faire d'elle une menace pour tout le clan, et à attiser la
+      convoitise de Brud, le fils du chef...&lt;/p&gt;&lt;/div&gt;</dc:description>
+    <dc:publisher>Presses de la cité</dc:publisher>
+    <dc:identifier id="uuid_id" opf:scheme="uuid">a2cf2f25-4de2-4f77-82cc-0198352b0851</dc:identifier>
+    <dc:date>1980-01-13T21:00:00+00:00</dc:date>
+    <dc:subject>Roman Historique</dc:subject>
+    <dc:subject>Les Enfants de la Terre</dc:subject>
+    <dc:subject>Fiction</dc:subject>
+    <dc:subject></dc:subject>
+    <dc:language>fr</dc:language>
+    <dc:identifier opf:scheme="calibre">a2cf2f25-4de2-4f77-82cc-0198352b0851</dc:identifier>
+    <dc:identifier opf:scheme="GOOGLE">63CTHAAACAAJ</dc:identifier>
+    <dc:identifier opf:scheme="ISBN">9782266122122</dc:identifier>
+    <meta name="calibre:title_sort" content="clan de l'ours des cavernes, Le" />
+    <meta name="calibre:series" content="Les Enfants de la Terre" />
+    <meta name="calibre:series_index" content="1.0" />
+    <meta name="calibre:timestamp" content="2023-03-25T10:32:21+00:00" />
+    <meta name="calibre:rating" content="10.0" />
+    <meta name="cover" content="cover" />
+    <meta name="calibre:author_link_map" content="{&quot;Jean M. Auel&quot;: &quot;&quot;}" />
+  </metadata>
+  <manifest>
+    <item id="titlepage" href="titlepage.xhtml" media-type="application/xhtml+xml" />
+    <item id="html8"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_000.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html7"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_001.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html6"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_002.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html5"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_003.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html4"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_004.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html3"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_005.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html2"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_006.htm"
+      media-type="application/xhtml+xml" />
+    <item id="html1"
+      href="Auel,Jean M.-[Les Enfants de la Terre-1]Le clan de l'ours des cavernes.French.ebook.AlexandriZ_split_007.htm"
+      media-type="application/xhtml+xml" />
+    <item id="ncx" href="toc.ncx" media-type="application/x-dtbncx+xml" />
+    <item id="page_css" href="page_styles.css" media-type="text/css" />
+    <item id="css" href="stylesheet.css" media-type="text/css" />
+    <item id="cover" href="cover.jpeg" media-type="image/jpeg" />
+  </manifest>
+  <spine toc="ncx">
+    <itemref idref="titlepage" />
+    <itemref idref="html8" />
+    <itemref idref="html7" />
+    <itemref idref="html6" />
+    <itemref idref="html5" />
+    <itemref idref="html4" />
+    <itemref idref="html3" />
+    <itemref idref="html2" />
+    <itemref idref="html1" />
+  </spine>
+  <guide>
+    <reference type="cover" href="titlepage.xhtml" title="Cover" />
+  </guide>
+</package>
