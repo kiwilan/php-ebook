@@ -2,6 +2,14 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.07 - 2025-08-14
+
+- Added handling for empty `dc:subjects` by @lasselehtinen
+- Improved error handling & format override by @baseciq
+  - throws `Exception` if unable to detect extension (for example, the file comes from a php upload or is stored in the file system under an unrelated name)
+  - `Ebook::read` allows you to specify the extension of the file being parsed as the second parameter, which will force the format to be selected by the user
+  
+
 ## v3.0.06 - 2025-07-13
 
 Add validation for EXTH record length in MobiParser #114 by @baseciq
