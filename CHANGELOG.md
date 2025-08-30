@@ -2,6 +2,10 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.08 - 2025-08-30
+
+Add `clearCover()` method to `Ebook`.
+
 ## v3.0.07 - 2025-08-14
 
 - Added handling for empty `dc:subjects` by @lasselehtinen
