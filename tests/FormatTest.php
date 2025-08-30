@@ -33,6 +33,9 @@ it('can parse format', function (string $path) {
         file_put_contents($path, $ebook->getCover()?->getContents());
         expect($ebook->getCover())->toBeInstanceOf(EbookCover::class);
         expect($path)->toBeReadableFile();
+
+        $ebook->clearCover();
+        expect($ebook->getCover())->toBeNull();
     }
 
     if (in_array($extension, ['epub', 'fb2'])) {
