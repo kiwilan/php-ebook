@@ -658,6 +658,14 @@ class Ebook
     }
 
     /**
+     * Clear the cover of the ebook.
+     */
+    public function clearCover(): void
+    {
+        $this->cover = null;
+    }
+
+    /**
      * Word count of the ebook.
      */
     public function getWordsCount(): ?int
