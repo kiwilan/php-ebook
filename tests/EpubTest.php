@@ -240,6 +240,9 @@ it('can read DRM epub', function () {
     $html = $module->getHtml();
     expect($html)->toBeArray()
         ->each(fn (Pest\Expectation $expectation) => expect($expectation->value)->toBeInstanceOf(EpubHtml::class));
+
+    $ebook->getCover()->saveTo('tests/output/cover-EPUB-DRM-save.jpg');
+    expect(file_exists('tests/output/cover-EPUB-DRM-save.jpg'))->toBeTrue();
 });
 
 it('can get epub chapters', function () {
