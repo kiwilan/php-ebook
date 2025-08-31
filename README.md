@@ -27,10 +27,6 @@ To know more see [Supported formats](#supported-formats). _Supports Linux, macOS
 >
 > For DRM (Digital Rights Management) eBooks, in some cases you could read metadata but not contents (like HTML files for EPUB). To use all features, you have to use a software to remove DRM before using this package. For EPUB, you can use [calibre](https://calibre-ebook.com/) with [DeDRM plugin](https://github.com/noDRM/DeDRM_tools), [this guide](https://www.epubor.com/calibre-drm-removal-plugins.html) can help you.
 
-## About
-
-This package was built for [`bookshelves-project/bookshelves`](https://github.com/bookshelves-project/bookshelves), a web app to handle eBooks.
-
 ## Requirements
 
 -   **PHP version** `>=8.1`

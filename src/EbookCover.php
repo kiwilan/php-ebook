@@ -61,6 +61,22 @@ class EbookCover
         return base64_decode($this->contents);
     }
 
+    /**
+     * Save the cover contents to a file.
+     *
+     * @param  string  $path  The file path to save the contents to, e.g. `/path/to/cover.jpg`
+     */
+    public function saveTo(string $path): bool
+    {
+        $contents = $this->getContents();
+
+        if ($contents === null) {
+            return false;
+        }
+
+        return file_put_contents($path, $contents) !== false;
+    }
+
     public function toArray(): array
     {
         return [

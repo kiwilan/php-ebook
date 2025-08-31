@@ -140,7 +140,7 @@ class Ebook
     }
 
     /**
-     * Parse an ebook file.
+     * Parse an ebook file
      */
     private static function parseFile(string $path, ?string $format = null): Ebook
     {
@@ -207,8 +207,28 @@ class Ebook
                 $archive = Archive::read($path);
                 $self->archive = $archive;
             } catch (\Throwable $th) {
-                error_log("Error reading archive: {$path}");
+                $msg = "`kiwikan/php-ebook` error with archive {$path}";
                 $self->isBadFile = true;
+
+                $error = [
+                    'message' => $th->getMessage(),
+                    'code' => $th->getCode(),
+                    'file' => $th->getFile(),
+                    'line' => $th->getLine(),
+                    'trace' => $th->getTraceAsString(),
+                ];
+
+                $log = $msg.' | '.print_r($error, true);
+                if (class_exists(\Illuminate\Support\Facades\Log::class)) {
+                    try {
+                        \Illuminate\Support\Facades\Log::error($msg, $error);
+                    } catch (\Throwable $th) {
+                        error_log($log);
+                    }
+                } else {
+                    error_log($log);
+                }
+
             }
         }
 
