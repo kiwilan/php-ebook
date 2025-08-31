@@ -2,6 +2,16 @@
 
 All notable changes to `php-ebook` will be documented in this file.
 
+## v3.0.09 - 2025-08-31
+
+- Upgrade `kiwilan/php-archive`
+- Improve error logging if an archive is invalid with Laravel `illuminate/support` (optional and if installed) otherwise use `error_log()`
+- Add `saveTo()` method to `EbookCover` class
+
+```php
+public function saveTo(string $path): bool
+
+```
 ## v3.0.08 - 2025-08-30
 
 Add `clearCover()` method to `Ebook`.
